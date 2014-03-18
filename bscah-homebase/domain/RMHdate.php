@@ -12,6 +12,7 @@
 
 
 include_once("Shift.php");
+//include_once("Project.php"); //this has not been created yet - James Loeffler
 include_once("database/dbMasterSchedule.php");
 /* A class to manage an RMHDate
  * @version May 1, 2008
@@ -30,6 +31,7 @@ class RMHdate {
     private $year;        // Numerical year (e.g., 2008)
     private $shifts;      // array of Shifts
     private $mgr_notes;   // notes on night/weekend manager
+    private $projects;    // array of Projects created by James Loeffler
 
     /*
      * Construct an RMHdate and initialize its vacant shifts
@@ -37,7 +39,7 @@ class RMHdate {
      * function checkdate
      */
 
-    function __construct($id, $shifts, $mgr_notes) {
+    function __construct($id, $shifts, $mgr_notes, $projects) {
         $mm = substr($id, 0, 2);
         $dd = substr($id, 3, 2);
         $yy = substr($id, 6, 2);
@@ -59,6 +61,11 @@ class RMHdate {
             $this->shifts = $shifts;
         else
             $this->generate_shifts($this->day_of_week);
+        //created by James Loeffler
+        if (sizeof($projects) !==0)
+            $this->projects = $projects;
+        else
+            $this->generate_projects($this->day_of_week);
         $this->mgr_notes = $mgr_notes;
     }
 
@@ -86,6 +93,32 @@ class RMHdate {
         	  for ($i = 0; $i < sizeof($master); $i++) {
                 $t = $master[$i]->get_time();
                 $this->shifts[$t] = new Shift(
+                    $this->id . "-" . $t, $venue, $master[$i]->get_slots(), null, null, "", "");
+              }
+        	}
+        }
+    }
+    
+    //Coppied from generate_shifts but changed to be generate projects by James Loeffler
+    function generate_projects($day) {
+    	$venues = array("weekly");
+        $days = array(1 => "Mon", 2 => "Tue", 3 => "Wed", 4 => "Thu", 5 => "Fri", 6 => "Sat", 7 => "Sun");
+        $weekdaygroups = array("odd", "even");
+        $weekendgroups = array("1st", "2nd", "3rd", "4th", "5th");
+        $this->shifts = array();
+        /* $master[$i] is an array of 
+         * (venue, my_group, day, time, start, end, slots, persons, notes)
+         */
+        foreach ($venues as $venue) {
+            if ($days[$day] == "Sat" || $days[$day] == "Sun")
+                $groups = $weekendgroups;
+            else
+                $groups = $weekdaygroups;
+        	foreach ($groups as $group) {
+        	  $master = get_master_shifts($venue, $group, $days[$day]);
+        	  for ($i = 0; $i < sizeof($master); $i++) {
+                $t = $master[$i]->get_time();
+                $this->projects[$t] = new Project( //Edited by James Loeffler
                     $this->id . "-" . $t, $venue, $master[$i]->get_slots(), null, null, "", "");
               }
         	}
