@@ -39,6 +39,7 @@ class RMHdate {
      * function checkdate
      */
 
+    //edited by James Loeffler
     function __construct($id, $shifts, $mgr_notes, $projects) {
         $mm = substr($id, 0, 2);
         $dd = substr($id, 3, 2);

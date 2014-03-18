@@ -25,8 +25,10 @@ class Week {
     private $id;    // the first day of the week, mm-dd-yy, e.g., "02-06-12"
     private $dates;    // array of 7 RMHdates, beginning Monday
     private $name;     // the name of the week (ie March 7, 2008 - March 14, 2008)
-    private $weekday_group; // which weekday group
-    private $weekend_group; // which weekend group
+    private $shift;     //added by james loeffler to replace weekday and weekend
+    private $project;       //added by james loeffler to replace weekday and weekend
+    //private $weekday_group; // which weekday group
+    //private $weekend_group; // which weekend group
     private $status; // status of the week, "unpublished", "published" or "archived"
     private $end_of_week_timestamp; // the mktime timestamp of the end of the week
 
@@ -34,10 +36,12 @@ class Week {
      * Creates a new calendar week.
      */
 
-    function __construct($dates, $venue, $weekday_group, $weekend_group, $status) {
+    function __construct($dates, $venue, $shift, $project, $status) {
         $this->dates = $dates;
-        $this->weekday_group = $weekday_group;
-        $this->weekend_group = $weekend_group;
+        //$this->weekday_group = $weekday_group;
+        //$this->weekend_group = $weekend_group;
+        $this->shift = $shift; //added by James loeffler
+        $this->project = $project; //added by James Loeffler
         $this->status = $status;
         $this->id = $this->dates[0]->get_id();
         $this->name = $this->dates[0]->get_name() . " to " . $this->dates[6]->get_name();
@@ -64,13 +68,20 @@ class Week {
         return $this->end_of_week_timestamp;
     }
 
-    function get_weekday_group() {
+    //added by James Loeffler
+    function get_shift() {
+        return $this->shift;
+    }
+    function getproject() {
+        return $this->project;
+    }
+    /*function get_weekday_group() {
         return $this->weekday_group;
     }
 
     function get_weekend_group() {
         return $this->weekend_group;
-    }
+    }*/
 
     function set_status($s) {
         if ($s == "unpublished" || $s == "published" || $s == "archived") {
