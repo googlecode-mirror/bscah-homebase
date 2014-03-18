@@ -12,7 +12,7 @@
 
 
 include_once("Shift.php");
-//include_once("Project.php"); //this has not been created yet - James Loeffler
+//include_once("Project.php"); //this has not been created yet, I will uncomment when this is created - James Loeffler
 include_once("database/dbMasterSchedule.php");
 /* A class to manage an RMHDate
  * @version May 1, 2008
