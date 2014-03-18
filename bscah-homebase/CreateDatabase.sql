@@ -3,11 +3,12 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Mar 18, 2014 at 09:45 PM
+-- Generation Time: Mar 18, 2014 at 10:03 PM
 -- Server version: 5.6.12-log
 -- PHP Version: 5.4.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET time_zone = "+00:00";
 
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -27,10 +28,10 @@ USE `dbbscah`;
 -- Table structure for table `date`
 --
 
-CREATE TABLE `Day` (
+CREATE TABLE IF NOT EXISTS `date` (
   `id` varchar(4) NOT NULL,
-  `shifts` varchar,
-  `mgr_notes` varchar,
+  `shifts` text,
+  `mgr_notes` text
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -130,4 +131,3 @@ CREATE TABLE IF NOT EXISTS `weeks` (
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
-
