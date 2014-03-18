@@ -176,6 +176,12 @@ class RMHdate {
     function get_shifts() {
         return $this->shifts;
     }
+    
+    
+    //added by James Loeffler
+    function get_projects() {
+        return $this->projects;
+    }
 
     /*
      * @return the number of shifts for this day
@@ -183,6 +189,11 @@ class RMHdate {
 
     function get_num_shifts() {
         return count($this->shifts);
+    }
+    
+    //added by James Loeffler
+    function get_num_projects() {
+        return count ($this->projects);
     }
 
     /*
@@ -192,6 +203,11 @@ class RMHdate {
 
     function get_shift($key) {
         return $this->shifts[$key];
+    }
+    
+    //added by James Loeffler
+    function get_project($key) {
+        return $this->projects[$key];
     }
 
     /**
@@ -213,7 +229,23 @@ class RMHdate {
         }
         return false;
     }
-
+    
+    //added by James Loeffler
+    function get_project_id($project_start, $venue) {
+    	if ($project_start==21) {
+        	$candidate = $this->get_id() . "-overnight";
+        	foreach ($this->projects as $project) 
+                if ($project->get_id() == $candidate)
+                    return $project->get_id();
+    	}
+        else for ($i = $project_start + 1; $i < 22; $i++) {
+        	$candidate = $this->get_id() . "-" . $project_start . "-" . $i;
+            foreach ($this->projects as $project) 
+                if ($project->get_id() == $candidate)
+                    return $project->get_id();
+        }
+        return false;
+    }
     /*
      * replace a shift by a new shift in a date's associative array of shifts
      * @param the shift, the new shift
@@ -230,6 +262,17 @@ class RMHdate {
         return $this;
     }
 
+    // added by James Loeffler
+    function replace_project($project, $newproject) {
+        $newprojects = array();
+        foreach ($this->projects as $key => $value)
+            if ($this->get_project($key)->get_id() === $project->get_id())
+                $newprojects[$newproject->get_id()] = $newproject;
+            else
+                $newprojects[$key] = $value;
+        $this->projects = $newprojects;
+        return $this;
+    }
     /**
      * @return a string name of the date
      */
