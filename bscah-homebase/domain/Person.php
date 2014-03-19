@@ -27,7 +27,6 @@ include_once(dirname(__FILE__).'/../database/dbShifts.php');
 include_once(dirname(__FILE__).'/../database/dbPersons.php');
 include_once('Shift.php');
 include_once('Person.php');
-include_once('Project.php');
 
 class Person {
     private $id;    // id (unique key) = first_name . phone1
@@ -47,7 +46,7 @@ class Person {
     private $emergency_phone; // phone number of emergency contact
     private $type;       // array of "volunteer", "sub", 
     // "weekendmgr", "guestchef", "parking", "cleaning", "other", "manager"
-    private $project; //array of projects a person is on 
+    //private $project; //array of projects a person is on 
     private $screening_type; // if "applicant, type of screening used for this applicant
     private $screening_status; // array of dates showing completion of 
     // screening steps for this applicant 
@@ -69,7 +68,7 @@ class Person {
      * constructor for all persons
      */
 
-    function __construct($f, $l, $g, $a, $c, $s, $z, $co, $p1, $p2, $e, $cp, $ec, $ep, $p, $t, $screening_type, $screening_status, $st, $oc, $re, $mwc, $mot, $spe, $av, $sch, $bd, $sd, $notes, $pass) {
+    function __construct($f, $l, $g, $a, $c, $s, $z, $co, $p1, $p2, $e, $cp, $ec, $ep, $t, $screening_type, $screening_status, $st, $oc, $re, $mwc, $mot, $spe, $av, $sch, $bd, $sd, $notes, $pass) {
         $this->id = $f . $p1;
         $this->first_name = $f;
         $this->last_name = $l;
@@ -85,10 +84,6 @@ class Person {
         $this->contact_preference = $cp;
         $this->emergency_contact = $ec;
         $this->emergency_phone = $ep;
-        if ($p !== "")
-            $this->project = explode(',', $p);
-        else
-            $this->project = array();
         if ($t !== "")
             $this->type = explode(',', $t);
         else
