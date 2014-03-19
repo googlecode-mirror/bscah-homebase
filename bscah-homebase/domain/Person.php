@@ -40,6 +40,7 @@ class Person {
     private $emergency_phone; // phone number of emergency caontact
     private $type;       // array of "volunteer", "sub", 
     // "weekendmgr", "guestchef", "parking", "cleaning", "other", "manager"
+    // private $project;
     private $screening_type; // if "applicant, type of screening used for this applicant
     private $screening_status; // array of dates showing completion of 
     // screening steps for this applicant 
