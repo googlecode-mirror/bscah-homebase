@@ -3,7 +3,7 @@
  * Copyright 2013 by Jerrick Hoang, Ivy Xing, Sam Roberts, James Cook, 
  * Johnny Coster, Judy Yang, Jackson Moniaga, Oliver Radwan, 
  * Maxwell Palmer, Nolan McNair, Taylor Talmage, and Allen Tucker. 
- * This program is part of RMH Homebase, which is free software.  It comes with 
+ * This program is part of BSCAH Homebase, which is free software.  It comes with 
  * absolutely no warranty. You can redistribute and/or modify it under the terms 
  * of the GNU General Public License as published by the Free Software Foundation
  * (see <http://www.gnu.org/licenses/ for more information).
@@ -12,14 +12,14 @@
 
 
 include_once("Shift.php");
-//include_once("Project.php"); //this has not been created yet, I will uncomment when this is created - James Loeffler
+include_once("Project.php"); // James Loeffler and Eric
 include_once("database/dbMasterSchedule.php");
-/* A class to manage an RMHDate
+/* A class to manage an BSCAHDate
  * @version May 1, 2008
  * @author Taylor and Maxwell Palmer
  */
 
-class RMHdate {
+class BSCAHdate {
 
     private $id;    // "mm-dd-yy" form of this date: used as a key
     private $month;       // Textual month of the year  (e.g., Jan)
@@ -34,19 +34,19 @@ class RMHdate {
     private $projects;    // array of Projects created by James Loeffler
 
     /*
-     * Construct an RMHdate and initialize its vacant shifts
+     * Construct an BSCAHdate and initialize its vacant shifts
      * Test that arguments $mm, $dd, $yy are valid, using the
      * function checkdate
      */
 
-    //edited by James Loeffler
+    //edited by James Loeffler and Eric
     function __construct($id, $shifts, $mgr_notes, $projects) {
         $mm = substr($id, 0, 2);
         $dd = substr($id, 3, 2);
         $yy = substr($id, 6, 2);
         if (!checkdate($mm, $dd, $yy)) {
             $this->id = null;
-            echo "Error: invalid date for RMHdate constructor " . $mm . $dd . $yy;
+            echo "Error: invalid date for BSCAHdate constructor " . $mm . $dd . $yy;
             return;
         }
         $my_date = mktime(0, 0, 0, $mm, $dd, $yy);
@@ -100,7 +100,7 @@ class RMHdate {
         }
     }
     
-    //Coppied from generate_shifts but changed to be generate projects by James Loeffler
+    //Coppied from generate_shifts but changed to be generate projects by James Loeffler and Eric
     function generate_projects($day) {
     	$venues = array("weekly");
         $days = array(1 => "Mon", 2 => "Tue", 3 => "Wed", 4 => "Thu", 5 => "Fri", 6 => "Sat", 7 => "Sun");
@@ -119,7 +119,7 @@ class RMHdate {
         	  $master = get_master_shifts($venue, $group, $days[$day]);
         	  for ($i = 0; $i < sizeof($master); $i++) {
                 $t = $master[$i]->get_time();
-                $this->projects[$t] = new Project( //Edited by James Loeffler
+                $this->projects[$t] = new Project( //Edited by James Loeffler and Eric
                     $this->id . "-" . $t, $venue, $master[$i]->get_slots(), null, null, "", "");
               }
         	}
@@ -179,7 +179,7 @@ class RMHdate {
     }
     
     
-    //added by James Loeffler
+    //added by James Loeffler and Eric
     function get_projects() {
         return $this->projects;
     }
@@ -192,7 +192,7 @@ class RMHdate {
         return count($this->shifts);
     }
     
-    //added by James Loeffler
+    //added by James Loeffler and Eric
     function get_num_projects() {
         return count ($this->projects);
     }
@@ -206,7 +206,7 @@ class RMHdate {
         return $this->shifts[$key];
     }
     
-    //added by James Loeffler
+    //added by James Loeffler and Eric
     function get_project($key) {
         return $this->projects[$key];
     }
@@ -231,7 +231,7 @@ class RMHdate {
         return false;
     }
     
-    //added by James Loeffler
+    //added by James Loeffler and Eric
     function get_project_id($project_start, $venue) {
     	if ($project_start==21) {
         	$candidate = $this->get_id() . "-overnight";
@@ -263,7 +263,7 @@ class RMHdate {
         return $this;
     }
 
-    // added by James Loeffler
+    // added by James Loeffler and Eric
     function replace_project($project, $newproject) {
         $newprojects = array();
         foreach ($this->projects as $key => $value)
