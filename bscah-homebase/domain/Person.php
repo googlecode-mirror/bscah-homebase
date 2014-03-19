@@ -16,11 +16,18 @@
  * @author Oliver Radwan, Judy Yang and Allen Tucker
  * @version May 1, 2008, modified 2/15/2012
  */
+
+
+/**
+ * Person class 
+ * Edited by Humza Ahmad 
+ */
 include_once(dirname(__FILE__).'/../database/dbZipCodes.php');
 include_once(dirname(__FILE__).'/../database/dbShifts.php');
 include_once(dirname(__FILE__).'/../database/dbPersons.php');
 include_once('Shift.php');
 include_once('Person.php');
+include_once('Project.php');
 
 class Person {
     private $id;    // id (unique key) = first_name . phone1
@@ -37,10 +44,10 @@ class Person {
     private $email;   // email address as a string
     private $contact_preference; // prefer being contacted by phone or email
     private $emergency_contact; // contact in case of emergencies
-    private $emergency_phone; // phone number of emergency caontact
+    private $emergency_phone; // phone number of emergency contact
     private $type;       // array of "volunteer", "sub", 
     // "weekendmgr", "guestchef", "parking", "cleaning", "other", "manager"
-    // private $project;
+    private $project; //array of projects a person is on 
     private $screening_type; // if "applicant, type of screening used for this applicant
     private $screening_status; // array of dates showing completion of 
     // screening steps for this applicant 
@@ -52,6 +59,7 @@ class Person {
     private $specialties;  // App: special interests and hobbies related to RMH
     private $availability; // array of frequency:week:day:shift quads; e.g., weekly:odd:Mon:morning
     private $schedule;     // array of scheduled shifts; e.g.,  weekly:odd:Mon:morning
+    //private $history;      // array of shifts worked; // e.g., 03-12-08-9-12, 08-21-13-overnight
     private $birthday;     // format: 03-12-64
     private $start_date;   // format: 03-12-99
     private $notes;        // notes that only the manager can see and edit
@@ -61,7 +69,7 @@ class Person {
      * constructor for all persons
      */
 
-    function __construct($f, $l, $g, $a, $c, $s, $z, $co, $p1, $p2, $e, $cp, $ec, $ep, $t, $screening_type, $screening_status, $st, $oc, $re, $mwc, $mot, $spe, $av, $sch, $bd, $sd, $notes, $pass) {
+    function __construct($f, $l, $g, $a, $c, $s, $z, $co, $p1, $p2, $e, $cp, $ec, $ep, $p, $t, $screening_type, $screening_status, $st, $oc, $re, $mwc, $mot, $spe, $av, $sch, $bd, $sd, $notes, $pass) {
         $this->id = $f . $p1;
         $this->first_name = $f;
         $this->last_name = $l;
@@ -77,6 +85,10 @@ class Person {
         $this->contact_preference = $cp;
         $this->emergency_contact = $ec;
         $this->emergency_phone = $ep;
+        if ($p !== "")
+            $this->project = explode(',', $p);
+        else
+            $this->project = array();
         if ($t !== "")
             $this->type = explode(',', $t);
         else
@@ -173,6 +185,10 @@ class Person {
 
     function get_emergency_phone() {
         return $this->emergency_phone;
+    }
+    
+    function get_project()  {
+        return $this->project;
     }
 
     /**
