@@ -44,8 +44,7 @@ function add_person($person) {
     if (!$result)
     {
         error_log('ERROR on select in add_person '. mysql_error());
-        mysql_close();
-        return false;
+        die('Invalid query: ' . mysql_error());
     }
     //if there's no entry for this id, add it
     if ($result == null || mysql_num_rows($result) == 0) {
@@ -84,8 +83,7 @@ function add_person($person) {
          if (!$res2)
          {
                   error_log('ERROR on insert in add_person '.mysql_error());
-                  mysql_close();
-                  return false;
+                  die('Invalid query: ' . mysql_error());
          }
         mysql_close();
         return true;
@@ -102,12 +100,22 @@ function remove_person($id) {
     connect();
     $query = 'SELECT * FROM person WHERE id = "' . $id . '"';
     $result = mysql_query($query);
+     if (!$result)
+    {
+        error_log('ERROR on select in remove_person() '. mysql_error());
+       die('Invalid query: ' . mysql_error());
+    }
     if ($result == null || mysql_num_rows($result) == 0) {
         mysql_close();
         return false;
     }
     $query = 'DELETE FROM person WHERE id = "' . $id . '"';
     $result = mysql_query($query);
+     if (!$result)
+    {
+        error_log('ERROR on delete in remove_person() '. mysql_error());
+        die('Invalid query: ' . mysql_error());
+    }
     mysql_close();
     return true;
 }
@@ -121,7 +129,11 @@ function retrieve_person($id) {
     connect();
     $query = "SELECT * FROM person WHERE id = '" . $id . "'";
     $result = mysql_query($query);
-      
+      if (!$result)
+    {
+        error_log('ERROR on select in retrieve_person '. mysql_error());
+        die('Invalid query: ' . mysql_error());
+    } 
     if (mysql_num_rows($result) !== 1) {
         mysql_close();
         return false;
@@ -143,6 +155,11 @@ function retrieve_persons_by_name ($name) {
 	$last_name = $name[1];
     $query = "SELECT * FROM person WHERE first_name = '" . $first_name . "' AND last_name = '". $last_name ."'";
     $result = mysql_query($query);
+     if (!$result)
+    {
+        error_log('ERROR on select in retrieve_persons_by_name '. mysql_error());
+        die('Invalid query: ' . mysql_error());
+    }
     while ($result_row = mysql_fetch_assoc($result)) {
         $the_person = make_a_person($result_row);
         $persons[] = $the_person;
@@ -154,6 +171,8 @@ function change_password($id, $newPass) {
     connect();
     $query = 'UPDATE person SET password = "' . $newPass . '" WHERE id = "' . $id . '"';
     $result = mysql_query($query);
+    if (!$result)
+        die('Invalid query: ' . mysql_error());
     mysql_close();
     return $result;
 }
@@ -162,6 +181,8 @@ function set_county($id, $county) {
     connect();
     $query = 'UPDATE person SET county = "' . $county . '" WHERE id = "' . $id . '"';
     $result = mysql_query($query);
+      if (!$result)
+        die('Invalid query: ' . mysql_error());
     mysql_close();
     return $result;
 }
@@ -175,11 +196,15 @@ function getall_dbPersons() {
     connect();
     $query = "SELECT * FROM person ORDER BY last_name,first_name";
     $result = mysql_query($query);
+      if (!$result)
+        die('Invalid query: ' . mysql_error());
     if ($result == null || mysql_num_rows($result) == 0) {
         mysql_close();
         return false;
     }
     $result = mysql_query($query);
+      if (!$result)
+        die('Invalid query: ' . mysql_error());
     $thePersons = array();
     while ($result_row = mysql_fetch_assoc($result)) {
         $thePerson = make_a_person($result_row);
@@ -193,11 +218,15 @@ function getall_volunteer_names() {
 	connect();
 	$query = "SELECT first_name, last_name FROM person ORDER BY last_name,first_name";
     $result = mysql_query($query);
+      if (!$result)
+        die('Invalid query: ' . mysql_error());
     if ($result == null || mysql_num_rows($result) == 0) {
         mysql_close();
         return false;
     }
     $result = mysql_query($query);
+      if (!$result)
+        die('Invalid query: ' . mysql_error());
     $names = array();
     while ($result_row = mysql_fetch_assoc($result)) {
         $names[] = $result_row['first_name'].' '.$result_row['last_name'];
@@ -245,6 +274,8 @@ function getall_names($status, $type) {
     connect();
     $result = mysql_query("SELECT id,first_name,last_name,type FROM person " .
             "WHERE status = '" . $status . "' AND TYPE LIKE '%" . $type . "%' ORDER BY last_name,first_name");
+      if (!$result)
+        die('Invalid query: ' . mysql_error());
     mysql_close();
     return $result;
 }
@@ -257,6 +288,8 @@ function getall_type($t) {
     connect();
     $query = "SELECT * FROM person WHERE (type LIKE '%" . $t . "%' OR type LIKE '%sub%') AND status = 'active'  ORDER BY last_name,first_name";
     $result = mysql_query($query);
+      if (!$result)
+        die('Invalid query: ' . mysql_error());
     if ($result == null || mysql_num_rows($result) == 0) {
         mysql_close();
         return false;
@@ -275,6 +308,8 @@ function getall_available($type, $day, $shift) {
             " AND availability LIKE '%" . $day .":". $shift .
             "%' AND status = 'active' ORDER BY last_name,first_name";
     $result = mysql_query($query);
+      if (!$result)
+        die('Invalid query: ' . mysql_error());
     mysql_close();
     return $result;
 }
@@ -290,6 +325,8 @@ function getonlythose_dbPersons($type, $status, $name, $day, $shift) {
             " AND (first_name LIKE '%" . $name . "%' OR last_name LIKE'%" . $name . "%')" .
             " ORDER BY last_name,first_name";
     $result = mysql_query($query);
+      if (!$result)
+        die('Invalid query: ' . mysql_error());
     $thePersons = array();
     while ($result_row = mysql_fetch_assoc($result)) {
         $thePerson = make_a_person($result_row);
@@ -346,6 +383,8 @@ function get_people_for_export($attr, $first_name, $last_name, $gender, $type, $
 	error_log("Querying database for exporting");
 	error_log("query = " .$query);
     $result = mysql_query($query);
+      if (!$result)
+        die('Invalid query: ' . mysql_error());
     return $result;
 
 }
