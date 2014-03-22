@@ -39,11 +39,17 @@ function add_person($person) {
     if (!$person instanceof Person)
         die("Error: add_person type mismatch");
     connect();
-    $query = "SELECT * FROM dbPersons WHERE id = '" . $person->get_id() . "'";
+    $query = "SELECT * FROM person WHERE id = '" . $person->get_id() . "'";
     $result = mysql_query($query);
+    if (!$result)
+    {
+        error_log('ERROR on select in add_person '. mysql_error());
+        mysql_close();
+        return false;
+    }
     //if there's no entry for this id, add it
     if ($result == null || mysql_num_rows($result) == 0) {
-        mysql_query('INSERT INTO dbPersons VALUES("' .
+        $res2 = mysql_query('INSERT INTO person VALUES("' .
                 $person->get_id() . '","' .
                 $person->get_first_name() . '","' .
                 $person->get_last_name() . '","' .
@@ -75,6 +81,12 @@ function add_person($person) {
                 $person->get_notes() . '","' .
                 $person->get_password() .
                 '");');
+         if (!$res2)
+         {
+                  error_log('ERROR on insert in add_person '.mysql_error());
+                  mysql_close();
+                  return false;
+         }
         mysql_close();
         return true;
     }
@@ -83,32 +95,33 @@ function add_person($person) {
 }
 
 /*
- * remove a person from dbPersons table.  If already there, return false
+ * remove a person from person table.  If already there, return false
  */
 
 function remove_person($id) {
     connect();
-    $query = 'SELECT * FROM dbPersons WHERE id = "' . $id . '"';
+    $query = 'SELECT * FROM person WHERE id = "' . $id . '"';
     $result = mysql_query($query);
     if ($result == null || mysql_num_rows($result) == 0) {
         mysql_close();
         return false;
     }
-    $query = 'DELETE FROM dbPersons WHERE id = "' . $id . '"';
+    $query = 'DELETE FROM person WHERE id = "' . $id . '"';
     $result = mysql_query($query);
     mysql_close();
     return true;
 }
 
 /*
- * @return a Person from dbPersons table matching a particular id.
+ * @return a Person from person table matching a particular id.
  * if not in table, return false
  */
 
 function retrieve_person($id) {
     connect();
-    $query = "SELECT * FROM dbPersons WHERE id = '" . $id . "'";
+    $query = "SELECT * FROM person WHERE id = '" . $id . "'";
     $result = mysql_query($query);
+      
     if (mysql_num_rows($result) !== 1) {
         mysql_close();
         return false;
@@ -128,7 +141,7 @@ function retrieve_persons_by_name ($name) {
 	$name = explode(" ", $name);
 	$first_name = $name[0];
 	$last_name = $name[1];
-    $query = "SELECT * FROM dbPersons WHERE first_name = '" . $first_name . "' AND last_name = '". $last_name ."'";
+    $query = "SELECT * FROM person WHERE first_name = '" . $first_name . "' AND last_name = '". $last_name ."'";
     $result = mysql_query($query);
     while ($result_row = mysql_fetch_assoc($result)) {
         $the_person = make_a_person($result_row);
@@ -139,7 +152,7 @@ function retrieve_persons_by_name ($name) {
 
 function change_password($id, $newPass) {
     connect();
-    $query = 'UPDATE dbPersons SET password = "' . $newPass . '" WHERE id = "' . $id . '"';
+    $query = 'UPDATE person SET password = "' . $newPass . '" WHERE id = "' . $id . '"';
     $result = mysql_query($query);
     mysql_close();
     return $result;
@@ -147,20 +160,20 @@ function change_password($id, $newPass) {
 
 function set_county($id, $county) {
     connect();
-    $query = 'UPDATE dbPersons SET county = "' . $county . '" WHERE id = "' . $id . '"';
+    $query = 'UPDATE person SET county = "' . $county . '" WHERE id = "' . $id . '"';
     $result = mysql_query($query);
     mysql_close();
     return $result;
 }
 
 /*
- * @return all rows from dbPersons table ordered by last name
+ * @return all rows from person table ordered by last name
  * if none there, return false
  */
 
 function getall_dbPersons() {
     connect();
-    $query = "SELECT * FROM dbPersons ORDER BY last_name,first_name";
+    $query = "SELECT * FROM person ORDER BY last_name,first_name";
     $result = mysql_query($query);
     if ($result == null || mysql_num_rows($result) == 0) {
         mysql_close();
@@ -178,7 +191,7 @@ function getall_dbPersons() {
 
 function getall_volunteer_names() {
 	connect();
-	$query = "SELECT first_name, last_name FROM dbPersons ORDER BY last_name,first_name";
+	$query = "SELECT first_name, last_name FROM person ORDER BY last_name,first_name";
     $result = mysql_query($query);
     if ($result == null || mysql_num_rows($result) == 0) {
         mysql_close();
@@ -230,19 +243,19 @@ function make_a_person($result_row) {
 // what??
 function getall_names($status, $type) {
     connect();
-    $result = mysql_query("SELECT id,first_name,last_name,type FROM dbPersons " .
+    $result = mysql_query("SELECT id,first_name,last_name,type FROM person " .
             "WHERE status = '" . $status . "' AND TYPE LIKE '%" . $type . "%' ORDER BY last_name,first_name");
     mysql_close();
     return $result;
 }
 
 /*
- * @return all active people of type $t or subs from dbPersons table ordered by last name
+ * @return all active people of type $t or subs from person table ordered by last name
  */
 
 function getall_type($t) {
     connect();
-    $query = "SELECT * FROM dbPersons WHERE (type LIKE '%" . $t . "%' OR type LIKE '%sub%') AND status = 'active'  ORDER BY last_name,first_name";
+    $query = "SELECT * FROM person WHERE (type LIKE '%" . $t . "%' OR type LIKE '%sub%') AND status = 'active'  ORDER BY last_name,first_name";
     $result = mysql_query($query);
     if ($result == null || mysql_num_rows($result) == 0) {
         mysql_close();
@@ -258,7 +271,7 @@ function getall_type($t) {
 
 function getall_available($type, $day, $shift) {
     connect();
-    $query = "SELECT * FROM dbPersons WHERE (type LIKE '%" . $type . "%' OR type LIKE '%sub%')" .
+    $query = "SELECT * FROM person WHERE (type LIKE '%" . $type . "%' OR type LIKE '%sub%')" .
             " AND availability LIKE '%" . $day .":". $shift .
             "%' AND status = 'active' ORDER BY last_name,first_name";
     $result = mysql_query($query);
@@ -272,7 +285,7 @@ function getonlythose_dbPersons($type, $status, $name, $day, $shift) {
     if ($type=="manager")
         {$string1 = " = '"; $string2 = "'";}
     else {$string1 = " LIKE '%"; $string2 = "%'";}
-    $query = "SELECT * FROM dbPersons WHERE type ".$string1. $type . $string2 .
+    $query = "SELECT * FROM person WHERE type ".$string1. $type . $string2 .
             " AND status LIKE '%" . $status . "%'" .
             " AND (first_name LIKE '%" . $name . "%' OR last_name LIKE'%" . $name . "%')" .
             " ORDER BY last_name,first_name";
@@ -319,7 +332,7 @@ function get_people_for_export($attr, $first_name, $last_name, $gender, $type, $
     error_log("query for type is ". $type_query);
     
    	connect();
-    $query = "SELECT ". $attr ." FROM dbPersons WHERE 
+    $query = "SELECT ". $attr ." FROM person WHERE 
     			first_name REGEXP ". $first_name . 
     			" and last_name REGEXP ". $last_name . 
     			" and (gender REGEXP ". $gender . ")" .
