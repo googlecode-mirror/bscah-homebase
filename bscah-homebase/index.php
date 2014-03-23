@@ -55,7 +55,7 @@ session_cache_expire(30);
 							your upcoming scheduled shifts will always be posted here.
 						');
                     if ($_SESSION['access_level'] == 0)
-                        echo('<p> To apply for a volunteer position at the Ronald McDonald House, select <a href="' . $path . 'personEdit.php?id=' . 'new' . '">apply</a>.');
+                        echo('<p> To apply for a volunteer position at the Bedstuy Campaign Against Hunger , select <a href="' . $path . 'personEdit.php?id=' . 'new' . '">apply</a>.');
                     ?>
 
                     <br>If you just want an overview of Homebase, select <a href="<?php echo($path); ?>dataSearch.php">about</a>.
