@@ -84,6 +84,9 @@ session_cache_expire(30);
                     include_once('domain/Person.php');
                     $result = getonlythose_dbPersons($type, $status, $name, $_POST['s_day'], $_POST['s_shift']);
                     //$result = getall_dbPersons();
+                    if (!$result)  
+                    die('Invalid query: ' . mysql_error());//Erick and james
+
                     echo '<p><strong>Search Results:</strong> <p>Found ' . sizeof($result) . ' ' . $status . ' ';
                     if ($type != "")
                         echo $type . "s";
