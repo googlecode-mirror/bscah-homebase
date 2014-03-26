@@ -71,7 +71,7 @@ CREATE TABLE IF NOT EXISTS `person` (
   `Phone2` int(10) NOT NULL,
   `Email` varchar(30) NOT NULL,
   `Type` varchar(15) NOT NULL COMMENT 'Denotes wether a Coordinator or Volunteer',
-  `Schedule` varchar(100) NOT NULL COMMENT 'Dates scheduled for voliunteering',
+  `Schedule` varchar(100) NOT NULL COMMENT 'Dates scheduled for volunteering',
   `Notes` varchar(200) NOT NULL,
   `Password` varchar(25) NOT NULL,
   `ID` int(11) NOT NULL,
