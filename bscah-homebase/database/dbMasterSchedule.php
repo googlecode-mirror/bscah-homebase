@@ -117,15 +117,19 @@ function delete_dbMasterSchedule($id) {
     return true;
 }
 
-// this checks if the shift overlaps another, and if it does not, it inserts it into the database
-function insert_nonoverlapping($shift) {
+// this checks if the shift & project overlaps another, and if it does not, it inserts it into the database
+function insert_nonoverlapping($shift, $project) {
     $other_shifts = get_master_shifts($shift->get_schedule_type(), $shift->get_week_no(), $shift->get_day());
-
+    $other_projects = get_master_projects($project->get_schedule_type(), $project->get_week_no(), $project->get_day());
     foreach ($other_shifts as $other_shift) {
         if (masterslots_overlap($shift->get_start_time(), $shift->get_end_time(), $other_shift->get_start_time(), $other_shift->get_end_time()))
             return false;
     }
-    insert_dbMasterSchedule($shift);
+     foreach ($other_projects as $other_project) {
+        if (masterslots_overlap($project->get_start_time(), $project->get_end_time(), $other_project->get_start_time(), $other_project->get_end_time()))
+            return false;
+    }
+    insert_dbMasterSchedule($shift, $project);
     return true;
 }
 
@@ -148,7 +152,7 @@ function masterslots_overlap($s1_start, $s1_end, $s2_start, $s2_end) {
 }
 
 /*
- * @return all master schedule entries for a particular venue and day
+ * @return all master schedule entries for a particular venue and day for shifts
  * Each row in the array is a MasterScheduleEntry
  * If there are no entries, return an empty array
  */
@@ -176,6 +180,34 @@ function get_master_shifts($type, $week_no, $day) {
     return $outcome;
 }
 
+/*
+ * @return all master schedule entries for a particular venue and day for projects
+ * Each row in the array is a MasterScheduleEntry
+ * If there are no entries, return an empty array
+ */
+
+function get_master_projects($type, $week_no, $day) {
+    connect();
+    //$outcome = array();
+    $query = "SELECT * FROM dbMasterSchedule WHERE week_no = '" . $week_no . "' AND day = '" . $day .
+            "' AND schedule_type = '" . $type . "'";
+    $result = mysql_query($query);
+    mysql_close();
+    $outcome = array();
+    if (mysql_num_rows($result) == 0)
+        return $outcome;
+    for ($i = 0; $i < mysql_num_rows($result); $i++)
+    {
+    	$result_row = mysql_fetch_array($result, MYSQL_ASSOC);
+    	// problem - something about this call is faulty - it does not seem to be going through
+    	// to the constructor. 
+        $testVar = new MasterScheduleEntry($result_row['schedule_type'], $result_row['day'], 
+            $result_row['week_no'], $result_row['start_time'], $result_row['end_time'], 
+            $result_row['slots'], $result_row['persons'], $result_row['notes']); 
+        $outcome[] = $testVar;
+    }
+    return $outcome;
+}
 /* schedule a person for a given day and time and venue in group One or Two
  * update that persons schedule in the dbPersons table
  *
@@ -190,7 +222,7 @@ function schedule_person($venue, $group, $day, $time, $person_id) {
     $resultp = mysql_query($query2);
     if (!$result || !$resultp)
         die("schedule_person could not query the database");
-    // be sure the master shift and person both exist
+    // be sure the master project and person both exist
     if (mysql_num_rows($result) !== 1 || mysql_num_rows($resultp) !== 1) {
         mysql_close();
         die("schedule_person couldnt retrieve 1 person and 1 dbScheduleEntry");

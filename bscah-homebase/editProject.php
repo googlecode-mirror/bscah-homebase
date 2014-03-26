@@ -65,22 +65,8 @@
 											</form>");
 									echo "<br></td></tr>";
 								}
-								if($project->num_vacancies()>0) {
-									echo("<tr><td valign=\"top\"><br>&nbsp;Find Volunteers<br>&nbsp;To Fill Vacancies</td><td>
-										<form method=\"POST\" action=\"subCallList.php?project=".$projectid."\" style=\"margin-bottom:0;\">
-										<input type=\"hidden\" name=\"_projectid\" value=\"".$projectid."\">");
-									if(!$project->has_sub_call_list() && !(select_dbSCL($project->get_id()) instanceof SCL)) {
-										echo "<input type=\"hidden\" name=\"_submit_generate_scl\" value=\"1\"><br>
-										<input type=\"submit\" value=\"Generate Sub Call List\" name=\"submit\"
-											style=\"width: 150px\">";
-									}
-									else {
-										echo "<input type=\"hidden\" name=\"_submit_view_scl\" value=\"1\"><br>
-										<input type=\"submit\" value=\"View Sub Call List\" name=\"submit\" style=\"width: 150px\">";
-									}
-									echo "</form><br></td></tr>";
-								}
-							    echo display_filled_slots($persons);
+								
+                                                                echo display_filled_slots($persons);
 								echo display_vacant_slots($project->num_vacancies());
 								echo "</td></tr></table>";
 								echo "<p align=\"center\"><a href=\"calendar.php?id=".substr($projectid,0,8)."&edit=true&venue=house"."\">

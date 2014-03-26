@@ -16,15 +16,16 @@ include_once('dbinfo.php');
  * 0 id: "mm-dd-yy-ss-ee" is a unique key for this project
  * 1 start_time: Integer: e.g. 10 (meaning 10:00am)
  * 2 end_time: Integer: e.g. 13 (meaning 1:00pm)
- * 3 vacancies: # of vacancies for this project
- * 4 persons: list of people ids, followed by their name, ie "max1234567890+Max+Palmer"
- * 5 notes: project notes
+ * 3 venue = "weekly"
+ * 4 vacancies: # of vacancies for this shift
+ * 5 persons: list of people ids, followed by their name, ie "max1234567890+Max+Palmer"
+ * 6 notes: shift notes
  */
 function create_dbProjects() {
     connect();
     mysql_query("DROP TABLE IF EXISTS dbProjects");
     $result = mysql_query("CREATE TABLE dbProjects (id CHAR(20) NOT NULL, " .
-            "start_time INT, end_time INT, vacancies INT, " .
+            "start_time INT, end_time INT, venue TEXT, vacancies INT, " .
             "persons TEXT, removed_persons TEXT, notes TEXT, PRIMARY KEY (id))");
     if (!$result) {
         echo mysql_error();
@@ -266,12 +267,11 @@ function timeslots_overlap($s1_start, $s1_end, $s2_start, $s2_end) {
 
 function make_a_project($result_row) {
     $the_project = new Project(
-    				$result_row['id'],
+                    $result_row['id'],
                     $result_row['venue'],
                     $result_row['vacancies'],
                     $result_row['persons'],
                     $result_row['removed_persons'],
-                    $result_row['sub_call_list'],
                     $result_row['notes']
                  );
 

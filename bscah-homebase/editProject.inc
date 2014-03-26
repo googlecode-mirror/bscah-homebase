@@ -6,7 +6,6 @@
  */
 include_once('database/dbProjects.php');
 include_once('database/dbPersons.php');
-include_once('database/dbSCL.php');
 include_once('database/dbLog.php');
 
 	function do_slot_num($persons, $vacancies) {
@@ -104,7 +103,6 @@ include_once('database/dbLog.php');
 			$persons[]=$vol;
 			$project->assign_persons($persons);
 			$project->ignore_vacancy();
-			fix_SCL($project);
 			update_dbProjects($project);
 			$name=explode("+",$vol);
 			add_log_entry('<a href=\"personEdit.php?id='.$_SESSION['_id'].'\">'.$_SESSION['f_name'].' '.
@@ -133,7 +131,6 @@ include_once('database/dbLog.php');
 				error_log("removing ". $name);
 				$project->assign_persons($p2);
 				$project->add_vacancy();
-				fix_SCL($project);
 				if($name)
 					$name=explode("+",$name);
 				update_dbProjects($project);
@@ -149,7 +146,6 @@ include_once('database/dbLog.php');
 		if(array_key_exists('_submit_add_slot',$post)) {
 			$project->add_vacancy();
 			update_dbProjects($project);
-			fix_SCL($project);
 			add_log_entry('<a href=\"personEdit.php?id='.$_SESSION['_id'].'\">'.$_SESSION['f_name'].' '.
 			    $_SESSION['l_name'].'</a> added a slot to the project: <a href=\"editProject.php?project='.$project->get_id().'\">'.
 			    get_project_name_from_id($project->get_id()).'</a>.');
@@ -159,14 +155,7 @@ include_once('database/dbLog.php');
 	}
 	function process_clear_project($post,$project,$venue) {
 		if(array_key_exists('_submit_clear_project',$post)) {
-			if ($project->has_sub_call_list()) {
-				$scl=select_dbSCL($project>get_id());
-				if ($scl instanceof SCL)
-			   		delete_dbSCL($scl);
-			   		add_log_entry('<a href=\"personEdit.php?id='.$_SESSION['_id'].'\">'.$_SESSION['f_name'].' '.
-			   		    $_SESSION['l_name'].'</a> deleted a <a href=\"subCallList.php?project='.$project->get_id().'\">sub call list</a> for the project: <a href=\"editProject.php?project='.
-			   		    $project->get_id().'\">'.get_project_name_from_id($project->get_id()).'</a>.');
-			}
+
 			$project = new Project($project->get_id(), "weekly", $project->num_slots(), null, null, "", "");
 			update_dbProjects($project);
 			add_log_entry('<a href=\"personEdit.php?id='.$_SESSION['_id'].'\">'.$_SESSION['f_name'].' '.
@@ -244,7 +233,6 @@ include_once('database/dbLog.php');
 		if(array_key_exists('_submit_ignore_vacancy',$post)) {
 			$project->ignore_vacancy();
 			update_dbProjects($project);
-			fix_SCL($project);
 			add_log_entry('<a href=\"personEdit.php?id='.$_SESSION['_id'].'\">'.$_SESSION['f_name'].' '.
 			    $_SESSION['l_name'].'</a> ignored a vacant slot for the project: <a href=\"editProject.php?project='.$project->get_id().'\">'.
 			    get_project_name_from_id($project->get_id()).'</a>.');
@@ -301,26 +289,4 @@ include_once('database/dbLog.php');
 		return $s;
 	}
 
-
-/*
- * Bring a project's SCL into agreement with the project.
- *    close the SCL if the last vacancy is filled, and
- *    reopen the SCL if a new vacancy is created.
- */
-	function fix_SCL($project) {
-		if($project->has_sub_call_list()) {
-			$scl=select_dbSCL($project->get_id());
-			if ($scl instanceof SCL) {
-			   $scl->set_vacancies($project->num_vacancies());
-			   if ($scl->get_vacancies()==0) {
-				  $scl->set_status("closed");
-			   }
-			   else if($scl->get_status()=="closed") {
-				  $scl->set_status("open");
-			   }
-			   update_dbSCL($scl);
-			}
-			else $project->close_sub_call_list();
-		}
-	}
 ?>

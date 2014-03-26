@@ -16,7 +16,6 @@
  */
 include_once('database/dbShifts.php');
 include_once('database/dbPersons.php');
-include_once('database/dbSCL.php');
 include_once('database/dbLog.php');
 
 	function do_slot_num($persons, $vacancies) {
@@ -113,7 +112,6 @@ include_once('database/dbLog.php');
 			$persons[]=$vol;
 			$shift->assign_persons($persons);
 			$shift->ignore_vacancy();
-			fix_SCL($shift);
 			update_dbShifts($shift);
 			$name=explode("+",$vol);
 			add_log_entry('<a href=\"personEdit.php?id='.$_SESSION['_id'].'\">'.$_SESSION['f_name'].' '.
@@ -142,7 +140,6 @@ include_once('database/dbLog.php');
 				error_log("removing ". $name);
 				$shift->assign_persons($p2);
 				$shift->add_vacancy();
-				fix_SCL($shift);
 				if($name)
 					$name=explode("+",$name);
 				update_dbShifts($shift);
@@ -158,7 +155,6 @@ include_once('database/dbLog.php');
 		if(array_key_exists('_submit_add_slot',$post)) {
 			$shift->add_vacancy();
 			update_dbShifts($shift);
-			fix_SCL($shift);
 			add_log_entry('<a href=\"personEdit.php?id='.$_SESSION['_id'].'\">'.$_SESSION['f_name'].' '.
 			    $_SESSION['l_name'].'</a> added a slot to the shift: <a href=\"editShift.php?shift='.$shift->get_id().'\">'.
 			    get_shift_name_from_id($shift->get_id()).'</a>.');
@@ -168,14 +164,7 @@ include_once('database/dbLog.php');
 	}
 	function process_clear_shift($post,$shift,$venue) {
 		if(array_key_exists('_submit_clear_shift',$post)) {
-			if ($shift->has_sub_call_list()) {
-				$scl=select_dbSCL($shift->get_id());
-				if ($scl instanceof SCL)
-			   		delete_dbSCL($scl);
-			   		add_log_entry('<a href=\"personEdit.php?id='.$_SESSION['_id'].'\">'.$_SESSION['f_name'].' '.
-			   		    $_SESSION['l_name'].'</a> deleted a <a href=\"subCallList.php?shift='.$shift->get_id().'\">sub call list</a> for the shift: <a href=\"editShift.php?shift='.
-			   		    $shift->get_id().'\">'.get_shift_name_from_id($shift->get_id()).'</a>.');
-			}
+			
 			$shift = new Shift($shift->get_id(), "weekly", $shift->num_slots(), null, null, "", "");
 			update_dbShifts($shift);
 			add_log_entry('<a href=\"personEdit.php?id='.$_SESSION['_id'].'\">'.$_SESSION['f_name'].' '.
@@ -253,7 +242,6 @@ include_once('database/dbLog.php');
 		if(array_key_exists('_submit_ignore_vacancy',$post)) {
 			$shift->ignore_vacancy();
 			update_dbShifts($shift);
-			fix_SCL($shift);
 			add_log_entry('<a href=\"personEdit.php?id='.$_SESSION['_id'].'\">'.$_SESSION['f_name'].' '.
 			    $_SESSION['l_name'].'</a> ignored a vacant slot for the shift: <a href=\"editShift.php?shift='.$shift->get_id().'\">'.
 			    get_shift_name_from_id($shift->get_id()).'</a>.');
@@ -310,26 +298,4 @@ include_once('database/dbLog.php');
 		return $s;
 	}
 
-
-/*
- * Bring a shift's SCL into agreement with the shift.
- *    close the SCL if the last vacancy is filled, and
- *    reopen the SCL if a new vacancy is created.
- */
-	function fix_SCL($shift) {
-		if($shift->has_sub_call_list()) {
-			$scl=select_dbSCL($shift->get_id());
-			if ($scl instanceof SCL) {
-			   $scl->set_vacancies($shift->num_vacancies());
-			   if ($scl->get_vacancies()==0) {
-				  $scl->set_status("closed");
-			   }
-			   else if($scl->get_status()=="closed") {
-				  $scl->set_status("open");
-			   }
-			   update_dbSCL($scl);
-			}
-			else $shift->close_sub_call_list();
-		}
-	}
 ?>

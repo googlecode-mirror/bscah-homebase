@@ -21,7 +21,6 @@
 include_once('domain/Shift.php');
 include_once('dbPersons.php');
 include_once('dbDates.php');
-include_once('dbSCL.php');
 include_once('dbinfo.php');
 
 /**
@@ -33,15 +32,14 @@ include_once('dbinfo.php');
  * 3 venue = "weekly"
  * 4 vacancies: # of vacancies for this shift
  * 5 persons: list of people ids, followed by their name, ie "max1234567890+Max+Palmer"
- * 6 sub_call_list: yes/no if shift has SCL
- * 7 notes: shift notes
+ * 6 notes: shift notes
  */
 function create_dbShifts() {
     connect();
     mysql_query("DROP TABLE IF EXISTS dbShifts");
     $result = mysql_query("CREATE TABLE dbShifts (id CHAR(20) NOT NULL, " .
             "start_time INT, end_time INT, venue TEXT, vacancies INT, " .
-            "persons TEXT, removed_persons TEXT, sub_call_list TEXT, notes TEXT, PRIMARY KEY (id))");
+            "persons TEXT, removed_persons TEXT, notes TEXT, PRIMARY KEY (id))");
     if (!$result) {
         echo mysql_error();
         return false;
@@ -70,8 +68,8 @@ function insert_dbShifts($s) {
     $query = "INSERT INTO dbShifts VALUES (\"" . $s->get_id() . "\",\"" .
             $s->get_start_time() . "\",\"" . $s->get_end_time() . "\",\"" . $s->get_venue() . "\"," .
             $s->num_vacancies() . ",\"" .
-            implode("*", $s->get_persons()) . "\",\"" .implode("*", $s->get_removed_persons()) . "\",\"" .
-            $s->get_sub_call_list() . "\",\"" . $s->get_notes() . "\")";
+            implode("*", $s->get_persons()) . "\",\"" .implode("*", $s->get_removed_persons()) . "\",\"" 
+            . "\",\"" . $s->get_notes() . "\")";
     $result = mysql_query($query);
     if (!$result) {
         echo "unable to insert into dbShifts " . $s->get_id() . mysql_error();
@@ -282,12 +280,11 @@ function timeslots_overlap($s1_start, $s1_end, $s2_start, $s2_end) {
 
 function make_a_shift($result_row) {
     $the_shift = new Shift(
-    				$result_row['id'],
+                    $result_row['id'],
                     $result_row['venue'],
                     $result_row['vacancies'],
                     $result_row['persons'],
                     $result_row['removed_persons'],
-                    $result_row['sub_call_list'],
                     $result_row['notes']
                  );
 

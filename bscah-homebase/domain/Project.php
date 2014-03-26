@@ -18,6 +18,7 @@ class Project {
     private $name;          // String: 'ss-ee' or 'overnight', where ss = start time and ee = end time e.g., '9-12'
     private $start_time;    // Integer: e.g. 10 (meaning 10:00am)
     private $end_time;      // Integer: e.g. 13 (meaning 1:00pm)
+    private $venue;         //  "weekly" or "monthly"
     private $vacancies;     // number of vacancies in this project
     private $persons;       // array of person ids filling slots, followed by their name, ie "malcom1234567890+Malcom+Jones"
     private $removed_persons; // array of persons who have previously been removed from this project
@@ -29,7 +30,7 @@ class Project {
      * construct an empty project with a certain number of vacancies
      */
 
-    function __construct($id, $venue, $vacancies, $persons, $removed_persons, $sub_call_list, $notes) {
+    function __construct($id, $venue, $vacancies, $persons, $removed_persons, $notes) {
     	$this->mm_dd_yy = substr($id, 0, 8);
         $this->name = substr($id, 9);
         $i = strpos($this->name, "-");
@@ -38,7 +39,7 @@ class Project {
         	$this->start_time = substr($this->name, 0, $i);
         	$this->end_time = substr($this->name, $i + 1, 2);
             }
-        
+        $this->venue = $venue;
         $this->vacancies = $vacancies;
         $this->persons = $persons;
         $this->removed_persons = $removed_persons;
@@ -116,7 +117,23 @@ class Project {
     function get_date() {
         return $this->mm_dd_yy;
     }
-
+    
+    function get_time_of_day() {
+        if ($this->start_time == 0)
+            return "overnight";
+        else if ($this->start_time <= 10)
+            return "morning";
+        else if ($this->start_time <= 13)
+            return "earlypm";
+        else if ($this->start_time <= 16)
+            return "latepm";
+        else 
+            return "evening";
+    }
+    
+    function get_venue() {
+        return $this->venue;
+    }
 
     function get_persons() {
         return $this->persons;

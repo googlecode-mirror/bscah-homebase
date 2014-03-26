@@ -22,13 +22,13 @@ class MasterScheduleEntry {
 	private $day;           // "Mon", "Tue", ... "Sun"
 	private $week_no;       // week of month (1st-5th) for "monthly" or "weekly" Sat or Sun
 	                        // or week of year (odd or even) for "weekly" Mon-Fri
-	private $start_time;    // start time for the shift (9 - 21), or "overnight" or "any" (for any time of day)
-	private $end_time;		// end time for the shift (9 - 21)
-	private $slots;         // the number of slots to be filled for this shift
+	private $start_time;    // start time for the shift & project(9 - 21), or "overnight" or "any" (for any time of day)
+	private $end_time;		// end time for the shift & project(9 - 21)
+	private $slots;         // the number of slots to be filled for this shift & project
 	private $persons;       // array of ids, eg ["alex2071234567", "jane1112345567"]
-	private $notes;         // notes to be displayed for this shift on the schedule
+	private $notes;         // notes to be displayed for this shift & project on the schedule
 	private $id;	        // unique string for each entry = schedule_type.day.week."-".start_time."-".end_time
-							//    or (for overnight shifts) = schedule_type.day.week."-"."overnight"    
+							//    or (for overnight shifts & project) = schedule_type.day.week."-"."overnight"    
 
 	/**
 	* constructor for all MasterScheduleEntries
