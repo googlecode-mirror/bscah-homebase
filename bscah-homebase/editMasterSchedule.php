@@ -45,36 +45,33 @@ session_cache_expire(30);
                 } // see if there is no master shift for this time slot and try to set times starting there
                 else if (retrieve_dbMasterSchedule($venue . $day . $group . "-" . $shiftname) == false) {
                     $result = process_set_times($_POST, $group, $day, $shiftname, $venue);
-                    if (!$result)  // the error check
-                    die('Invalid query: ' . mysql_error());//Erick and James 
-                    
                     if ($result) {
                         $returnpoint = "viewSchedule.php?frequency=" . $venue;
                         echo "<table align=\"center\"><tr><td align=\"center\" width=\"442\">
-<br><a href=\"" . $returnpoint . "\">
-Back to Master Schedule</a></td></tr></table>";
+		<br><a href=\"" . $returnpoint . "\">
+		Back to Master Schedule</a></td></tr></table>";
                     }
                     // if not, there's an opportunity to add a shift 
                     else {
                         //$groupdisplay = $venue . " Group ".$group;
                         echo ("<table align=\"center\" width=\"450\"><tr><td align=\"center\" colspan=\"2\"><b>
-Adding a New Master Schedule shift for " . $group .
+		Adding a New Master Schedule shift for " . $group .
                         substr($shift[1], 3) . " " . $shift[3] . "s " . "
-</b></td></tr>"
+		</b></td></tr>"
                         . "<tr><td>
-<form method=\"POST\" style=\"margin-bottom:0;\">
-<select name=\"new_start\">
-<option value=\"0\">Please select a new starting time</option>"
+		<form method=\"POST\" style=\"margin-bottom:0;\">
+		<select name=\"new_start\">
+		<option value=\"0\">Please select a new starting time</option>"
                         . get_all_times() .
                         "</select><br>
-<br><br>
-<select name=\"new_end\">
-<option value=\"0\">and ending time for this shift.</option>"
+		<br><br>
+		<select name=\"new_end\">
+		<option value=\"0\">and ending time for this shift.</option>"
                         . get_all_times() .
                         "</select><br><br>
-<input type=\"hidden\" name=\"_submit_change_times\" value=\"1\">
-<input type=\"submit\" value=\"Add New Shift\" name=\"submit\">
-</form><br></td></tr></table>");
+		<input type=\"hidden\" name=\"_submit_change_times\" value=\"1\">
+		<input type=\"submit\" value=\"Add New Shift\" name=\"submit\">
+		</form><br></td></tr></table>");
                     }
                 } else { // if one is there, see what we can do to update it
                     if (!process_fill_vacancy($_POST, $shift, $group, $venue) && // try to fill a vacancy
@@ -89,28 +86,28 @@ Adding a New Master Schedule shift for " . $group .
                         $persons = get_persons($venue, $shift[0], $shift[1], $shift[2]);
                         // $groupdisplay = $venue . " Group ".$group;
                         echo ("<table align=\"center\" width=\"450\"><tr><td align=\"center\" colspan=\"2\"><b>
-Master schedule shift for " . $group .
+			Master schedule shift for " . $group .
                         substr($shift[1], 3) . " " . $shift[3] . "s, " . do_name($shift[2]) . "
-</b>
-<form method=\"POST\" style=\"margin-bottom:0;\">
-<input type=\"hidden\" name=\"_submit_remove_shift\" value=\"1\"><br>
-<input type=\"submit\" value=\"Remove Entire Shift\"
-name=\"submit\">
-</form><br>
-</td></tr>"
+			</b>
+			<form method=\"POST\" style=\"margin-bottom:0;\">
+			<input type=\"hidden\" name=\"_submit_remove_shift\" value=\"1\"><br>
+			<input type=\"submit\" value=\"Remove Entire Shift\"
+			name=\"submit\">
+			</form><br>
+			</td></tr>"
                         . "<tr><td valign=\"top\"><br>&nbsp;" . do_slot_num($shift, $venue) . "</td><td>
-<form method=\"POST\" style=\"margin-bottom:0;\">
-<input type=\"hidden\" name=\"_submit_add_slot\" value=\"1\"><br>
-<input type=\"submit\" value=\"Add Slot\"
-name=\"submit\" style=\"width: 250px\">
-</form><br></td></tr>");
+			<form method=\"POST\" style=\"margin-bottom:0;\">
+			<input type=\"hidden\" name=\"_submit_add_slot\" value=\"1\"><br>
+			<input type=\"submit\" value=\"Add Slot\"
+			name=\"submit\" style=\"width: 250px\">
+			</form><br></td></tr>");
                         echo (display_filled_slots($persons)
                         . display_vacant_slots(get_total_vacancies($venue, $shift[0], $shift[1], $shift[2]))
                         . "</table>");
                         $returnpoint = "viewSchedule.php?frequency=" . $venue;
                         echo "<table align=\"center\"><tr><td align=\"center\" width=\"442\">
-<br><a href=\"" . $returnpoint . "\">
-Back to Master Schedule</a></td></tr></table>";
+			<br><a href=\"" . $returnpoint . "\">
+			 Back to Master Schedule</a></td></tr></table>";
                     }
                 }
                 ?>
@@ -168,8 +165,8 @@ Back to Master Schedule</a></td></tr></table>";
                         echo "<br>Deleted master schedule shift for " . $groupdisplay . "<br><br>";
                         $returnpoint = "viewSchedule.php?frequency=" . $frequency;
                         echo "<table align=\"center\"><tr><td align=\"center\" width=\"442\">
-<br><a href=\"" . $returnpoint . "\">
-Back to Master Schedule</a></td></tr></table>";
+				<br><a href=\"" . $returnpoint . "\">
+				Back to Master Schedule</a></td></tr></table>";
                         add_log_entry('<a href=\"personEdit.php?id=' . $_SESSION['_id'] . '\">' . $_SESSION['f_name'] . ' ' .
                                 $_SESSION['l_name'] . '</a> deleted a new master schedule shift: <a href=\"editMasterSchedule.php?group=' .
                                 $week_no . "&day=" . $day . "&shift=" . $shiftname . "&frequency=" . $frequency . '\">' . $frequency . " week_no " . $week_no . " " . $day . " " . $shiftname . '</a>.');
@@ -188,11 +185,11 @@ Back to Master Schedule</a></td></tr></table>";
                             if ($end < 12)
                                 return $start . "am to " . $end . "am";
                             else if ($end==12)
-                            return $start . "am to " . $end . "pm";
+                            	return $start . "am to " . $end . "pm";
                             else
                                 return $start . "am to " . ($end - 12) . "pm";
                         else if ($start==12)
-                        return $start . "pm to " . ($end - 12) . "pm";
+                        	return $start . "pm to " . ($end - 12) . "pm";
                         else
                             return ($start - 12) . "pm to " . ($end - 12) . "pm";
                     }
@@ -214,10 +211,10 @@ Back to Master Schedule</a></td></tr></table>";
                         if (is_array($persons[$i]))
                             $p = $persons[$i]['first_name'] . " " . $persons[$i]['last_name'];
                         $s = $s . "<tr><td width=\"150\" valign=\"top\"><br>&nbsp;" . $p . "</td><td>
-<form method=\"POST\" style=\"margin-bottom:0;\">
-<input type=\"hidden\" name=\"_submit_filled_slot_" . $i . "\" value=\"1\"><br>
-<input type=\"submit\" value=\"Remove Person / Create Vacancy\" name=\"submit\" style=\"width: 250px\">
-</form><br></td></tr>";
+				<form method=\"POST\" style=\"margin-bottom:0;\">
+				<input type=\"hidden\" name=\"_submit_filled_slot_" . $i . "\" value=\"1\"><br>
+				<input type=\"submit\" value=\"Remove Person / Create Vacancy\" name=\"submit\" style=\"width: 250px\">
+			</form><br></td></tr>";
                     }
                     return $s;
                 }
@@ -226,13 +223,13 @@ Back to Master Schedule</a></td></tr></table>";
                     $s = "";
                     for ($i = 0; $i < $vacancies; ++$i) {
                         $s = $s . "<tr><td width=\"150\" valign=\"top\"><br>&nbsp;<b>vacant</b></td><td>
-<form method=\"POST\" style=\"margin-bottom:0;\">
-<input type=\"hidden\" name=\"_submit_fill_vacancy\" value=\"1\"><br>
-<input type=\"submit\" value=\"Assign Volunteer\" name=\"submit\" style=\"width: 250px\"></form>
-<form method=\"POST\" style=\"margin-bottom:0;\">
-<input type=\"hidden\" name=\"_submit_ignore_vacancy\" value=\"1\">
-<input type=\"submit\" value=\"Remove Vacant Slot\" name=\"submit\" style=\"width: 250px\"></form>
-<br></td></tr>";
+				<form method=\"POST\" style=\"margin-bottom:0;\">
+				<input type=\"hidden\" name=\"_submit_fill_vacancy\" value=\"1\"><br>
+				<input type=\"submit\" value=\"Assign Volunteer\" name=\"submit\" style=\"width: 250px\"></form>
+				<form method=\"POST\" style=\"margin-bottom:0;\">
+				<input type=\"hidden\" name=\"_submit_ignore_vacancy\" value=\"1\">
+				<input type=\"submit\" value=\"Remove Vacant Slot\" name=\"submit\" style=\"width: 250px\"></form>
+				<br></td></tr>";
                     }
                     return $s;
                 }
@@ -242,23 +239,23 @@ Back to Master Schedule</a></td></tr></table>";
                         return false;
                     $groupdisplay = $venue . " Group " . $group;
                     echo "<table align=\"center\"><tr><td align=\"center\" width=\"450\"><b>
-Filling a vacancy for " . $groupdisplay . substr($shift[1], 3) . "<br>" . $shift[3] . ", " . do_name($shift[2]) . "
-</b></td></tr>
-<tr><td><form method=\"POST\" style=\"margin-bottom:0;\">
-<select name=\"scheduled_vol\">
-<option value=\"0\" style=\"width: 371px;\">Select a volunteer With " . $shift[3] . ", " . do_name($shift[2]) . " availability</option>"
+		Filling a vacancy for " . $groupdisplay . substr($shift[1], 3) . "<br>" . $shift[3] . ", " . do_name($shift[2]) . "
+		</b></td></tr>
+		<tr><td><form method=\"POST\" style=\"margin-bottom:0;\">
+			<select name=\"scheduled_vol\">
+			<option value=\"0\" style=\"width: 371px;\">Select a volunteer With " . $shift[3] . ", " . do_name($shift[2]) . " availability</option>"
                     . get_available_volunteer_options($shift[2], $shift[4], get_persons($venue, $shift[0], $shift[1], $shift[2]), $venue) .
                     "</select><br><br>
-<select name=\"all_vol\">
-<option value=\"0\" style=\"width: 371px;\">Select from all volunteers in this group</option>"
+			<select name=\"all_vol\">
+			<option value=\"0\" style=\"width: 371px;\">Select from all volunteers in this group</option>"
                     . get_all_volunteer_options(get_persons($venue, $shift[0], $shift[1], $shift[2]), $venue) .
                     "</select><br><br>
-<input type=\"hidden\" name=\"_submit_add_volunteer\" value=\"1\">
-<input type=\"submit\" value=\"Add Volunteer\" name=\"submit\" style=\"width: 400px\">
-</form></td></tr>";
+			<input type=\"hidden\" name=\"_submit_add_volunteer\" value=\"1\">
+			<input type=\"submit\" value=\"Add Volunteer\" name=\"submit\" style=\"width: 400px\">
+			</form></td></tr>";
                     echo "</table>";
                     echo "<table align=\"center\"><tr><td align=\"center\" width=\"450\">
-<a href=\"editMasterSchedule.php?group=" . $shift[0] . "&day=" . $shift[1] . "&shift=" . $shift[2] . "&venue=" . $venue . "\">Back to Shift</a><br></td></tr></table>";
+		<a href=\"editMasterSchedule.php?group=" . $shift[0] . "&day=" . $shift[1] . "&shift=" . $shift[2] . "&venue=" . $venue . "\">Back to Shift</a><br></td></tr></table>";
                     return true;
 
                     // check that person is not already working that shift
@@ -373,7 +370,7 @@ Filling a vacancy for " . $groupdisplay . substr($shift[1], 3) . "<br>" . $shift
                         return false;
                     if ($post['all_vol'] == "0" && $post['scheduled_vol'] == "0")
                         $error = "<table align=\"center\"><tr><td width=\"400\">
-You must select a volunteer.</td></tr></table><br>";
+				You must select a volunteer.</td></tr></table><br>";
                     else if ($post['all_vol'] == "0")
                         $vol = $post['scheduled_vol'];
                     else
@@ -419,324 +416,3 @@ You must select a volunteer.</td></tr></table><br>";
                     return $shift;
                 }
                 ?>
-
-\
-\
-\
-\
-\
-\
-\
-\
-\
-\
-\
-\
-\
-\
-\
-
-
-personsearch.php
-
-
-<?php
-/*
- * Copyright 2013 by Jerrick Hoang, Ivy Xing, Sam Roberts, James Cook, 
- * Johnny Coster, Judy Yang, Jackson Moniaga, Oliver Radwan, 
- * Maxwell Palmer, Nolan McNair, Taylor Talmage, and Allen Tucker. 
- * This program is part of RMH Homebase, which is free software.  It comes with 
- * absolutely no warranty. You can redistribute and/or modify it under the terms 
- * of the GNU General Public License as published by the Free Software Foundation
- * (see <http://www.gnu.org/licenses/ for more information).
- * 
- */
-
-session_start();
-session_cache_expire(30);
-?>
-<html>
-    <head>
-        <title>
-            Search for People
-        </title>
-        <link rel="stylesheet" href="styles.css" type="text/css" />
-    </head>
-    <body>
-        <div id="container">
-            <?PHP include('header.php'); ?>
-            <div id="content">
-                <?PHP
-                // display the search form
-                $area = $_GET['area'];
-                echo('<form method="post">');
-                echo('<p><strong>Search for volunteers:</strong>');
-
-                echo('<p>Type:<select name="s_type">' .
-                '<option value="" SELECTED></option>' .
-                '<option value="volunteer">House Volunteer</option>' . '<option value="sub">Sub</option>' .
-                '<option value="weekendmanager">Weekend Manager</option>' .
-                '<option value="guestchef">Guest Chef</option>' .
-                '<option value="parking">Event Parking</option>' . '<option value="cleaning">House cleaning</option>' .
-                '<option value="other">Other</option>' . '<option value="manager">Manager</option>' .
-                '</select>');
-                echo('&nbsp;&nbsp;Status:<select name="s_status">' .
-                '<option value="" SELECTED></option>' . '<option value="applicant">Applicant</option>' . '<option value="active">Active</option>' .
-                '<option value="LOA">On Leave</option>' . '<option value="former">Former</option>' .
-                '</select>');
-                echo '<p>Name (type a few letters): ';
-                echo '<input type="text" name="s_name">';
-
-                echo '<fieldset>
-<legend>Availability: </legend>
-<table><tr>
-<td>Day (of week)</td>
-<td>Shift</td>
-</tr>';
-                echo "<tr>";
-                echo "<td>";
-                $days = array('Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun');
-                echo '<select name="s_day">' . '<option value=""></option>';
-                foreach ($days as $day) {
-                    echo '<option value="' . $day . '">' . $day . '</option>';
-                }
-                echo '</select>';
-                echo "</td><td>";
-                $shifts = array('morning' => 'Morning (9-12)', 'earlypm' => 'Early Afternoon (12-3)', 'latepm' => 'Late Afternoon (3-6)',
-                    'evening' => 'Evening (6-9)', 'overnight' => 'Overnight');
-                echo '<select name="s_shift">' . '<option value=""></option>';
-                foreach ($shifts as $shiftno => $shiftname) {
-                    echo '<option value="' . $shiftno . '">' . $shiftname . '</option>';
-                }
-                echo '</select>';
-                echo "</td>";
-                echo "</tr>";
-                echo '</table></fieldset>';
-
-                echo('<p><input type="hidden" name="s_submitted" value="1"><input type="submit" name="Search" value="Search">');
-                echo('</form></p>');
-
-                // if user hit "Search"  button, query the database and display the results
-                if ($_POST['s_submitted']) {
-                    $type = $_POST['s_type'];
-                    $status = $_POST['s_status'];
-                    $name = trim(str_replace('\'', '&#39;', htmlentities($_POST['s_name'])));
-                    // now go after the volunteers that fit the search criteria
-                    include_once('database/dbPersons.php');
-                    include_once('domain/Person.php');
-                    $result = getonlythose_dbPersons($type, $status, $name, $_POST['s_day'], $_POST['s_shift']);
-                    //$result = getall_dbPersons();
-                    if (!$result)  
-                    die('Invalid query: ' . mysql_error());//Erick and james
-
-                    echo '<p><strong>Search Results:</strong> <p>Found ' . sizeof($result) . ' ' . $status . ' ';
-                    if ($type != "")
-                        echo $type . "s";
-                    else
-                        echo "persons";
-                    if ($name != "")
-                        echo ' with name like "' . $name . '"';
-                    $availability = $_POST['s_day'] ." ". $_POST['s_shift'];
-                    if ($availability != " ") {
-                        echo " with availability " . $availability;
-                    }
-                    if (sizeof($result) > 0) {
-                        echo ' (select one for more info).';
-                        echo '<p><table> <tr><td>Name</td><td>Phone</td><td>E-mail</td><td>Availability</td></tr>';
-                        foreach ($result as $vol) {
-                            echo "<tr><td><a href=personEdit.php?id=" . str_replace(" ","_",$vol->get_id()) . ">" .
-                            $vol->get_first_name() . " " . $vol->get_last_name() . "</td><td>" .
-                            phone_edit($vol->get_phone1()) . "</td><td>" .
-                            $vol->get_email() . "</td><td>";
-                            foreach ($vol->get_availability() as $availableon) {
-                                echo ($availableon . ", ");
-                            }
-                            echo "</td></a></tr>";
-                        }
-                    }
-                    echo '</table>';
-                }
-                ?>
-                <!-- below is the footer that we're using currently-->
-                </div>
-        </div>
-        <?PHP include('footer.inc'); ?>
-    </body>
-</html>
-
-
-
-\
-\
-\
-\
-\
-\
-\
-\
-
-
-
-addweek_newweek.inc
-
-
-<?php
-/*
- * Copyright 2013 by Jerrick Hoang, Ivy Xing, Sam Roberts, James Cook, 
- * Johnny Coster, Judy Yang, Jackson Moniaga, Oliver Radwan, 
- * Maxwell Palmer, Nolan McNair, Taylor Talmage, and Allen Tucker. 
- * This program is part of RMH Homebase, which is free software.  It comes with 
- * absolutely no warranty. You can redistribute and/or modify it under the terms 
- * of the GNU General Public License as published by the Free Software Foundation
- * (see <http://www.gnu.org/licenses/ for more information).
- * 
- */
-?>
-
-<p>
-    <strong>Calendar Week Management</strong><br />
-    Here you can add new weeks to the calendar and you can edit weeks that are already there. <br>Click the "Add new week" button for adding a new week, or select an option at the right of an existing week.</p>
-<span class="nextWeekTable">
-    <form method="POST">
-        <p><table border="1">
-            <tr><td>Weeks</td><td>Weekday Group</td><td>Weekend Group</td><td>Status (options)</td></tr>
-            <?php
-            $result = get_all_dbWeeks();
-            if (!$result)  // the error check
-            die('Invalid query: ' . mysql_error());// Erick and James
-            
-            for ($i = 0; $i < sizeof($result); ++$i) {
-                $week = $result[$i];
-                if ($i == sizeof($result)-1 || $i == 0)
-                    $remove = true;
-                else
-                    $remove = false;
-                if(($week->get_status()=="archived" && $_GET['archive']=="true") || $week->get_status()=="published" || 
-                    ($week->get_status()=="unpublished" && $_SESSION['access_level']>=2))
-                echo ("<tr><td>" . $week->get_name() . "</td><td>" . $week->get_weekday_group() . "</td>" .
-                "<td>" . $week->get_weekend_group() . "</td>" .
-                "<td>" . show_week_options($week, $remove) . "</td></tr>");
-            }
-            // finds the parameters for "generate next week" button
-            if ($_SESSION['access_level'] >= 2) {
-                if ($week){
-                    $last = $week -> get_id();
-                    if ($week->get_weekday_group() == "odd")
-                        $next_weekday_group = "even";
-                    else
-                        $next_weekday_group = "odd";
-                    
-                    $weekend_group = $week -> get_weekend_group(); 
-                    if ($week->get_weekend_group() == "1st")
-                    $weekend_group = "2nd";
-                    else if ($week->get_weekend_group() == "2nd")
-                    $weekend_group = "3rd";
-                    else if ($week->get_weekend_group() == "3rd")
-                    $weekend_group = "4th";
-                    else if ($week->get_weekend_group() == "4th" && substr($last, -5, 2) < 22)
-                    $weekend_group = "5th";
-                    else $weekend_group = "1st"; 
-                }
-                $new_week_timestamp = mktime(0, 0, 0, substr($last, 0, 2), substr($last, 3, 2) + 7, substr($last, 6, 2));
-                echo ('<tr><td>');
-            echo "<input type=\"hidden\" name=\"_new_week_timestamp\" value=\"" . $new_week_timestamp . "\">
-<input type=\"hidden\" name=\"_submit_check_newweek\" value=\"1\">
-<input type=\"submit\" value=\"Add new week\" name=\"Add new week\">";
-                echo "</td><td>";
-                echo "<select name=\"weekday_group\">";
-                // the group option menus, expected groups selected by default
-                $groups = array("odd", "even");
-                foreach ($groups as $i) {
-                    echo "<option value=\"" . $i . "\"";
-                    if ($i == $next_weekday_group)
-                        echo " SELECTED";
-                    echo ">" . $i . "</option>";
-                }
-                echo "</td><td>";
-                echo "<select name=\"weekend_group\">";
-                // the group option menus, expected groups selected by default
-                $groups = array("1st", "2nd", "3rd", "4th", "5th");
-                foreach ($groups as $i) {
-                    echo "<option value=\"" . $i . "\"";
-                    if ($i == $weekend_group)
-                        echo " SELECTED";
-                    echo ">" . $i . "</option>";
-                }
-                echo "</select></td>";
-                echo('<td align="center"><a href="addWeek.php?archive=');
-            if ($_GET['archive'] == "true")
-                echo 'false">Hide Archive</a></td></tr><tr>';
-            else
-                echo 'true">View Archive</a></td></tr><tr>';
-                if ($firstweek) {
-                    echo ('<td colspan="4"><select name="month">');
-                    $months = array('', 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec');
-                    $today = date("M");
-                    for ($i = 0; $i <= 12; ++$i) {
-                        echo ("<option value=\"" . $i . "\"");
-                        if ($_POST['month'] == $i || $today == $months[$i])
-                            echo (" SELECTED");
-                        echo (">" . $months[$i] . "</option>");
-                    }
-                    echo ('</select> <select name="day"> <option value="0"></option>');
-                    $today = date("j");
-                    for ($i = 1; $i <= 31; ++$i) {
-                        echo ("<option ");
-                        if ($_POST['day'] == $i || $today == $i)
-                            echo (" SELECTED");
-                        echo (">" . $i . "</option>");
-                    }
-                    echo ('</select><select name="year"> <option value="0"></option>');
-                    $i = date("Y");
-                    echo ("<option ");
-                    if ($_POST['year'] == $i || $_POST['year'] != $i + 1)
-                        echo (" SELECTED");
-                    echo (">" . $i . "</option>");
-                    echo ("<option ");
-                    if ($_POST['year'] == $i + 1)
-                        echo (" SELECTED");
-                    echo (">" . ($i + 1) . "</option>");
-                    echo ("</select></td>");
-                }
-                else echo "<td colspan = '4'>";    
-            }
-            echo "</td></tr></table>";    
-
-            // determines what options apply to each week
-            function show_week_options($week, $remove) {
-                $id = $week->get_id();
-                $status = $week->get_status();
-                $end = $week->get_end();
-                $options = "";
-                $rightnow = time();
-                $oneweek = 60 * 60 * 24 * 7;
-                if ($status == "archived") {
-                    $options = "archived (<a href=\"calendar.php?id=" . $id . "&venue=house\">view</a>)";
-                }
-                // see if right now is part of a new week.  If so, archive the previous week.
-                // here was a BIG BUG -- today might not have an immediate predecessor week in the database,
-                // in which case "week2" below will be null!  So this now accommodates gaps (missing weeks) in the dbWeeks table.
-                else if ($rightnow > $end) {
-                    $options = "archived (<a href=\"calendar.php?id=" . $id . "&venue=house\">view</a>)";
-                    $week2 = get_dbWeeks($id);
-                    if ($week2 != null) {
-                        $week2->set_status("archived");
-                        update_dbWeeks($week2);
-                    }
-                } else if ($status == "unpublished") {
-                    $options = "unpublished 
-(<a href=\"calendar.php?id=" . $id. "&venue=house&edit=true\">edit</a>)
-(<a href=\"addWeek.php?publish=" . $id . "\">publish</a>)
-(<a href=\"calendar.php?id=" . $id . "&venue=house\">view</a>)";
-                } else { // status must be "published"
-                    $options = "published (<a href=\"calendar.php?id=" . $id . "&venue=house&edit=true\">edit</a>)
-(<a href=\"addWeek.php?publish=" . $id . "\">unpublish</a>)
-(<a href=\"calendar.php?id=" . $id . "&venue=house\">view</a>)";
-                }
-                if ($remove)
-                    $options = $options . " (<a href=\"addWeek.php?remove=" . $id . "&archive=".$_GET['archive']."\">remove</a>)";
-                return $options;
-            }
-            ?>
-    </form></span>
-
