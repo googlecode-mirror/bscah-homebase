@@ -17,10 +17,10 @@
 include_once('dbinfo.php');
 include_once('domain/Person.php');
 
-function create_dbPersons() {
+function create_persons() {
     connect();
-    mysql_query("DROP TABLE IF EXISTS dbPersons");
-    $result = mysql_query("CREATE TABLE dbPersons(id TEXT NOT NULL, first_name TEXT NOT NULL, last_name TEXT, gender TEXT, " .
+    mysql_query("DROP TABLE IF EXISTS person");
+    $result = mysql_query("CREATE TABLE person(id TEXT NOT NULL, first_name TEXT NOT NULL, last_name TEXT, gender TEXT, " .
             "    address TEXT, city TEXT, state VARCHAR(2), zip TEXT, county TEXT, phone1 VARCHAR(12) NOT NULL, phone2 VARCHAR(12), " .
             "    email TEXT, contact_preference TEXT, emergency_contact TEXT, emergency_phone TEXT, " .
             "    type TEXT, screening_type TEXT, screening_status TEXT, status TEXT, occupation TEXT, refs TEXT, maywecontact TEXT," .
@@ -28,15 +28,15 @@ function create_dbPersons() {
             "    availability TEXT, schedule TEXT, " .
             "    birthday TEXT, start_date TEXT, notes TEXT, password TEXT)");
     if (!$result)
-        echo mysql_error() . "Error creating dbPersons table<br>";
+        echo mysql_error() . "Error creating person table<br>";
 }
 
 /*
- * add a person to dbPersons table: if already there, return false
+ * add a person to person table: if already there, return false
  */
 
 function add_person($person) {
-    if (!$person instanceof Person)
+    if (!$person instanceof person)
         die("Error: add_person type mismatch");
     connect();
     $query = "SELECT * FROM person WHERE id = '" . $person->get_id() . "'";
@@ -46,6 +46,7 @@ function add_person($person) {
         error_log('ERROR on select in add_person '. mysql_error());
         die('Invalid query: ' . mysql_error());
     }
+    echo 'test</br>';
     //if there's no entry for this id, add it
     if ($result == null || mysql_num_rows($result) == 0) {
         $res2 = mysql_query('INSERT INTO person VALUES("' .
@@ -192,7 +193,7 @@ function set_county($id, $county) {
  * if none there, return false
  */
 
-function getall_dbPersons() {
+function getall_persons() {
     connect();
     $query = "SELECT * FROM person ORDER BY last_name,first_name";
     $result = mysql_query($query);
@@ -315,7 +316,7 @@ function getall_available($type, $day, $shift) {
 }
 
 // retrieve only those persons that match the criteria given in the arguments
-function getonlythose_dbPersons($type, $status, $name, $day, $shift) {
+function getonlythose_persons($type, $status, $name, $day, $shift) {
     connect();
     if ($type=="manager")
         {$string1 = " = '"; $string2 = "'";}

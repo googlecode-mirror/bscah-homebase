@@ -18,7 +18,7 @@
  * @version May 1, 2008
  * @author Maxwell Palmer
  */
-include_once('domain/RMHdate.php');
+include_once('domain/BSCAHdate.php'); //edited by James Loeffler
 include_once('dbShifts.php');
 include_once('domain/Shift.php');
 include_once('dbinfo.php');
@@ -32,8 +32,8 @@ include_once('dbinfo.php');
  */
 function create_dbDates() {
     connect();
-    mysql_query("DROP TABLE IF EXISTS dbDates");
-    $result = mysql_query("CREATE TABLE dbDates (id CHAR(8) NOT NULL, shifts TEXT,
+    mysql_query("DROP TABLE IF EXISTS date");
+    $result = mysql_query("CREATE TABLE date (id CHAR(8) NOT NULL, shifts TEXT,
 								mgr_notes TEXT, PRIMARY KEY (id))");
     if (!$result)
         echo mysql_error();
@@ -45,22 +45,22 @@ function create_dbDates() {
  * If the date already exists, the date is deleted and replaced.
  */
 function insert_dbDates($d) {
-    if (!$d instanceof RMHdate) {
-        die("Invalid argument for dbDates->insert_dbdates function call");
+    if (!$d instanceof BSCAHdate) {
+        die("Invalid argument for date->insert_dbdates function call");
     }
     connect();
-    $query = "SELECT * FROM dbDates WHERE id =\"" . $d->get_id() . "\"";
+    $query = "SELECT * FROM date WHERE id =\"" . $d->get_id() . "\"";
     $result = mysql_query($query);
     if (mysql_num_rows($result) != 0) {
         delete_dbDates($d);
         connect();
     }
-    $query = "INSERT INTO dbDates VALUES
+    $query = "INSERT INTO date VALUES
 				(\"" . $d->get_id() . "\",\"" .
             get_shifts_text($d) . "\",\"" . $d->get_mgr_notes() . "\")";
     $result = mysql_query($query);
     if (!$result) {
-        echo ("unable to insert into dbDates: " . $d->get_id() . mysql_error());
+        echo ("unable to insert into date: " . $d->get_id() . mysql_error());
         mysql_close();
         return false;
     }
@@ -76,13 +76,13 @@ function insert_dbDates($d) {
  * deletes a date from the table
  */
 function delete_dbDates($d) {
-    if (!$d instanceof RMHdate)
-        die("Invalid argument for dbShifts->remove_date function call");
+    if (!$d instanceof BSCAHdate)
+        die("Invalid argument for shift->remove_date function call");
     connect();
-    $query = "DELETE FROM dbDates WHERE id=\"" . $d->get_id() . "\"";
+    $query = "DELETE FROM date WHERE id=\"" . $d->get_id() . "\"";
     $result = mysql_query($query);
     if (!$result) {
-        echo ("unable to delete from dbDates: " . $d->get_id() . mysql_error());
+        echo ("unable to delete from date: " . $d->get_id() . mysql_error());
         mysql_close();
         return false;
     }
@@ -99,8 +99,8 @@ function delete_dbDates($d) {
  * updates a date in the dbDates table
  */
 function update_dbDates($d) {
-    if (!$d instanceof RMHdate)
-        die("Invalid argument for dbDates->update_dbDates function call");
+    if (!$d instanceof BSCAHdate)
+        die("Invalid argument for date->update_dbDates function call");
     delete_dbDates($d);
     insert_dbDates($d);
     return true;
@@ -112,7 +112,7 @@ function update_dbDates($d) {
  */
 function replace_dbDates($old_s, $new_s) {
     if (!$old_s instanceof Shift || !$new_s instanceof Shift)
-        die("Invalid argument for dbDates->replace_dbDates function call");
+        die("Invalid argument for date->replace_dbDates function call");
     $d = select_dbDates(substr($old_s->get_id(), 0, 8));
     $d = $d->replace_shift($old_s, $new_s);
     update_dbDates($d);
@@ -125,14 +125,14 @@ function replace_dbDates($old_s, $new_s) {
  */
 function select_dbDates($id) {
     if (strlen($id) != 8)
-        die("Invalid argument for dbDates->select_dbDates call =" . $id);
+        die("Invalid argument for date->select_dbDates call =" . $id);
     connect();
-    $query = "SELECT * FROM dbDates WHERE id =\"" . $id . "\"";
+    $query = "SELECT * FROM date WHERE id =\"" . $id . "\"";
     $result = mysql_query($query);
     mysql_close();
     if (!$result) {
-        echo 'Could not select from dbDates: ' . $id;
-        error_log('Could not select from dbDates: '. $id);
+        echo 'Could not select from date: ' . $id;
+        error_log('Could not select from date: '. $id);
         return null;
     } 
     else {
@@ -147,11 +147,11 @@ function select_dbDates($id) {
                 	$s[$temp->get_name()] = $temp;
                 }
             }
-            $d = new RMHdate($result_row[0], $s, $result_row[2]);
+            $d = new BSCAHdate($result_row[0], $s, $result_row[2]);
             return $d;
         }
         else {
-        	error_log("Could not fetch from dbDates ". $id);
+        	error_log("Could not fetch from date ". $id);
 			return null;        	
         }
     }

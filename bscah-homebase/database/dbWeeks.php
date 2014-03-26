@@ -35,8 +35,8 @@ include_once('dbDates.php');
  */
 function create_dbWeeks() {
     connect();
-    mysql_query("DROP TABLE IF EXISTS dbWeeks");
-    $result = mysql_query("CREATE TABLE dbWeeks (id CHAR(8) NOT NULL, dates TEXT,
+    mysql_query("DROP TABLE IF EXISTS week");
+    $result = mysql_query("CREATE TABLE Week (id CHAR(8) NOT NULL, dates TEXT,
 								weekday_group TEXT, weekend_group TEXT, status TEXT,
 								name TEXT, end INT, PRIMARY KEY (id))");
     if (!$result)
@@ -50,16 +50,16 @@ function create_dbWeeks() {
  */
 function insert_dbWeeks($w) {
     if (!$w instanceof Week) {
-        die("Invalid argument for dbWeeks->add_week function call");
+        die("Invalid argument for week->add_week function call");
     }
     connect();
-    $query = "SELECT * FROM dbWeeks WHERE id =\"" . $w->get_id() . "\"";
+    $query = "SELECT * FROM week WHERE id =\"" . $w->get_id() . "\"";
     $result = mysql_query($query);
     if (mysql_num_rows($result) != 0) {
         delete_dbWeeks($w);
         connect();
     }
-    $query = "INSERT INTO dbWeeks VALUES (\"" . $w->get_id() . "\"," . get_dates_text($w->get_dates()) . ",\"" .
+    $query = "INSERT INTO week VALUES (\"" . $w->get_id() . "\"," . get_dates_text($w->get_dates()) . ",\"" .
             $w->get_weekday_group() . "\",\"" .
             $w->get_weekend_group() . "\",\"" .
             $w->get_status() . "\",\"" .
@@ -68,7 +68,7 @@ function insert_dbWeeks($w) {
     $result = mysql_query($query);
     mysql_close();
     if (!$result) {
-        echo ("<br>unable to insert into dbWeeks: " . $w->get_id() . get_dates_text($w->get_dates()) .
+        echo ("<br>unable to insert into week: " . $w->get_id() . get_dates_text($w->get_dates()) .
         $w->get_weekday_group() . $w->get_weekend_group() . $w->get_status() . $w->get_name() . $w->get_end() );
         return false;
     }
@@ -86,11 +86,11 @@ function delete_dbWeeks($w) {
     if (!$w instanceof Week)
         die("Invalid argument for delete_dbWeeks function call");
     connect();
-    $query = "DELETE FROM dbWeeks WHERE id=\"" . $w->get_id() . "\"";
+    $query = "DELETE FROM week WHERE id=\"" . $w->get_id() . "\"";
     $result = mysql_query($query);
     mysql_close();
     if (!$result) {
-        echo ("unable to delete from dbWeeks: " . $w->get_id() . mysql_error());
+        echo ("unable to delete from week: " . $w->get_id() . mysql_error());
         return false;
     }
     else
@@ -105,7 +105,7 @@ function delete_dbWeeks($w) {
  */
 function update_dbWeeks($w) {
     if (!$w instanceof Week)
-        die("Invalid argument for dbWeeks->replace_week function call");
+        die("Invalid argument for week->replace_week function call");
     if (delete_dbWeeks($w))
         return insert_dbWeeks($w);
     else
@@ -127,10 +127,10 @@ function select_dbWeeks($id) {
         $id2 = date("m-d-y", mktime(0, 0, 0, substr($id, 0, 2), substr($id, 3, 2) - $dow + 1, substr($id, 6, 2)));
     }
     connect();
-    $query = "SELECT * FROM dbWeeks WHERE id =\"" . $id2 . "\"";
+    $query = "SELECT * FROM week WHERE id =\"" . $id2 . "\"";
     $result = mysql_query($query);
     if (!$result || mysql_numrows($result) == 0) {
-        $query = "SELECT * FROM dbWeeks WHERE id =\"" . $id . "\"";
+        $query = "SELECT * FROM week WHERE id =\"" . $id . "\"";
         $result = mysql_query($query);
         if (!$result) {
             echo '<br>Could not run query: ' . mysql_error();
@@ -174,7 +174,7 @@ function get_dbWeeks($id) {
  */
 function get_all_dbWeeks() {
 	connect();
-	$query = "SELECT * FROM dbWeeks ORDER BY end";
+	$query = "SELECT * FROM week ORDER BY end";
 	$result = mysql_query($query);
 	mysql_close();
     $weeks = array();

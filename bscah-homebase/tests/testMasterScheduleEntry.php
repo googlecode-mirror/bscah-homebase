@@ -19,6 +19,7 @@
 //first I include the php file I'm testing
 include_once(dirname(__FILE__).'/../domain/MasterScheduleEntry.php');
 
+
 class testMasterScheduleEntry extends UnitTestCase {
 	
 	function testMasterScheduleEntryModule() {
@@ -28,7 +29,7 @@ class testMasterScheduleEntry extends UnitTestCase {
 		
 		//first assertion - check that a getter is working from the superconstructor's initialized data
 		$this->assertTrue($new_MasterScheduleEntry->get_day()=="Wed");
-		
+		echo 'testing dbPersons.php</br>';
 		$this->assertTrue($new_MasterScheduleEntry->get_time()=="14-17");
 		$this->assertTrue($new_MasterScheduleEntry->get_week_no(), "1st");
 		$this->assertTrue($new_MasterScheduleEntry->get_slots()==2);

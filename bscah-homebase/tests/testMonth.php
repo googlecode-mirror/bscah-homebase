@@ -17,9 +17,9 @@
  */
 
 include_once(dirname(__FILE__).'/../domain/Month.php');
+testMonthModule();
 class testMonth extends UnitTestCase {
 	function testMonthModule(){
-		
 		$myMonth = new Month("02-01-12", "One", "published");
 		
 		

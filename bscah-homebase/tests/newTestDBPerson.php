@@ -17,7 +17,7 @@ echo("testdbPersons complete</br>");
 
 // tests the add_person() function in dbPersons.php
 function testAddPerson() {
-    $m = new Person("Gabrielle", "Booth", "female", "14 Way St", "Harpswell", "ME", "04079", "", 1112345678, 2071112345, "ted@bowdoin.edu", "email", "Mother", 2077758989, "manager", "", "", "active", "programmer", "Steve_2077291234", "yes", "", "", "Mon:morning,Tue:morning", "", "", "02-19-89", "03-14-08", "", "");
+    $m = new person("Gabrielle", "Booth", "female", "14 Way St", "Harpswell", "ME", "04079", "", 1112345678, 2071112345, "ted@bowdoin.edu", "email", "Mother", 2077758989, "manager", "", "", "active", "programmer", "Steve_2077291234", "yes", "", "", "Mon:morning,Tue:morning", "", "", "02-19-89", "03-14-08", "", "");
 
     echo 'will test add_person </br>';
     $result = add_person($m);
@@ -34,7 +34,7 @@ function testAddPerson() {
 
 // tests the retrieve_person() function in dbPersons.php
 function testRetrievePerson() {
-    $m = new Person("Gabrielle", "Booth", "female", "14 Way St", "Harpswell", "ME", "04079", "", 1112345678, 2071112345, "ted@bowdoin.edu", "email", "Mother", 2077758989, "manager", "", "", "active", "programmer", "Steve_2077291234", "yes", "", "", "Mon:morning,Tue:morning", "", "", "02-19-89", "03-14-08", "", "");
+    $m = new person("Gabrielle", "Booth", "female", "14 Way St", "Harpswell", "ME", "04079", "", 1112345678, 2071112345, "ted@bowdoin.edu", "email", "Mother", 2077758989, "manager", "", "", "active", "programmer", "Steve_2077291234", "yes", "", "", "Mon:morning,Tue:morning", "", "", "02-19-89", "03-14-08", "", "");
 
     echo 'will test retrieve_person </br>';
     $result = add_person($m);
@@ -61,7 +61,7 @@ function testRetrievePerson() {
 
 // tests the retrieve_persons_by_name() function in dbPersons.php
 function testRetrieve_persons_by_name() {
-    $m = new Person("Gabrielle", "Booth", "female", "14 Way St", "Harpswell", "ME", "04079", "", 1112345678, 2071112345, "ted@bowdoin.edu", "email", "Mother", 2077758989, "manager", "", "", "active", "programmer", "Steve_2077291234", "yes", "", "", "Mon:morning,Tue:morning", "", "", "02-19-89", "03-14-08", "", "");
+    $m = new person("Gabrielle", "Booth", "female", "14 Way St", "Harpswell", "ME", "04079", "", 1112345678, 2071112345, "ted@bowdoin.edu", "email", "Mother", 2077758989, "manager", "", "", "active", "programmer", "Steve_2077291234", "yes", "", "", "Mon:morning,Tue:morning", "", "", "02-19-89", "03-14-08", "", "");
 
     echo 'will test retrieve_persons_by_name </br>';
     $result = add_person($m);
@@ -88,7 +88,7 @@ function testRetrieve_persons_by_name() {
 
 // tests the change_password() function in dbPersons.php
 function testChange_password() {
-    $m = new Person("Gabrielle", "Booth", "female", "14 Way St", "Harpswell", "ME", "04079", "", 1112345678, 2071112345, "ted@bowdoin.edu", "email", "Mother", 2077758989, "manager", "", "", "active", "programmer", "Steve_2077291234", "yes", "", "", "Mon:morning,Tue:morning", "", "", "02-19-89", "03-14-08", "", "");
+    $m = new person("Gabrielle", "Booth", "female", "14 Way St", "Harpswell", "ME", "04079", "", 1112345678, 2071112345, "ted@bowdoin.edu", "email", "Mother", 2077758989, "manager", "", "", "active", "programmer", "Steve_2077291234", "yes", "", "", "Mon:morning,Tue:morning", "", "", "02-19-89", "03-14-08", "", "");
 
     echo 'will test change_password </br>';
     $result = add_person($m);

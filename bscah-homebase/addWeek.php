@@ -3,7 +3,7 @@
  * Copyright 2013 by Jerrick Hoang, Ivy Xing, Sam Roberts, James Cook, 
  * Johnny Coster, Judy Yang, Jackson Moniaga, Oliver Radwan, 
  * Maxwell Palmer, Nolan McNair, Taylor Talmage, and Allen Tucker. 
- * This program is part of RMH Homebase, which is free software.  It comes with 
+ * This program is part of BSCAH Homebase, which is free software.  It comes with 
  * absolutely no warranty. You can redistribute and/or modify it under the terms 
  * of the GNU General Public License as published by the Free Software Foundation
  * (see <http://www.gnu.org/licenses/ for more information).
@@ -35,7 +35,8 @@ session_cache_expire(30);
                 include_once('database/dbPersons.php');
                 include_once('database/dbLog.php');
                 include_once('domain/Shift.php');
-                include_once('domain/RMHdate.php');
+                include_once('domain/Project.php'); //added by james
+                include_once('domain/BSCAHdate.php'); //edited by james
                 include_once('domain/Week.php');
                 include_once('domain/Person.php');
                 // Check to see if there are already weeks in the db
@@ -135,7 +136,7 @@ session_cache_expire(30);
                         }
                     
                         // makes a new date with these shifts
-                        $new_date = new RMHdate($day_id, $shifts, "");
+                        $new_date = new BSCAHdate($day_id, $shifts, "");
                         $dates[] = $new_date;
                         $d++;
                         $day_id = date("m-d-y", mktime(0, 0, 0, $m, $d, $y));

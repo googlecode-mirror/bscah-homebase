@@ -23,8 +23,8 @@ include_once('dbinfo.php');
  */
 function create_dbProjects() {
     connect();
-    mysql_query("DROP TABLE IF EXISTS dbProjects");
-    $result = mysql_query("CREATE TABLE dbProjects (id CHAR(20) NOT NULL, " .
+    mysql_query("DROP TABLE IF EXISTS project");
+    $result = mysql_query("CREATE TABLE project (id CHAR(20) NOT NULL, " .
             "start_time INT, end_time INT, venue TEXT, vacancies INT, " .
             "persons TEXT, removed_persons TEXT, notes TEXT, PRIMARY KEY (id))");
     if (!$result) {
@@ -46,20 +46,20 @@ function insert_dbProjects($p) {
         die("Invalid argument for insert_dbProjects function call" . $p);
     }
     connect();
-    $query = 'SELECT * FROM dbProjects WHERE id ="' . $p->get_id() . '"';
+    $query = 'SELECT * FROM project WHERE id ="' . $p->get_id() . '"';
     $result = mysql_query($query);
     if (mysql_num_rows($result) != 0) {
         delete_dbProjects($p);
         connect();
     }
-    $query = "INSERT INTO dbProjects VALUES (\"" . $p->get_id() . "\",\"" .
+    $query = "INSERT INTO project VALUES (\"" . $p->get_id() . "\",\"" .
             $p->get_start_time() . "\",\"" . $p->get_end_time() . "\",\"" .
             $p->num_vacancies() . ",\"" .
             implode("*", $p->get_persons()) . "\",\"" .implode("*", $p->get_removed_persons()) . "\",\"" .
             "\",\"" . $p->get_notes() . "\")";
     $result = mysql_query($query);
     if (!$result) {
-        echo "unable to insert into dbProjects " . $p->get_id() . mysql_error();
+        echo "unable to insert into project " . $p->get_id() . mysql_error();
         mysql_close();
         return false;
     }
@@ -75,10 +75,10 @@ function delete_dbProjects($p) {
     if (!$p instanceof Project)
         die("Invalid argument for delete_dbProjects function call");
     connect();
-    $query = "DELETE FROM dbProjects WHERE id=\"" . $p->get_id() . "\"";
+    $query = "DELETE FROM project WHERE id=\"" . $p->get_id() . "\"";
     $result = mysql_query($query);
     if (!$result) {
-        echo "unable to delete from dbProjects " . $p->get_id() . mysql_error();
+        echo "unable to delete from project " . $p->get_id() . mysql_error();
         mysql_close();
         return false;
     }
@@ -93,7 +93,7 @@ function delete_dbProjects($p) {
 function update_dbProjects($p) {
 	error_log("updating project in database");
     if (!$p instanceof Project)
-        die("Invalid argument for dbProjects->replace_project function call");
+        die("Invalid argument for project->replace_project function call");
     delete_dbProjects($p);
     insert_dbProjects($p);
     return true;
@@ -107,7 +107,7 @@ function update_dbProjects($p) {
 function select_dbProjects($id) {
     connect();
     $p = null;
-    $query = "SELECT * FROM dbProjects WHERE id =\"" . $id . "\"";
+    $query = "SELECT * FROM project WHERE id =\"" . $id . "\"";
     $result = mysql_query($query);
     mysql_close();
     if (!$result) {
@@ -134,7 +134,7 @@ function select_dbProjects($id) {
  */
 function selectDateVenue_dbProjects($date, $venue) {
     connect();
-    $query = "SELECT * FROM dbProjects WHERE id LIKE '%" . $date . "%' AND venue LIKE '%" . $venue . "%'";
+    $query = "SELECT * FROM project WHERE id LIKE '%" . $date . "%' AND venue LIKE '%" . $venue . "%'";
     $result = mysql_query($query);
     mysql_close();
     return $result;
@@ -145,7 +145,7 @@ function selectDateVenue_dbProjects($date, $venue) {
  */
 function selectScheduled_dbProjects($person_id) {
     connect();
-    $project_ids = mysql_query("SELECT id FROM dbProjects WHERE persons LIKE '%" . $person_id . "%' ORDER BY id");
+    $project_ids = mysql_query("SELECT id FROM project WHERE persons LIKE '%" . $person_id . "%' ORDER BY id");
     $projects = array();
     if ($project_ids) {
         while ($thisRow = mysql_fetch_array($project_ids, MYSQL_ASSOC)) {
@@ -280,7 +280,7 @@ function make_a_project($result_row) {
 
 function get_all_projects() {
     connect();
-    $query = "SELECT * FROM dbProjects";
+    $query = "SELECT * FROM project";
     $result = mysql_query($query);
     if ($result == null || mysql_num_rows($result) == 0) {
         mysql_close();

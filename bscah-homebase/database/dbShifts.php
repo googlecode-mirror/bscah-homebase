@@ -36,8 +36,8 @@ include_once('dbinfo.php');
  */
 function create_dbShifts() {
     connect();
-    mysql_query("DROP TABLE IF EXISTS dbShifts");
-    $result = mysql_query("CREATE TABLE dbShifts (id CHAR(20) NOT NULL, " .
+    mysql_query("DROP TABLE IF EXISTS shift");
+    $result = mysql_query("CREATE TABLE shift (id CHAR(20) NOT NULL, " .
             "start_time INT, end_time INT, venue TEXT, vacancies INT, " .
             "persons TEXT, removed_persons TEXT, notes TEXT, PRIMARY KEY (id))");
     if (!$result) {
@@ -59,20 +59,20 @@ function insert_dbShifts($s) {
         die("Invalid argument for insert_dbShifts function call" . $s);
     }
     connect();
-    $query = 'SELECT * FROM dbShifts WHERE id ="' . $s->get_id() . '"';
+    $query = 'SELECT * FROM shift WHERE id ="' . $s->get_id() . '"';
     $result = mysql_query($query);
     if (mysql_num_rows($result) != 0) {
         delete_dbShifts($s);
         connect();
     }
-    $query = "INSERT INTO dbShifts VALUES (\"" . $s->get_id() . "\",\"" .
+    $query = "INSERT INTO shift VALUES (\"" . $s->get_id() . "\",\"" .
             $s->get_start_time() . "\",\"" . $s->get_end_time() . "\",\"" . $s->get_venue() . "\"," .
             $s->num_vacancies() . ",\"" .
             implode("*", $s->get_persons()) . "\",\"" .implode("*", $s->get_removed_persons()) . "\",\"" 
             . "\",\"" . $s->get_notes() . "\")";
     $result = mysql_query($query);
     if (!$result) {
-        echo "unable to insert into dbShifts " . $s->get_id() . mysql_error();
+        echo "unable to insert into shift " . $s->get_id() . mysql_error();
         mysql_close();
         return false;
     }
@@ -88,10 +88,10 @@ function delete_dbShifts($s) {
     if (!$s instanceof Shift)
         die("Invalid argument for delete_dbShifts function call");
     connect();
-    $query = "DELETE FROM dbShifts WHERE id=\"" . $s->get_id() . "\"";
+    $query = "DELETE FROM shift WHERE id=\"" . $s->get_id() . "\"";
     $result = mysql_query($query);
     if (!$result) {
-        echo "unable to delete from dbShifts " . $s->get_id() . mysql_error();
+        echo "unable to delete from shift " . $s->get_id() . mysql_error();
         mysql_close();
         return false;
     }
@@ -106,7 +106,7 @@ function delete_dbShifts($s) {
 function update_dbShifts($s) {
 	error_log("updating shift in database");
     if (!$s instanceof Shift)
-        die("Invalid argument for dbShifts->replace_shift function call");
+        die("Invalid argument for shift->replace_shift function call");
     delete_dbShifts($s);
     insert_dbShifts($s);
     return true;
@@ -120,7 +120,7 @@ function update_dbShifts($s) {
 function select_dbShifts($id) {
     connect();
     $s = null;
-    $query = "SELECT * FROM dbShifts WHERE id =\"" . $id . "\"";
+    $query = "SELECT * FROM shift WHERE id =\"" . $id . "\"";
     $result = mysql_query($query);
     mysql_close();
     if (!$result) {
@@ -147,7 +147,7 @@ function select_dbShifts($id) {
  */
 function selectDateVenue_dbShifts($date, $venue) {
     connect();
-    $query = "SELECT * FROM dbShifts WHERE id LIKE '%" . $date . "%' AND venue LIKE '%" . $venue . "%'";
+    $query = "SELECT * FROM shift WHERE id LIKE '%" . $date . "%' AND venue LIKE '%" . $venue . "%'";
     $result = mysql_query($query);
     mysql_close();
     return $result;
@@ -158,7 +158,7 @@ function selectDateVenue_dbShifts($date, $venue) {
  */
 function selectScheduled_dbShifts($person_id) {
     connect();
-    $shift_ids = mysql_query("SELECT id FROM dbShifts WHERE persons LIKE '%" . $person_id . "%' ORDER BY id");
+    $shift_ids = mysql_query("SELECT id FROM shift WHERE persons LIKE '%" . $person_id . "%' ORDER BY id");
     $shifts = array();
     if ($shift_ids) {
         while ($thisRow = mysql_fetch_array($shift_ids, MYSQL_ASSOC)) {
@@ -293,7 +293,7 @@ function make_a_shift($result_row) {
 
 function get_all_shifts() {
     connect();
-    $query = "SELECT * FROM dbShifts";
+    $query = "SELECT * FROM shift";
     $result = mysql_query($query);
     if ($result == null || mysql_num_rows($result) == 0) {
         mysql_close();
