@@ -13,7 +13,7 @@
 
 include_once("Shift.php");
 include_once("Project.php"); // James Loeffler and Eric
-include_once("database/dbMasterSchedule.php");
+include_once(dirname(__FILE__) . '/../database/dbMasterSchedule.php');
 /* A class to manage an BSCAHDate
  * @version May 1, 2008
  * @author Taylor and Maxwell Palmer

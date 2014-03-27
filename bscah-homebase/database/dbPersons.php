@@ -15,7 +15,7 @@
  * @author Oliver Radwan and Allen Tucker
  */
 include_once('dbinfo.php');
-include_once('domain/Person.php');
+include_once(dirname(__FILE__) . '/../domain/Person.php');
 
 function create_persons() {
     connect();

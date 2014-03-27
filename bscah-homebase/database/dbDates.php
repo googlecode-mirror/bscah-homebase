@@ -18,9 +18,10 @@
  * @version May 1, 2008
  * @author Maxwell Palmer
  */
-include_once('domain/BSCAHdate.php'); //edited by James Loeffler
+
+include_once(dirname(__FILE__) . '/../domain/BSCAHdate.php');
 include_once('dbShifts.php');
-include_once('domain/Shift.php');
+include_once(dirname(__FILE__) . '/../domain/Shift.php');
 include_once('dbinfo.php');
 
 /**

@@ -18,7 +18,8 @@
  * @version May 1, 2008, modified September 15, 2008
  * @author Maxwell Palmer and Allen Tucker
  */
-include_once('domain/Week.php');
+
+include_once(dirname(__FILE__) . '/../domain/Week.php');
 include_once('dbinfo.php');
 include_once('dbDates.php');
 

@@ -18,7 +18,7 @@
  * @version May 1, 2008
  * @author Maxwell Palmer
  */
-include_once('domain/Shift.php');
+include_once(dirname(__FILE__) . '/../domain/Shift.php');
 include_once('dbPersons.php');
 include_once('dbDates.php');
 include_once('dbinfo.php');

@@ -5,7 +5,7 @@
  * @author Derek and Ka Ming
  */
 
-include_once('domain/Project.php');
+include_once(dirname(__FILE__) . '/../domain/Project.php');
 include_once('dbPersons.php');
 include_once('dbDates.php');
 include_once('dbinfo.php');
@@ -232,7 +232,7 @@ function move_project($p, $new_start, $new_end) {
         $same_day_project = mysql_fetch_row($current_projects);
         if ($old_s->get_id() == $same_day_project[0])  // skip its own entry
             continue;
-        if (timeslots_overlap($same_day_project[1], $same_day_project[2], $new_s->get_start_time(), $new_s->get_end_time())) {
+        if (proj_timeslots_overlap($same_day_project[1], $same_day_project[2], $new_s->get_start_time(), $new_s->get_end_time())) {
             $p = $old_s;
             mysql_close();
             return false;
@@ -248,7 +248,7 @@ function move_project($p, $new_start, $new_end) {
 /**
  * @result == true if $s1's timeslot overlaps $s2's timeslot, and false otherwise.
  */
-function timeslots_overlap($s1_start, $s1_end, $s2_start, $s2_end) {
+function proj_timeslots_overlap($s1_start, $s1_end, $s2_start, $s2_end) {
 	if ($s1_start == "overnight")
 		if ($s2_start == "overnight")
 			return true;
@@ -315,7 +315,7 @@ function get_all_people_in_past_projects() {
     return $people_in_projects;
 }
 // this function is for reporting volunteer data
-function get_all_peoples_histories() {
+function get_all_peoples_histories_in_proj() {
     $today = date('m-d-y');
     $histories = array();
     $all_projects = get_all_projects();
@@ -339,7 +339,9 @@ function get_all_peoples_histories() {
     return $histories;
 }
 
-function date_create_from_mm_dd_yyyy ($mm_dd_yyyy) {
+// BKM- renamed this by putting proj on the front, but that is a bad fix
+// most likely this should be removed, or refactored to a file of "useful" date functions
+function proj_date_create_from_mm_dd_yyyy ($mm_dd_yyyy) {
     if (strpos($mm_dd_yyyy,"/")>0)
         return mktime(0,0,0,substr($mm_dd_yyyy,0,2),substr($mm_dd_yyyy,3,2),substr($mm_dd_yyyy,6,4));
     else

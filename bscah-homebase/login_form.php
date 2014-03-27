@@ -21,6 +21,7 @@
     <?PHP
     include_once('database/dbPersons.php');
     include_once('domain/Person.php');
+    error_log("in login_form.php");
     if (($_SERVER['PHP_SELF']) == "/logout.php") {
         //prevents infinite loop of logging in to the page which logs you out...
         echo "<script type=\"text/javascript\">window.location = \"index.php\";</script>";
