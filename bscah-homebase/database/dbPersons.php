@@ -46,7 +46,7 @@ function add_person($person) {
         error_log('ERROR on select in add_person '. mysql_error());
         die('Invalid query: ' . mysql_error());
     }
-    echo 'test</br>';
+ 
     //if there's no entry for this id, add it
     if ($result == null || mysql_num_rows($result) == 0) {
         $res2 = mysql_query('INSERT INTO person VALUES("' .

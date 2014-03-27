@@ -92,6 +92,11 @@ function retrieve_dbZipCodes ($zip, $district) {
     else 
         $query = "SELECT * FROM dbZipCodes WHERE district =\"".$district."\"";
     $result = mysql_query ($query);
+       if (!$result)
+      {
+           error_log('ERROR on select in dbZipCodes '. mysql_error());
+           die('Invalid query: ' . mysql_error());
+      }
     if (mysql_num_rows($result)==0) {
 	    mysql_close();
 		return false;

@@ -54,7 +54,7 @@ class Person {
      * matches the format in the database
      */
 
-    function __construct($f, $l, $g, $a, $c, $s, $z, $p1, $p2, $e, $t, $sch, $n, $p, $id, $ava ) {
+    function __construct($f, $l, $g, $a, $c, $s, $z, $co, $p1, $p2, $e, $t, $sch, $n, $p, $id, $ava ) {
         $this->first_name = $f;
         $this->last_name = $l;
         $this->gender = $g;
@@ -62,7 +62,7 @@ class Person {
         $this->city = $c;
         $this->state = $s;
         $this->zip = $z;
-        $this->county = $this->compute_county();
+        $this->county = $co;
         $this->phone1 = $p1;
         $this->phone2 = $p2;
         $this->email = $e;
@@ -142,11 +142,11 @@ class Person {
     function get_availabity(){
         return $this->availability;
     }
-    function set_county ($county){
+   function set_county ($county){
         $this->county = $county;
     }
     
-    function compute_county () {
+ /*   function compute_county () {
         if ($this->state=="ME") {
             $countydata = false;
             if ($this->get_zip()!="")
@@ -160,7 +160,7 @@ class Person {
 	        }
         }
         return "";
-    }
+    } */
     
     // return a dictionary reporting total number hours worked by days of the week with
     // a given date range. $from and $to are strings of the form 'm/d/y', if one of the strings
