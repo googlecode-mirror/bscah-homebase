@@ -96,7 +96,7 @@ function update_dbMasterSchedule($entry) {
         return false;
     }
     if (delete_dbMasterschedule($entry->get_id()))
-        return insert_dbMmasterschedule($entry);
+        return insert_dbMasterschedule($entry);
     else {
         echo (mysql_error() . " - Unable to update masterschedule: " . $entry->get_id() . "\n");
         return false;
@@ -163,6 +163,11 @@ function get_master_shifts($type, $week_no, $day) {
     $query = "SELECT * FROM masterschedule WHERE week_no = '" . $week_no . "' AND day = '" . $day .
             "' AND schedule_type = '" . $type . "'";
     $result = mysql_query($query);
+     if (!$result)
+    {
+        error_log('ERROR on select in get_master_shifts '. mysql_error());
+        die('Invalid query: ' . mysql_error());
+    }
     mysql_close();
     $outcome = array();
     if (mysql_num_rows($result) == 0)
