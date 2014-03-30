@@ -45,8 +45,6 @@ session_cache_expire(30);
                 } // see if there is no master shift for this time slot and try to set times starting there
                 else if (retrieve_dbMasterSchedule($venue . $day . $group . "-" . $shiftname) == false) {
                     $result = process_set_times($_POST, $group, $day, $shiftname, $venue);
-                    if (!$result)  // the error check
-                    die('Invalid query: ' . mysql_error());//Erick and James 
 
                     if ($result) {
                         $returnpoint = "viewSchedule.php?frequency=" . $venue;

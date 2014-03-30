@@ -20,9 +20,7 @@
             <tr><td>Weeks</td><td>Weekday Group</td><td>Weekend Group</td><td>Status (options)</td></tr>
             <?php
             $result = get_all_dbWeeks();
-            if (!$result)  // the error check
-            die('Invalid query: ' . mysql_error());// Erick and James
-
+    
             for ($i = 0; $i < sizeof($result); ++$i) {
                 $week = $result[$i];
                 if ($i == sizeof($result)-1 || $i == 0)
