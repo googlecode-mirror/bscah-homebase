@@ -31,7 +31,9 @@ USE `dbbscah`;
 CREATE TABLE IF NOT EXISTS `date` (
   `id` varchar(4) NOT NULL,
   `shifts` text,
-  `mgr_notes` text
+  `mgr_notes` text,
+   projects text, 
+PRIMARY KEY (ID)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -50,7 +52,8 @@ CREATE TABLE IF NOT EXISTS `masterschedule` (
   `notes` text,
   `id` text,
   `Projects` text,
-  `Shifts` text NOT NULL
+  `Shifts` text NOT NULL,
+    PRIMARY KEY(ID)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -76,6 +79,7 @@ CREATE TABLE IF NOT EXISTS `person` (
   `Password` varchar(25) NOT NULL,
   `ID` int(11) NOT NULL,
   `Availability` varchar(50) NOT NULL COMMENT 'days and times free for volunteering'
+   PRIMARY KEY (ID, NameFirst, Phone1)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -105,14 +109,16 @@ CREATE TABLE IF NOT EXISTS `project` (
 --
 
 CREATE TABLE IF NOT EXISTS `shift` (
-  `id` varchar(20) DEFAULT NULL,
+  `id` varchar(20) ,
   `start_time` int(11) DEFAULT NULL,
   `end_time` int(11) DEFAULT NULL,
   `venue` text,
   `vacancies` int(11) DEFAULT NULL,
   `persons` text,
   `removed_persons` text,
-  `notes` text
+  `notes` text,
+    PRIMARY KEY (id)
+
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -125,7 +131,8 @@ CREATE TABLE IF NOT EXISTS `weeks` (
   `id` varchar(8) NOT NULL,
   `dates` text,
   `status` text,
-  `end` int(11) DEFAULT NULL
+  `end` int(11) DEFAULT NULL,
+    PRIMARY KEY (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
