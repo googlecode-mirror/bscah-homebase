@@ -33,9 +33,7 @@ CREATE TABLE IF NOT EXISTS `date` (
   `shifts` text,
   `mgr_notes` text,
   `Projects` text NOT NULL,
-  PRIMARY KEY (`DATE_ID`),
-  UNIQUE KEY `DATE_ID` (`DATE_ID`),
-  FULLTEXT KEY `Projects` (`Projects`)
+  PRIMARY KEY (`DATE_ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -71,7 +69,8 @@ CREATE TABLE IF NOT EXISTS `person` (
   `Address` varchar(40) NOT NULL,
   `City` varchar(25) NOT NULL,
   `State` varchar(2) NOT NULL,
-  `County` varchar(25) NOT NULL,
+  'Zip' varchar(5) NOT NULL,
+  `County` varchar(25),
   `Phone1` int(10) NOT NULL,
   `Phone2` int(10) DEFAULT NULL,
   `Email` varchar(30) NOT NULL,
@@ -107,9 +106,7 @@ CREATE TABLE IF NOT EXISTS `project` (
   `VolunteersRequired` int(3) NOT NULL,
   `StartTime` time NOT NULL,
   `EndTime` time NOT NULL,
-  PRIMARY KEY (`ProjectID`),
-  KEY `ProjectID` (`ProjectID`),
-  FULLTEXT KEY `Address` (`Address`)
+  PRIMARY KEY (`ProjectID`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COMMENT='Collection of Projects' AUTO_INCREMENT=5 ;
 
 --
