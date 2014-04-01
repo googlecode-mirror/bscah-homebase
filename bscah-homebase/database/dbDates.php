@@ -34,8 +34,9 @@ include_once('dbinfo.php');
 function create_dbDates() {
     connect();
     mysql_query("DROP TABLE IF EXISTS date");
+    //Edited by James Loeffler by adding projects as a parameter
     $result = mysql_query("CREATE TABLE date (id CHAR(8) NOT NULL, shifts TEXT,
-								mgr_notes TEXT, PRIMARY KEY (id))");
+								mgr_notes TEXT, projects TEXT, PRIMARY KEY (id))");
     if (!$result)
         echo mysql_error();
     mysql_close();
