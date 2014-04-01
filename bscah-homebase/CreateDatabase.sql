@@ -69,7 +69,7 @@ CREATE TABLE IF NOT EXISTS `person` (
   `Address` varchar(40) NOT NULL,
   `City` varchar(25) NOT NULL,
   `State` varchar(2) NOT NULL,
-  'Zip' varchar(5) NOT NULL,
+  `Zip`  varchar(5) NOT NULL,
   `County` varchar(25),
   `Phone1` int(10) NOT NULL,
   `Phone2` int(10) DEFAULT NULL,
