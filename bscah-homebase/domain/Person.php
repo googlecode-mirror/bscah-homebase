@@ -138,7 +138,7 @@ class Person {
         return $this->notes; 
     }
     
-    function get_availabity(){
+    function get_availabiltiy(){
         return $this->availability;
     }
     

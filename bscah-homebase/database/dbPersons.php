@@ -62,8 +62,8 @@ function add_person($person) {
                 $person->get_type() . '","' .
                 $person->get_schedule() . '","' .
                 $person->get_notes() . '","' .
-                $person->get_password() .
-                $person->get_availability() . '","' .
+                $person->get_password() . '","' .
+                $person->get_availabiltiy() . '","' .
                 '");');
          if (!$res2)
          {

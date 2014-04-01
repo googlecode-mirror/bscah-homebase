@@ -33,8 +33,8 @@ function testAddPerson() {
 
 // tests the retrieve_person() function in dbPersons.php
 function testRetrievePerson() {
-    $m = new person("Gabrielle", "Booth", "female", "14 Way St", "Harpswell", "ME", "04079", "", 1112345678, 2071112345, "ted@bowdoin.edu", "email", "Mother", 2077758989, "manager", "", "", "active", "programmer", "Steve_2077291234", "yes", "", "", "Mon:morning,Tue:morning", "", "", "02-19-89", "03-14-08", "", "");
-
+    $m = new Person("John", "Smith", "Male", "555 Main Street", "Flushing", "NY", "11111", "Queens", "20724415902", "2072654046", "john.smith@stjohns.edu", "volunteer", "Schedule", "I like helping out", "55555", "03-14-14");
+    
     echo 'will test retrieve_person </br>';
     $result = add_person($m);
     echo 'result is ' . $result;
@@ -44,24 +44,24 @@ function testRetrievePerson() {
         echo "add_person failed</br>";
 
 
-    $p = retrieve_person("Gabrielle1112345678");
+    $p = retrieve_person("John20724415902");
     if ($p == null)
         echo 'Retrieve failed</br>';
     else {
-        checkEquals($p->get_status(), "active");
-        checkEquals($p->get_occupation(), "programmer");
-        checkEquals($p->get_refs(), array("Steve_2077291234"));
+        checkEquals($p->get_id(), "John20724415902");
+        checkEquals($p->get_phone1(), "20724415902");
+        checkEquals($p->get_email(), "john.smith@stjohns.edu");
     }
 
-    $res = remove_person("Gabrielle1112345678");
+    $res = remove_person("John20724415902");
     if ($res == null)
         echo 'Retrieve failed</br>';
 }
 
 // tests the retrieve_persons_by_name() function in dbPersons.php
 function testRetrieve_persons_by_name() {
-    $m = new person("Gabrielle", "Booth", "female", "14 Way St", "Harpswell", "ME", "04079", "", 1112345678, 2071112345, "ted@bowdoin.edu", "email", "Mother", 2077758989, "manager", "", "", "active", "programmer", "Steve_2077291234", "yes", "", "", "Mon:morning,Tue:morning", "", "", "02-19-89", "03-14-08", "", "");
-
+     $m = new Person("John", "Smith", "Male", "555 Main Street", "Flushing", "NY", "11111", "Queens", "20724415902", "2072654046", "john.smith@stjohns.edu", "volunteer", "Schedule", "I like helping out", "55555", "03-14-14");
+    
     echo 'will test retrieve_persons_by_name </br>';
     $result = add_person($m);
     echo 'result is ' . $result;
@@ -71,24 +71,24 @@ function testRetrieve_persons_by_name() {
         echo "add_person failed</br>";
 
     echo "test retrieve_persons_by_name</br>";
-    $personList = retrieve_persons_by_name("Gabrielle Booth");
+    $personList = retrieve_persons_by_name("John Smith");
     if ($personList == null)
         echo 'Retrieve failed</br>';
     else {
-        checkEquals($personList[0]->get_status(), "active");
-        checkEquals($personList[0]->get_occupation(), "programmer");
-        checkEquals($personList[0]->get_refs(), array("Steve_2077291234"));
+        checkEquals($personList[0]->get_id(), "John20724415902");
+        checkEquals($personList[0]->get_phone1(), "20724415902");
+        checkEquals($personList[0]->get_email(), "john.smith@stjohns.edu");
     }
 
-    $res = remove_person("Gabrielle1112345678");
+    $res = remove_person("John20724415902");
     if ($res == null)
         echo 'Retrieve failed</br>';
 }
 
 // tests the change_password() function in dbPersons.php
 function testChange_password() {
-    $m = new person("Gabrielle", "Booth", "female", "14 Way St", "Harpswell", "ME", "04079", "", 1112345678, 2071112345, "ted@bowdoin.edu", "email", "Mother", 2077758989, "manager", "", "", "active", "programmer", "Steve_2077291234", "yes", "", "", "Mon:morning,Tue:morning", "", "", "02-19-89", "03-14-08", "", "");
-
+    $m = new Person("John", "Smith", "Male", "555 Main Street", "Flushing", "NY", "11111", "Queens", "20724415902", "2072654046", "john.smith@stjohns.edu", "volunteer", "Schedule", "I like helping out", "55555", "03-14-14");
+    
     echo 'will test change_password </br>';
     $result = add_person($m);
     echo 'result is ' . $result;
@@ -97,20 +97,20 @@ function testChange_password() {
     else
         echo "add_person failed</br>";
 
-    $result = change_password('Gabrielle1112345678', 'newpass.');
+    $result = change_password('John20724415902', 'newpassword.');
     if ($result)
         echo "change_password succeeded </br>";
     else
         echo "change_password failed</br>";
 
-    $p = retrieve_person("Gabrielle1112345678");
+    $p = retrieve_person("John20724415902");
     if ($p == null)
         echo 'Retrieve failed</br>';
     else {
-        checkEquals($p->get_password(), "newpass");
+        checkEquals($p->get_password(), "newpassword");
     }
 
-    $res = remove_person("Gabrielle1112345678");
+    $res = remove_person("John20724415902");
     if ($res == null)
         echo 'Retrieve failed</br>';
 }
