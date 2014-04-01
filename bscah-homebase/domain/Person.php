@@ -30,6 +30,7 @@ include_once('Person.php');
 
 class Person {
    
+    private $id;            // id (unique key) = first_name . phone1
     private $first_name;    // first name as a string
     private $last_name;     // last name as a string
     private $gender;        // gender - string
@@ -45,7 +46,6 @@ class Person {
     private $schedule;      // dates scheduled for volunteering
     private $notes;         // notes or this person 
     private $password;      // password for calendar and database access: default = $id
-    private $id;            // id (unique key) = first_name . phone1
     private $availability;  // format: 03-24-14
     
 
@@ -54,7 +54,8 @@ class Person {
      * matches the format in the database
      */
 
-    function __construct($f, $l, $g, $a, $c, $s, $z, $co, $p1, $p2, $e, $t, $sch, $n, $p, $id, $ava ) {
+    function __construct($f, $l, $g, $a, $c, $s, $z, $co, $p1, $p2, $e, $t, $sch, $n, $p, $ava ) {
+        $this->id = $f.$p1;
         $this->first_name = $f;
         $this->last_name = $l;
         $this->gender = $g;
@@ -70,9 +71,8 @@ class Person {
         $this->schedule = $sch;
         $this->notes = $n;
         $this->password = $p;
-        $this->id = $id;
         $this->availability = $ava;
-       
+ 
     }
 
     function get_id() {
@@ -142,6 +142,11 @@ class Person {
     function get_availabity(){
         return $this->availability;
     }
+    
+    function get_count(){
+        return $this->county;
+    }
+    
    function set_county ($county){
         $this->county = $county;
     }

@@ -6,34 +6,29 @@
  */
 
 include_once(dirname(__FILE__) . '/../domain/Person.php');
-echo 'testing Persons.php</br>';
+echo "testing Persons.php".'</br>';
 // person construct is copied from testPerson.php 
-$m = new Person("Taylor","Talmage","male","928 SU","Brunswick","ME",04011, "",
-      2074415902,2072654046,"ttalmage@bowdoin.edu", "email", "Mother", 2077758989, "volunteer",
-      "","","active", "programmer", "Steve_2071234567,John_1234567890","yes","I like helping out","cooking",
-      "Mon:morning,Tue:morning,Wed:earlypm", "", "", "02-19-89", "03-14-08",
-      "this is a note","Taylor2074415902");
+
+echo testFirstName().'</br>';
+echo testLastName().'</br>';
 
 
-echo testFirstName();
-echo testLastName();
 
-//return a message if the test past or fails 
+//return a message if the first test past or fails 
 function testFirstName()
-{
-    if($m->get_firstname==="Taylor")
-    {   
-    return 'First name test succeeded';  
-    } 
+{ 
+    $test_person = new Person("John", "Smith", "Male", "555 Main Street", "Flushing", "NY", 11111, "Queens", 20724415902, 2072654046, "john.smith@stjohns.edu", "volunteer", "Schedule",  "I like helping out", "55555", "03-14-14");
+    echo "Testing first name".'</br>';
+    if($test_person->get_firstname==="John")   
+     return 'First name test succeeded';  
     else
-    {
-    return 'First name test failed';
-    }
+     return 'First name test failed';
 }
 
+//return a message if the last test past or fails 
 function testLastName()
 {
-   if($m->get_lasttname==="Talmage")
+   if($m->get_lasttname==="Smith")
        {   
     echo 'Last name test succeeded';  
     } 
