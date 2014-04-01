@@ -34,11 +34,13 @@ include_once('dbDates.php');
  * [5] name: name of the week
  * [6] end: timestamp of the end of the week
  */
+
+//edited by James Loeffler but still unsure about the parameters in the query
 function create_dbWeeks() {
     connect();
     mysql_query("DROP TABLE IF EXISTS week");
     $result = mysql_query("CREATE TABLE Week (id CHAR(8) NOT NULL, dates TEXT,
-								weekday_group TEXT, weekend_group TEXT, status TEXT,
+								, status TEXT,
 								name TEXT, end INT, PRIMARY KEY (id))");
     if (!$result)
         echo mysql_error();
@@ -61,8 +63,8 @@ function insert_dbWeeks($w) {
         connect();
     }
     $query = "INSERT INTO week VALUES (\"" . $w->get_id() . "\"," . get_dates_text($w->get_dates()) . ",\"" .
-            $w->get_weekday_group() . "\",\"" .
-            $w->get_weekend_group() . "\",\"" .
+            //$w->get_weekday_group() . "\",\"" .
+            //$w->get_weekend_group() . "\",\"" .
             $w->get_status() . "\",\"" .
             $w->get_name() . "\",\"" .
             $w->get_end() . "\")";
@@ -70,7 +72,7 @@ function insert_dbWeeks($w) {
     mysql_close();
     if (!$result) {
         echo ("<br>unable to insert into week: " . $w->get_id() . get_dates_text($w->get_dates()) .
-        $w->get_weekday_group() . $w->get_weekend_group() . $w->get_status() . $w->get_name() . $w->get_end() );
+        $w->get_status() . $w->get_name() . $w->get_end() );
         return false;
     }
     else
@@ -160,8 +162,7 @@ function get_dbWeeks($id) {
         	$d[] = select_dbDates($date);
         }
         
-        $w = new Week($d, "weekly", $result_row['weekday_group'],
-                        $result_row['weekend_group'], $result_row['status']);
+        $w = new Week($d, "weekly", $result_row['status']);
         error_log("3");
         return $w;
     }
