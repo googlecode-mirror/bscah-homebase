@@ -17,8 +17,7 @@ echo("testdbPersons complete</br>");
 
 // tests the add_person() function in dbPersons.php
 function testAddPerson() {
-    $m = new person("Gabrielle", "Booth", "female", "14 Way St", "Harpswell", "ME", "04079", "", 1112345678, 2071112345, "ted@bowdoin.edu", "email", "Mother", 2077758989, "manager", "", "", "active", "programmer", "Steve_2077291234", "yes", "", "", "Mon:morning,Tue:morning", "", "", "02-19-89", "03-14-08", "", "");
-
+    $m = new Person("John", "Smith", "Male", "555 Main Street", "Flushing", "NY", "11111", "Queens", "20724415902", "2072654046", "john.smith@stjohns.edu", "volunteer", "Schedule", "I like helping out", "55555", "03-14-14");
     echo 'will test add_person </br>';
     $result = add_person($m);
     echo 'result is ' . $result;
@@ -27,7 +26,7 @@ function testAddPerson() {
     else
         echo "add_person failed</br>";
 
-    $res = remove_person("Gabrielle1112345678");
+    $res = remove_person("John20724415902");
     if ($res == null)
         echo 'Retrieve failed</br>';
 }

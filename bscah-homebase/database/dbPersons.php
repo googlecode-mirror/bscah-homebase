@@ -59,14 +59,11 @@ function add_person($person) {
                 $person->get_phone1() . '","' .
                 $person->get_phone2() . '","' .
                 $person->get_email() . '","' .
-   
                 $person->get_type() . '","' .
-                $person->get_availability() . '","' .
                 $person->get_schedule() . '","' .
-                $person->get_birthday() . '","' .
-                $person->get_start_date() . '","' .
                 $person->get_notes() . '","' .
                 $person->get_password() .
+                $person->get_availability() . '","' .
                 '");');
          if (!$res2)
          {
@@ -236,24 +233,13 @@ function make_a_person($result_row) {
                     $result_row['phone1'],
                     $result_row['phone2'],
                     $result_row['email'],
-                    $result_row['contact_preference'],
-                    $result_row['emergency_contact'],
-                    $result_row['emergency_phone'],
                     $result_row['type'],
-                    $result_row['screening_type'],
-                    $result_row['screening_status'],
                     $result_row['status'],
-                    $result_row['occupation'],
-                    $result_row['refs'],
-                    $result_row['maywecontact'],
-                    $result_row['motivation'],
-                    $result_row['specialties'],
-                    $result_row['availability'],
                     $result_row['schedule'],
-                    $result_row['birthday'],
-                    $result_row['start_date'],
                     $result_row['notes'],
-                    $result_row['password']);
+                    $result_row['password'],
+                    $result_row['availability']
+                    );
     return $thePerson;
 }
 
