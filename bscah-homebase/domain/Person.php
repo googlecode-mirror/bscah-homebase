@@ -29,7 +29,7 @@ include_once('Shift.php');
 include_once('Person.php');
 
 class Person {
-   
+    
     private $id;            // id (unique key) = first_name . phone1
     private $first_name;    // first name as a string
     private $last_name;     // last name as a string
@@ -48,7 +48,6 @@ class Person {
     private $password;      // password for calendar and database access: default = $id
     private $availability;  // format: 03-24-14
     
-
     /**
      * constructor for all persons
      * matches the format in the database

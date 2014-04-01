@@ -22,11 +22,8 @@ function create_persons() {
     mysql_query("DROP TABLE IF EXISTS person");
     $result = mysql_query("CREATE TABLE person(id TEXT NOT NULL, first_name TEXT NOT NULL, last_name TEXT, gender TEXT, " .
             "    address TEXT, city TEXT, state VARCHAR(2), zip TEXT, county TEXT, phone1 VARCHAR(12) NOT NULL, phone2 VARCHAR(12), " .
-            "    email TEXT, contact_preference TEXT, emergency_contact TEXT, emergency_phone TEXT, " .
-            "    type TEXT, screening_type TEXT, screening_status TEXT, status TEXT, occupation TEXT, refs TEXT, maywecontact TEXT," .
-            "    motivation TEXT, specialties TEXT, " .
-            "    availability TEXT, schedule TEXT, " .
-            "    birthday TEXT, start_date TEXT, notes TEXT, password TEXT)");
+            "    email TEXT, type TEXT, schedule TEXT, notes TEXT, password TEXT, availability TEXT)"); 
+    
     if (!$result)
         echo mysql_error() . "Error creating person table<br>";
 }
@@ -62,20 +59,10 @@ function add_person($person) {
                 $person->get_phone1() . '","' .
                 $person->get_phone2() . '","' .
                 $person->get_email() . '","' .
-                $person->get_contact_preference() . '","' .
-                $person->get_emergency_contact() . '","' .
-                $person->get_emergency_phone() . '","' .
-                implode(',', $person->get_type()) . '","' .
-                $person->get_screening_type() . '","' .
-                implode(',', $person->get_screening_status()) . '","' .
-                $person->get_status() . '","' .
-                $person->get_occupation() . '","' .
-                implode(',', $person->get_references()) . '","' .
-                $person->get_maywecontact() . '","' .
-                $person->get_motivation() . '","' .
-                $person->get_specialties() . '","' .
-                implode(',', $person->get_availability()) . '","' .
-                implode(',', $person->get_schedule()) . '","' .
+   
+                $person->get_type() . '","' .
+                $person->get_availability() . '","' .
+                $person->get_schedule() . '","' .
                 $person->get_birthday() . '","' .
                 $person->get_start_date() . '","' .
                 $person->get_notes() . '","' .
