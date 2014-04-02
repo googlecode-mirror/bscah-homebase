@@ -30,23 +30,23 @@ include_once('Person.php');
 
 class Person {
     
-    private $id;            // id (unique key) = first_name . phone1
-    private $first_name;    // first name as a string
-    private $last_name;     // last name as a string
-    private $gender;        // gender - string
-    private $address;       // address - string
-    private $city;          // city - string
-    private $state;         // state - string
-    private $zip;           // zip code - integer
-    private $county;        // county of residence
-    private $phone1;        // main phone
-    private $phone2;        // alternate phone
-    private $email;         // email address as a string
-    private $type;          // coordinator or volunteer 
-    private $schedule;      // dates scheduled for volunteering
-    private $notes;         // notes or this person 
-    private $password;      // password for calendar and database access: default = $id
-    private $availability;  // format: 03-24-14
+    private $ID;            // id (unique key) = first_name . phone1
+    private $NameFirst;    // first name as a string
+    private $NameLast;     // last name as a string
+    private $Gender;        // gender - string
+    private $Address;       // address - string
+    private $City;          // city - string
+    private $State;         // state - string
+    private $Zip;           // zip code - integer
+    private $County;        // county of residence
+    private $Phone1;        // main phone
+    private $Phone2;        // alternate phone
+    private $Email;         // email address as a string
+    private $Type;          // coordinator or volunteer 
+    private $Schedule;      // dates scheduled for volunteering
+    private $Notes;         // notes or this person 
+    private $Password;      // password for calendar and database access: default = $id
+    private $Availability;  // format: 03-24-14
     
     /**
      * constructor for all persons
@@ -54,100 +54,100 @@ class Person {
      */
 
     function __construct($f, $l, $g, $a, $c, $s, $z, $co, $p1, $p2, $e, $t, $sch, $n, $p, $ava ) {
-        $this->id = $f.$p1;
-        $this->first_name = $f;
-        $this->last_name = $l;
-        $this->gender = $g;
-        $this->address = $a;
-        $this->city = $c;
-        $this->state = $s;
-        $this->zip = $z;
-        $this->county = $co;
-        $this->phone1 = $p1;
-        $this->phone2 = $p2;
-        $this->email = $e;
-        $this->type = $t;
-        $this->schedule = $sch;
-        $this->notes = $n;
-        $this->password = $p;
-        $this->availability = $ava;
+        $this->ID = $f.$p1;
+        $this->NameFirst = $f;
+        $this->NameLast = $l;
+        $this->Gender = $g;
+        $this->Address = $a;
+        $this->City = $c;
+        $this->State = $s;
+        $this->Zip = $z;
+        $this->County = $co;
+        $this->Phone1 = $p1;
+        $this->Phone2 = $p2;
+        $this->Email = $e;
+        $this->Type = $t;
+        $this->Schedule = $sch;
+        $this->Notes = $n;
+        $this->Password = $p;
+        $this->Availability = $ava;
  
     }
 
     function get_id() {
-        return $this->id;
+        return $this->ID;
     }
 
     function get_first_name() {
-        return $this->first_name;
+        return $this->NameFirst;
     }
 
     function get_last_name() {
-        return $this->last_name;
+        return $this->NameLast;
     }
 
     function get_gender() {
-        return $this->gender;
+        return $this->Gender;
     }
 
     function get_address() {
-        return $this->address;
+        return $this->Address;
     }
 
     function get_city() {
-        return $this->city;
+        return $this->City;
     }
 
     function get_state() {
-        return $this->state;
+        return $this->State;
     }
 
     function get_zip() {
-        return $this->zip;
+        return $this->Zip;
     }
 
     function get_county() {
-        return $this->county;
+        return $this->County;
     }
 
     function get_phone1() {
-        return $this->phone1;
+        return $this->Phone1;
     }
 
     function get_phone2() {
-        return $this->phone2;
+        return $this->Phone2;
     }
 
     function get_email() {
-        return $this->email;
+        return $this->Email;
     }
 
     function get_type() {
-        return $this->type;
+        return $this->Type;
     }
 
     function get_schedule() {
-        return $this->schedule;
+        return $this->Schedule;
     }
 
     function get_password() {
-        return $this->password;
+        return $this->Password;
     }
     
     function get_notes()   {
-        return $this->notes; 
+        return $this->Notes; 
     }
     
     function get_availabiltiy(){
-        return $this->availability;
+        return $this-Availability;
     }
     
     function get_count(){
-        return $this->county;
+        return $this->County;
     }
     
    function set_county ($county){
-        $this->county = $county;
+        $this->County = $county;
     }
     
  /*   function compute_county () {
