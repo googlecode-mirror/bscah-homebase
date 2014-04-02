@@ -18,7 +18,9 @@
  */
 
 class MasterScheduleEntry {
-	private $schedule_type; // "monthly" (for guestchef type) or "weekly" (for weekday, weekend, and overnight types)
+    	private $MS_ID;	        // unique string for each entry = schedule_type.day.week."-".start_time."-".end_time
+							//    or (for overnight shifts & project) = schedule_type.day.week."-"."overnight"   
+	private $Schedule_type; // "monthly" (for guestchef type) or "weekly" (for weekday, weekend, and overnight types)
 	private $day;           // "Mon", "Tue", ... "Sun"
 	private $week_no;       // week of month (1st-5th) for "monthly" or "weekly" Sat or Sun
 	                        // or week of year (odd or even) for "weekly" Mon-Fri
@@ -27,14 +29,13 @@ class MasterScheduleEntry {
 	private $slots;         // the number of slots to be filled for this shift & project
 	private $persons;       // array of ids, eg ["alex2071234567", "jane1112345567"]
 	private $notes;         // notes to be displayed for this shift & project on the schedule
-	private $id;	        // unique string for each entry = schedule_type.day.week."-".start_time."-".end_time
-							//    or (for overnight shifts & project) = schedule_type.day.week."-"."overnight"    
-
+        private $Shifts;        // text that explains what shift is within the slot
+	
 	/**
 	* constructor for all MasterScheduleEntries
 	*/
-	function __construct($schedule_type, $day, $week_no, $start_time, $end_time, $slots, $persons, $notes){
-		$this->schedule_type = $schedule_type;
+	function __construct($Schedule_type, $day, $week_no, $start_time, $end_time, $slots, $persons, $notes){
+		$this->Schedule_type = $Schedule_type;
 		$this->day = $day;
 		$this->week_no = $week_no;
 		$this->start_time = $start_time;
@@ -46,16 +47,17 @@ class MasterScheduleEntry {
 			$this->persons = array();
 		$this->notes = $notes;
 		if ($start_time!="overnight")
-			$this->id = $schedule_type.$day.$week_no."-".$start_time."-".$end_time;
-		else $this->id = $schedule_type.$day.$week_no."-".$start_time;
+			$this->MS_ID = $Schedule_type.$day.$week_no."-".$start_time."-".$end_time;
+		else $this->MS_ID = $Schedule_type.$day.$week_no."-".$start_time;
+                $this->Shifts = $Shifts;
 	}
 	
 	/**
 	*  getter functions
 	*/
 	
-	function get_schedule_type(){
-		return $this->schedule_type;
+	function get_Schedule_type(){
+		return $this->Schedule_type;
 	}
 	function get_day(){
 		return $this->day;
@@ -83,8 +85,12 @@ class MasterScheduleEntry {
 	function get_notes(){
 		return $this->notes; 
 	}
-	function get_id(){
-		return $this->id;
+	function get_MS_ID(){
+		return $this->MS_ID;
+	}
+	
+        function get_Shifts(){
+		return $this->Shifts;
 	}
 	
 	function set_notes($notes){

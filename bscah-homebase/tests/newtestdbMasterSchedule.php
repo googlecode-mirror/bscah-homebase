@@ -13,8 +13,8 @@ echo("test complete</br>");
 
 // tests the add_person() function in dbPersons.php
 function test_insert_dbMasterSchedule() {
-    $new_MasterScheduleEntry = new MasterScheduleEntry("monthly","Wed", "1st", 14, 17, 2,
-		"joe2071234567,sue2079876543", "This is a super fun shift.","id1"); // not sure what the id looks like
+    $new_MasterScheduleEntry = new MasterScheduleEntry("id1","monthly","Wed", "1st", 14, 17, 2,
+		"joe2071234567,sue2079876543", "This is a super fun shift.", "Afternoon Shift"); // not sure what the id looks like
    
     echo 'will test insert_dbMasterSchedule </br>';
     $result = insert_dbMasterSchedule($new_MasterScheduleEntry);
@@ -32,8 +32,8 @@ function test_insert_dbMasterSchedule() {
 // tests the retrieve_person() function in dbPersons.php
 function test_retrieve_dbMasterSchedule() {
   //  $m = new person("Gabrielle", "Booth", "female", "14 Way St", "Harpswell", "ME", "04079", "", 1112345678, 2071112345, "ted@bowdoin.edu", "email", "Mother", 2077758989, "manager", "", "", "active", "programmer", "Steve_2077291234", "yes", "", "", "Mon:morning,Tue:morning", "", "", "02-19-89", "03-14-08", "", "");
-  $new_MasterScheduleEntry = new MasterScheduleEntry("monthly","Wed", "1st", 14, 17, 2,
-		"joe2071234567,sue2079876543", "This is a super fun shift.","id1"); // not sure what the id looks like
+  $new_MasterScheduleEntry = new MasterScheduleEntry("id1", "monthly","Wed", "1st", 14, 17, 2,
+		"joe2071234567,sue2079876543", "This is a super fun shift.", "Afternoon Shift" ); // not sure what the id looks like
   
     echo 'will test rretrieve_dbMasterSchedule </br>';
     
@@ -60,12 +60,12 @@ function test_retrieve_dbMasterSchedule() {
 
 // tests the retrieve_persons_by_name() function in dbPersons.php
 function test_update_dbMasterSchedule() {
-    $new_MasterScheduleEntry = new MasterScheduleEntry("monthly","Wed", "1st", 14, 17, 2,
-		"joe2071234567,sue2079876543", "This is a super fun shift.","id1"); // not sure what the id looks like
+    $new_MasterScheduleEntry = new MasterScheduleEntry("id1", "monthly","Wed", "1st", 14, 17, 2,
+		"joe2071234567,sue2079876543", "This is a super fun shift.", "Afternoon Shift"); // not sure what the id looks like
   
     echo 'will test update_dbMasterSchedule </br>';
-   $new_MasterScheduleEntry = new MasterScheduleEntry("monthly","Wed", "1st", 14, 17, 2,
-		"joe2071234567,sue2079876543", "This is a super fun shift.","id1"); // not sure what the id looks like
+   $new_MasterScheduleEntry = new MasterScheduleEntry("id1", "monthly","Wed", "1st", 14, 17, 2,
+		"joe2071234567,sue2079876543", "This is a super fun shift.", "Afternoon Shift"); // not sure what the id looks like
   
     echo 'will test update_dbMasterSchedule </br>';
     
@@ -77,8 +77,8 @@ function test_update_dbMasterSchedule() {
         echo "insert_dbMasterSchedule failed</br>";
     
     // removed one person
-    $updated_MasterScheduleEntry = new MasterScheduleEntry("monthly","Wed", "1st", 14, 17, 2,
-		"sue2079876543", "This is a super fun shift.","id1"); // not sure what the id looks lik
+    $updated_MasterScheduleEntry = new MasterScheduleEntry("id1", "monthly","Wed", "1st", 14, 17, 2,
+		"sue2079876543", "This is a super fun shift.", "Afternoon Shift"); // not sure what the id looks lik
     $mse = update_dbMasterSchedule($updated_MasterScheduleEntry);
     if ($mse == false)
         echo 'update failed</br>';
