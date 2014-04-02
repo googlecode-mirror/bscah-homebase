@@ -1,47 +1,69 @@
 <?php
 /*
- * Copyright 2013 by Jerrick Hoang, Ivy Xing, Sam Roberts, James Cook, 
- * Johnny Coster, Judy Yang, Jackson Moniaga, Oliver Radwan, 
- * Maxwell Palmer, Nolan McNair, Taylor Talmage, and Allen Tucker. 
- * This program is part of RMH Homebase, which is free software.  It comes with 
- * absolutely no warranty. You can redistribute and/or modify it under the terms 
- * of the GNU General Public License as published by the Free Software Foundation
- * (see <http://www.gnu.org/licenses/ for more information).
- * 
- */
+* This class will test the person class.
+* It is similar in design the existing testPerson class but, will not require the use of 'UnitTestCase' 
+* The design is also derived from newTestDBPerson
+*/
+include_once(dirname(__FILE__) . '/../domain/Person.php');
+echo "testing Persons.php".'</br>';
+// person construct is copied from testPerson.php
+testConstructor();
+ 
+//return a message if the first test past or fails 
+function testConstructor()
+{ 
+$test_person = new Person("John", "Smith", "Male", "555 Main Street", "Flushing", "NY", "11111", "Queens", "20724415902", "2072654046", "john.smith@stjohns.edu", "volunteer", "Schedule", "I like helping out", "55555", "03-14-14");
+echo "Testing first name".'</br>';
+if($test_person->get_first_name()=="John") 
+echo 'First name test succeeded </br>'; 
+else
+echo 'First name test failed </br>';
 
-/**
- * Test suite for Person
- * Created on Feb 27, 2008
- * @author Taylor Talmage
- */
+if($test_person->get_last_name()=="Smith") 
+echo 'last name test succeeded </br>'; 
+else
+echo 'last name test failed </br>';
 
-  //first I include the php file I'm testing
- include_once(dirname(__FILE__).'/../domain/Person.php');
- class testPerson extends UnitTestCase {
-      function testPersonModule() {
 
- $myPerson = new Person("Taylor","Talmage","male","928 SU","Brunswick","ME",04011, "",
-      2074415902,2072654046,"ttalmage@bowdoin.edu", "email", "Mother", 2077758989, "volunteer",
-      "","","active", "programmer", "Steve_2071234567,John_1234567890","yes","I like helping out","cooking",
-      "Mon:morning,Tue:morning,Wed:earlypm", "", "", "02-19-89", "03-14-08",
-      "this is a note","Taylor2074415902");
+if($test_person->get_gender()=="Male") 
+echo 'gender test succeeded </br>'; 
+else
+echo 'gender test failed </br>';
 
- //first assertion - check that a getter is working from the superconstructor's initialized data
- $this->assertTrue($myPerson->get_first_name()=="Taylor");
+if($test_person->get_address()=="555 Main Street") 
+echo 'address test succeeded </br>'; 
+else
+echo 'address test failed </br>';
 
- $this->assertTrue($myPerson->get_type()==array("volunteer"));
- $this->assertTrue($myPerson->get_status()=="active");
- $this->assertTrue($myPerson->get_occupation()=="programmer");
- $this->assertTrue($myPerson->get_references()==array("Steve_2071234567","John_1234567890"));
- $this->assertEqual($myPerson->get_availability(),array("Mon:morning","Tue:morning","Wed:earlypm"));
- $this->assertTrue($myPerson->get_last_name() !== "notMyLastName");
- $this->assertTrue($myPerson->get_contact_preference()=="email");
- $this->assertTrue($myPerson->get_emergency_contact()=="Mother");
- $this->assertTrue($myPerson->get_emergency_phone()==2077758989);
- $this->assertTrue($myPerson->get_gender()=="male");
- echo("testPerson complete");
-      }
- }
+if($test_person->get_city()=="Flushing") 
+echo 'city test succeeded </br>'; 
+else
+echo 'city test failed </br>';
 
-?>
+if($test_person->get_state()=="NY") 
+echo 'state test succeeded </br>'; 
+else
+echo 'state test failed </br>';
+
+if($test_person->get_zip()=="11111") 
+echo 'zip test succeeded </br>'; 
+else
+echo 'zip test failed </br>';
+
+if($test_person->get_county()=="Queens") 
+echo 'county test succeeded </br>'; 
+else
+echo 'county test failed </br>';
+
+if($test_person->get_phone1()=="20724415902") 
+echo 'phone1 test succeeded </br>'; 
+else
+echo 'phone1 test failed </br>';
+
+if($test_person->get_phone2()=="2072654046") 
+echo 'phone2 test succeeded </br>'; 
+else
+echo 'phone2 test failed </br>';
+
+
+}
