@@ -51,7 +51,6 @@ CREATE TABLE IF NOT EXISTS `masterschedule` (
   `slots` int(11) DEFAULT NULL,
   `persons` text,
   `notes` text,
-  `Projects` text,
   `Shifts` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
