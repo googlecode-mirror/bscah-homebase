@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Mar 31, 2014 at 10:40 PM
+-- Generation Time: Apr 02, 2014 at 05:11 PM
 -- Server version: 5.6.12-log
 -- PHP Version: 5.4.12
 
@@ -29,7 +29,7 @@ USE `dbbscah`;
 --
 
 CREATE TABLE IF NOT EXISTS `date` (
-  `DATE_ID` varchar(4) NOT NULL,
+  `DATE_ID` varchar(8) NOT NULL,
   `shifts` text,
   `mgr_notes` text,
   `Projects` text NOT NULL,
@@ -68,8 +68,8 @@ CREATE TABLE IF NOT EXISTS `person` (
   `Address` varchar(40) NOT NULL,
   `City` varchar(25) NOT NULL,
   `State` varchar(2) NOT NULL,
-  `Zip`  varchar(5) NOT NULL,
-  `County` varchar(25),
+  `Zip` varchar(5) NOT NULL,
+  `County` varchar(25) DEFAULT NULL,
   `Phone1` int(10) NOT NULL,
   `Phone2` int(10) DEFAULT NULL,
   `Email` varchar(30) NOT NULL,
@@ -85,9 +85,9 @@ CREATE TABLE IF NOT EXISTS `person` (
 -- Dumping data for table `person`
 --
 
-INSERT INTO `person` (`ID`, `NameFirst`, `NameLast`, `Gender`, `Address`, `City`, `State`, `County`, `Phone1`, `Phone2`, `Email`, `Type`, `Schedule`, `Notes`, `Password`, `Availability`) VALUES
-('Alana5164918985', 'Alana', 'Mutum', 'F', '1140 Esther St', 'Franklin Square', 'NY', '11010', 2147483647, 0, 'lanixxjay@live.com', 'Volunteer', '', '', 'cus1166', ''),
-('student1166', 'Student', 'Student', 'M', '8000 Utopia Pkwy', 'Queens', 'NY', '11439', 911, 0, 'student@stjohns,edu', 'Volunteer', '', '', 'cus1166', '');
+INSERT INTO `person` (`ID`, `NameFirst`, `NameLast`, `Gender`, `Address`, `City`, `State`, `Zip`, `County`, `Phone1`, `Phone2`, `Email`, `Type`, `Schedule`, `Notes`, `Password`, `Availability`) VALUES
+('Alana5164918985', 'Alana', 'Mutum', 'F', '1140 Esther St', 'Franklin Square', 'NY', '', '11010', 2147483647, 0, 'lanixxjay@live.com', 'Volunteer', '', '', 'cus1166', ''),
+('student1166', 'Student', 'Student', 'M', '8000 Utopia Pkwy', 'Queens', 'NY', '', '11439', 911, 0, 'student@stjohns,edu', 'Volunteer', '', '', 'cus1166', '');
 
 -- --------------------------------------------------------
 
@@ -96,27 +96,17 @@ INSERT INTO `person` (`ID`, `NameFirst`, `NameLast`, `Gender`, `Address`, `City`
 --
 
 CREATE TABLE IF NOT EXISTS `project` (
-  `ProjectID` int(3) NOT NULL AUTO_INCREMENT,
+  `ProjectID` varchar(14) NOT NULL,
   `Address` varchar(50) NOT NULL,
-  `Zip` int(5) NOT NULL,
-  `StartDate` date NOT NULL,
-  `End Date` date NOT NULL,
-  `Coordinator` varchar(30) NOT NULL,
-  `VolunteersRequired` int(3) NOT NULL,
-  `StartTime` time NOT NULL,
-  `EndTime` time NOT NULL,
+  `Date` varchar(10) NOT NULL,
+  `Vacancies` int(3) NOT NULL,
+  `StartTime` int(4) NOT NULL,
+  `EndTime` int(4) NOT NULL,
+  `Name` varchar(15) NOT NULL,
+  `Persons` varchar(50) NOT NULL,
+  `Notes` varchar(30) DEFAULT NULL,
   PRIMARY KEY (`ProjectID`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COMMENT='Collection of Projects' AUTO_INCREMENT=5 ;
-
---
--- Dumping data for table `project`
---
-
-INSERT INTO `project` (`ProjectID`, `Address`, `Zip`, `StartDate`, `End Date`, `Coordinator`, `VolunteersRequired`, `StartTime`, `EndTime`) VALUES
-(1, 'St Johns', 11439, '2014-03-24', '2014-03-25', 'Alana Mutum', 3, '00:00:09', '00:00:03'),
-(2, 'St Johns', 11439, '2014-03-25', '2014-03-25', 'Bonnie Mackellar', 6, '00:00:09', '00:00:05'),
-(3, 'St Johns', 11439, '2014-03-24', '2014-03-25', 'Alana Mutum', 3, '09:00:00', '03:00:00'),
-(4, 'St Johns', 11439, '2014-03-25', '2014-03-25', 'Bonnie Mackellar', 6, '09:00:00', '17:00:00');
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='Collection of Projects';
 
 -- --------------------------------------------------------
 
