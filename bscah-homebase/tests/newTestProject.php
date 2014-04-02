@@ -9,7 +9,8 @@ testConstructor();
 //return a message if the first test past or fails 
 function testConstructor()
 { 
-$test_project = new Project("03-12-14", "overnight", 10, 13, "weekly",15, "malcom1234567890+Malcom+Jones","matt1234567899+Matt+Smith", "Monday", "11-22-33-44-55", "notes");
+$test_project = new Project("03-12-14-10-13","10-13", 10, 13, "weekly",15, "malcom1234567890+Malcom+Jones","matt1234567899+Matt+Smith", "Monday", "11-22-33-44-55", "notes");
+    
         
 echo "Testing mm_dd_yy".'</br>';
 if($test_project->get_mm_dd_yy()=="03-12-14") 
@@ -17,7 +18,7 @@ echo 'mm_dd_yy test succeeded </br>';
 else
 echo 'mm_dd_yy test failed </br>';
 
-if($test_project->get_name()=="overnight") 
+if($test_project->get_name()=="10-13") 
 echo 'name test succeeded </br>'; 
 else
 echo 'name test failed </br>';
