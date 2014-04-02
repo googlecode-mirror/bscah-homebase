@@ -65,5 +65,36 @@ echo 'phone2 test succeeded </br>';
 else
 echo 'phone2 test failed </br>';
 
+if($test_person->get_email()== "john.smith@stjohns.edu")
+    echo 'email test succeeded </br>';
+else
+    echo 'email test failed </br>';
+
+if ($test_person->get_type() == "volunteer")
+    echo 'type test succeedeed  </br>';
+else
+    echo 'type test failed  </br>';
+
+if($test_person->get_schedule() == "Schedule")
+    echo 'schedule test succeeded  </br>';
+else 
+    echo 'schedule test failed  </br>';
+
+if ($test_person->get_notes() == "I like helping out" )
+    echo 'notes test succeeded </br>';
+else 
+    echo 'notes test failed </br>';
+if ($test_person->get_password() == "55555")
+    echo 'password test succeeded </br>';
+else
+    echo 'password test failed </br>';
+if ($test_person->get_availabity() == "03-14-14")
+    echo 'availability test succeeded </br>';
+else
+    echo ' availability test failed </br>';
+
+    
+    
+    
 
 }
