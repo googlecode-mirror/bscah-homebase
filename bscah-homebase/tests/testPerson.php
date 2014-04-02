@@ -88,7 +88,7 @@ if ($test_person->get_password() == "55555")
     echo 'password test succeeded </br>';
 else
     echo 'password test failed </br>';
-if ($test_person->get_availabity() == "03-14-14")
+if ($test_person->get_availabiltiy() == "03-14-14")
     echo 'availability test succeeded </br>';
 else
     echo ' availability test failed </br>';   

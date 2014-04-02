@@ -17,12 +17,14 @@
 include_once('dbinfo.php');
 include_once(dirname(__FILE__) . '/../domain/Person.php');
 
-function create_persons() {
+function create_persons() 
+{
     connect();
     mysql_query("DROP TABLE IF EXISTS person");
-    $result = mysql_query("CREATE TABLE person(id TEXT NOT NULL, first_name TEXT NOT NULL, last_name TEXT, gender TEXT, " .
-            "    address TEXT, city TEXT, state VARCHAR(2), zip TEXT, county TEXT, phone1 VARCHAR(12) NOT NULL, phone2 VARCHAR(12), " .
-            "    email TEXT, type TEXT, schedule TEXT, notes TEXT, password TEXT, availability TEXT)"); 
+    $result = mysql_query("CREATE TABLE person(id TEXT NOT NULL, first_name TEXT NOT NULL, last_name TEXT, "
+            . "gender TEXT, address TEXT, city TEXT, state VARCHAR(2), zip TEXT, "
+            . "county TEXT, phone1 VARCHAR(12) NOT NULL, phone2 VARCHAR(12), email TEXT, "
+            . "type TEXT, schedule TEXT, notes TEXT, password TEXT, availability TEXT)"); 
     
     if (!$result)
         echo mysql_error() . "Error creating person table<br>";
@@ -45,8 +47,9 @@ function add_person($person) {
     }
  
     //if there's no entry for this id, add it
-    if ($result == null || mysql_num_rows($result) == 0) {
-        $res2 = mysql_query('INSERT INTO person VALUES("' .
+    if ($result == null || mysql_num_rows($result) == 0) 
+        {
+                $res2 = mysql_query('INSERT INTO person VALUES("' .
                 $person->get_id() . '","' .
                 $person->get_first_name() . '","' .
                 $person->get_last_name() . '","' .
