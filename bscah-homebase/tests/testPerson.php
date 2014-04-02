@@ -92,9 +92,6 @@ if ($test_person->get_availabity() == "03-14-14")
     echo 'availability test succeeded </br>';
 else
     echo ' availability test failed </br>';
-
-    
-    
-    
+     
 
 }
