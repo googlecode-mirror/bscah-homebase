@@ -91,7 +91,11 @@ else
 if ($test_person->get_availabity() == "03-14-14")
     echo 'availability test succeeded </br>';
 else
-    echo ' availability test failed </br>';
+    echo ' availability test failed </br>';   
+if ($test_person->get_id() == "John20724415902")
+    echo 'id test succeeded </br>';
+else
+    echo ' id test failed </br>';
      
 
 }
