@@ -30,7 +30,7 @@ class Project {
      * construct an empty project with a certain number of vacancies
      */
 
-    function __construct($id, $venue, $vacancies, $persons, $removed_persons, $notes) {
+    function __construct($id, $name, $start_time, $end_time, $venue, $vacancies, $persons, $removed_persons, $notes) {
     	$this->mm_dd_yy = substr($id, 0, 8);
         $this->name = substr($id, 9);
         $i = strpos($this->name, "-");
