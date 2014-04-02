@@ -139,7 +139,7 @@ class Person {
     }
     
     function get_availabiltiy(){
-        return $this-Availability;
+        return $this->Availability;
     }
     
     function get_count(){

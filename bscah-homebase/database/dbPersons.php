@@ -36,48 +36,48 @@ function create_persons()
 
 function add_person($person) {
     if (!$person instanceof person)
-        die("Error: add_person type mismatch");
-    connect();
-    $query = "SELECT * FROM person WHERE id = '" . $person->get_id() . "'";
-    $result = mysql_query($query);
-    if (!$result)
     {
-        error_log('ERROR on select in add_person '. mysql_error());
-        die('Invalid query: ' . mysql_error());
+        return false;
+        die("Error: add_person type mismatch");
     }
- 
-    //if there's no entry for this id, add it
-    if ($result == null || mysql_num_rows($result) == 0) 
-        {
-                $res2 = mysql_query('INSERT INTO person VALUES("' .
-                $person->get_id() . '","' .
-                $person->get_first_name() . '","' .
-                $person->get_last_name() . '","' .
-                $person->get_gender() . '","' .
-                $person->get_address() . '","' .
-                $person->get_city() . '","' .
-                $person->get_state() . '","' .
-                $person->get_zip() . '","' .
-                $person->get_county() . '","' .
-                $person->get_phone1() . '","' .
-                $person->get_phone2() . '","' .
-                $person->get_email() . '","' .
-                $person->get_type() . '","' .
-                $person->get_schedule() . '","' .
-                $person->get_notes() . '","' .
-                $person->get_password() . '","' .
-                $person->get_availabiltiy() . '","' .
-                '");');
-         if (!$res2)
-         {
-                  error_log('ERROR on insert in add_person '.mysql_error());
-                  die('Invalid query: ' . mysql_error());
-         }
+    connect();
+    
+    $result = mysql_query("SELECT * FROM person WHERE id = '" . $person->get_ID() . "'");
+    if (mysql_num_rows($result) != 0) 
+    {
+        delete_dbMasterSchedule($person->get_MS_ID());
+        connect();
+    }
+
+    $query = "INSERT INTO person VALUES ('" .
+            $person->get_id(). "','" .
+            $person->get_first_name() . "','" .
+            $person->get_last_name() . "','" .
+            $person->get_gender() . "','" .
+            $person->get_address() . "','" .
+            $person->get_city() . "','" .
+            $person->get_state() . "','" .
+            $person->get_zip() . "','" .
+            $person->get_county() . "','" .
+            $person->get_phone1() . '","' .
+            $person->get_phone2() . '","' .
+            $person->get_email() . '","' .
+            $person->get_type() . '","' .
+            $person->get_schedule() . '","' .
+            $person->get_notes() . '","' .
+            $person->get_password() . '","' .
+            $person->get_availabiltiy() . 
+            "');";
+    
+    $result = mysql_query($query);
+    
+   if (!$result) {
+        echo mysql_error() . " - Unable to insert in person: " . $person->get_ID() . "\n";
         mysql_close();
-        return true;
+        return false;
     }
     mysql_close();
-    return false;
+    return true;
 }
 
 /*
