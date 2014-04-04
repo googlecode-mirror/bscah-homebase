@@ -74,6 +74,7 @@ CREATE TABLE IF NOT EXISTS `person` (
   `Phone2` int(10) DEFAULT NULL,
   `Email` varchar(30) NOT NULL,
   `Type` varchar(15) NOT NULL COMMENT 'Denotes wether a Coordinator or Volunteer',
+  `Status` varchar(15) NOT NULL COMMENT 'values could be applicant or approved for Volunteer, null for  Coordinator',
   `Schedule` varchar(100) NOT NULL COMMENT 'Dates scheduled for voliunteering',
   `Notes` varchar(200) NOT NULL,
   `Password` varchar(25) NOT NULL,
@@ -85,9 +86,10 @@ CREATE TABLE IF NOT EXISTS `person` (
 -- Dumping data for table `person`
 --
 
-INSERT INTO `person` (`ID`, `NameFirst`, `NameLast`, `Gender`, `Address`, `City`, `State`, `Zip`, `County`, `Phone1`, `Phone2`, `Email`, `Type`, `Schedule`, `Notes`, `Password`, `Availability`) VALUES
-('Alana5164918985', 'Alana', 'Mutum', 'F', '1140 Esther St', 'Franklin Square', 'NY', '', '11010', 2147483647, 0, 'lanixxjay@live.com', 'Volunteer', '', '', 'cus1166', ''),
-('student1166', 'Student', 'Student', 'M', '8000 Utopia Pkwy', 'Queens', 'NY', '', '11439', 911, 0, 'student@stjohns,edu', 'Volunteer', '', '', 'cus1166', '');
+INSERT INTO `person` (`ID`, `NameFirst`, `NameLast`, `Gender`, `Address`, `City`, `State`, `Zip`, `County`, `Phone1`, `Phone2`, `Email`, `Type`, `Status`, `Schedule`, `Notes`, `Password`, `Availability`) VALUES
+('Alana5164918985', 'Alana', 'Mutum', 'F', '1140 Esther St', 'Franklin Square', 'NY', '11010', 'SomeCounty',2147483647, 0, 'lanixxjay@live.com', 'Volunteer', 'applicant','', '', 'cus1166', ''),
+('staff1166', 'Student', 'Student', 'M', '8000 Utopia Pkwy', 'Queens', 'NY',  '11439', 'Queens',911, 0, 'student@stjohns,edu', 'Volunteer', 'approved','', '', 'cus1166', ''),
+('student1166', 'Student', 'Student', 'M', '8000 Utopia Pkwy', 'Queens', 'NY',  '11439', 'Queens',911, 0, 'student@stjohns,edu', 'Volunteer', 'approved','', '', 'cus1166', '');
 
 -- --------------------------------------------------------
 

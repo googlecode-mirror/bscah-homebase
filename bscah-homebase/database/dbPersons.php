@@ -43,12 +43,22 @@ function add_person($person) {
     connect();
     
     $result = mysql_query("SELECT * FROM person WHERE id = '" . $person->get_ID() . "'");
-    if (mysql_num_rows($result) != 0) 
+      if (!$result)
+      {
+           error_log('ERROR on select in add_person() '. mysql_error());
+           die('Invalid query: ' . mysql_error());
+      }
+      
+      // the function get_MS_ID does not exist in the original Homebase code
+      // this code causes and error and should be deleted
+      // not clear what the logic was
+ /*   if (mysql_num_rows($result) != 0) 
     {
         delete_dbMasterSchedule($person->get_MS_ID());
         connect();
-    }
-
+    } */
+      
+ error_log('will insert person id= '.$person->get_id() . ' avail= ' . $person->get_availabiltiy());
     $query = "INSERT INTO person VALUES ('" .
             $person->get_id(). "','" .
             $person->get_first_name() . "','" .
@@ -59,19 +69,21 @@ function add_person($person) {
             $person->get_state() . "','" .
             $person->get_zip() . "','" .
             $person->get_county() . "','" .
-            $person->get_phone1() . '","' .
-            $person->get_phone2() . '","' .
-            $person->get_email() . '","' .
-            $person->get_type() . '","' .
-            $person->get_schedule() . '","' .
-            $person->get_notes() . '","' .
-            $person->get_password() . '","' .
+            $person->get_phone1() . "','" .
+            $person->get_phone2() . "','".
+            $person->get_email() . "','" .
+            $person->get_type() . "','".
+            $person->get_status() . "','" .
+            $person->get_schedule() . "','" .
+            $person->get_notes() . "','" .
+            $person->get_password() . "','" .
             $person->get_availabiltiy() . 
             "');";
-    
+    error_log('query is ' . $query);
     $result = mysql_query($query);
     
    if (!$result) {
+        error_log("error doing insert in add_person ".mysql_error());
         echo mysql_error() . " - Unable to insert in person: " . $person->get_ID() . "\n";
         mysql_close();
         return false;
@@ -85,6 +97,7 @@ function add_person($person) {
  */
 
 function remove_person($id) {
+    error_log('in remove_person, id is ' .$id);
     connect();
     $query = 'SELECT * FROM person WHERE id = "' . $id . '"';
     $result = mysql_query($query);
@@ -94,6 +107,7 @@ function remove_person($id) {
        die('Invalid query: ' . mysql_error());
     }
     if ($result == null || mysql_num_rows($result) == 0) {
+        error_log('in remove_person, the record was not found ');
         mysql_close();
         return false;
     }
@@ -114,6 +128,7 @@ function remove_person($id) {
  */
 
 function retrieve_person($id) {
+    error_log('in retrieve_person id is '.$id);
     connect();
     $query = "SELECT * FROM person WHERE id = '" . $id . "'";
     $result = mysql_query($query);
@@ -141,7 +156,7 @@ function retrieve_persons_by_name ($name) {
 	$name = explode(" ", $name);
 	$first_name = $name[0];
 	$last_name = $name[1];
-    $query = "SELECT * FROM person WHERE first_name = '" . $first_name . "' AND last_name = '". $last_name ."'";
+    $query = "SELECT * FROM person WHERE NameFirst = '" . $first_name . "' AND NameLast = '". $last_name ."'";
     $result = mysql_query($query);
      if (!$result)
     {
@@ -157,7 +172,7 @@ function retrieve_persons_by_name ($name) {
 
 function change_password($id, $newPass) {
     connect();
-    $query = 'UPDATE person SET password = "' . $newPass . '" WHERE id = "' . $id . '"';
+    $query = 'UPDATE person SET Password = "' . $newPass . '" WHERE id = "' . $id . '"';
     $result = mysql_query($query);
     if (!$result)
         die('Invalid query: ' . mysql_error());
@@ -225,23 +240,23 @@ function getall_volunteer_names() {
 
 function make_a_person($result_row) {
     $thePerson = new Person(
-                    $result_row['first_name'],
-                    $result_row['last_name'],
-                    $result_row['gender'],
-                    $result_row['address'],
-                    $result_row['city'],
-                    $result_row['state'],
-                    $result_row['zip'],
-                    $result_row['county'],
-                    $result_row['phone1'],
-                    $result_row['phone2'],
-                    $result_row['email'],
-                    $result_row['type'],
-                    $result_row['status'],
-                    $result_row['schedule'],
-                    $result_row['notes'],
-                    $result_row['password'],
-                    $result_row['availability']
+                    $result_row['NameFirst'],
+                    $result_row['NameLast'],
+                    $result_row['Gender'],
+                    $result_row['Address'],
+                    $result_row['City'],
+                    $result_row['State'],
+                    $result_row['Zip'],
+                    $result_row['County'],
+                    $result_row['Phone1'],
+                    $result_row['Phone2'],
+                    $result_row['Email'],
+                    $result_row['Type'],
+                    $result_row['Status'],
+                    $result_row['Schedule'],
+                    $result_row['Notes'],
+                    $result_row['Password'],
+                    $result_row['Availability']
                     );
     return $thePerson;
 }

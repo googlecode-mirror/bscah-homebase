@@ -4,6 +4,9 @@
 // test script for dbPersons.php
 
 include_once(dirname(__FILE__) . '/../domain/Person.php');
+define("PHONE", "2072445902");
+define("ID","John2072445902");
+
 echo 'testing dbPersons.php</br>';
 testAddPerson();
 testRetrievePerson();
@@ -17,100 +20,101 @@ echo("testdbPersons complete</br>");
 
 // tests the add_person() function in dbPersons.php
 function testAddPerson() {
-    $m = new Person("John", "Smith", "Male", "555 Main Street", "Flushing", "NY", "11111", "Queens", "20724415902", "2072654046", "john.smith@stjohns.edu", "volunteer", "Schedule", "I like helping out", "55555", "03-14-14");
+    $m = new Person("John", "Smith", "M", "555 Main Street", "Flushing", "NY", "11111", "Queens", PHONE, "2072654046", "john.smith@stjohns.edu", "volunteer", "applicant", "Schedule", "I like helping out", "55555", "03-14-14");
     echo 'will test add_person </br>';
+
     $result = add_person($m);
     echo 'result is ' . $result;
     if ($result)
-        echo "add_person succeeded </br>";
+        echo "person was added </br>";
     else
-        echo "add_person failed</br>";
+        echo "person already exists in db, not added</br>";
 
-    $res = remove_person("John20724415902");
+    $res = remove_person(ID);
     if ($res == null)
         echo 'Retrieve failed</br>';
 }
 
 // tests the retrieve_person() function in dbPersons.php
 function testRetrievePerson() {
-    $m = new Person("John", "Smith", "Male", "555 Main Street", "Flushing", "NY", "11111", "Queens", "20724415902", "2072654046", "john.smith@stjohns.edu", "volunteer", "Schedule", "I like helping out", "55555", "03-14-14");
+    $m = new Person("John", "Smith", "Male", "555 Main Street", "Flushing", "NY", "11111", "Queens", PHONE, "2072654046", "john.smith@stjohns.edu", "volunteer", "applicant", "Schedule", "I like helping out", "55555", "03-14-14");
     
     echo 'will test retrieve_person </br>';
     $result = add_person($m);
     echo 'result is ' . $result;
     if ($result)
-        echo "add_person succeeded </br>";
+        echo "add_person inserted </br>";
     else
-        echo "add_person failed</br>";
+        echo "add_person not inserted</br>";
 
 
-    $p = retrieve_person("John20724415902");
+    $p = retrieve_person(ID);
     if ($p == null)
         echo 'Retrieve failed</br>';
     else {
-        checkEquals($p->get_id(), "John20724415902");
-        checkEquals($p->get_phone1(), "20724415902");
+        checkEquals($p->get_id(), ID);
+        checkEquals($p->get_phone1(), PHONE);
         checkEquals($p->get_email(), "john.smith@stjohns.edu");
     }
 
-    $res = remove_person("John20724415902");
+    $res = remove_person(ID);
     if ($res == null)
         echo 'Retrieve failed</br>';
 }
 
 // tests the retrieve_persons_by_name() function in dbPersons.php
 function testRetrieve_persons_by_name() {
-     $m = new Person("John", "Smith", "Male", "555 Main Street", "Flushing", "NY", "11111", "Queens", "20724415902", "2072654046", "john.smith@stjohns.edu", "volunteer", "Schedule", "I like helping out", "55555", "03-14-14");
+     $m = new Person("John", "Smith", "Male", "555 Main Street", "Flushing", "NY", "11111", "Queens", PHONE, "2072654046", "john.smith@stjohns.edu", "volunteer", "applicant","Schedule", "I like helping out", "55555", "03-14-14");
     
     echo 'will test retrieve_persons_by_name </br>';
     $result = add_person($m);
-    echo 'result is ' . $result;
+    
     if ($result)
-        echo "add_person succeeded </br>";
+        echo "add_person - person was inserted </br>";
     else
-        echo "add_person failed</br>";
+        echo "add_person - person not inserted </br>";
 
     echo "test retrieve_persons_by_name</br>";
     $personList = retrieve_persons_by_name("John Smith");
     if ($personList == null)
         echo 'Retrieve failed</br>';
     else {
-        checkEquals($personList[0]->get_id(), "John20724415902");
-        checkEquals($personList[0]->get_phone1(), "20724415902");
+        checkEquals($personList[0]->get_id(), ID);
+        checkEquals($personList[0]->get_phone1(), PHONE);
         checkEquals($personList[0]->get_email(), "john.smith@stjohns.edu");
     }
 
-    $res = remove_person("John20724415902");
+    $res = remove_person(ID);
     if ($res == null)
         echo 'Retrieve failed</br>';
 }
 
 // tests the change_password() function in dbPersons.php
 function testChange_password() {
-    $m = new Person("John", "Smith", "Male", "555 Main Street", "Flushing", "NY", "11111", "Queens", "20724415902", "2072654046", "john.smith@stjohns.edu", "volunteer", "Schedule", "I like helping out", "55555", "03-14-14");
+    $m = new Person("John", "Smith", "Male", "555 Main Street", "Flushing", "NY", "11111", "Queens", PHONE, "2072654046", "john.smith@stjohns.edu", "volunteer", "applicant","Schedule", "I like helping out", "55555", "03-14-14");
     
     echo 'will test change_password </br>';
     $result = add_person($m);
     echo 'result is ' . $result;
     if ($result)
-        echo "add_person succeeded </br>";
+        echo "add_person person was inserted </br>";
     else
-        echo "add_person failed</br>";
+        echo "add_person - person was not inserted</br>";
 
-    $result = change_password('John20724415902', 'newpassword.');
+    $result = change_password('John2072445902', 'newpassword');
     if ($result)
         echo "change_password succeeded </br>";
     else
         echo "change_password failed</br>";
 
-    $p = retrieve_person("John20724415902");
+    $p = retrieve_person(ID);
     if ($p == null)
         echo 'Retrieve failed</br>';
     else {
         checkEquals($p->get_password(), "newpassword");
     }
 
-    $res = remove_person("John20724415902");
+    $res = remove_person(ID);
     if ($res == null)
         echo 'Retrieve failed</br>';
 }

@@ -43,6 +43,7 @@ class Person {
     private $Phone2;        // alternate phone
     private $Email;         // email address as a string
     private $Type;          // coordinator or volunteer 
+    private $Status;      // applicant or approved for  volunteers, null for coordinators
     private $Schedule;      // dates scheduled for volunteering
     private $Notes;         // notes or this person 
     private $Password;      // password for calendar and database access: default = $id
@@ -53,24 +54,26 @@ class Person {
      * matches the format in the database
      */
 
-    function __construct($f, $l, $g, $a, $c, $s, $z, $co, $p1, $p2, $e, $t, $sch, $n, $p, $ava ) {
-        $this->ID = $f.$p1;
-        $this->NameFirst = $f;
-        $this->NameLast = $l;
-        $this->Gender = $g;
-        $this->Address = $a;
-        $this->City = $c;
-        $this->State = $s;
-        $this->Zip = $z;
+    function __construct($fname, $lname, $gender, $addr, $city, $state, $zip, $co, $ph1, $ph2, $email, 
+            $type, $status,$sch, $notes, $pswd, $avail ) {
+        $this->ID = $fname.$ph1;
+        $this->NameFirst = $fname;
+        $this->NameLast = $lname;
+        $this->Gender = $gender;
+        $this->Address = $addr;
+        $this->City = $city;
+        $this->State = $state;
+        $this->Zip = $zip;
         $this->County = $co;
-        $this->Phone1 = $p1;
-        $this->Phone2 = $p2;
-        $this->Email = $e;
-        $this->Type = $t;
+        $this->Phone1 = $ph1;
+        $this->Phone2 = $ph2;
+        $this->Email = $email;
+        $this->Type = $type;
+        $this->Status =$status;
         $this->Schedule = $sch;
-        $this->Notes = $n;
-        $this->Password = $p;
-        $this->Availability = $ava;
+        $this->Notes = $notes;
+        $this->Password = $pswd;
+        $this->Availability = $avail;
  
     }
 
@@ -126,6 +129,10 @@ class Person {
         return $this->Type;
     }
 
+    function get_status() {
+        return $this->Status;
+    }
+    
     function get_schedule() {
         return $this->Schedule;
     }
@@ -142,9 +149,6 @@ class Person {
         return $this->Availability;
     }
     
-    function get_count(){
-        return $this->County;
-    }
     
    function set_county ($county){
         $this->County = $county;
