@@ -98,14 +98,15 @@ INSERT INTO `person` (`ID`, `NameFirst`, `NameLast`, `Gender`, `Address`, `City`
 --
 
 CREATE TABLE IF NOT EXISTS `project` (
-  `ProjectID` varchar(14) NOT NULL,
-  `Address` varchar(50) NOT NULL,
+  `ProjectID` varchar(58) NOT NULL,
+  `Address` varchar(50),
   `Date` varchar(10) NOT NULL,
   `Vacancies` int(3) NOT NULL,
-  `StartTime` int(4) NOT NULL,
+  `StartTime` int(4) NOT NULL,  
   `EndTime` int(4) NOT NULL,
-  `Name` varchar(15) NOT NULL,
-  `Persons` varchar(50) NOT NULL,
+ `DayOfWeek` varchar(3) NOT NULL,
+  `Name` varchar(50) NOT NULL,
+  `Persons`  text,
   `Notes` varchar(30) DEFAULT NULL,
   PRIMARY KEY (`ProjectID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='Collection of Projects';

@@ -9,43 +9,37 @@ include_once(dirname(__FILE__).'/../database/dbPersons.php');
  * @author Derek and Ka Ming
  */
 class Project {
-
-
-
-
-
     private $mm_dd_yy;      // String: "mm-dd-yy".
+    private $address;        //location of project
     private $name;          // String: 'ss-ee' or 'overnight', where ss = start time and ee = end time e.g., '9-12'
     private $start_time;    // Integer: e.g. 10 (meaning 10:00am)
     private $end_time;      // Integer: e.g. 13 (meaning 1:00pm)
-    private $venue;         //  "weekly" or "monthly"
+    private $dayOfWeek;  // 3 letters, Mon, Tue, etc
     private $vacancies;     // number of vacancies in this project
     private $persons;       // array of person ids filling slots, followed by their name, ie "malcom1234567890+Malcom+Jones"
-    private $removed_persons; // array of persons who have previously been removed from this project
-    private $day;         // string name of day "Monday"...
-    private $id;            // "mm-dd-yy-ss-ee" is a unique key for this project
+    private $id;            // "mm-dd-yy-projName is the unique key
     private $notes;  // notes written by the manager
 
     /*
      * construct an empty project with a certain number of vacancies
      */
 
-    function __construct($id, $name, $start_time, $end_time, $venue, $vacancies, $persons, $removed_persons, $notes) {
-    	$this->mm_dd_yy = substr($id, 0, 8);
-        $this->name = substr($id, 9);
-        $i = strpos($this->name, "-");
-        if ($i>0) 
-            {
-        	$this->start_time = substr($this->name, 0, $i);
-        	$this->end_time = substr($this->name, $i + 1, 2);
-            }
-        $this->venue = $venue;
+    function __construct($id, $date,$addr, $name, $start_time, $end_time, $vacancies, $persons, $notes) {
+        error_log("in project constructor, id is " . $id);
+        $this->mm_dd_yy = substr($id, 0, 8);  // first 8 chars of id
+        $this->name = $name;
+        error_log("in project constructor, name is " . $name);
+        $this->address=$addr;
+        error_log("in project constructor, addr is " . $addr);
+        $this->start_time = $start_time;   // currently has to be integer - need to fix this
+        $this->end_time = $end_time;     // currently has to be integer - need to fix this
         $this->vacancies = $vacancies;
         $this->persons = $persons;
-        $this->removed_persons = $removed_persons;
-        $this->day = date("D", mktime(0, 0, 0, substr($this->mm_dd_yy, 0, 2), substr($this->mm_dd_yy, 3, 2), "20" . substr($this->mm_dd_yy, 6, 2)));
+        $this->dayOfWeek = date("D", mktime(0, 0, 0, substr($this->mm_dd_yy, 0, 2), substr($this->mm_dd_yy, 3, 2), "20" . substr($this->mm_dd_yy, 6, 2)));
+       error_log("in project constructor, day of week is " . $this->dayOfWeek);
         $this->id = $id;
-        $this->notes = $notes;	
+        $this->notes = $notes;
+        error_log("in project constructor, notes is " . $notes);
     }
 
     /**
@@ -118,6 +112,11 @@ class Project {
         return $this->mm_dd_yy;
     }
     
+    function get_address()
+    {
+        return $this->address;
+    }
+    
     function get_time_of_day() {
         if ($this->start_time == 0)
             return "overnight";
@@ -130,19 +129,12 @@ class Project {
         else 
             return "evening";
     }
-    
-    function get_venue() {
-        return $this->venue;
-    }
 
     function get_persons() {
         return $this->persons;
     }
     
-    function get_removed_persons() {
-    	return $this->removed_persons;
-    }
-
+   
     function get_id() {
         return $this->id;
     }

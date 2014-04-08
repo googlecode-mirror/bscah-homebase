@@ -35,8 +35,6 @@ function create_dbProjects() {
     return true;
 }
 
-
-
 /**
  * Inserts a project into the db
  * @param $p the project to insert
@@ -46,17 +44,28 @@ function insert_dbProjects($p) {
         die("Invalid argument for insert_dbProjects function call" . $p);
     }
     connect();
-    $query = 'SELECT * FROM project WHERE id ="' . $p->get_id() . '"';
+    $query = 'SELECT * FROM project WHERE ProjectID ="' . $p->get_id() . '"';
     $result = mysql_query($query);
+    if (!$result)
+      {
+           error_log('ERROR on select in insert_dbProjects() '. mysql_error());
+           die('Invalid query: ' . mysql_error());
+      }
     if (mysql_num_rows($result) != 0) {
         delete_dbProjects($p);
         connect();
     }
-    $query = "INSERT INTO project VALUES (\"" . $p->get_id() . "\",\"" .
-            $p->get_start_time() . "\",\"" . $p->get_end_time() . "\",\"" .
-            $p->num_vacancies() . ",\"" .
-            implode("*", $p->get_persons()) . "\",\"" .implode("*", $p->get_removed_persons()) . "\",\"" .
-            "\",\"" . $p->get_notes() . "\")";
+    $query = "INSERT INTO project (ProjectID,Address,Date, Vacancies,StartTime,EndTime,Name,Persons,Notes)"
+            . " VALUES ('" . $p->get_id() . "','" .
+            $p->get_address() . "','" .
+            $p->get_mm_dd_yy() . "','" .
+             $p->num_vacancies() . "','" .
+            $p->get_start_time() . "','" .
+            $p->get_end_time() . "','" .
+            $p->get_name()   . "','" .
+            implode("*", $p->get_persons()) . "','" .
+            $p->get_notes() . "');";
+    error_log("in insert_dbProjects, insert query is ". $query);
     $result = mysql_query($query);
     if (!$result) {
         echo "unable to insert into project " . $p->get_id() . mysql_error();
@@ -75,8 +84,13 @@ function delete_dbProjects($p) {
     if (!$p instanceof Project)
         die("Invalid argument for delete_dbProjects function call");
     connect();
-    $query = "DELETE FROM project WHERE id=\"" . $p->get_id() . "\"";
+    $query = "DELETE FROM project WHERE ProjectID=\"" . $p->get_id() . "\"";
     $result = mysql_query($query);
+      if (!$result)
+      {
+           error_log('ERROR on DELETE in delete_dbProjects() '. mysql_error());
+           die('Invalid query: ' . mysql_error());
+      }
     if (!$result) {
         echo "unable to delete from project " . $p->get_id() . mysql_error();
         mysql_close();
@@ -107,38 +121,28 @@ function update_dbProjects($p) {
 function select_dbProjects($id) {
     connect();
     $p = null;
-    $query = "SELECT * FROM project WHERE id =\"" . $id . "\"";
+    $query = "SELECT * FROM project WHERE ProjectID =\"" . $id . "\"";
+    error_log("in select_dbProjects, query is " . $query);
     $result = mysql_query($query);
-    mysql_close();
-    if (!$result) {
-        echo 'Could not run query2: ' . mysql_error();
-    } else {
-        $result_row = mysql_fetch_row($result);
+     if (!$result)
+      {
+           error_log('ERROR on select in select_dbProjects() '. mysql_error());
+           die('Invalid query: ' . mysql_error());
+      }
+   
+        $result_row = mysql_fetch_assoc($result);
         if ($result_row != null) {
         	$persons = array();
         	$removed_persons = array();
-        	if ($result_row[5] != "")
+        	if ($result_row['Persons'] != "")
             	$persons = explode("*", $result_row[5]);
-            if ($result_row[6] != "")
-            	$removed_persons = explode("*", $result_row[6]);
-        	$p = new Project($result_row[0], $result_row[3], $result_row[4], $persons, $removed_persons, null, $result_row[8]);
-        }
+         
+                     $p=  make_a_project($result_row);
     }
     return $p;
 }
 
-/**
- * Selects all projects from the database for a given date and venue
- * @param $id is a project id
- * @return a result set or false (if there are no projects for that date and venue)
- */
-function selectDateVenue_dbProjects($date, $venue) {
-    connect();
-    $query = "SELECT * FROM project WHERE id LIKE '%" . $date . "%' AND venue LIKE '%" . $venue . "%'";
-    $result = mysql_query($query);
-    mysql_close();
-    return $result;
-}
+
 
 /**
  * Returns an array of $ids for all projects scheduled for the person having $person_id
@@ -194,7 +198,7 @@ function get_project_end($id) {
  *         from its $id, e.g. "02-14-10-14-17"
  */
 
-function get_project_name_from_id($id) {
+/*function get_project_name_from_id($id) {
     $project_name = date("l F j, Y", mktime(0, 0, 0, get_project_month($id), get_project_day($id), get_project_year($id)));
     $project_name = $project_name . " ";
     $st = get_project_start($id);
@@ -211,7 +215,7 @@ function get_project_name_from_id($id) {
     	$project_name = $project_name . $st . " to " . $et;
     }
     return $project_name;
-}
+}  */
 
 /**
  * Tries to move a project to a new start and end time.  New times must
@@ -267,12 +271,16 @@ function proj_timeslots_overlap($s1_start, $s1_end, $s2_start, $s2_end) {
 
 function make_a_project($result_row) {
     $the_project = new Project(
-                    $result_row['id'],
-                    $result_row['venue'],
-                    $result_row['vacancies'],
-                    $result_row['persons'],
-                    $result_row['removed_persons'],
-                    $result_row['notes']
+                    $result_row['ProjectID'],
+                    $result_row['Date'],
+                    $result_row['Address'],
+                    $result_row['Name'],
+                    $result_row['StartTime'],
+                    $result_row['EndTime'],
+                    $result_row['Vacancies'],             
+                  //  $result_row['DayOfWeek'],           
+                    $result_row['Persons'],
+                    $result_row['Notes']
                  );
 
     return $the_project;
