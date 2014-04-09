@@ -18,23 +18,21 @@
  */
 session_start();
 session_cache_expire(30);
-include_once('database/dbPersons.php');
-include_once('domain/Person.php');
-include_once('database/dbApplicantScreenings.php');
-include_once('domain/ApplicantScreening.php');
-include_once('database/dbLog.php');
+include_once('database/dbProjects.php');
+include_once('domain/Project.php');
+include_once('database/dbDates.php');
 $id = str_replace("_"," ",$_GET["id"]);
 
 //Edited by James Loeffler to accept the changed person.php
 if ($id == 'new') {
-    $person = new Person('new', 'applicant', null, null, null, null, null, null, null, null, null, null, null, null, md5("new"), null);
+    $project = new Project('new', 'project', null, null, null, null, null, null, null, null);
 } else {
-    $person = retrieve_person($id);
-    if (!$person) { // try again by changing blanks to _ in id
+    $project = retrieve_project($id);
+    if (!$project) { // try again by changing blanks to _ in id
         $id = str_replace(" ","_",$_GET["id"]);
-        $person = retrieve_person($id);
-        if (!$person) {
-            echo('<p id="error">Error: there\'s no person with this id in the database</p>' . $id);
+        $project = retrieve_person($id);
+        if (!$project) {
+            echo('<p id="error">Error: there\'s no projects with this id in the database</p>' . $id);
             die();
         }
     }
@@ -43,7 +41,7 @@ if ($id == 'new') {
 <html>
     <head>
         <title>
-            Editing <?PHP echo($person->get_first_name() . " " . $person->get_last_name()); ?>
+             Editing <?PHP echo($project->get_id()); ?>
         </title>
         <link rel="stylesheet" href="styles.css" type="text/css" />
     </head>
@@ -52,10 +50,10 @@ if ($id == 'new') {
             <?PHP include('header.php'); ?>
             <div id="content">
                 <?PHP
-                include('personValidate.inc');
+                include('projectValidate.inc');
                 if ($_POST['_form_submit'] != 1)
                 //in this case, the form has not been submitted, so show it
-                    include('personForm.inc');
+                    include('projectForm.inc');
                 else {
                     //in this case, the form has been submitted, so validate it
                     $errors = validate_form();  //step one is validation.
@@ -67,11 +65,10 @@ if ($id == 'new') {
                             $ima = null;
                         else
                             $ima = implode(',', $_POST['availability']);
-                        //editied by James Loeffler
-                        $person = new Person($_POST['first_name'], $_POST['last_name'], $_POST['gender'], $_POST['address'], $_POST['city'], $_POST['state'], $_POST['zip'],
-                                        $_POST['county'], $_POST['phone1'], $_POST['phone2'], $_POST['email'],implode(',', $_POST['type']),
-                                         $_POST['schedule'], $_POST['notes'], $_POST['old_pass'],$ima);
-                        include('personForm.inc');
+                       
+                        $project = new Project($_POST['mm_dd_yy'], $_POST['address'], $_POST['name'], $_POST['start_time'], $_POST['end_time'], $_POST['dayOfWeek'], $_POST['vacancies'],
+                                        $_POST['persons'], $_POST['id'], $_POST['notes'],$ima);
+                        include('projectForm.inc');
                     }
                     // this was a successful form submission; update the database and exit
                     else
@@ -82,31 +79,23 @@ if ($id == 'new') {
                     die();
                 }
 
-                /**
+            /**
                  * process_form sanitizes data, concatenates needed data, and enters it all into a database
                  */
                 function process_form($id) {
                     //echo($_POST['first_name']);
                     //step one: sanitize data by replacing HTML entities and escaping the ' character
-                    $first_name = trim(str_replace('\\\'', '', htmlentities(str_replace('&', 'and', $_POST['first_name']))));
-                //    $first_name = str_replace(' ', '_', $first_name);
-                    $last_name = trim(str_replace('\\\'', '\'', htmlentities($_POST['last_name'])));
-                    $gender = trim(htmlentities($_POST['gender']));
+                    $mm_dd_yy = trim(str_replace('\\\'', '', htmlentities(str_replace('&', 'and', $_POST['mm_dd_yy']))));
                     $address = trim(str_replace('\\\'', '\'', htmlentities($_POST['address'])));
-                    $city = trim(str_replace('\\\'', '\'', htmlentities($_POST['city'])));
-                    $state = trim(htmlentities($_POST['state']));
-                    $zip = trim(htmlentities($_POST['zip']));
-                    $county = trim(htmlentities($_POST['county']));
-                    $phone1 = trim(str_replace(' ', '', htmlentities($_POST['phone1'])));
-                    $clean_phone1 = ereg_replace("[^0-9]", "", $phone1);
-                    $phone2 = trim(str_replace(' ', '', htmlentities($_POST['phone2'])));
-                    $clean_phone2 = ereg_replace("[^0-9]", "", $phone2);
-                    $email = $_POST['email'];
-                    //Edited out by James Loeffler because these are not included in the new person.php
-                    /*$contact_preference = $_POST['contact_preference'];
-                    $emergency_contact = $_POST['emergency_contact'];
-                    $emergency_phone = trim(str_replace(' ', '', htmlentities($_POST['emergency_phone'])));
-                    $clean_emergency_phone = ereg_replace("[^0-9]", "", $emergency_phone);
+                    $name = trim(htmlentities($_POST['name']));
+                    $start_time = ereg_replace("[^0-9]", "", $start_time);
+                    $end_time = ereg_replace("[^0-9]", "", $end_time);
+                    $dayOfWeek = trim(htmlentities($_POST['dayOfWeek']));
+                    $vacancies = ereg_replace("[^0-9]", "", $vacancies);
+                    $persons = trim(htmlentities($_POST['persons']));
+                    $id= trim(htmlentities($_POST['id']));
+                    $notes = trim(htmlentities($_POST['notes']));
+                
                     
                     $screening_type = $_POST['screening_type'];
                     if ($screening_type!="") {
@@ -122,41 +111,14 @@ if ($id == 'new') {
                             	$date_array[$i] = null;
                         	}
                     }
-                    $screening_status = implode(',', $date_array);
-                    }
-                    $status = $_POST['status'];
-                    $occupation = $_POST['occupation'];
-                    $refs = $_POST['refs'];
-
-                    $motivation = trim(str_replace('\\\'', '\'', htmlentities($_POST['motivation'])));
-                    $specialties = trim(str_replace('\\\'', '\'', htmlentities($_POST['specialties'])));*/
-                    $type = implode(',', $_POST['type']); // added by James Loeffler
-                    
-                    $schedule = $_POST['schedule'];
-                    //concatenate birthday and start_date strings
-                    /*if ($_POST['DateOfBirth_Year'] == "")
-                        $birthday = $_POST['DateOfBirth_Month'] . '-' . $_POST['DateOfBirth_Day'] . '-XX';
-                    else
-                        $birthday = $_POST['DateOfBirth_Month'] . '-' . $_POST['DateOfBirth_Day'] . '-' . $_POST['DateOfBirth_Year'];
-                    if (strlen($birthday) < 8)
-                        $birthday = '';
-                    $start_date = $_POST['DateOfStart_Month'] . '-' . $_POST['DateOfStart_Day'] . '-' . $_POST['DateOfStart_Year'];
-                    if (strlen($start_date) < 8)
-                        $start_date = '';*/
-                    $notes = trim(str_replace('\\\'', '\'', htmlentities($_POST['notes'])));
-                    //password here?
-                    if ($_POST['availability'] != null)
-                        $availability = implode(',', $_POST['availability']);
-                    else
-                        $availability = "";
-                    // these two are not visible for editing, so they go in and out unchanged
-                    //used for url path in linking user back to edit form
+             
+            
                     $path = strrev(substr(strrev($_SERVER['SCRIPT_NAME']), strpos(strrev($_SERVER['SCRIPT_NAME']), '/')));
                     //step two: try to make the deletion, password change, addition, or change
                     if ($_POST['deleteMe'] == "DELETE") {
                         $result = retrieve_person($id);
                         if (!$result)
-                            echo('<p>Unable to delete. ' . $first_name . ' ' . $last_name . ' is not in the database. <br>Please report this error to the House Manager.');
+                            echo('<p>Unable to delete. ' . $mm_dd_yy . ' is not in the database. <br>Please report this error to the House Manager.');
                         else {
                             //What if they're the last remaining manager account?
                             if (strpos($type, 'manager') !== false) {
@@ -166,7 +128,7 @@ if ($id == 'new') {
                                     echo('<p class="error">You cannot remove the last remaining manager from the database.</p>');
                                 else {
                                     $result = remove_person($id);
-                                    echo("<p>You have successfully removed " . $first_name . " " . $last_name . " from the database.</p>");
+                                    echo("<p>You have successfully removed " . mm_dd_yy . " from the database.</p>");
                                     if ($id == $_SESSION['_id']) {
                                         session_unset();
                                         session_destroy();
@@ -174,7 +136,7 @@ if ($id == 'new') {
                                 }
                             } else {
                                 $result = remove_person($id);
-                                echo("<p>You have successfully removed " . $first_name . " " . $last_name . " from the database.</p>");
+                                echo("<p>You have successfully removed " . $mm_dd_yy . " from the database.</p>");
                                 if ($id == $_SESSION['_id']) {
                                     session_unset();
                                     session_destroy();
@@ -182,64 +144,47 @@ if ($id == 'new') {
                             }
                         }
                     }
-
-                    // try to reset the person's password
-                    else if ($_POST['reset_pass'] == "RESET") {
-                        $id = $_POST['old_id'];
-                        $result = remove_person($id);
-                        $pass = $first_name . $clean_phone1;
-                        //edited by James Loeffler
-                        $newperson = new Person($first_name, $last_name, $gender, $address, $city, $state, $zip, $county, $clean_phone1, $clean_phone2, $email,
-                                        $type, $schedule, 
-                                        $notes, md5($pass), $availability);
-                        $result = add_person($newperson);
-                        if (!$result)
-                            echo ('<p class="error">Unable to reset ' . $first_name . ' ' . $last_name . "'s password.. <br>Please report this error to the House Manager.");
-                        else
-                            echo("<p>You have successfully reset " . $first_name . " " . $last_name . "'s password.</p>");
+                    
                     }
 
-                    // try to add a new person to the database
+                    
+                    // try to add a new project to the database
                     else if ($_POST['old_id'] == 'new') {
-                        $id = $first_name . $clean_phone1;
+                        $id = $mm_dd_yy;
                         //check if there's already an entry
-                        $dup = retrieve_person($id);
+                        $dup = retrieve_project($id);
                         if ($dup)
-                            echo('<p class="error">Unable to add ' . $first_name . ' ' . $last_name . ' to the database. <br>Another person with the same name and phone is already there.');
+                            echo('<p class="error">Unable to add ' . $mm_dd_yy . ' to the database. <br>Another person with the same name and phone is already there.');
                         else {
-                            //edited by James Loeffler
-                            $newperson = new Person($first_name, $last_name, $gender, $address, $city, $state, $zip, $county, $clean_phone1, $clean_phone2, $email,
-                                        $type, $schedule, 
-                                        $notes, md5($pass), $availability);
-                            $result = add_person($newperson);
+                            
+                            $newproject= new Person($mm_dd_yy, $address, $name, $start_time, $end_time, $dayOfWeek, $vacancies, $persons, $id, $notes);
+                                        
+                                        
+                            $result = add_project($newproject);
                             if (!$result)
-                                echo ('<p class="error">Unable to add " .$first_name." ".$last_name. " in the database. <br>Please report this error to the House Manager.');
+                                echo ('<p class="error">Unable to add " .$mm_dd_yy." in the database. <br>Please report this error to the House Manager.');
                             else if ($_SESSION['access_level'] == 0)
                                 echo("<p>Your application has been successfully submitted.<br>  The House Manager will contact you soon.  Thank you!");
                             else
-                                echo("<p>You have successfully added " . $first_name . " " . $last_name . " to the database.</p>");
+                                echo("<p>You have successfully added " . $mm_dd_yy . " to the database.</p>");
                         }
                     }
 
-                    // try to replace an existing person in the database by removing and adding
+                    // try to replace an existing project in the database by removing and adding
                     else {
                         $id = $_POST['old_id'];
-                        $pass = $_POST['old_pass'];
-                        $result = remove_person($id);
+                        
+                        $result = remove_project($id);
                         if (!$result)
-                            echo ('<p class="error">Unable to update ' . $first_name . ' ' . $last_name . '. <br>Please report this error to the House Manager.');
+                            echo ('<p class="error">Unable to update ' . $mm_dd_yy. '. <br>Please report this error to the House Manager.');
                         else {
-                            //Edited by James Loeffler
-                            $newperson = Person($first_name, $last_name, $gender, $address, $city, $state, $zip, $county, $clean_phone1, $clean_phone2, $email,
-                                        $type, $schedule, 
-                                        $notes, md5($pass), $availability);
-                            $result = add_person($newperson);
+                        $newproject= new Project($mm_dd_yy, $address, $name, $start_time, $end_time, $dayOfWeek, $vacancies, $persons, $id, $notes);
                             if (!$result)
-                                echo ('<p class="error">Unable to update ' . $first_name . ' ' . $last_name . '. <br>Please report this error to the House Manager.');
-                            //else echo("<p>You have successfully edited " .$first_name." ".$last_name. " in the database.</p>");
+                                echo ('<p class="error">Unable to update ' . $mm_dd_yy .' <br>Please report this error to the House Manager.');
+                           
                             else
-                                echo('<p>You have successfully edited <a href="' . $path . 'personEdit.php?id=' . $id . '"><b>' . $first_name . ' ' . $last_name . ' </b></a> in the database.</p>');
-                            add_log_entry('<a href=\"personEdit.php?id=' . $id . '\">' . $first_name . ' ' . $last_name . '</a>\'s Personnel Edit Form has been changed.');
+                                echo('<p>You have successfully edited <a href="' . $path . 'projectEdit.php?id=' . $id . '"><b>' . $mm_dd_yy . ' </b></a> in the database.</p>');
+                            add_log_entry('<a href=\"personEdit.php?id=' . $id . '\">' . $mm_dd_yy . ' </a>\'s Personnel Edit Form has been changed.');
                         }
                     }
                 }
