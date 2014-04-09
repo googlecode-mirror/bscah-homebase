@@ -120,10 +120,17 @@ CREATE TABLE IF NOT EXISTS `person` (
 -- Dumping data for table `person`
 --
 
-INSERT INTO `person` (`ID`, `first_name`, `last_name`,`Birthday`, `Gender`, `Address`, `City`, `State`, `Zip`, `Phone1`, `Phone2`, `Email`, `Type`, `Status`, `Schedule`, `Notes`, `Password`, `Availability`, `Contact Preference`) VALUES
-(`Alana5164918985`, `Alana`, `Mutum`,`09/19/1993', 'F', '1140 Esther St', 'Franklin Square', 'NY', '11010',2147483647, 0, 'lanixxjay@live.com', 'Volunteer', 'applicant','', '', 'cus1166', '', `email`),
-('staff1166', 'Student', 'Student', `07/04/1995`, 'M', ,  '8000 Utopia Pkwy', 'Queens', 'NY',  '11439',911, 0, 'student@stjohns,edu', 'Volunteer', 'approved','', '', 'cus1166', '', `email`),
-('student1166', 'Student', 'Student', `09/09/1992`, 'M' ,  '8000 Utopia Pkwy', 'Queens', 'NY',  '11439',911, 0, 'student@stjohns,edu', 'Volunteer', 'approved','', '', 'cus1166', '', `mail`);
+INSERT INTO `person` (`ID`, `first_name`, `last_name`, `Birthday`, `Gender`, `Address`, `City`, `State`, `Zip`, `Phone1`, `Phone2`, `Email`, `Type`, `Status`, `Schedule`, `Notes`, `Password`, `Availability`, `Contact Preference`) VALUES
+('', 'Alana', 'Mutum', '09/19/1993', 'F', '1140 Esther Street', 'Franklin Square', 'NY', '11010', 2147483647, NULL, 'lanixxjay@live.com', 'Volunteer', 'Applicant', '', '', 'cus1166', '', 'email');
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+
+-- Dumping data for table `person`
+--
+
+
 
 -- --------------------------------------------------------
 
