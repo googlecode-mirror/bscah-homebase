@@ -11,35 +11,33 @@
  */
 
 /*
- * 	personForm.inc
- *  shows a form for a person to be added or edited in the database
+ * 	projectForm.inc
+ *  shows a form for a project to be added or edited in the database
  * 	@author Oliver Radwan and Allen Tucker
  * 	@version 9/1/2008, revised 4/1/2012
  */
 
 if ($_SESSION['access_level'] == 0) {
-    echo('<p><strong>New Volunteer Application Form</strong><br />');
-    echo('Please provide us with some basic information about yourself and your interests.' .
+    echo('<p><strong>New Project Application Form</strong><br />');
+    echo('Please provide us with some basic information about your project.' .
     '<br>When you are finished, hit <b>Submit</b> at the bottom of this page.');
 } else if ($_SESSION['access_level'] == 1)
-    if ($_SESSION['_id'] != $person->get_id()) {
+    if ($_SESSION['_id'] != $project->get_id()) {
         echo("<p id=\"error\">You do not have sufficient permissions to edit this user.</p>");
         include('footer.inc');
         echo('</div></div></body></html>');
         die();
     } else {
-        echo('<p><strong>Volunteer Edit Form</strong><br />');
-        echo('Here you can edit your own information in the database.' .
+        echo('<p><strong>Project Edit Form</strong><br />');
+        echo('Here you can edit your projectinformation in the database.' .
         '<br>When you are finished, hit <b>Submit</b> at the bottom of this page.');
     } else if ($_SESSION['access_level'] == 2)
     if ($id == 'new') {
-        echo('<p><strong>New Volunteer Form</strong><br />');
-        echo('Here you can add a new volunteer into the database. </p>');
+        echo('<p><strong>New Project Form</strong><br />');
+        echo('Here you can add a new project into the database. </p>');
+
     } else {
-        echo('<p><strong>Volunteer Edit Form</strong><br />');
-        echo('Here you can edit, delete, or change the password for a volunteer in the database.</p><p>');
-    } else {
-    echo("<p id=\"error\">You do not have sufficient permissions to add a new person to the database.</p>");
+    echo("<p id=\"error\">You do not have sufficient permissions to add a new project to the database.</p>");
     include('footer.inc');
     echo('</div></div></body></html>');
     die();
@@ -47,89 +45,26 @@ if ($_SESSION['access_level'] == 0) {
 ?>
 <form method="POST">
     <input type="hidden" name="old_id" value=<?PHP echo("\"" . $id . "\""); ?>>
-    <input type="hidden" name="old_pass" value=<?PHP echo("\"" . $person->get_password() . "\""); ?>>
     <input type="hidden" name="_form_submit" value="1">
     <p>(<span style="font-size:x-small;color:FF0000">*</span> denotes required fields)
-    <p>First Name<span style="font-size:x-small;color:FF0000">*</span>: <input type="text" name="first_name" tabindex="1" value="<?PHP echo($person->get_first_name()) ?>">
-        Last Name<span style="font-size:x-small;color:FF0000">*</span>: <input type="text" name="last_name" tabindex="2" value="<?PHP echo($person->get_last_name()) ?>">
-    <fieldset>
-        <legend>Contact information:</legend>
-        <p>Address<span style="font-size:x-small;color:FF0000">*</span>: <input type="text" name="address" tabindex="3" size=40 value="<?PHP echo($person->get_address()) ?>">
-        City<span style="font-size:x-small;color:FF0000">*</span>: <input type="text" name="city" tabindex="4" value="<?PHP echo($person->get_city()) ?>">
-        <p>State, Zip<span style="font-size:x-small;color:FF0000">*</span>:
-            <select name="state" tabindex="5">
-<?PHP
-$states = array("AL", "AK", "AZ", "AR", "CA", "CO", "CT", "DE", "DC", "FL", "GA", "HI", "ID", "IL", "IN", "IA",
-    "KS", "KY", "LA", "ME", "MD", "MA", "MI", "MN", "MS", "MO", "MT", "NE", "NV", "NH", "NJ", "NM",
-    "NY", "NC", "ND", "OH", "OK", "OR", "PA", "RI", "SC", "SD", "TN", "TX", "UT", "VT", "VA", "WA",
-    "WV", "WI", "WY");
-foreach ($states as $st) {
-    echo "<option value='" . $st . "' ";
-    if ($person->get_state() == $st)
-        echo("SELECTED");
-    else if ($id == "new" && $st == "ME")
-        echo("SELECTED");
-    echo ">" . $st . "</option>";
-}
-?>
-            </select>,
-            <input type="text" name="zip" size="5" tabindex="6" value="<?PHP echo($person->get_zip()) ?>">
-            &nbsp;&nbsp;County: <input type="text" name="county" value="<?PHP echo($person->get_county()) ?>">
-        <p>Phone<span style="font-size:x-small;color:FF0000">*</span>: <input type="text" name="phone1" MAXLENGTH=12 tabindex="7" value="<?PHP echo(phone_edit($person->get_phone1())) ?>">
-            &nbsp;&nbsp;Alternate Phone:<input type="text" name="phone2" MAXLENGTH=12 tabindex="8" value="<?PHP echo(phone_edit($person->get_phone2())) ?>">
-        <p>Email:<input type="text" name="email" tabindex="9" value="<?PHP echo($person->get_email()) ?>">
-            &nbsp;&nbsp;&nbsp;&nbsp;Contact preference:&nbsp;&nbsp;
-<?PHP
-        echo('<select name="contact_preference">');
-        echo ('<option value=""');
-        if ($person->get_contact_preference() == '')
-            echo (' SELECTED'); echo('></option>');
-        echo ('<option value="email"');
-        if ($person->get_contact_preference() == 'email')
-            echo (' SELECTED'); echo('>email</option>');
-        echo ('<option value="phone"');
-        if ($person->get_contact_preference() == 'phone')
-            echo (' SELECTED'); echo('>phone</option>');
-        echo ('<option value="mail"');
-        if ($person->get_contact_preference() == 'mail')
-            echo (' SELECTED'); echo('>mail</option>');
-        echo('</select>');
-        
-        echo('<p>Emergency contact:&nbsp;&nbsp;');
-        echo '<input type="text" name="emergency_contact" tabindex="10" value="' . $person->get_emergency_contact() . '">';
-        echo('&nbsp;&nbsp;&nbsp;&nbsp;Emergency phone:&nbsp;&nbsp;');
-        echo '<input type="text" name="emergency_phone" tabindex="11" value="' . phone_edit($person->get_emergency_phone()) . '">';
+    <p>MM_DD_YY<span style="font-size:x-small;color:FF0000">*</span>: <input type="text" name="mm_dd_yy" tabindex="1" value="<?PHP echo($project>get_mm_dd_yy()) ?>">
+       Address<span style="font-size:x-small;color:FF0000">*</span>: <input type="text" name="address" tabindex="2" value="<?PHP echo($project>get_address()) ?>">
+    <fieldset>    
+           </select>,
+        <p>Start Time<span style="font-size:x-small;color:FF0000">*</span>: <input type="text" name="start_time" MAXLENGTH=2 tabindex="7" value="<?PHP echo(start_time_edit($project->get_start_time())) ?>">
+             <p>End Time<span style="font-size:x-small;color:FF0000">*</span>: <input type="text" name="end_time" MAXLENGTH=2 tabindex="7" value="<?PHP echo(end_time_edit($project->get_end_time())) ?>">
+       
+       <p>Day of Week<span style="font-size:x-small;color:FF0000">*</span>: <input type="text" name="dayOfWeek" tabindex="1" value="<?PHP echo($project>get_day) ?>">
+          <p>Vacancies<span style="font-size:x-small;color:FF0000">*</span>: <input type="text" name="vacancies" MAXLENGTH=3 tabindex="7" value="<?PHP echo(vancancies_edit($project->get_vacancies())) ?>">
+       <p>Persons<span style="font-size:x-small;color:FF0000">*</span>: <input type="text" name="persons tabindex="1" value="<?PHP echo($project>persons) ?>">
+                  <p>ID<span style="font-size:x-small;color:FF0000">*</span>: <input type="text" name="id" tabindex="1" value="<?PHP echo($project>get_id) ?>"> 
+  <?PHP
+    
+       
 
-        echo '<p>Birthday:';
-        $mm = substr($person->get_birthday(), 0, 2);
-        $dd = substr($person->get_birthday(), 3, 2);
-        $yy = substr($person->get_birthday(), 6, 2);
-        select_date($mm, $dd, $yy, "DateOfBirth_Month", "DateOfBirth_Day", "DateOfBirth_Year");
-        if ($person->get_start_date()!="") {
-        	echo "&nbsp;&nbsp;&nbsp;&nbsp;Start Date:";
-        	$mm = substr($person->get_start_date(), 0, 2);
-        	$dd = substr($person->get_start_date(), 3, 2);
-        	$yy = substr($person->get_start_date(), 6, 2);
-        	select_date($mm, $dd, $yy, "DateOfStart_Month", "DateOfStart_Day", "DateOfStart_Year");
-        }
-
-        echo('<p>Gender:&nbsp;&nbsp;');
-        echo('<select name="gender">');
-        echo ('<option value=""');
-        if ($person->get_gender() == '')
-            echo (' SELECTED'); echo('></option>');
-        echo ('<option value="female"');
-        if ($person->get_gender() == 'female')
-            echo (' SELECTED'); echo('>female</option>');
-        echo ('<option value="male"');
-        if ($person->get_gender() == 'male')
-            echo (' SELECTED'); echo('>male</option>');
-        echo('</select>');
-         echo('&nbsp;&nbsp;&nbsp;&nbsp;Occupation:&nbsp;&nbsp;');
-        echo '<input type="text" name="occupation" tabindex="12" size=50 value="' . $person->get_occupation() . '">';
         echo('<p>Notes:<br />');
         echo('<textarea name="notes" rows="2" cols="60">');
-        echo($person->get_notes());
+        echo($project->get_notes());
         echo('</textarea></fieldset>');
 
 
@@ -143,32 +78,17 @@ if ($_SESSION['access_level'] == 0) {
 }
 else {
 	echo ('<option value="applicant"');
-	if ($person->get_status() == 'applicant')
+	if ($project->get_status() == 'applicant')
     	echo (' SELECTED'); 
     echo('>applicant</option>'); echo ('<option value="active"');
-	if ($person->get_status() == 'active')
+	if ($project->get_status() == 'active')
 	    echo (' SELECTED'); echo('>active</option>');
 	echo ('<option value="LOA"');
-	if ($person->get_status() == 'LOA')
-	    echo (' SELECTED'); echo('>on leave</option>');
+	if ($project->get_status() == 'LOA')
+	    echo (' SELECTED'); echo('>Not being worked on at this time</option>');
 	echo ('<option value="former"');
-	if ($person->get_status() == 'former')
+	if ($project->get_status() == 'former')
 	    echo (' SELECTED'); echo('>former</option>');
-}
-echo('</select>');
-// $st = implode(',', $person->get_type());
-$types = array('volunteer' => 'House Volunteer', 'sub' => 'Sub', 'weekendmanager' => 'Weekend manager', 'manager' => 'Manager', 
-	'guestchef' => 'Guest chef', 'parking' => 'Parking', 'cleaning' => 'Cleaning', 'other' => 'Other'
-);
-echo('<p>Position type(s):');
-// $ts = $types;
-echo('<span style="font-size:x-small;color:FF0000">*</span>');
-
-foreach ($types as $key => $value) {
-    echo ('&nbsp;&nbsp;&nbsp;&nbsp;<input type="checkbox" name="type[]" value=' . $key);
-    if (in_array($key,$person->get_type()) !== false)
-        echo(' CHECKED');
-    echo ('>' . $value );
 }
 ?>
     <fieldset id='availability'>
@@ -176,20 +96,16 @@ foreach ($types as $key => $value) {
         <span class="bigTable">
             <table>
                 <?PHP
-                $shifts = array('morning' => 'Morning (9-12)', 'earlypm' => 'Early afternoon (12-3)', 'latepm' => 'Late afternoon (3-6)',
+                $projects = array('morning' => 'Morning (9-12)', 'earlypm' => 'Early afternoon (12-3)', 'latepm' => 'Late afternoon (3-6)',
                     'evening' => 'evening (6-9)', 'overnight' => "Overnight");
                 $days = array('Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun');
-                $person_availability = implode(',', $person->get_availability());
-    			echo "<table>".
-					"<tr><td> &nbsp;&nbsp;</td><td>Mon&nbsp;&nbsp;</td><td>Tue&nbsp;&nbsp;</td><td>Wed&nbsp;&nbsp;</td>".
-					"<td>Thu&nbsp;&nbsp;</td><td>Fri&nbsp;&nbsp;</td><td>Sat&nbsp;&nbsp;</td><td>Sun</td></tr>";
-    			foreach ($shifts as $weekno => $weekvalue) {
+              
+    			foreach ($projects as $weekno => $weekvalue) {
        				echo ('<tr><td>'. $weekvalue . '</td>');
        				foreach ($days as $day) {
        	  				$realkey = $day . ":". $weekno;
        	  				echo ('<td><input type="checkbox" name="availability[]" value=' . $realkey);
-    	  				if (in_array($day.":".$weekno, $person->get_availability())) echo(' CHECKED');
-    	  				echo ('></td>');
+    	  				
        				}
        				echo ('</tr>');
     			}
@@ -200,15 +116,15 @@ foreach ($types as $key => $value) {
     </fieldset>
     <p>
         <?PHP
-        if ($id == 'new' || $person->get_status() == "applicant") {
+        if ($id == 'new' || $project->get_s() == "applicant") {
             echo "<fieldset>";
             echo "<legend>Applicants only: </legend>";
 			if ($_SESSION['access_level'] == 2) {
-            	$screeningType = $person->get_screening_type();
+            	$screeningType = $project->get_screening_type();
                 $screening = retrieve_dbApplicantScreenings($screeningType);
                 $screenings = getall_ApplicantScreenings();
                 echo('<p> Screening Type:&nbsp; <select name="screening_type">');
-                if ($person->get_screening_type() == "")
+                if ($project->get_screening_type() == "")
                     echo('<option value="" SELECTED></option>');
                 foreach ($screenings as $s) {
                     if ($s->get_status() == "published") {
@@ -222,12 +138,12 @@ foreach ($types as $key => $value) {
                 }
                 echo('</select>&nbsp;');
 
-                // submit button that allows manager to associate person with applicant screening
-                //echo(' Hit <input type="submit" value="submit" name="Submit Edits"> to associate '.$person->get_first_name().' with this screening.<br><br>');
+                // submit button that allows manager to associate project with porject screening
+                //echo(' Hit <input type="submit" value="submit" name="Submit Edits"> to associate '.$project->get_mm_dd_yy().' with this screening.<br><br>');
 
                 if ($screening) {
                     $step_array = $screening->get_steps();
-                    $date_array = $person->get_screening_status();
+                    $date_array = $project->get_screening_status();
                     $step_count = count($step_array);
                 
                 echo("<p><table>");
@@ -247,25 +163,8 @@ foreach ($types as $key => $value) {
                 }
 			}
 
-                echo('<p>Motivation / Specialties:<br />');
-                echo('<textarea name="motivation" rows="2" cols="60">');
-                echo($person->get_motivation());
-                if ($person->get_specialties() != "")
-                    echo " / " . $person->get_specialties();
-                echo('</textarea>');
-
-                echo('<p>References:<br />');
-                echo('<textarea name="references" rows="2" cols="60">');
-                foreach ($person->get_references() as $reference) {
-                    $i = strpos($reference, "_");
-                    echo substr($reference, 0, $i) . " " . phone_edit(substr($reference, $i + 1)) . "     ";
-                }
-                echo('</textarea>');
-            echo "</fieldset>";
         }
-
-        echo('<input type="hidden" name="schedule" value="' . implode(',', $person->get_schedule()) . '">');
-        echo('<input type="hidden" name="password" value="' . $person->get_password() . ')">');
+      
         echo('<input type="hidden" name="_submit_check" value="1"><p>');
         if ($_SESSION['access_level'] == 0)
             echo('Hit <input type="submit" value="Submit" name="Submit Edits"> to complete this application.<br /><br />');
@@ -275,7 +174,7 @@ foreach ($types as $key => $value) {
             echo ('<input type="checkbox" name="deleteMe" value="DELETE"> Check this box and then hit ' .
             '<input type="submit" value="Delete" name="Delete Entry"> to delete this entry. <br />' .
             '<input type="checkbox" name="reset_pass" value="RESET"> Check this box and then hit ' .
-            '<input type="submit" value="Reset Password" name="Reset Password"> to reset this person\'s password.</p>');
+            '<input type="submit" value="Reset Password" name="Reset Password"assword.</p>');
         }
 
         function &select_date($month, $day, $year, $month_name, $day_name, $year_name) {

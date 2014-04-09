@@ -95,24 +95,7 @@ if ($id == 'new') {
                     $persons = trim(htmlentities($_POST['persons']));
                     $id= trim(htmlentities($_POST['id']));
                     $notes = trim(htmlentities($_POST['notes']));
-                
-                    
-                    $screening_type = $_POST['screening_type'];
-                    if ($screening_type!="") {
-                    	$screening = retrieve_dbApplicantScreenings($screening_type);
-                    	$step_array = $screening->get_steps();
-                    	$step_count = count($step_array);
-                    	$date_array = array();
-                    	for ($i = 0; $i < $step_count; $i++) {
-                        	$date_array[$i] = $_POST['ss_month'][$i] . '-' . $_POST['ss_day'][$i] . '-' . $_POST['ss_year'][$i];
-                        	if ($date_array[$i]!="--" && strlen($date_array[$i]) != 8) {
-                           	 	if (strlen($date_array[$i] != 2))
-                                	echo('<p>Date of completion for step: "' . $step_array[$i] . '" is in error, please select month, day <i>and</i> year.<br>');
-                            	$date_array[$i] = null;
-                        	}
-                    }
-             
-            
+                 
                     $path = strrev(substr(strrev($_SERVER['SCRIPT_NAME']), strpos(strrev($_SERVER['SCRIPT_NAME']), '/')));
                     //step two: try to make the deletion, password change, addition, or change
                     if ($_POST['deleteMe'] == "DELETE") {
@@ -144,9 +127,6 @@ if ($id == 'new') {
                             }
                         }
                     }
-                    
-                    }
-
                     
                     // try to add a new project to the database
                     else if ($_POST['old_id'] == 'new') {
