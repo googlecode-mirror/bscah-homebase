@@ -38,14 +38,11 @@ class MasterScheduleEntry {
 		$this->start_time = $start_time;
 		$this->end_time = $end_time;
 		$this->slots = $slots;
-		if ($persons !== "")
-			$this->persons = explode(',',$persons);
-		else
-			$this->persons = array();
-		$this->notes = $notes;
+		$this->persons = $persons;
 		if ($start_time!="overnight")
 			$this->MS_ID = $Schedule_type.$day.$start_time."-".$end_time;
 		else $this->MS_ID = $Schedule_type.$day."-".$start_time;
+                $this->notes = $notes;
                 $this->Shifts = $Shifts;
 	}
 	
