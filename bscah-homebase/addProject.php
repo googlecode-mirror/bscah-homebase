@@ -11,8 +11,8 @@
  */
 
 /*
- * 	personEdit.php
- *  oversees the editing of a person to be added, changed, or deleted from the database
+ * 	projectEdit.php
+ *  oversees the editing of a project to be added, changed, or deleted from the database
  * 	@author Oliver Radwan and Allen Tucker
  * 	@version 9/1/2008 revised 4/1/2012
  */
@@ -20,17 +20,16 @@ session_start();
 session_cache_expire(30);
 include_once('database/dbProjects.php');
 include_once('domain/Project.php');
-include_once('database/dbDates.php');
 $id = str_replace("_"," ",$_GET["id"]);
 
-//Edited by James Loeffler to accept the changed person.php
+
 if ($id == 'new') {
     $project = new Project('new', 'project', null, null, null, null, null, null, null, null);
 } else {
     $project = retrieve_project($id);
     if (!$project) { // try again by changing blanks to _ in id
         $id = str_replace(" ","_",$_GET["id"]);
-        $project = retrieve_person($id);
+        $project = retrieve_project($id);
         if (!$project) {
             echo('<p id="error">Error: there\'s no projects with this id in the database</p>' . $id);
             die();
@@ -99,7 +98,7 @@ if ($id == 'new') {
                     $path = strrev(substr(strrev($_SERVER['SCRIPT_NAME']), strpos(strrev($_SERVER['SCRIPT_NAME']), '/')));
                     //step two: try to make the deletion, password change, addition, or change
                     if ($_POST['deleteMe'] == "DELETE") {
-                        $result = retrieve_person($id);
+                        $result = retrieve_project($id);
                         if (!$result)
                             echo('<p>Unable to delete. ' . $mm_dd_yy . ' is not in the database. <br>Please report this error to the House Manager.');
                         else {
@@ -110,7 +109,7 @@ if ($id == 'new') {
                                 if (!$managers || mysql_num_rows($managers) <= 1)
                                     echo('<p class="error">You cannot remove the last remaining manager from the database.</p>');
                                 else {
-                                    $result = remove_person($id);
+                                    $result = remove_project($id);
                                     echo("<p>You have successfully removed " . mm_dd_yy . " from the database.</p>");
                                     if ($id == $_SESSION['_id']) {
                                         session_unset();
@@ -118,7 +117,7 @@ if ($id == 'new') {
                                     }
                                 }
                             } else {
-                                $result = remove_person($id);
+                                $result = remove_project($id);
                                 echo("<p>You have successfully removed " . $mm_dd_yy . " from the database.</p>");
                                 if ($id == $_SESSION['_id']) {
                                     session_unset();
@@ -134,10 +133,10 @@ if ($id == 'new') {
                         //check if there's already an entry
                         $dup = retrieve_project($id);
                         if ($dup)
-                            echo('<p class="error">Unable to add ' . $mm_dd_yy . ' to the database. <br>Another person with the same name and phone is already there.');
+                            echo('<p class="error">Unable to add ' . $mm_dd_yy . ' to the database. <br>Another project with the same name is already there.');
                         else {
                             
-                            $newproject= new Person($mm_dd_yy, $address, $name, $start_time, $end_time, $dayOfWeek, $vacancies, $persons, $id, $notes);
+                            $newproject= new Project($mm_dd_yy, $address, $name, $start_time, $end_time, $dayOfWeek, $vacancies, $persons, $id, $notes);
                                         
                                         
                             $result = add_project($newproject);
@@ -164,7 +163,7 @@ if ($id == 'new') {
                            
                             else
                                 echo('<p>You have successfully edited <a href="' . $path . 'projectEdit.php?id=' . $id . '"><b>' . $mm_dd_yy . ' </b></a> in the database.</p>');
-                            add_log_entry('<a href=\"personEdit.php?id=' . $id . '\">' . $mm_dd_yy . ' </a>\'s Personnel Edit Form has been changed.');
+                            add_log_entry('<a href=\"projectEdit.php?id=' . $id . '\">' . $mm_dd_yy . ' </a>\'s Project Edit Form has been changed.');
                         }
                     }
                 }
