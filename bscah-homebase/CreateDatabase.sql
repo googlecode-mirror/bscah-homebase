@@ -43,7 +43,7 @@ CREATE TABLE IF NOT EXISTS `date` (
 --
 
 CREATE TABLE IF NOT EXISTS `masterschedule` (
-  `MS_ID` varchar(25) NOT NULL DEFAULT '',
+  `MS_ID` varchar(25) NOT NULL,
   `Schedule_type` text NOT NULL,
   `day` text NOT NULL,
   `start_time` text NOT NULL,
@@ -51,7 +51,8 @@ CREATE TABLE IF NOT EXISTS `masterschedule` (
   `slots` int(11) DEFAULT NULL,
   `persons` text,
   `notes` text,
-  `Shifts` text NOT NULL
+  `Shifts` text NOT NULL, 
+ PRIMARY KEY (`MS_ID`), 
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -62,14 +63,14 @@ CREATE TABLE IF NOT EXISTS `masterschedule` (
 
 CREATE TABLE IF NOT EXISTS `person` (
   `ID` varchar(25) NOT NULL,
-  `NameFirst` varchar(20) NOT NULL,
-  `NameLast` varchar(25) NOT NULL,
+  `first_name` varchar(20) NOT NULL,
+  `last_name` varchar(25) NOT NULL,
+  `Birthday` varchar(11) NOT NULL, 
   `Gender` varchar(1) NOT NULL,
   `Address` varchar(40) NOT NULL,
   `City` varchar(25) NOT NULL,
   `State` varchar(2) NOT NULL,
   `Zip` varchar(5) NOT NULL,
-  `County` varchar(25) DEFAULT NULL,
   `Phone1` int(10) NOT NULL,
   `Phone2` int(10) DEFAULT NULL,
   `Email` varchar(30) NOT NULL,
@@ -79,6 +80,7 @@ CREATE TABLE IF NOT EXISTS `person` (
   `Notes` varchar(200) NOT NULL,
   `Password` varchar(25) NOT NULL,
   `Availability` varchar(50) NOT NULL COMMENT 'days and times free for volunteering',
+   `Contact Preference` varchar(15) NOT NULL COMMENT 'either email, mail or phone number',
   PRIMARY KEY (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -86,10 +88,10 @@ CREATE TABLE IF NOT EXISTS `person` (
 -- Dumping data for table `person`
 --
 
-INSERT INTO `person` (`ID`, `NameFirst`, `NameLast`, `Gender`, `Address`, `City`, `State`, `Zip`, `County`, `Phone1`, `Phone2`, `Email`, `Type`, `Status`, `Schedule`, `Notes`, `Password`, `Availability`) VALUES
-('Alana5164918985', 'Alana', 'Mutum', 'F', '1140 Esther St', 'Franklin Square', 'NY', '11010', 'SomeCounty',2147483647, 0, 'lanixxjay@live.com', 'Volunteer', 'applicant','', '', 'cus1166', ''),
-('staff1166', 'Student', 'Student', 'M', '8000 Utopia Pkwy', 'Queens', 'NY',  '11439', 'Queens',911, 0, 'student@stjohns,edu', 'Volunteer', 'approved','', '', 'cus1166', ''),
-('student1166', 'Student', 'Student', 'M', '8000 Utopia Pkwy', 'Queens', 'NY',  '11439', 'Queens',911, 0, 'student@stjohns,edu', 'Volunteer', 'approved','', '', 'cus1166', '');
+INSERT INTO `person` (`ID`, `first_name`, `last_name`,`Birthday`, `Gender`, `Address`, `City`, `State`, `Zip`, `Phone1`, `Phone2`, `Email`, `Type`, `Status`, `Schedule`, `Notes`, `Password`, `Availability`, `Contact Preference`) VALUES
+(`Alana5164918985`, `Alana`, `Mutum`,`09/19/1993', 'F', '1140 Esther St', 'Franklin Square', 'NY', '11010',2147483647, 0, 'lanixxjay@live.com', 'Volunteer', 'applicant','', '', 'cus1166', '', `email`),
+('staff1166', 'Student', 'Student', `07/04/1995`, 'M', ,  '8000 Utopia Pkwy', 'Queens', 'NY',  '11439',911, 0, 'student@stjohns,edu', 'Volunteer', 'approved','', '', 'cus1166', '', `email`),
+('student1166', 'Student', 'Student', `09/09/1992`, 'M' ,  '8000 Utopia Pkwy', 'Queens', 'NY',  '11439',911, 0, 'student@stjohns,edu', 'Volunteer', 'approved','', '', 'cus1166', '', `mail`);
 
 -- --------------------------------------------------------
 
@@ -118,7 +120,7 @@ CREATE TABLE IF NOT EXISTS `project` (
 --
 
 CREATE TABLE IF NOT EXISTS `shift` (
-  `id` varchar(20) NOT NULL DEFAULT '',
+  `id` varchar(20) NOT NULL DEFAULT '', 
   `start_time` int(11) DEFAULT NULL,
   `end_time` int(11) DEFAULT NULL,
   `venue` text,
