@@ -12,7 +12,7 @@ testConstructor();
 //return a message if the first test past or fails 
 function testConstructor()
 { 
-$test_person = new Person("John", "Smith", "Male", "555 Main Street", "Flushing", "NY", "11111", "Queens", "20724415902", "2072654046", "john.smith@stjohns.edu", "volunteer", "Schedule", "I like helping out", "55555", "03-14-14");
+$test_person = new Person("John", "Smith", "10-12-87", "Male", "555 Main Street", "Flushing", "NY", "11111", "20724415902", "2072654046", "john.smith@stjohns.edu", "volunteer", " ", "Schedule", "I like helping out", "55555", "03-14-14", "email");
 echo "Testing first name".'</br>';
 if($test_person->get_first_name()=="John") 
 echo 'First name test succeeded </br>'; 
@@ -50,11 +50,6 @@ echo 'zip test succeeded </br>';
 else
 echo 'zip test failed </br>';
 
-if($test_person->get_county()=="Queens") 
-echo 'county test succeeded </br>'; 
-else
-echo 'county test failed </br>';
-
 if($test_person->get_phone1()=="20724415902") 
 echo 'phone1 test succeeded </br>'; 
 else
@@ -79,6 +74,7 @@ if($test_person->get_schedule() == "Schedule")
     echo 'schedule test succeeded  </br>';
 else 
     echo 'schedule test failed  </br>';
+    error_log($test_person->get_schedule());
 
 if ($test_person->get_notes() == "I like helping out" )
     echo 'notes test succeeded </br>';
@@ -96,6 +92,10 @@ if ($test_person->get_id() == "John20724415902")
     echo 'id test succeeded </br>';
 else
     echo ' id test failed </br>';
+if ($test_person->get_contact_preference() == "email")
+    echo 'contact preference test succeeded </br>';
+else
+    echo ' contact preference test failed </br>';
      
 
 }

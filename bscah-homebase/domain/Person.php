@@ -33,12 +33,12 @@ class Person {
     private $ID;            // id (unique key) = first_name . phone1
     private $NameFirst;    // first name as a string
     private $NameLast;     // last name as a string
+    private $Birthday;      //birhday
     private $Gender;        // gender - string
     private $Address;       // address - string
     private $City;          // city - string
     private $State;         // state - string
     private $Zip;           // zip code - integer
-    private $County;        // county of residence
     private $Phone1;        // main phone
     private $Phone2;        // alternate phone
     private $Email;         // email address as a string
@@ -48,23 +48,26 @@ class Person {
     private $Notes;         // notes or this person 
     private $Password;      // password for calendar and database access: default = $id
     private $Availability;  // format: 03-24-14
+    private $Contact_Preference;    //String email, mail or phone
+   
     
     /**
      * constructor for all persons
      * matches the format in the database
      */
 
-    function __construct($fname, $lname, $gender, $addr, $city, $state, $zip, $co, $ph1, $ph2, $email, 
-            $type, $status,$sch, $notes, $pswd, $avail ) {
+    function __construct($fname, $lname, $bday, $gender, $addr, $city, $state, $zip, $ph1, $ph2, $email, 
+            $type, $status, $sch, $notes, $pswd, $avail, $cont_pref ) {
         $this->ID = $fname.$ph1;
         $this->NameFirst = $fname;
         $this->NameLast = $lname;
+        $this->Birthday = $bday;
         $this->Gender = $gender;
         $this->Address = $addr;
         $this->City = $city;
         $this->State = $state;
         $this->Zip = $zip;
-        $this->County = $co;
+        //$this->County = $co;
         $this->Phone1 = $ph1;
         $this->Phone2 = $ph2;
         $this->Email = $email;
@@ -74,6 +77,7 @@ class Person {
         $this->Notes = $notes;
         $this->Password = $pswd;
         $this->Availability = $avail;
+        $this->Contact_Preference = $cont_pref;
  
     }
 
@@ -87,6 +91,10 @@ class Person {
 
     function get_last_name() {
         return $this->NameLast;
+    }
+    
+    function get_birthday() {
+        return $this->Birthday;
     }
 
     function get_gender() {
@@ -149,11 +157,17 @@ class Person {
         return $this->Availability;
     }
     
+     function get_contact_preference() {
+        return $this->Contact_Preference;
+    }
     
+ /*   
    function set_county ($county){
         $this->County = $county;
     }
-    
+  
+  * /
+  */
  /*   function compute_county () {
         if ($this->state=="ME") {
             $countydata = false;

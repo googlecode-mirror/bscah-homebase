@@ -16,20 +16,20 @@
  */
 include_once('dbinfo.php');
 include_once(dirname(__FILE__) . '/../domain/Person.php');
-
+/*
 function create_persons() 
 {
     connect();
     mysql_query("DROP TABLE IF EXISTS person");
-    $result = mysql_query("CREATE TABLE person(id TEXT NOT NULL, first_name TEXT NOT NULL, last_name TEXT, "
-            . "gender TEXT, address TEXT, city TEXT, state VARCHAR(2), zip TEXT, "
+    $result = mysql_query("CREATE TABLE person(ID varchar(25) NOT NULL, NameFirst varchar(20) NOT NULL, NameLast varchar(25) NOT NULL, "
+            . "Gender varchar(1) NOT NULL, Address varchar(40) NOT NULL, city TEXT, state VARCHAR(2), zip TEXT, "
             . "county TEXT, phone1 VARCHAR(12) NOT NULL, phone2 VARCHAR(12), email TEXT, "
             . "type TEXT, schedule TEXT, notes TEXT, password TEXT, availability TEXT)"); 
     
     if (!$result)
         echo mysql_error() . "Error creating person table<br>";
 }
-
+/
 /*
  * add a person to person table: if already there, return false
  */
@@ -63,12 +63,13 @@ function add_person($person) {
             $person->get_id(). "','" .
             $person->get_first_name() . "','" .
             $person->get_last_name() . "','" .
+            $person->get_birthday() . "','" .
             $person->get_gender() . "','" .
             $person->get_address() . "','" .
             $person->get_city() . "','" .
             $person->get_state() . "','" .
             $person->get_zip() . "','" .
-            $person->get_county() . "','" .
+            //$person->get_county() . "','" .
             $person->get_phone1() . "','" .
             $person->get_phone2() . "','".
             $person->get_email() . "','" .
@@ -77,8 +78,8 @@ function add_person($person) {
             $person->get_schedule() . "','" .
             $person->get_notes() . "','" .
             $person->get_password() . "','" .
-            $person->get_availabiltiy() . 
-            "');";
+            $person->get_availabiltiy() . "','" .
+            $person->get_contact_preference() . "');";
     error_log('query is ' . $query);
     $result = mysql_query($query);
     
@@ -103,7 +104,7 @@ function remove_person($id) {
     $result = mysql_query($query);
      if (!$result)
     {
-        error_log('ERROR on select in remove_person() '. mysql_error());
+       error_log('ERROR on select in remove_person() '. mysql_error());
        die('Invalid query: ' . mysql_error());
     }
     if ($result == null || mysql_num_rows($result) == 0) {
@@ -145,6 +146,8 @@ function retrieve_person($id) {
     // var_dump($result_row);
     $thePerson = make_a_person($result_row);
 //    mysql_close();
+    error_log('in retrieve_person id is '.$thePerson->get_id());
+    error_log('in retrieve_person password is '.$thePerson->get_password());
     return $thePerson;
 }
 // Name is first concat with last name. Example 'James Jones'
@@ -179,7 +182,7 @@ function change_password($id, $newPass) {
     mysql_close();
     return $result;
 }
-
+/*
 function set_county($id, $county) {
     connect();
     $query = 'UPDATE person SET county = "' . $county . '" WHERE id = "' . $id . '"';
@@ -189,6 +192,8 @@ function set_county($id, $county) {
     mysql_close();
     return $result;
 }
+ * 
+ */
 
 /*
  * @return all rows from person table ordered by last name
@@ -242,12 +247,13 @@ function make_a_person($result_row) {
     $thePerson = new Person(
                     $result_row['NameFirst'],
                     $result_row['NameLast'],
+                    $result_row['Birthday'],
                     $result_row['Gender'],
                     $result_row['Address'],
                     $result_row['City'],
                     $result_row['State'],
                     $result_row['Zip'],
-                    $result_row['County'],
+                   // $result_row['County'],
                     $result_row['Phone1'],
                     $result_row['Phone2'],
                     $result_row['Email'],
@@ -256,7 +262,8 @@ function make_a_person($result_row) {
                     $result_row['Schedule'],
                     $result_row['Notes'],
                     $result_row['Password'],
-                    $result_row['Availability']
+                    $result_row['Availability'],
+                    $result_row['ContactPreference']
                     );
     return $thePerson;
 }

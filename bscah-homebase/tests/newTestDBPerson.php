@@ -5,7 +5,7 @@
 
 include_once(dirname(__FILE__) . '/../domain/Person.php');
 define("PHONE", "2072445902");
-define("ID","John2072445902");
+define("ID", "John2072445902");
 
 echo 'testing dbPersons.php</br>';
 testAddPerson();
@@ -20,7 +20,7 @@ echo("testdbPersons complete</br>");
 
 // tests the add_person() function in dbPersons.php
 function testAddPerson() {
-    $m = new Person("John", "Smith", "M", "555 Main Street", "Flushing", "NY", "11111", "Queens", PHONE, "2072654046", "john.smith@stjohns.edu", "volunteer", "applicant", "Schedule", "I like helping out", "55555", "03-14-14");
+    $m = new Person("John", "Smith", "10-12-87", "Male", "555 Main Street", "Flushing", "NY", "11111", "20724415902", "2072654046", "john.smith@stjohns.edu", "volunteer", " ", "Schedule", "I like helping out", "55555", "03-14-14", "email");
     echo 'will test add_person </br>';
 
     $result = add_person($m);
@@ -37,7 +37,7 @@ function testAddPerson() {
 
 // tests the retrieve_person() function in dbPersons.php
 function testRetrievePerson() {
-    $m = new Person("John", "Smith", "Male", "555 Main Street", "Flushing", "NY", "11111", "Queens", PHONE, "2072654046", "john.smith@stjohns.edu", "volunteer", "applicant", "Schedule", "I like helping out", "55555", "03-14-14");
+$m = new Person("John", "Smith", "10-12-87", "Male", "555 Main Street", "Flushing", "NY", "11111", PHONE, "2072654046", "john.smith@stjohns.edu", "volunteer", " ", "Schedule", "I like helping out", "55555", "03-14-14", "email");
     
     echo 'will test retrieve_person </br>';
     $result = add_person($m);
@@ -64,7 +64,7 @@ function testRetrievePerson() {
 
 // tests the retrieve_persons_by_name() function in dbPersons.php
 function testRetrieve_persons_by_name() {
-     $m = new Person("John", "Smith", "Male", "555 Main Street", "Flushing", "NY", "11111", "Queens", PHONE, "2072654046", "john.smith@stjohns.edu", "volunteer", "applicant","Schedule", "I like helping out", "55555", "03-14-14");
+    $m = new Person("John", "Smith", "10-12-87", "Male", "555 Main Street", "Flushing", "NY", "11111", PHONE, "2072654046", "john.smith@stjohns.edu", "volunteer", " ", "Schedule", "I like helping out", "55555", "03-14-14", "email");
     
     echo 'will test retrieve_persons_by_name </br>';
     $result = add_person($m);
@@ -91,7 +91,7 @@ function testRetrieve_persons_by_name() {
 
 // tests the change_password() function in dbPersons.php
 function testChange_password() {
-    $m = new Person("John", "Smith", "Male", "555 Main Street", "Flushing", "NY", "11111", "Queens", PHONE, "2072654046", "john.smith@stjohns.edu", "volunteer", "applicant","Schedule", "I like helping out", "55555", "03-14-14");
+    $m = new Person("John", "Smith", "10-12-87", "Male", "555 Main Street", "Flushing", "NY", "11111", PHONE, "2072654046", "john.smith@stjohns.edu", "volunteer", " ", "Schedule", "I like helping out", "55555", "03-14-14", "email");
     
     echo 'will test change_password </br>';
     $result = add_person($m);
