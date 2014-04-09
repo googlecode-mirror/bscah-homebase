@@ -42,8 +42,36 @@ CREATE TABLE IF NOT EXISTS `date` (
 -- Table structure for table `masterschedule`
 --
 
+-- phpMyAdmin SQL Dump
+-- version 4.0.4
+-- http://www.phpmyadmin.net
+--
+-- Host: localhost
+-- Generation Time: Apr 09, 2014 at 04:59 PM
+-- Server version: 5.6.12-log
+-- PHP Version: 5.4.12
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET time_zone = "+00:00";
+
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8 */;
+
+--
+-- Database: `dbbscah`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `masterschedule`
+--
+
 CREATE TABLE IF NOT EXISTS `masterschedule` (
-  `MS_ID` varchar(25) NOT NULL,
+  `MS_ID` varchar(25) NOT NULL DEFAULT '',
   `Schedule_type` text NOT NULL,
   `day` text NOT NULL,
   `start_time` text NOT NULL,
@@ -51,9 +79,13 @@ CREATE TABLE IF NOT EXISTS `masterschedule` (
   `slots` int(11) DEFAULT NULL,
   `persons` text,
   `notes` text,
-  `Shifts` text NOT NULL, 
- PRIMARY KEY (`MS_ID`), 
+  `Shifts` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+
 
 -- --------------------------------------------------------
 
