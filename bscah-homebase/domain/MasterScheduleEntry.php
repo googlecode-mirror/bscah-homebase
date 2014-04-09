@@ -22,8 +22,6 @@ class MasterScheduleEntry {
 							//    or (for overnight shifts & project) = schedule_type.day.week."-"."overnight"   
 	private $Schedule_type; // "monthly" (for guestchef type) or "weekly" (for weekday, weekend, and overnight types)
 	private $day;           // "Mon", "Tue", ... "Sun"
-	private $week_no;       // week of month (1st-5th) for "monthly" or "weekly" Sat or Sun
-	                        // or week of year (odd or even) for "weekly" Mon-Fri
 	private $start_time;    // start time for the shift & project(9 - 21), or "overnight" or "any" (for any time of day)
 	private $end_time;		// end time for the shift & project(9 - 21)
 	private $slots;         // the number of slots to be filled for this shift & project
@@ -34,10 +32,9 @@ class MasterScheduleEntry {
 	/**
 	* constructor for all MasterScheduleEntries
 	*/
-	function __construct($Schedule_type, $day, $week_no, $start_time, $end_time, $slots, $persons, $notes){
+	function __construct($Schedule_type, $day,$start_time, $end_time, $slots, $persons, $notes, $Shifts){
 		$this->Schedule_type = $Schedule_type;
 		$this->day = $day;
-		$this->week_no = $week_no;
 		$this->start_time = $start_time;
 		$this->end_time = $end_time;
 		$this->slots = $slots;
@@ -47,8 +44,8 @@ class MasterScheduleEntry {
 			$this->persons = array();
 		$this->notes = $notes;
 		if ($start_time!="overnight")
-			$this->MS_ID = $Schedule_type.$day.$week_no."-".$start_time."-".$end_time;
-		else $this->MS_ID = $Schedule_type.$day.$week_no."-".$start_time;
+			$this->MS_ID = $Schedule_type.$day.$start_time."-".$end_time;
+		else $this->MS_ID = $Schedule_type.$day."-".$start_time;
                 $this->Shifts = $Shifts;
 	}
 	
@@ -56,15 +53,17 @@ class MasterScheduleEntry {
 	*  getter functions
 	*/
 	
+        function get_MS_ID(){
+		return $this->MS_ID;
+	}
+	
 	function get_Schedule_type(){
 		return $this->Schedule_type;
 	}
 	function get_day(){
 		return $this->day;
 	}
-	function get_week_no(){
-		return $this->week_no;
-	}
+	
 	function get_start_time(){ 
 		return $this->start_time;
 	}
@@ -85,10 +84,7 @@ class MasterScheduleEntry {
 	function get_notes(){
 		return $this->notes; 
 	}
-	function get_MS_ID(){
-		return $this->MS_ID;
-	}
-	
+
         function get_Shifts(){
 		return $this->Shifts;
 	}
