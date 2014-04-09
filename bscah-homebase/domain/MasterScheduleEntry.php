@@ -18,12 +18,11 @@
  */
 
 class MasterScheduleEntry {
-    	private $MS_ID;	        // unique string for each entry = schedule_type.day.week."-".start_time."-".end_time
-							//    or (for overnight shifts & project) = schedule_type.day.week."-"."overnight"   
+    	private $MS_ID;	        // unique string for each entry = schedule_type.day.start_time."-".end_time eg: monthlyWed14-17   
 	private $Schedule_type; // "monthly" (for guestchef type) or "weekly" (for weekday, weekend, and overnight types)
 	private $day;           // "Mon", "Tue", ... "Sun"
-	private $start_time;    // start time for the shift & project(9 - 21), or "overnight" or "any" (for any time of day)
-	private $end_time;		// end time for the shift & project(9 - 21)
+	private $start_time;    // start time for the shift (9 - 21) eg: 10 means 10am, 13 means 1pm
+	private $end_time;      //end time for the shift & project(9 - 21) eg: 10 means 10am, 13 means 1pm
 	private $slots;         // the number of slots to be filled for this shift & project
 	private $persons;       // array of ids, eg ["alex2071234567", "jane1112345567"]
 	private $notes;         // notes to be displayed for this shift & project on the schedule
@@ -33,15 +32,13 @@ class MasterScheduleEntry {
 	* constructor for all MasterScheduleEntries
 	*/
 	function __construct($Schedule_type, $day,$start_time, $end_time, $slots, $persons, $notes, $Shifts){
-		$this->Schedule_type = $Schedule_type;
+		$this->MS_ID = $Schedule_type.$day.$start_time."-".$end_time;
+                $this->Schedule_type = $Schedule_type;
 		$this->day = $day;
 		$this->start_time = $start_time;
 		$this->end_time = $end_time;
 		$this->slots = $slots;
 		$this->persons = $persons;
-		if ($start_time!="overnight")
-			$this->MS_ID = $Schedule_type.$day.$start_time."-".$end_time;
-		else $this->MS_ID = $Schedule_type.$day."-".$start_time;
                 $this->notes = $notes;
                 $this->Shifts = $Shifts;
 	}

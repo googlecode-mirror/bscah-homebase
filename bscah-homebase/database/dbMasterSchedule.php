@@ -17,8 +17,8 @@ include_once('dbinfo.php');
 function create_dbMasterSchedule() {
     connect();
     mysql_query("DROP TABLE IF EXISTS masterschedule");
-    $result = mysql_query("CREATE TABLE masterschedule (MS_ID TEXT, Schedule_type TEXT NOT NULL, day TEXT NOT NULL, week_no TEXT NOT NULL,
-							start_time TEXT, end_time TEXT, slots INT, persons TEXT, notes TEXT, Shifts TEXT NOT NULL )");
+    $result = mysql_query("CREATE TABLE masterschedule (MS_ID varchar(25) NOT NULL DEFAULT, Schedule_type TEXT NOT NULL, day TEXT NOT NULL,
+							start_time TEXT, end_time TEXT, slots int(11) DEFAULT NULL, persons TEXT, notes TEXT, Shifts TEXT NOT NULL )");
     // id is a unique string for each entry: id = schedule_type.day.week_no.start_time."-".end_time and week_no == odd, even, 1st, 2nd, ... 5th
     if (!$result) {
         echo mysql_error() . " - Error creating masterschedule table.\n";
@@ -56,7 +56,6 @@ function insert_dbMasterSchedule($entry) {
             $entry->get_MS_ID(). "','" .
             $entry->get_Schedule_type() . "','" .
             $entry->get_day() . "','" .
-            $entry->get_week_no() . "','" .
             $entry->get_start_time() . "','" .
             $entry->get_end_time() . "','" .
             $entry->get_slots() . "','" .
@@ -83,7 +82,7 @@ function retrieve_dbMasterSchedule($MS_ID) {
         return false;
     }
     $result_row = mysql_fetch_assoc($result);
-    $theEntry = new MasterScheduleEntry($result_row['Schedule_type'], $result_row['day'], $result_row['week_no'],
+    $theEntry = new MasterScheduleEntry($result_row['MS_ID'],$result_row['Schedule_type'], $result_row['day'], 
                     $result_row['start_time'], $result_row['end_time'], $result_row['slots'], $result_row['persons'],
                     $result_row['notes'],$result_row['Shifts']);
     mysql_close();
@@ -108,10 +107,10 @@ function update_dbMasterSchedule($entry) {
 
 function delete_dbMasterSchedule($MS_ID) {
     connect();
-    $query = "DELETE FROM masterschedule WHERE id = '" . $MS_ID . "'";
+    $query = "DELETE FROM masterschedule WHERE id = '". $MS_ID ."'";
     $result = mysql_query($query);
     if (!$result) {
-        echo (mysql_error() . " - Unable to delete from masterschedule: " . $MS_ID . "\n");
+        echo (mysql_error() . " - Unable to delete from masterschedule: ".$MS_ID."\n");
         return false;
     }
     mysql_close();
@@ -119,20 +118,17 @@ function delete_dbMasterSchedule($MS_ID) {
 }
 
 // this checks if the shift & project overlaps another, and if it does not, it inserts it into the database
-function insert_nonoverlapping($shift, $project) {
-    $other_shifts = get_master_shifts($shift->get_Schedule_type(), $shift->get_week_no(), $shift->get_day());
-    $other_projects = get_master_projects($project->get_Schedule_type(), $project->get_week_no(), $project->get_day());
+function insert_nonoverlapping($shift) {
+    $other_shifts = get_master_shifts($shift->get_schedule_type(), $shift->get_day());
+
     foreach ($other_shifts as $other_shift) {
         if (masterslots_overlap($shift->get_start_time(), $shift->get_end_time(), $other_shift->get_start_time(), $other_shift->get_end_time()))
             return false;
     }
-     foreach ($other_projects as $other_project) {
-        if (masterslots_overlap($project->get_start_time(), $project->get_end_time(), $other_project->get_start_time(), $other_project->get_end_time()))
-            return false;
-    }
-    insert_dbMasterSchedule($shift, $project);
+    insert_dbMasterSchedule($shift);
     return true;
 }
+
 
 /**
  * @result == true if $s1's timeslot overlaps $s2's timeslot, and false otherwise.
@@ -158,10 +154,10 @@ function masterslots_overlap($s1_start, $s1_end, $s2_start, $s2_end) {
  * If there are no entries, return an empty array
  */
 
-function get_master_shifts($type, $week_no, $day) {
+function get_master_shifts($type, $day) {
     connect();
     //$outcome = array();
-    $query = "SELECT * FROM masterschedule WHERE week_no = '" . $week_no . "' AND day = '" . $day .
+    $query = "SELECT * FROM masterschedule WHERE day = '" . $day .
             "' AND Schedule_type = '" . $type . "'";
     $result = mysql_query($query);
      if (!$result)
@@ -178,42 +174,14 @@ function get_master_shifts($type, $week_no, $day) {
     	$result_row = mysql_fetch_array($result, MYSQL_ASSOC);
     	// problem - something about this call is faulty - it does not seem to be going through
     	// to the constructor. 
-        $testVar = new MasterScheduleEntry($result_row['Schedule_type'], $result_row['day'], 
-            $result_row['week_no'], $result_row['start_time'], $result_row['end_time'], 
-            $result_row['slots'], $result_row['persons'], $result_row['notes'], $result_row['Shifts']); 
+        $testVar = new MasterScheduleEntry($result_row['MS_ID'],$result_row['Schedule_type'], $result_row['day'], 
+                    $result_row['start_time'], $result_row['end_time'], $result_row['slots'], $result_row['persons'],
+                    $result_row['notes'],$result_row['Shifts']);
         $outcome[] = $testVar;
     }
     return $outcome;
 }
 
-/*
- * @return all master schedule entries for a particular venue and day for projects
- * Each row in the array is a MasterScheduleEntry
- * If there are no entries, return an empty array
- */
-
-function get_master_projects($type, $week_no, $day) {
-    connect();
-    //$outcome = array();
-    $query = "SELECT * FROM dbMasterSchedule WHERE week_no = '" . $week_no . "' AND day = '" . $day .
-            "' AND Schedule_type = '" . $type . "'";
-    $result = mysql_query($query);
-    mysql_close();
-    $outcome = array();
-    if (mysql_num_rows($result) == 0)
-        return $outcome;
-    for ($i = 0; $i < mysql_num_rows($result); $i++)
-    {
-    	$result_row = mysql_fetch_array($result, MYSQL_ASSOC);
-    	// problem - something about this call is faulty - it does not seem to be going through
-    	// to the constructor. 
-        $testVar = new MasterScheduleEntry($result_row['Schedule_type'], $result_row['day'], 
-            $result_row['week_no'], $result_row['start_time'], $result_row['end_time'], 
-            $result_row['slots'], $result_row['persons'], $result_row['notes'], $result_row['Shifts']); 
-        $outcome[] = $testVar;
-    }
-    return $outcome;
-}
 /* schedule a person for a given day and time and venue in group One or Two
  * update that persons schedule in the dbPersons table
  *
