@@ -95,8 +95,8 @@ CREATE TABLE IF NOT EXISTS `masterschedule` (
 
 CREATE TABLE IF NOT EXISTS `person` (
   `ID` varchar(25) NOT NULL,
-  `first_name` varchar(20) NOT NULL,
-  `last_name` varchar(25) NOT NULL,
+  `NameFirst` varchar(20) NOT NULL,
+  `NameLast` varchar(25) NOT NULL,
   `Birthday` varchar(11) NOT NULL, 
   `Gender` varchar(1) NOT NULL,
   `Address` varchar(40) NOT NULL,
@@ -112,7 +112,7 @@ CREATE TABLE IF NOT EXISTS `person` (
   `Notes` varchar(200) NOT NULL,
   `Password` varchar(25) NOT NULL,
   `Availability` varchar(50) NOT NULL COMMENT 'days and times free for volunteering',
-   `Contact Preference` varchar(15) NOT NULL COMMENT 'either email, mail or phone number',
+   `ContactPreference` varchar(15) NOT NULL COMMENT 'either email, mail or phone number',
   PRIMARY KEY (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -120,8 +120,8 @@ CREATE TABLE IF NOT EXISTS `person` (
 -- Dumping data for table `person`
 --
 
-INSERT INTO `person` (`ID`, `first_name`, `last_name`, `Birthday`, `Gender`, `Address`, `City`, `State`, `Zip`, `Phone1`, `Phone2`, `Email`, `Type`, `Status`, `Schedule`, `Notes`, `Password`, `Availability`, `Contact Preference`) VALUES
-('', 'Alana', 'Mutum', '09/19/1993', 'F', '1140 Esther Street', 'Franklin Square', 'NY', '11010', 2147483647, NULL, 'lanixxjay@live.com', 'Volunteer', 'Applicant', '', '', 'cus1166', '', 'email');
+INSERT INTO `person` (`ID`, `NameFirst`, `NameLast`, `Birthday`, `Gender`, `Address`, `City`, `State`, `Zip`, `Phone1`, `Phone2`, `Email`, `Type`, `Status`, `Schedule`, `Notes`, `Password`, `Availability`, `ContactPreference`) VALUES
+('Alana2147483647', 'Alana', 'Mutum', '09/19/1993', 'F', '1140 Esther Street', 'Franklin Square', 'NY', '11010', 2147483647, NULL, 'lanixxjay@live.com', 'manager', 'Applicant', '', '', 'cus1166', '', 'email');
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
