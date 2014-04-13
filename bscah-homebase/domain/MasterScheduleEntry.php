@@ -32,15 +32,24 @@ class MasterScheduleEntry {
 	* constructor for all MasterScheduleEntries
 	*/
 	function __construct($Schedule_type, $day,$start_time, $end_time, $slots, $persons, $notes, $Shifts){
+                                    //   error_log('in MSE constructor');
 		$this->MS_ID = $Schedule_type.$day.$start_time."-".$end_time;
-                $this->Schedule_type = $Schedule_type;
+                                         $this->Schedule_type = $Schedule_type;
+                                 //        error_log('schedule type is ' . $Schedule_type);
 		$this->day = $day;
+                                //        error_log('day '.$day);
 		$this->start_time = $start_time;
+                                 //        error_log('start time '.$start_time);
 		$this->end_time = $end_time;
+                                 //      error_log('end time '.$end_time);
 		$this->slots = $slots;
+                                  //         error_log('slots '.$slots);
 		$this->persons = $persons;
-                $this->notes = $notes;
-                $this->Shifts = $Shifts;
+                                 //         error_log('persons '.$persons);
+                                         $this->notes = $notes;
+                                      // error_log('notes '.$notes);
+                                        $this->Shifts = $Shifts;
+                                    //   error_log('shifts '.$Shifts);
 	}
 	
 	/**
