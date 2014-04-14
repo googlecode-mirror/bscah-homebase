@@ -14,31 +14,35 @@ class Project {
     private $name;          // String: 'ss-ee' or 'overnight', where ss = start time and ee = end time e.g., '9-12'
     private $start_time;    // Integer: e.g. 10 (meaning 10:00am)
     private $end_time;      // Integer: e.g. 13 (meaning 1:00pm)
-    private $dayOfWeek;  // 3 letters, Mon, Tue, etc
+    private $dayOfWeek;     // 3 letters, Mon, Tue, etc
     private $vacancies;     // number of vacancies in this project
     private $persons;       // array of person ids filling slots, followed by their name, ie "malcom1234567890+Malcom+Jones"
     private $id;            // "mm-dd-yy-projName is the unique key
-    private $notes;  // notes written by the manager
+    private $notes;         // notes written by the manager
 
     /*
      * construct an empty project with a certain number of vacancies
      */
 
-    function __construct($id, $date,$addr, $name, $start_time, $end_time, $vacancies, $persons, $notes) {
-        error_log("in project constructor, id is " . $id);
-        $this->mm_dd_yy = substr($id, 0, 8);  // first 8 chars of id
+    function __construct($date, $addr, $name, $start_time, $end_time, $vacancies, $persons, $notes) {
+        $this->mm_dd_yy = $date;  // first 8 chars of id
         $this->name = $name;
-        error_log("in project constructor, name is " . $name);
         $this->address=$addr;
-        error_log("in project constructor, addr is " . $addr);
         $this->start_time = $start_time;   // currently has to be integer - need to fix this
         $this->end_time = $end_time;     // currently has to be integer - need to fix this
         $this->vacancies = $vacancies;
         $this->persons = $persons;
         $this->dayOfWeek = date("D", mktime(0, 0, 0, substr($this->mm_dd_yy, 0, 2), substr($this->mm_dd_yy, 3, 2), "20" . substr($this->mm_dd_yy, 6, 2)));
-       error_log("in project constructor, day of week is " . $this->dayOfWeek);
-        $this->id = $id;
+        $this->id = $date."-".$name;
         $this->notes = $notes;
+        error_log("in project constructor, date is " . $this->mm_dd_yy);
+        error_log("in project constructor, addr is " . $addr);
+        error_log("in project constructor, name is " . $name);
+        error_log("in project constructor, start time is " . $this->start_time);
+        error_log("in project constructor, end time is " . $this->end_time);
+        error_log("in project constructor, day of week is " . $this->dayOfWeek);
+        error_log("in project constructor, vacancies is " . $this->vacancies);
+        error_log("in project constructor, id is " . $this->id);
         error_log("in project constructor, notes is " . $notes);
     }
 
