@@ -12,8 +12,9 @@ testConstructor();
 //return a message if the first test past or fails 
 function testConstructor()
 { 
-$test_person = new Person("John", "Smith", "Male", "555 Main Street", "Flushing", "NY", "11111", "Queens", "20724415902", "2072654046", "john.smith@stjohns.edu", "volunteer", "Schedule", "I like helping out", "55555", "03-14-14");
-echo "Testing first name".'</br>';
+
+  $test_person= new Person("John", "Smith", "10-12-87", "Male", "555 Main Street", "Flushing", "NY", "11111", "20724415902", "2072654046", "john.smith@stjohns.edu", "volunteer", " ", "Schedule", "I like helping out", "55555", "03-14-14", "email");
+    echo "Testing first name".'</br>';
 if($test_person->get_first_name()=="John") 
 echo 'First name test succeeded </br>'; 
 else
