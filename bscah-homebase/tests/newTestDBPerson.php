@@ -20,11 +20,11 @@ echo("testdbPersons complete</br>");
 
 // tests the add_person() function in dbPersons.php
 function testAddPerson() {
-    $m = new Person("John", "Smith", "10-12-87", "Male", "555 Main Street", "Flushing", "NY", "11111", "20724415902", "2072654046", "john.smith@stjohns.edu", "volunteer", " ", "Schedule", "I like helping out", "55555", "03-14-14", "email");
+    $m = new Person("John", "Smith", "10-12-87", "Male", "555 Main Street", "Flushing", "NY", "11111", PHONE, "2072654046", "john.smith@stjohns.edu", "volunteer", " ", "Schedule", "I like helping out", "55555", "03-14-14", "email");
     echo 'will test add_person </br>';
 
     $result = add_person($m);
-    echo 'result is ' . $result;
+    echo 'result is ' . $result. '</br>';
     if ($result)
         echo "person was added </br>";
     else
@@ -32,7 +32,7 @@ function testAddPerson() {
 
     $res = remove_person(ID);
     if ($res == null)
-        echo 'Retrieve failed</br>';
+        echo 'Remove failed</br>';
 }
 
 // tests the retrieve_person() function in dbPersons.php
@@ -59,7 +59,7 @@ $m = new Person("John", "Smith", "10-12-87", "Male", "555 Main Street", "Flushin
 
     $res = remove_person(ID);
     if ($res == null)
-        echo 'Retrieve failed</br>';
+        echo 'Remove failed</br>';
 }
 
 // tests the retrieve_persons_by_name() function in dbPersons.php
@@ -86,7 +86,7 @@ function testRetrieve_persons_by_name() {
 
     $res = remove_person(ID);
     if ($res == null)
-        echo 'Retrieve failed</br>';
+        echo 'Remove failed</br>';
 }
 
 // tests the change_password() function in dbPersons.php
