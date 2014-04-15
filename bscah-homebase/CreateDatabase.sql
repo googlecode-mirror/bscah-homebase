@@ -110,7 +110,7 @@ CREATE TABLE IF NOT EXISTS `person` (
   `Status` varchar(15) NOT NULL COMMENT 'values could be applicant or approved for Volunteer, null for  Coordinator',
   `Schedule` varchar(100) NOT NULL COMMENT 'Dates scheduled for voliunteering',
   `Notes` varchar(200) NOT NULL,
-  `Password` varchar(25) NOT NULL,
+  `Password`  text NOT NULL,
   `Availability` varchar(50) NOT NULL COMMENT 'days and times free for volunteering',
    `ContactPreference` varchar(15) NOT NULL COMMENT 'either email, mail or phone number',
   PRIMARY KEY (`ID`)
@@ -121,7 +121,7 @@ CREATE TABLE IF NOT EXISTS `person` (
 --
 
 INSERT INTO `person` (`ID`, `NameFirst`, `NameLast`, `Birthday`, `Gender`, `Address`, `City`, `State`, `Zip`, `Phone1`, `Phone2`, `Email`, `Type`, `Status`, `Schedule`, `Notes`, `Password`, `Availability`, `ContactPreference`) VALUES
-('Alana2147483647', 'Alana', 'Mutum', '09/19/1993', 'F', '1140 Esther Street', 'Franklin Square', 'NY', '11010', 2147483647, NULL, 'lanixxjay@live.com', 'manager', 'Applicant', '', '', 'cus1166', '', 'email');
+('Alana2147483647', 'Alana', 'Mutum', '09/19/1993', 'F', '1140 Esther Street', 'Franklin Square', 'NY', '11010', 2147483647, NULL, 'lanixxjay@live.com', 'manager', 'Applicant', '', '', '0a56fdd1488f6102ecd18dead95ed83c', '', 'email');
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
