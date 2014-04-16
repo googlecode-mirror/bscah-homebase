@@ -33,10 +33,9 @@ function validate_form() {
         $errors[] = 'Please enter the amount of vacancies';
     if ($_POST['persons'] == null)
         $errors[] = 'Please enter the amount of persons';
-    if ($_POST['id'] == null)
-        $errors[] = 'Please enter a id';
     if ($_POST['notes'] == null)
         $errors[] = 'Please enter notes';   
+    return $errors;
 }
 function show_errors($e) {
     //this function should display all of our errors.

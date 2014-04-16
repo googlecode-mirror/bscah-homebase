@@ -20,18 +20,12 @@ session_start();
 session_cache_expire(30);
 include_once('database/dbProjects.php');
 include_once('domain/Project.php');
-include_once('database/dbPersons.php');
-include_once('domain/Person.php');
-include_once('database/dbApplicantScreenings.php');
-include_once('domain/ApplicantScreening.php');
-include_once('database/dbLog.php');
 $id = str_replace("_"," ",$_GET["id"]);
 
 
 if ($id == 'new') {
-    $project = new Project(null, null, 'project', null, null, null, null, null, null, null);
-} 
-else {
+    $project = new Project('new', 'project', null, null, null, null, null, null, null, null);
+} else {
     $project = retrieve_project($id);
     if (!$project) { // try again by changing blanks to _ in id
         $id = str_replace(" ","_",$_GET["id"]);
@@ -46,7 +40,7 @@ else {
 <html>
     <head>
         <title>
-             Editing <?PHP echo($project->get_name()); ?>
+             Editing <?PHP echo($project->get_id()); ?>
         </title>
         <link rel="stylesheet" href="styles.css" type="text/css" />
     </head>
@@ -98,7 +92,7 @@ else {
                     $dayOfWeek = trim(htmlentities($_POST['dayOfWeek']));
                     $vacancies = ereg_replace("[^0-9]", "", $vacancies);
                     $persons = trim(htmlentities($_POST['persons']));
-                    // $id = trim(htmlentities($_POST['id']));
+                    $id= trim(htmlentities($_POST['id']));
                     $notes = trim(htmlentities($_POST['notes']));
                  
                     $path = strrev(substr(strrev($_SERVER['SCRIPT_NAME']), strpos(strrev($_SERVER['SCRIPT_NAME']), '/')));
@@ -106,7 +100,7 @@ else {
                     if ($_POST['deleteMe'] == "DELETE") {
                         $result = retrieve_project($id);
                         if (!$result)
-                            echo('<p>Unable to delete. ' . $name . ' is not in the database. <br>Please report this error to the House Manager.');
+                            echo('<p>Unable to delete. ' . $mm_dd_yy . ' is not in the database. <br>Please report this error to the House Manager.');
                         else {
                             //What if they're the last remaining manager account?
                             if (strpos($type, 'manager') !== false) {
@@ -124,7 +118,7 @@ else {
                                 }
                             } else {
                                 $result = remove_project($id);
-                                echo("<p>You have successfully removed " . $name . " from the database.</p>");
+                                echo("<p>You have successfully removed " . $mm_dd_yy . " from the database.</p>");
                                 if ($id == $_SESSION['_id']) {
                                     session_unset();
                                     session_destroy();

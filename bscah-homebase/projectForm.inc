@@ -17,13 +17,9 @@
  * 	@version 9/1/2008, revised 4/1/2012
  */
 
-if ($_SESSION['access_level'] == 0) {
-    echo('<p><strong>New Project Application Form</strong><br />');
-    echo('Please provide us with some basic information about your project.' .
-    '<br>When you are finished, hit <b>Submit</b> at the bottom of this page.');
-} else if ($_SESSION['access_level'] == 1)
+ if ($_SESSION['access_level'] == 1)
     if ($_SESSION['_id'] != $project->get_id()) {
-        echo("<p id=\"error\">You do not have sufficient permissions to edit this user.</p>");
+        echo("<p id=\"error\">You do not have sufficient permissions to edit this project.</p>");
         include('footer.inc');
         echo('</div></div></body></html>');
         die();
