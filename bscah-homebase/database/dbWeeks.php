@@ -63,8 +63,8 @@ function insert_dbWeeks($w) {
         connect();
     }
     $query = "INSERT INTO week VALUES (\"" . $w->get_id() . "\"," . get_dates_text($w->get_dates()) . ",\"" .
-            //$w->get_weekday_group() . "\",\"" .
-            //$w->get_weekend_group() . "\",\"" .
+            $w->get_weekday_group() . "\",\"" .
+            $w->get_weekend_group() . "\",\"" .
             $w->get_status() . "\",\"" .
             $w->get_name() . "\",\"" .
             $w->get_end() . "\")";
@@ -162,7 +162,8 @@ function get_dbWeeks($id) {
         	$d[] = select_dbDates($date);
         }
         
-        $w = new Week($d, "weekly", $result_row['status']);
+        $w = new Week($d, "weekly", $result_row['weekday_group'],
+                        $result_row['weekend_group'], $result_row['status']);
         error_log("3");
         return $w;
     }
@@ -176,7 +177,7 @@ function get_dbWeeks($id) {
  */
 function get_all_dbWeeks() {
 	connect();
-	$query = "SELECT * FROM week ORDER BY end";
+	$query = "SELECT * FROM Week ORDER BY end";
 	$result = mysql_query($query);
 	mysql_close();
     $weeks = array();

@@ -31,6 +31,7 @@ session_cache_expire(30);
             <?PHP include('header.php'); ?>
             <div id="content">
                 <?PHP
+                error_log('***********************************index.php***********************');
                 include_once('database/dbPersons.php');
                 include_once('domain/Person.php');
                 include_once('database/dbLog.php');

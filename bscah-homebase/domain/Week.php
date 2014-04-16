@@ -27,8 +27,8 @@ class Week {
     private $name;     // the name of the week (ie March 7, 2008 - March 14, 2008)
     //private $shift;     //added by james loeffler to replace weekday and weekend
     //private $project;       //added by james loeffler to replace weekday and weekend
-    //private $weekday_group; // which weekday group
-    //private $weekend_group; // which weekend group
+    private $weekday_group; // which weekday group
+    private $weekend_group; // which weekend group
     private $status; // status of the week, "unpublished", "published" or "archived"
     private $end_of_week_timestamp; // the mktime timestamp of the end of the week
 
@@ -37,10 +37,10 @@ class Week {
      */
 
     //deleted shift and week
-    function __construct($dates, $venue, $status) {
+    function __construct($dates, $venue, $weekday_group, $weekend_group, $status) {
         $this->dates = $dates;
-        //$this->weekday_group = $weekday_group;
-        //$this->weekend_group = $weekend_group;
+        $this->weekday_group = $weekday_group;
+        $this->weekend_group = $weekend_group;
         //$this->shift = $shift; //added by James loeffler
         //$this->project = $project; //added by James Loeffler
         $this->status = $status;
@@ -69,12 +69,13 @@ class Week {
         return $this->end_of_week_timestamp;
     }
 
-    //added by James Loeffler
+   
     /*function get_shift() {
         return $this->shift;
     }
     function getproject() {
         return $this->project;
+    */
     }
     function get_weekday_group() {
         return $this->weekday_group;
@@ -82,7 +83,7 @@ class Week {
 
     function get_weekend_group() {
         return $this->weekend_group;
-    }*/
+    }
 
     function set_status($s) {
         if ($s == "unpublished" || $s == "published" || $s == "archived") {
@@ -92,6 +93,6 @@ class Week {
             return false;
     }
 
-}
+
 
 ?>
