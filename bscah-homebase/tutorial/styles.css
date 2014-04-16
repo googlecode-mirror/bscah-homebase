@@ -84,7 +84,7 @@ A:hover {
 }
 
 //
-old link     7991B1 /*INFO BOXES*/    
+/*INFO BOXES*/    
 .infobox {
 	border: 1px solid #264576;
 	background: #DCDCDC;
@@ -129,7 +129,7 @@ p.error {
 	border-top: 2px solid #264576;
 	border-right: 2px solid #264576;
 	padding: 10px;
-	background: url("../images/rmhHeader.gif") #ffffff;
+	background: url("images/BSCAH.jpg") #ffffff;
 	background-color: #ffffff;
 	background-repeat: no-repeat;
 	background-position: top center;
