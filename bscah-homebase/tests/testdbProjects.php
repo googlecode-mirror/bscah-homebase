@@ -13,7 +13,7 @@ echo("test complete</br>");
 
 function test_insert_dbProjects() {
    
-   $newProject= new Project(PROJID, "03-12-14","Main Building", "UnloadDelivery",10, 13, 15, "", "notes");
+   $newProject= new Project("03-12-14", "Address", "10-13", 10, 13, 15, "malcom1234567890+Malcom+Jones", "hiya");
     echo 'will test insert_dbProjects </br>';
     $result = insert_dbProjects ($newProject);
     echo 'result is ' . $result;

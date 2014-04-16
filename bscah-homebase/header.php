@@ -51,6 +51,7 @@
         $permission_array['calendar.php'] = 1;
         //pages only managers can view
         $permission_array['personEdit.php'] = 2;
+        $permission_array['projectEdit.php'] = 2;
         $permission_array['viewSchedule.php'] = 2;
         $permission_array['addWeek.php'] = 2;
         $permission_array['rmh.php'] = 2;
@@ -76,7 +77,7 @@
         //they're logged in and session variables are set.
         if ($_SESSION['access_level'] >= 0) {
             echo('<a href="' . $path . 'index.php"><b>home</b></a> | ');
-            echo('<a href="' . $path . 'addProject.php?id=' . 'new' . '"><b>projects</b></a> | ');
+            echo('<a href="' . $path . 'projectEdit.php?id=' . 'new' . '"><b>projects</b></a> | ');
             echo('<a href="' . $path . 'about.php"><b>about</b></a>');
             
         }
@@ -99,7 +100,6 @@
             echo('<br><a href="' . $path . 'viewSchedule.php?frequency=weekly"><strong>master schedules</strong></a> | ');
             echo('<strong>volunteers :</strong> <a href="' . $path . 'personSearch.php">search</a>, 
 			        <a href="personEdit.php?id=' . 'new' . '">add, </a> <a href="viewScreenings.php?type=new">screenings</a>');
-            echo('<a href="' . $path . 'addProject.php?id=' . 'new' . '"><b>projects</b></a> ');
             echo(' | <strong><a href="' . $path . 'reports.php">reports</a> </strong>');
         //    echo(' | <strong>data :</strong> <a href="' . $path . 'dataSearch.php">search and export</a> ');
         }
