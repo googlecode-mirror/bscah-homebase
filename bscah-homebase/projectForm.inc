@@ -25,7 +25,7 @@
         die();
     } else {
         echo('<p><strong>Project Edit Form</strong><br />');
-        echo('Here you can edit your projectinformation in the database.' .
+        echo('Here you can edit your project information in the database.' .
         '<br>When you are finished, hit <b>Submit</b> at the bottom of this page.');
     } 
  else if ($_SESSION['access_level'] == 2)
@@ -45,8 +45,13 @@
     <input type="hidden" name="old_id" value=<?PHP echo("\"" . $id . "\""); ?>>
     <input type="hidden" name="_form_submit" value="1">
     <p>(<span style="font-size:x-small;color:FF0000">*</span> denotes required fields)
-    <p>MM_DD_YY<span style="font-size:x-small;color:FF0000">*</span>: <input type="text" name="mm_dd_yy" tabindex="1" value="<?PHP echo($project->get_date()) ?>">
+    <p>Date<span style="font-size:x-small;color:FF0000">*</span>: <input type="text" name="date" tabindex="1" value="<?PHP echo($project->get_date()) ?>">
        Address<span style="font-size:x-small;color:FF0000">*</span>: <input type="text" name="address" tabindex="2" value="<?PHP echo($project->get_address()) ?>">
+       Name<span style="font-size:x-small;color:FF0000">*</span>: <input type="text" name="name" tabindex="3" value="<?PHP echo($project->get_name()) ?>">
+       Start Time<span style="font-size:x-small;color:FF0000">*</span>: <input type="text" name="start time" tabindex="4" value="<?PHP echo($project->get_start_time()) ?>">
+       End Time<span style="font-size:x-small;color:FF0000">*</span>: <input type="text" name="end time" tabindex="5" value="<?PHP echo($project->get_end_time()) ?>">
+       Day of Week<span style="font-size:x-small;color:FF0000">*</span>: <input type="text" name="day of week" tabindex="6" value="<?PHP echo($project->get_dayOfWeek()) ?>">
+       Notes<span style="font-size:x-small;color:FF0000">*</span>: <input type="text" name="notes" tabindex="7" value="<?PHP echo($project->get_notes()) ?>">
     <fieldset>    
            </select>,
         <p>Start Time<span style="font-size:x-small;color:FF0000">*</span>: <input type="text" name="start_time" MAXLENGTH=2 tabindex="7" value="<?PHP echo(start_time_edit($project->get_start_time())) ?>">
