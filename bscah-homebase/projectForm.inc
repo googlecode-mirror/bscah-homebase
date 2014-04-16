@@ -115,56 +115,7 @@ else {
         </span></p>
     </fieldset>
     <p>
-        <?PHP
-        if ($id == 'new' || $project->get_s() == "applicant") {
-            echo "<fieldset>";
-            echo "<legend>Applicants only: </legend>";
-			if ($_SESSION['access_level'] == 2) {
-            	$screeningType = $project->get_screening_type();
-                $screening = retrieve_dbApplicantScreenings($screeningType);
-                $screenings = getall_ApplicantScreenings();
-                echo('<p> Screening Type:&nbsp; <select name="screening_type">');
-                if ($project->get_screening_type() == "")
-                    echo('<option value="" SELECTED></option>');
-                foreach ($screenings as $s) {
-                    if ($s->get_status() == "published") {
-                        $t = $s->get_type();
-                        if ($screeningType == $t) {
-                            echo('<option value ="' . $t . '" SELECTED>' . $t . '</option>');
-                        } else {
-                            echo('<option value ="' . $t . '"> ' . $t . '</option>');
-                        }
-                    }
-                }
-                echo('</select>&nbsp;');
-
-                // submit button that allows manager to associate project with porject screening
-                //echo(' Hit <input type="submit" value="submit" name="Submit Edits"> to associate '.$project->get_mm_dd_yy().' with this screening.<br><br>');
-
-                if ($screening) {
-                    $step_array = $screening->get_steps();
-                    $date_array = $project->get_screening_status();
-                    $step_count = count($step_array);
-                
-                echo("<p><table>");
-                echo('<tr><td>Completion Date</td> <td>Step</td></tr>');
-                for ($i = 0; $i < $step_count; $i++) {
-                    $j = $i + 1;
-                    echo "<tr><td>";
-                    $mm = substr($date_array[$i], 0, 2);
-                    $dd = substr($date_array[$i], 3, 2);
-                    $yy = substr($date_array[$i], 6, 2);
-                    
-                    select_date($mm, $dd, $yy, "ss_month[]", "ss_day[]", "ss_year[]");
-                    //echo('<tr><td><input type="text" name="screening_status[]" value="'.$date_array[$i]. '" size="5" /></td>');
-                    echo('</td><td>' . $j . '. ' . $step_array[$i] . '</td></tr>');
-                }
-                echo('</table>');
-                }
-			}
-
-        }
-      
+    
         echo('<input type="hidden" name="_submit_check" value="1"><p>');
         if ($_SESSION['access_level'] == 0)
             echo('Hit <input type="submit" value="Submit" name="Submit Edits"> to complete this application.<br /><br />');
