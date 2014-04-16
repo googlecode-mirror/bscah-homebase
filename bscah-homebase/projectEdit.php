@@ -30,7 +30,8 @@ $id = str_replace("_"," ",$_GET["id"]);
 
 if ($id == 'new') {
     $project = new Project(null, null, 'project', null, null, null, null, null, null, null);
-} else {
+} 
+else {
     $project = retrieve_project($id);
     if (!$project) { // try again by changing blanks to _ in id
         $id = str_replace(" ","_",$_GET["id"]);
