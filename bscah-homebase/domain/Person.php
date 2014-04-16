@@ -42,8 +42,8 @@ class Person {
     private $Phone1;        // main phone
     private $Phone2;        // alternate phone
     private $Email;         // email address as a string
-    private $Type;          // coordinator or volunteer 
-    private $Status;      // applicant or approved for  volunteers, null for coordinators
+    private $Type;          // Manager, Volunteer or Guest
+    private $Status;        // applicant or approved for  volunteers, null for coordinators
     private $Schedule;      // dates scheduled for volunteering
     private $Notes;         // notes or this person 
     private $Password;      // password for calendar and database access: default = $id

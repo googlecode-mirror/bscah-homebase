@@ -27,12 +27,14 @@
         echo('<p><strong>Project Edit Form</strong><br />');
         echo('Here you can edit your projectinformation in the database.' .
         '<br>When you are finished, hit <b>Submit</b> at the bottom of this page.');
-    } else if ($_SESSION['access_level'] == 2)
+    } 
+ else if ($_SESSION['access_level'] == 2)
     if ($id == 'new') {
         echo('<p><strong>New Project Form</strong><br />');
         echo('Here you can add a new project into the database. </p>');
 
-    } else {
+    } 
+  else {
     echo("<p id=\"error\">You do not have sufficient permissions to add a new project to the database.</p>");
     include('footer.inc');
     echo('</div></div></body></html>');
@@ -43,17 +45,17 @@
     <input type="hidden" name="old_id" value=<?PHP echo("\"" . $id . "\""); ?>>
     <input type="hidden" name="_form_submit" value="1">
     <p>(<span style="font-size:x-small;color:FF0000">*</span> denotes required fields)
-    <p>MM_DD_YY<span style="font-size:x-small;color:FF0000">*</span>: <input type="text" name="mm_dd_yy" tabindex="1" value="<?PHP echo($project>get_mm_dd_yy()) ?>">
-       Address<span style="font-size:x-small;color:FF0000">*</span>: <input type="text" name="address" tabindex="2" value="<?PHP echo($project>get_address()) ?>">
+    <p>MM_DD_YY<span style="font-size:x-small;color:FF0000">*</span>: <input type="text" name="mm_dd_yy" tabindex="1" value="<?PHP echo($project->get_date()) ?>">
+       Address<span style="font-size:x-small;color:FF0000">*</span>: <input type="text" name="address" tabindex="2" value="<?PHP echo($project->get_address()) ?>">
     <fieldset>    
            </select>,
         <p>Start Time<span style="font-size:x-small;color:FF0000">*</span>: <input type="text" name="start_time" MAXLENGTH=2 tabindex="7" value="<?PHP echo(start_time_edit($project->get_start_time())) ?>">
              <p>End Time<span style="font-size:x-small;color:FF0000">*</span>: <input type="text" name="end_time" MAXLENGTH=2 tabindex="7" value="<?PHP echo(end_time_edit($project->get_end_time())) ?>">
        
-       <p>Day of Week<span style="font-size:x-small;color:FF0000">*</span>: <input type="text" name="dayOfWeek" tabindex="1" value="<?PHP echo($project>get_day) ?>">
+       <p>Day of Week<span style="font-size:x-small;color:FF0000">*</span>: <input type="text" name="dayOfWeek" tabindex="1" value="<?PHP echo($project->get_day) ?>">
           <p>Vacancies<span style="font-size:x-small;color:FF0000">*</span>: <input type="text" name="vacancies" MAXLENGTH=3 tabindex="7" value="<?PHP echo(vancancies_edit($project->get_vacancies())) ?>">
-       <p>Persons<span style="font-size:x-small;color:FF0000">*</span>: <input type="text" name="persons tabindex="1" value="<?PHP echo($project>persons) ?>">
-                  <p>ID<span style="font-size:x-small;color:FF0000">*</span>: <input type="text" name="id" tabindex="1" value="<?PHP echo($project>get_id) ?>"> 
+       <p>Persons<span style="font-size:x-small;color:FF0000">*</span>: <input type="text" name="persons tabindex="1" value="<?PHP echo($project->persons) ?>">
+                  <p>ID<span style="font-size:x-small;color:FF0000">*</span>: <input type="text" name="id" tabindex="1" value="<?PHP echo($project->get_id) ?>"> 
   <?PHP
     
        

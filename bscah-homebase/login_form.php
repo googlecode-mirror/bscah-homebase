@@ -57,7 +57,7 @@
                     $_SESSION['logged_in'] = 1;
                     if ($person->get_status() == "applicant")
                         $_SESSION['access_level'] = 0;
-                    else if (in_array('manager', $person->get_type()))
+                    else if ($person->get_type() == "manager")
                         $_SESSION['access_level'] = 2;
                     else if (strcmp($_POST['user'], "volunteer2077806282") == 0) {
                     	$_SESSION['access_level'] = 1.5;

@@ -148,6 +148,7 @@ function retrieve_person($id) {
 //    mysql_close();
     error_log('in retrieve_person id is '.$thePerson->get_id());
     error_log('in retrieve_person password is '.$thePerson->get_password());
+    error_log('in retrieve_person type is '.$thePerson->get_type());
     return $thePerson;
 }
 // Name is first concat with last name. Example 'James Jones'
