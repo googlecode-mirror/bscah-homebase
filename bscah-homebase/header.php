@@ -27,10 +27,11 @@
     //Log-in security
     //If they aren't logged in, display our log-in form.
     if (!isset($_SESSION['logged_in'])) {
+        error_log('in header.php, not logged in, will call login form');
         include('login_form.php');
         die();
     } else if ($_SESSION['logged_in']) {
-
+      error_log('in header.php, _logged_in is set');
         /*         * Set our permission array.
          * anything a guest can do, a volunteer and house manager can also do
          * anything a volunteer can do, a house manager can do.
@@ -60,9 +61,14 @@
         $permission_array['reports.php'] = 2;
 
         //Check if they're at a valid page for their access level.
-        $current_page = substr($_SERVER['PHP_SELF'], 1);
+     //   $current_page = substr($_SERVER['PHP_SELF'], 1);
+        $current_page=  basename($_SERVER['PHP_SELF']);
+     
+        error_log('access level is '.$_SESSION['access_level']);
+        error_log('$current_page is '.$current_page);
       //  echo "current page = ".$current_page;
         if ($permission_array[$current_page] > $_SESSION['access_level']) {
+            error_log("in header.php, want to redirect back to index.php");
             //in this case, the user doesn't have permission to view this page.
             //we redirect them to the index page.
             echo "<script type=\"text/javascript\">window.location = \"index.php\";</script>";

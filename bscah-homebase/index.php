@@ -38,7 +38,9 @@ session_cache_expire(30);
                 include_once('domain/Shift.php');
                 include_once('database/dbShifts.php');
                 if ($_SESSION['_id'] != "guest") {
+                    // need error checking here to make sure _id is set
                     $person = retrieve_person($_SESSION['_id']);
+                    // should really check to make sure a person was retrieved!
                     echo "<p>Welcome, " . $person->get_first_name() . ", to Homebase!";
                 }
                 else
