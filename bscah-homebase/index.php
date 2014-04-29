@@ -37,7 +37,11 @@ session_cache_expire(30);
                 include_once('database/dbLog.php');
                 include_once('domain/Shift.php');
                 include_once('database/dbShifts.php');
+                
+                $person = null;
+                error_log('user id is '.$_SESSION['_id'] );
                 if ($_SESSION['_id'] != "guest") {
+                    error_log('in index.php, will retrieve person');
                     // need error checking here to make sure _id is set
                     $person = retrieve_person($_SESSION['_id']);
                     // should really check to make sure a person was retrieved!

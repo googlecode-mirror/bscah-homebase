@@ -43,15 +43,13 @@
         //pages guests are allowed to view
         $permission_array['index.php'] = 0;
         $permission_array['about.php'] = 0;
-        $permission_array['apply.php'] = 0;
+         $permission_array['personEdit.php'] = 0;
         //pages volunteers can view
         $permission_array['help.php'] = 1;
         $permission_array['view.php'] = 1;
         $permission_array['personSearch.php'] = 1;
-        $permission_array['personEdit.php'] = 1;
         $permission_array['calendar.php'] = 1;
         //pages only managers can view
-        $permission_array['personEdit.php'] = 2;
         $permission_array['projectEdit.php'] = 2;
         $permission_array['viewSchedule.php'] = 2;
         $permission_array['addWeek.php'] = 2;
@@ -66,6 +64,7 @@
      
         error_log('access level is '.$_SESSION['access_level']);
         error_log('$current_page is '.$current_page);
+        error_log('permission for current page is set to '.$permission_array[$current_page]);
       //  echo "current page = ".$current_page;
         if ($permission_array[$current_page] > $_SESSION['access_level']) {
             error_log("in header.php, want to redirect back to index.php");
