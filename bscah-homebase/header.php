@@ -91,11 +91,11 @@
         if ($_SESSION['access_level'] == 0)
             echo(' | <a href="' . $path . 'personEdit.php?id=' . 'new' . '"><b>apply</b></a>');
         if ($_SESSION['access_level'] >= 1) {
-            echo(' | <strong>calendars:</strong> <a href="' . $path . 'calendar.php?venue=house">house, </a>');
-            echo('<a href="' . $path . 'calendar.php?venue=guestchef">guest chef, </a>');
-            echo('<a href="' . $path . 'calendar.php?venue=parking">parking, </a>');
-            echo('<a href="' . $path . 'calendar.php?venue=activities">activities | </a>');
-            echo('<a href="https://sites.google.com/site/rmhvolunteersite"><strong>around the house</strong> </a>');
+            echo(' | <strong>calendars:</strong> <a href="' . $path . 'calendar.php?venue=house">current, </a>');
+    //        echo('<a href="' . $path . 'calendar.php?venue=guestchef">guest chef, </a>');
+   //         echo('<a href="' . $path . 'calendar.php?venue=parking">parking, </a>');
+    //        echo('<a href="' . $path . 'calendar.php?venue=activities">activities | </a>');
+   //         echo('<a href="https://sites.google.com/site/rmhvolunteersite"><strong>around the house</strong> </a>');
         }
         if ($_SESSION['access_level'] == 1.5) {
             echo('<br>');
@@ -104,7 +104,7 @@
         if ($_SESSION['access_level'] >= 2) {
             echo('<br><a href="' . $path . 'viewSchedule.php?frequency=weekly"><strong>master schedules</strong></a> | ');
             echo('<strong>volunteers :</strong> <a href="' . $path . 'personSearch.php">search</a>, 
-			        <a href="personEdit.php?id=' . 'new' . '">add, </a> <a href="viewScreenings.php?type=new">screenings</a>');
+			        <a href="personEdit.php?id=' . 'new' . '">add, </a>');
             echo(' | <strong><a href="' . $path . 'reports.php">reports</a> </strong>');
         //    echo(' | <strong>data :</strong> <a href="' . $path . 'dataSearch.php">search and export</a> ');
         }
