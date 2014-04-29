@@ -13,7 +13,7 @@ session_cache_expire(30);
 ?>
 <html>
 <head>
-<title>RMH Homebase login help</title>
+<title>BSCAH Homebase Login Help</title>
 </head>
 <body>
 	<div align="left">
@@ -21,7 +21,7 @@ session_cache_expire(30);
 			<strong> Signing in and out of the System</strong>
 		
 		
-		<p>Access to Homebase requires a Username and a Password. The form
+		<p>Access to BSCAH's homebase requires a Username and a Password. The form
 			looks like this:
 		
 		
@@ -76,14 +76,14 @@ session_cache_expire(30);
 					(if you think you may have mistyped them).
 			
 			<li>If all else fails, or if you do not remember your password,
-				please contact the <a href="mailto:housemgr@rmhportland.org">House
-					Manager</a>.
+				please contact the <a href="mailto:volunteers@bedstuyagainsthunger.org">Volunteer Coordinator</a>.
 		
 		</ul>
 		<p>
-			Remember to <strong>logout</strong> when you are finished using
-			Homebase.
+			Remember to <strong>logout</strong> when you are finished using the homebase.
 
 </body>
 </html>
+
+
 
