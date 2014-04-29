@@ -17,7 +17,7 @@
 <html>
 	<head>
 		<title>
-			Help - <?PHP echo($_GET['helpPage']); ?>
+			BSCAH Help <?PHP echo($_GET['helpPage']); ?>
 		</title>
 		<link rel="stylesheet" href="tutorial/styles.css" type="text/css" />
 	</head>
@@ -25,7 +25,9 @@
 	<body>
 		<div id="container">
 			<div id="content">
-				<div align="center"><p><a href="?">Help Home</a></p></div>
+                            <div align="center"><a href="index.php">BSCAH Home Page</a> |
+				<a href="?">Help Home Page</a></div>
+                            
 
 				<?PHP
 					//This array associates pages a person might be viewing
@@ -57,7 +59,6 @@
 					$assocHelp['addSlotToShift.php']='addSlotToShiftHelp.inc.php';
 					$assocHelp['assignToShift.php']='assignToShiftHelp.inc.php';
 					$assocHelp['removeFromShift.php']='removeFromShiftHelp.inc.php';
-					$assocHelp['subCallList.php']='subCallListHelp.inc.php';
 					$assocHelp['masterSchedule.php']='schedulingHelp.inc.php';
 					$assocHelp['addPersonToShift.php']='addPersonToShiftHelp.inc.php';
 					$assocHelp['navigateThroughWeeks.php']='navigateThroughWeeksHelp.inc.php';
@@ -85,3 +86,4 @@
 		</div>
 	</body>
 </html>
+
