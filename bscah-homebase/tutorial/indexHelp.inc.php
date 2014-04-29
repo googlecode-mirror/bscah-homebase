@@ -29,7 +29,7 @@
 
 <p>
 	<strong>Information about Your Personal Home Page</strong>
-<p>Whenever you log into Homebase, some useful personal information will
+<p>Whenever you log into BSCAH's Homebase, some useful personal information will
 	appear.
 <p>
 	<B>If you are a volunteer or a manager</B> and you've never changed
