@@ -163,7 +163,7 @@ class Person {
         return $this->Notes; 
     }
     
-    function get_availabiltiy(){
+    function get_availability(){
         return $this->Availability;
     }
     
