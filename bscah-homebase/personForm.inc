@@ -120,7 +120,6 @@ foreach ($states as $st) {
         if ($person->get_gender() == 'male')
             echo (' SELECTED'); echo('>male</option>');
         echo('</select>');
-        
         echo('<p>Notes:<br />');
         echo('<textarea name="notes" rows="2" cols="60">');
         echo($person->get_notes());
@@ -180,6 +179,26 @@ else {
     </fieldset>
     <p>
         <?PHP
+        if ($id == 'new' || $person->get_status() == "applicant") {
+            echo "<fieldset>";
+            echo "<legend>Applicants only: </legend>";
+			if ($_SESSION['access_level'] == 2) {
+            	$screeningType = $person->get_screening_type();
+                $screening = retrieve_dbApplicantScreenings($screeningType);
+                $screenings = getall_ApplicantScreenings();
+                echo('<p> Screening Type:&nbsp; <select name="screening_type">');
+                if ($person->get_screening_type() == "")
+                    echo('<option value="" SELECTED></option>');
+                foreach ($screenings as $s) {
+                    if ($s->get_status() == "published") {
+                        $t = $s->get_type();
+                        if ($screeningType == $t) {
+                            echo('<option value ="' . $t . '" SELECTED>' . $t . '</option>');
+                        } else {
+                            echo('<option value ="' . $t . '"> ' . $t . '</option>');
+                        }
+                    }
+                }
        
                 echo('</select>&nbsp;');
 
@@ -206,7 +225,7 @@ else {
                 }
                 echo('</table>');
                 }
-			
+                        }
 
                 echo('<p>Motivation / Specialties:<br />');
                 echo('<textarea name="motivation" rows="2" cols="60">');
@@ -223,10 +242,9 @@ else {
                 }
                 echo('</textarea>');
             echo "</fieldset>";
-        //delete maybe? }
+        }
 
         echo('<input type="hidden" name="schedule" value="' . implode(',', $person->get_schedule()) . '">');
-        echo('<input type="hidden" name="history" value="' . implode(',', $person->get_history()) . '">');
         echo('<input type="hidden" name="password" value="' . $person->get_password() . ')">');
         echo('<input type="hidden" name="_submit_check" value="1"><p>');
         if ($_SESSION['access_level'] == 0)
