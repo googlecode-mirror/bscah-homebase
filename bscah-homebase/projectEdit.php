@@ -24,7 +24,7 @@ $id = str_replace("_"," ",$_GET["id"]);
 
 
 if ($id == 'new') {
-    $project = new Project('new', 'project', null, null, null, null, null, null, null, null);
+    $project = new Project(null, null, 'new', null, null, null, null, null, null, null);
 } else {
     $project = retrieve_project($id);
     if (!$project) { // try again by changing blanks to _ in id

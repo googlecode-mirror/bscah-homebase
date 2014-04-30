@@ -45,35 +45,24 @@
     <input type="hidden" name="old_id" value=<?PHP echo("\"" . $id . "\""); ?>>
     <input type="hidden" name="_form_submit" value="1">
     <p>(<span style="font-size:x-small;color:FF0000">*</span> denotes required fields)
-    <p>Date<span style="font-size:x-small;color:FF0000">*</span>: <input type="text" name="date" tabindex="1" value="<?PHP echo($project->get_date()) ?>">
-       Address<span style="font-size:x-small;color:FF0000">*</span>: <input type="text" name="address" tabindex="2" value="<?PHP echo($project->get_address()) ?>">
-       Name<span style="font-size:x-small;color:FF0000">*</span>: <input type="text" name="name" tabindex="3" value="<?PHP echo($project->get_name()) ?>">
-       Start Time<span style="font-size:x-small;color:FF0000">*</span>: <input type="text" name="start time" tabindex="4" value="<?PHP echo($project->get_start_time()) ?>">
-       End Time<span style="font-size:x-small;color:FF0000">*</span>: <input type="text" name="end time" tabindex="5" value="<?PHP echo($project->get_end_time()) ?>">
-       Day of Week<span style="font-size:x-small;color:FF0000">*</span>: <input type="text" name="day of week" tabindex="6" value="<?PHP echo($project->get_dayOfWeek()) ?>">
-       Notes<span style="font-size:x-small;color:FF0000">*</span>: <input type="text" name="notes" tabindex="7" value="<?PHP echo($project->get_notes()) ?>">
+    <p>Name<span style="font-size:x-small;color:FF0000">*</span>: <input type="text" name="name" tabindex="1" value="<?PHP echo($project->get_name()) ?>">
+    <p>Address<span style="font-size:x-small;color:FF0000">*</span>: <input type="text" name="address" tabindex="2" value="<?PHP echo($project->get_address()) ?>">
     <fieldset>    
-           </select>,
-        <p>Start Time<span style="font-size:x-small;color:FF0000">*</span>: <input type="text" name="start_time" MAXLENGTH=2 tabindex="7" value="<?PHP echo(start_time_edit($project->get_start_time())) ?>">
-             <p>End Time<span style="font-size:x-small;color:FF0000">*</span>: <input type="text" name="end_time" MAXLENGTH=2 tabindex="7" value="<?PHP echo(end_time_edit($project->get_end_time())) ?>">
-       
-       <p>Day of Week<span style="font-size:x-small;color:FF0000">*</span>: <input type="text" name="dayOfWeek" tabindex="1" value="<?PHP echo($project->get_day) ?>">
-          <p>Vacancies<span style="font-size:x-small;color:FF0000">*</span>: <input type="text" name="vacancies" MAXLENGTH=3 tabindex="7" value="<?PHP echo(vancancies_edit($project->get_vacancies())) ?>">
-       <p>Persons<span style="font-size:x-small;color:FF0000">*</span>: <input type="text" name="persons tabindex="1" value="<?PHP echo($project->persons) ?>">
-                  <p>ID<span style="font-size:x-small;color:FF0000">*</span>: <input type="text" name="id" tabindex="1" value="<?PHP echo($project->get_id) ?>"> 
+         <legend>Project time information:</legend>
+               <p>Date of Project<span style="font-size:x-small;color:FF0000">*</span>: <input type="text" name="date" tabindex="2" value="<?PHP echo($project->get_date()) ?>">             
+                Day of Week<span style="font-size:x-small;color:FF0000">*</span>: <input type="text" name="dayOfWeek" tabindex="1" value="<?PHP echo($project->get_dayOfWeek()) ?>">
+               <p>Start Time<span style="font-size:x-small;color:FF0000">*</span>: <input type="text" name="start_time" MAXLENGTH=2 tabindex="7" value="<?PHP echo($project->get_start_time()) ?>">
+               <p>End Time<span style="font-size:x-small;color:FF0000">*</span>: <input type="text" name="end_time" MAXLENGTH=2 tabindex="7" value="<?PHP echo($project->get_end_time()) ?>">
+              
+     </textarea></fieldset>
   <?PHP
-    
-       
-
+      
         echo('<p>Notes:<br />');
         echo('<textarea name="notes" rows="2" cols="60">');
         echo($project->get_notes());
         echo('</textarea></fieldset>');
-
-
-echo ('<p>Status:');
-echo('<span style="font-size:x-small;color:FF0000">*</span>&nbsp;&nbsp;');
-echo('<select name="status">');
+        error_log("Day of week is " . $project->dayOfWeek);
+/*        
 if ($_SESSION['access_level'] == 0) {
 	echo ('<option value="applicant"');
     echo (' SELECTED'); 
@@ -164,4 +153,5 @@ else {
         }
         ?>
 </form>
-
+ * 
+ */

@@ -95,6 +95,10 @@ class Project {
     /*
      * getters and setters
      */
+    function get_dayOfWeek() {
+        return $this->dayOfWeek;
+    }
+    
     function get_mm_dd_yy() {
     	return $this->mm_dd_yy;
     }
