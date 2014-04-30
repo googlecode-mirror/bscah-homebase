@@ -145,7 +145,7 @@ echo('</select>');
 ?>
             
     <fieldset id='availability'>
-        <legend>Availability:<span style="font-size:x-small;color:FF0000">*</span> </legend>
+        <legend>Availability hello there:<span style="font-size:x-small;color:FF0000">*</span> </legend>
         <span class="bigTable">
             <table>
                 <?PHP
