@@ -26,13 +26,11 @@ function create_dbMasterSchedule() {
     }
     $Schedule_types = array("weekly", "monthly");
     $week_days = array("Mon", "Tue", "Wed", "Thu", "Fri");
-    $weekend_days = array("Sat", "Sun");
-    $weekday_weeks = array("odd", "even");
     $weekend_weeks = array("1st", "2nd", "3rd", "4th", "5th");
     // insert a single entry into the table
-    $e = new MasterScheduleEntry("weekly", "Mon", "odd", 9, 12, 0, "", "");
+    $e = new MasterScheduleEntry("weekly", "Mon", 14, 17, 2 , "", "", "");
     insert_dbMasterSchedule($e);
-    $e = new MasterScheduleEntry("weekly", "Tue", "odd", "overnight", 0, 0, "", "");
+    $e = new MasterScheduleEntry("weekly", "Tue", 11 , 0, 0, "", "", "");
     insert_dbMasterSchedule($e);
     // add more of these if we want to pre-fill some standard master schedule shifts; 
     // otherwise, leave the rest of the table blank	

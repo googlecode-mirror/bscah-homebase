@@ -100,13 +100,6 @@ foreach ($states as $st) {
         $dd = substr($person->get_birthday(), 3, 2);
         $yy = substr($person->get_birthday(), 6, 2);
         select_date($mm, $dd, $yy, "DateOfBirth_Month", "DateOfBirth_Day", "DateOfBirth_Year");
-        if ($person->get_start_date()!="") {
-        	echo "&nbsp;&nbsp;&nbsp;&nbsp;Start Date:";
-        	$mm = substr($person->get_start_date(), 0, 2);
-        	$dd = substr($person->get_start_date(), 3, 2);
-        	$yy = substr($person->get_start_date(), 6, 2);
-        	select_date($mm, $dd, $yy, "DateOfStart_Month", "DateOfStart_Day", "DateOfStart_Year");
-        }
 
         echo('<p>Gender:&nbsp;&nbsp;');
         echo('<select name="gender">');
@@ -148,8 +141,9 @@ else {
 	if ($person->get_status() == 'former')
 	    echo (' SELECTED'); echo('>former</option>');
 }
-
+echo('</select>');
 ?>
+            
     <fieldset id='availability'>
         <legend>Availability:<span style="font-size:x-small;color:FF0000">*</span> </legend>
         <span class="bigTable">
@@ -157,15 +151,15 @@ else {
                 <?PHP
                 $shifts = array('morning' => 'Morning (9-12)', 'earlypm' => 'Early afternoon (12-3)', 'latepm' => 'Late afternoon (3-6)',
                     'evening' => 'evening (6-9)', 'overnight' => "Overnight");
-                $days = array('Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun');
+                $workdays = array('Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun');
                 $person_availability = implode(',', $person->get_availability());
     			echo "<table>".
 					"<tr><td> &nbsp;&nbsp;</td><td>Mon&nbsp;&nbsp;</td><td>Tue&nbsp;&nbsp;</td><td>Wed&nbsp;&nbsp;</td>".
 					"<td>Thu&nbsp;&nbsp;</td><td>Fri&nbsp;&nbsp;</td><td>Sat&nbsp;&nbsp;</td><td>Sun</td></tr>";
-    			foreach ($shifts as $weekno => $weekvalue) {
-       				echo ('<tr><td>'. $weekvalue . '</td>');
-       				foreach ($days as $day) {
-       	  				$realkey = $day . ":". $weekno;
+    			foreach ($shifts as $weeknum => $weekvalues) {
+       				echo ('<tr><td>'. $weekvalues . '</td>');
+       				foreach ($workdays as $workday) {
+       	  				$realkey = $day . ":". $weeknum;
        	  				echo ('<td><input type="checkbox" name="availability[]" value=' . $realkey);
     	  				if (in_array($day.":".$weekno, $person->get_availability())) echo(' CHECKED');
     	  				echo ('></td>');
