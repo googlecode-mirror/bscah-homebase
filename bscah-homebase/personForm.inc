@@ -173,6 +173,8 @@ echo('</select>');
     </fieldset>
     <p>
         <?PHP
+        //inserted by james loeffler
+        ///*
         if ($id == 'new' || $person->get_status() == "applicant") {
             echo "<fieldset>";
             echo "<legend>Applicants only: </legend>";
@@ -192,7 +194,7 @@ echo('</select>');
                             echo('<option value ="' . $t . '"> ' . $t . '</option>');
                         }
                     }
-                }
+                }//*/
        
                 echo('</select>&nbsp;');
 
@@ -219,7 +221,7 @@ echo('</select>');
                 }
                 echo('</table>');
                 }
-                        }
+                        } //added
 
                 echo('<p>Motivation / Specialties:<br />');
                 echo('<textarea name="motivation" rows="2" cols="60">');
@@ -236,7 +238,7 @@ echo('</select>');
                 }
                 echo('</textarea>');
             echo "</fieldset>";
-        }
+        }//was told to delete but not sure
 
         echo('<input type="hidden" name="schedule" value="' . implode(',', $person->get_schedule()) . '">');
         echo('<input type="hidden" name="password" value="' . $person->get_password() . ')">');

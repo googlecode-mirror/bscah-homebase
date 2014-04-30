@@ -27,8 +27,12 @@ $id = str_replace("_"," ",$_GET["id"]);
 
 //Edited by James Loeffler to accept the changed person.php
 if ($id == 'new') {
-    $person = new Person('new', 'applicant', null, null, null, null, null, null, null, null, null, 
-            "applicant", null, null, null, md5("new"), null, null);
+
+    //problem?
+    $person = new Person('new', 'applicant', null,null,null, null, null, null, null, null, null, null, null, null, null, null, md5("new"), null);
+
+   //$person = new Person('new', 'applicant', null, null, null, null, null, null, null, null, null, "applicant", null, null, null, md5("new"), null, null);
+
 } else {
     $person = retrieve_person($id);
     if (!$person) { // try again by changing blanks to _ in id
