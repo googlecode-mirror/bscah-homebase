@@ -100,6 +100,13 @@ foreach ($states as $st) {
         $dd = substr($person->get_birthday(), 3, 2);
         $yy = substr($person->get_birthday(), 6, 2);
         select_date($mm, $dd, $yy, "DateOfBirth_Month", "DateOfBirth_Day", "DateOfBirth_Year");
+        if ($person->get_start_date()!="") {
+        	echo "&nbsp;&nbsp;&nbsp;&nbsp;Start Date:";
+        	$mm = substr($person->get_start_date(), 0, 2);
+        	$dd = substr($person->get_start_date(), 3, 2);
+        	$yy = substr($person->get_start_date(), 6, 2);
+        	select_date($mm, $dd, $yy, "DateOfStart_Month", "DateOfStart_Day", "DateOfStart_Year");
+        }
 
         echo('<p>Gender:&nbsp;&nbsp;');
         echo('<select name="gender">');
@@ -113,6 +120,7 @@ foreach ($states as $st) {
         if ($person->get_gender() == 'male')
             echo (' SELECTED'); echo('>male</option>');
         echo('</select>');
+        
         echo('<p>Notes:<br />');
         echo('<textarea name="notes" rows="2" cols="60">');
         echo($person->get_notes());
@@ -141,9 +149,8 @@ else {
 	if ($person->get_status() == 'former')
 	    echo (' SELECTED'); echo('>former</option>');
 }
-echo('</select>');
+
 ?>
-            
     <fieldset id='availability'>
         <legend>Availability:<span style="font-size:x-small;color:FF0000">*</span> </legend>
         <span class="bigTable">
@@ -151,15 +158,15 @@ echo('</select>');
                 <?PHP
                 $shifts = array('morning' => 'Morning (9-12)', 'earlypm' => 'Early afternoon (12-3)', 'latepm' => 'Late afternoon (3-6)',
                     'evening' => 'evening (6-9)', 'overnight' => "Overnight");
-                $workdays = array('Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun');
+                $days = array('Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun');
                 $person_availability = implode(',', $person->get_availability());
     			echo "<table>".
 					"<tr><td> &nbsp;&nbsp;</td><td>Mon&nbsp;&nbsp;</td><td>Tue&nbsp;&nbsp;</td><td>Wed&nbsp;&nbsp;</td>".
 					"<td>Thu&nbsp;&nbsp;</td><td>Fri&nbsp;&nbsp;</td><td>Sat&nbsp;&nbsp;</td><td>Sun</td></tr>";
-    			foreach ($shifts as $weeknum => $weekvalues) {
-       				echo ('<tr><td>'. $weekvalues . '</td>');
-       				foreach ($workdays as $workday) {
-       	  				$realkey = $day . ":". $weeknum;
+    			foreach ($shifts as $weekno => $weekvalue) {
+       				echo ('<tr><td>'. $weekvalue . '</td>');
+       				foreach ($days as $day) {
+       	  				$realkey = $day . ":". $weekno;
        	  				echo ('<td><input type="checkbox" name="availability[]" value=' . $realkey);
     	  				if (in_array($day.":".$weekno, $person->get_availability())) echo(' CHECKED');
     	  				echo ('></td>');
@@ -173,28 +180,6 @@ echo('</select>');
     </fieldset>
     <p>
         <?PHP
-        //inserted by james loeffler
-        ///*
-        if ($id == 'new' || $person->get_status() == "applicant") {
-            echo "<fieldset>";
-            echo "<legend>Applicants only: </legend>";
-			if ($_SESSION['access_level'] == 2) {
-            	$screeningType = $person->get_screening_type();
-                $screening = retrieve_dbApplicantScreenings($screeningType);
-                $screenings = getall_ApplicantScreenings();
-                echo('<p> Screening Type:&nbsp; <select name="screening_type">');
-                if ($person->get_screening_type() == "")
-                    echo('<option value="" SELECTED></option>');
-                foreach ($screenings as $s) {
-                    if ($s->get_status() == "published") {
-                        $t = $s->get_type();
-                        if ($screeningType == $t) {
-                            echo('<option value ="' . $t . '" SELECTED>' . $t . '</option>');
-                        } else {
-                            echo('<option value ="' . $t . '"> ' . $t . '</option>');
-                        }
-                    }
-                }//*/
        
                 echo('</select>&nbsp;');
 
@@ -221,7 +206,7 @@ echo('</select>');
                 }
                 echo('</table>');
                 }
-                        } //added
+			
 
                 echo('<p>Motivation / Specialties:<br />');
                 echo('<textarea name="motivation" rows="2" cols="60">');
@@ -238,9 +223,10 @@ echo('</select>');
                 }
                 echo('</textarea>');
             echo "</fieldset>";
-        }//was told to delete but not sure
+        //delete maybe? }
 
         echo('<input type="hidden" name="schedule" value="' . implode(',', $person->get_schedule()) . '">');
+        echo('<input type="hidden" name="history" value="' . implode(',', $person->get_history()) . '">');
         echo('<input type="hidden" name="password" value="' . $person->get_password() . ')">');
         echo('<input type="hidden" name="_submit_check" value="1"><p>');
         if ($_SESSION['access_level'] == 0)

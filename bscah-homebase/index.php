@@ -37,11 +37,7 @@ session_cache_expire(30);
                 include_once('database/dbLog.php');
                 include_once('domain/Shift.php');
                 include_once('database/dbShifts.php');
-                
-                $person = null;
-                error_log('user id is '.$_SESSION['_id'] );
                 if ($_SESSION['_id'] != "guest") {
-                    error_log('in index.php, will retrieve person');
                     // need error checking here to make sure _id is set
                     $person = retrieve_person($_SESSION['_id']);
                     // should really check to make sure a person was retrieved!
@@ -62,13 +58,13 @@ session_cache_expire(30);
 							your upcoming scheduled shifts will always be posted here.
 						');
                     if ($_SESSION['access_level'] == 0)
-                        echo('<p> To apply for a volunteer position at the BedStuy Campaign Against Hunger , select <a href="' . $path . 'personEdit.php?id=' . 'new' . '">apply</a>.');
+                        echo('<p> To apply for a volunteer position at the Bedstuy Campaign Against Hunger , select <a href="' . $path . 'personEdit.php?id=' . 'new' . '">apply</a>.');
                     ?>
 
                     <br>If you just want an overview of Homebase, select <a href="<?php echo($path); ?>dataSearch.php">about</a>.
                     <?PHP
                     if ($person)
-                        echo ('<p>If you want to learn the details of using this system, select <a href="' . $path . 'help.php">help</a>.');
+                        echo ('<p>If you want to learn the details of using Homebase, select <a href="' . $path . 'help.php">help</a>.');
                     ?>
                     </ul>
                 <p>	When you are finished, please remember to <a href="<?php echo($path); ?>logout.php">logout</a>.</li>

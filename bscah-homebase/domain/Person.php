@@ -73,20 +73,10 @@ class Person {
         $this->Email = $email;
         $this->Type = $type;
         $this->Status =$status;
-
-        if ($sch !== "")
-            $this->Schedule = explode(',', $sch);
-        else
-            $this->Schedule = array();
-        
+        $this->Schedule = $sch;
         $this->Notes = $notes;
         $this->Password = $pswd;
-        
-        if ($avail == "")
-            $this->Availability = array();
-        else
-            $this->Availability = explode(',', $avail);
-        
+        $this->Availability = $avail;
         $this->Contact_Preference = $cont_pref;
  
     }

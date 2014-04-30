@@ -32,7 +32,7 @@ session_cache_expire(30);
 
                 echo('<p>Type:<select name="s_type">' .
                 '<option value="" SELECTED></option>' .
-                '<option value="volunteer">House Volunteer</option>' . '<option value="sub">Sub</option>' .
+             
                 '<option value="weekendmanager">Weekend Manager</option>' .
                 '<option value="guestchef">Guest Chef</option>' .
                 '<option value="parking">Event Parking</option>' . '<option value="cleaning">House cleaning</option>' .

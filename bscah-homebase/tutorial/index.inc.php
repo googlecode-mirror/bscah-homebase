@@ -14,11 +14,11 @@ session_cache_expire(30);
 ?>
 <html>
 <head>
-<title>Bed-Study Homebase</title>
+<title>RMH Homebase</title>
 </head>
 <body>
 	<p>
-		<strong>Help Information for BSCAH's Homebase</strong>
+		<strong>Homebase Help Pages</strong>
 	</p>
 	<ol>
 		<li><a href="?helpPage=quickStartGuide.php">Quick Start Guide</a>
@@ -42,13 +42,6 @@ session_cache_expire(30);
 			<li><a href="?helpPage=rmh.php">Adding People </a></li>
 		</ul>
 		<br>
-                <li><strong>Working with the Project Database</strong></li>
-                <br>
-                <ul>
-                    <li><a href="">Searching for Projects</a></li>
-                    <li><a href="">Editing Projects</a></li>
-                </ul>
-                <br>
 		<li><a href="?helpPage=addWeek.php">Working with the Calendar</a></li>
 		<br>
 		<ul>
@@ -65,6 +58,8 @@ session_cache_expire(30);
 						slot (Managers Only)</a></li>
 				<li><a href="help.php?helpPage=addPersonToShift.php">Adding/removing
 						a person from a shift</a></li>
+				<li><a href="help.php?helpPage=subCallList.php">Using a Sub Call
+						List (Managers Only)</a></li>
 			</ul>
 			<p>
 			
@@ -87,7 +82,7 @@ session_cache_expire(30);
 	</ol>
 	<p>
 		If these help pages don't answer your questions, please contact the <a
-			href="mailto:volunteers@bedstuyagainsthunger.org">Volunteer Coordinator</a> or call the
+			href="mailto:housemgr@rmhportland.org">House Manager</a> or call the
 		front desk (207-780-6282).
 	</p>
 </body>

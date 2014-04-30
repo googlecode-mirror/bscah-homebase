@@ -41,15 +41,17 @@
          * permission level, they will be sent back to the home page.
          */
         //pages guests are allowed to view
-        $permission_array['index.php'] = 0;
+   //     $permission_array['index.php'] = 0;
         $permission_array['about.php'] = 0;
-         $permission_array['personEdit.php'] = 0;
+        $permission_array['apply.php'] = 0;
         //pages volunteers can view
         $permission_array['help.php'] = 1;
         $permission_array['view.php'] = 1;
         $permission_array['personSearch.php'] = 1;
+        $permission_array['personEdit.php'] = 1;
         $permission_array['calendar.php'] = 1;
         //pages only managers can view
+        $permission_array['personEdit.php'] = 2;
         $permission_array['projectEdit.php'] = 2;
         $permission_array['viewSchedule.php'] = 2;
         $permission_array['addWeek.php'] = 2;
@@ -64,7 +66,6 @@
      
         error_log('access level is '.$_SESSION['access_level']);
         error_log('$current_page is '.$current_page);
-        error_log('permission for current page is set to '.$permission_array[$current_page]);
       //  echo "current page = ".$current_page;
         if ($permission_array[$current_page] > $_SESSION['access_level']) {
             error_log("in header.php, want to redirect back to index.php");
@@ -91,11 +92,11 @@
         if ($_SESSION['access_level'] == 0)
             echo(' | <a href="' . $path . 'personEdit.php?id=' . 'new' . '"><b>apply</b></a>');
         if ($_SESSION['access_level'] >= 1) {
-            echo(' | <strong>calendars:</strong> <a href="' . $path . 'calendar.php?venue=house">current, </a>');
-    //        echo('<a href="' . $path . 'calendar.php?venue=guestchef">guest chef, </a>');
-   //         echo('<a href="' . $path . 'calendar.php?venue=parking">parking, </a>');
-    //        echo('<a href="' . $path . 'calendar.php?venue=activities">activities | </a>');
-   //         echo('<a href="https://sites.google.com/site/rmhvolunteersite"><strong>around the house</strong> </a>');
+            echo(' | <strong>calendar: </strong> <a href="' . $path . 'calendar.php?venue=house">house, </a>');
+            //echo('<a href="' . $path . 'calendar.php?venue=guestchef">guest chef, </a>');
+            //echo('<a href="' . $path . 'calendar.php?venue=parking">parking, </a>');
+            //echo('<a href="' . $path . 'calendar.php?venue=activities">activities | </a>');
+           // echo('<a href="https://sites.google.com/site/rmhvolunteersite"><strong>around the house</strong> </a>');
         }
         if ($_SESSION['access_level'] == 1.5) {
             echo('<br>');
@@ -104,9 +105,9 @@
         if ($_SESSION['access_level'] >= 2) {
             echo('<br><a href="' . $path . 'viewSchedule.php?frequency=weekly"><strong>master schedules</strong></a> | ');
             echo('<strong>volunteers :</strong> <a href="' . $path . 'personSearch.php">search</a>, 
-			        <a href="personEdit.php?id=' . 'new' . '">add, </a>');
+			        <a href="personEdit.php?id=' . 'new' . '">add, </a> <a href="viewScreenings.php?type=new">screenings</a>');
             echo(' | <strong><a href="' . $path . 'reports.php">reports</a> </strong>');
-        //    echo(' | <strong>data :</strong> <a href="' . $path . 'dataSearch.php">search and export</a> ');
+            echo(' | <strong>data :</strong> <a href="' . $path . 'dataSearch.php">search and export</a> ');
         }
         echo(' | <a href="' . $path . 'logout.php"><b>logout</b></a>');
     }
