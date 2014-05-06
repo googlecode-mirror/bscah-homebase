@@ -176,9 +176,7 @@ echo('</select>');
         //inserted by james loeffler
         ///*
         if ($id == 'new' || $person->get_status() == "applicant") {
-            echo "<fieldset>";
-            echo "<legend>Applicants only: </legend>";
-			if ($_SESSION['access_level'] == 2) {
+            if ($_SESSION['access_level'] == 2) {
             	$screeningType = $person->get_screening_type();
                 $screening = retrieve_dbApplicantScreenings($screeningType);
                 $screenings = getall_ApplicantScreenings();
