@@ -32,15 +32,14 @@ session_cache_expire(30);
 
                 echo('<p>Type:<select name="s_type">' .
                 '<option value="" SELECTED></option>' .
-                '<option value="volunteer">House Volunteer</option>' . '<option value="sub">Sub</option>' .
-                '<option value="weekendmanager">Weekend Manager</option>' .
-                '<option value="guestchef">Guest Chef</option>' .
-                '<option value="parking">Event Parking</option>' . '<option value="cleaning">House cleaning</option>' .
-                '<option value="other">Other</option>' . '<option value="manager">Manager</option>' .
-                '</select>');
+                '<option value="volunteer">Volunteer</option>' . 
+                '<option value="Manager">Manager</option>' .
+                '<option value="guest">Guest</option>' .
+                
+                                
                 echo('&nbsp;&nbsp;Status:<select name="s_status">' .
-                '<option value="" SELECTED></option>' . '<option value="applicant">Applicant</option>' . '<option value="active">Active</option>' .
-                '<option value="LOA">On Leave</option>' . '<option value="former">Former</option>' .
+                '<option value="" SELECTED></option>' . '<option value="applicant">Applicant</option>' . //'<option value="active">Active</option>' .
+                '<option value="Approved">Approved</option>' .// '<option value="former">Former</option>' .
                 '</select>');
                 echo '<p>Name (type a few letters): ';
                 echo '<input type="text" name="s_name">';
@@ -58,7 +57,7 @@ session_cache_expire(30);
                 foreach ($days as $day) {
                     echo '<option value="' . $day . '">' . $day . '</option>';
                 }
-                echo '</select>';
+                /*echo '</select>';
                 echo "</td><td>";
                 $shifts = array('morning' => 'Morning (9-12)', 'earlypm' => 'Early Afternoon (12-3)', 'latepm' => 'Late Afternoon (3-6)',
                     'evening' => 'Evening (6-9)', 'overnight' => 'Overnight');
@@ -66,6 +65,8 @@ session_cache_expire(30);
                 foreach ($shifts as $shiftno => $shiftname) {
                     echo '<option value="' . $shiftno . '">' . $shiftname . '</option>';
                 }
+             
+                 */
                 echo '</select>';
                 echo "</td>";
                 echo "</tr>";
@@ -82,7 +83,7 @@ session_cache_expire(30);
                     // now go after the volunteers that fit the search criteria
                     include_once('database/dbPersons.php');
                     include_once('domain/Person.php');
-                    $result = getonlythose_dbPersons($type, $status, $name, $_POST['s_day'], $_POST['s_shift']);
+                    $result = getonlythose_dbPersons($type, $status, $name, $_POST['s_day']);
                     //$result = getall_dbPersons();
               
 
@@ -93,7 +94,7 @@ session_cache_expire(30);
                         echo "persons";
                     if ($name != "")
                         echo ' with name like "' . $name . '"';
-                    $availability = $_POST['s_day'] ." ". $_POST['s_shift'];
+                    $availability = $_POST['s_day'] .";
                     if ($availability != " ") {
                         echo " with availability " . $availability;
                     }
@@ -120,4 +121,5 @@ session_cache_expire(30);
         <?PHP include('footer.inc'); ?>
     </body>
 </html>
+
 

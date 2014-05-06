@@ -195,6 +195,7 @@ echo('</select>');
                         }
                     }
                 }//*/
+                //*/
        
                 echo('</select>&nbsp;');
 
@@ -223,7 +224,7 @@ echo('</select>');
                 }
                         } //added
 
-                echo('<p>Motivation / Specialties:<br />');
+                /*echo('<p>Motivation / Specialties:<br />');
                 echo('<textarea name="motivation" rows="2" cols="60">');
                 echo($person->get_motivation());
                 if ($person->get_specialties() != "")
@@ -235,7 +236,7 @@ echo('</select>');
                 foreach ($person->get_references() as $reference) {
                     $i = strpos($reference, "_");
                     echo substr($reference, 0, $i) . " " . phone_edit(substr($reference, $i + 1)) . "     ";
-                }
+                }*/
                 echo('</textarea>');
             echo "</fieldset>";
         }//was told to delete but not sure
