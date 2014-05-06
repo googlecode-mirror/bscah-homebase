@@ -74,6 +74,7 @@ CREATE TABLE IF NOT EXISTS `masterschedule` (
   `MS_ID` varchar(25) NOT NULL DEFAULT '',
   `Schedule_type` text NOT NULL,
   `day` text NOT NULL,
+  ` week_no` text NOT NULL, 
   `start_time` text NOT NULL,
   `end_time` text,
   `slots` int(11) DEFAULT NULL,
