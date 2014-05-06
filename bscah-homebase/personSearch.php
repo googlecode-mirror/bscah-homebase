@@ -34,12 +34,13 @@ session_cache_expire(30);
                 '<option value="" SELECTED></option>' .
                 '<option value="volunteer">Volunteer</option>' . 
                 '<option value="Manager">Manager</option>' .
-                '<option value="guest">Guest</option>' .
+                '<option value="guest">Guest</option>'.
+                '</select>' );
                 
                                 
                 echo('&nbsp;&nbsp;Status:<select name="s_status">' .
-                '<option value="" SELECTED></option>' . '<option value="applicant">Applicant</option>' . //'<option value="active">Active</option>' .
-                '<option value="Approved">Approved</option>' .// '<option value="former">Former</option>' .
+                '<option value="" SELECTED></option>' . '<option value="applicant">Applicant</option>' .
+                '<option value="Approved">Approved</option>' .
                 '</select>');
                 echo '<p>Name (type a few letters): ';
                 echo '<input type="text" name="s_name">';
@@ -94,7 +95,7 @@ session_cache_expire(30);
                         echo "persons";
                     if ($name != "")
                         echo ' with name like "' . $name . '"';
-                    $availability = $_POST['s_day'] .";
+                    $availability = $_POST['s_day'];
                     if ($availability != " ") {
                         echo " with availability " . $availability;
                     }
