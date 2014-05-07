@@ -62,6 +62,8 @@
         echo($project->get_notes());
         echo('</textarea></fieldset>');
         error_log("Day of week is " . $project->get_dayOfWeek());
+        
+        
 /*        
 if ($_SESSION['access_level'] == 0) {
 	echo ('<option value="applicant"');
