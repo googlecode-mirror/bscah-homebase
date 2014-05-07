@@ -29,40 +29,30 @@
 <p>
 	<strong>How to Add People to the Database</strong>
 <p>
-	<B>Step 1:</B> On the navigation bar at the top of the page, find <B>people:</B>
-	and select <B>add</B>, like this:<BR> <BR> <a
-		href="tutorial/screenshots/addpersonhelpstep1.png" class="image"
-		title="addpersonhelpstep1.png" horizontalalign="center"
-		target="tutorial/screenshots/addpersonhelpstep1.png">
-		&nbsp&nbsp&nbsp&nbsp<img
-		src="tutorial/screenshots/addpersonhelpstep1.png" width="10%"
-		rel="popover" data-img="tutorial/screenshots/addpersonhelpstep1.png"
-		border="1px" align="center"> </a>
+	<B>Step 1:</B> On the navigation bar at the top of the page, find <B>volunteers:</B>
+	and select <B>add</B>.
+</p>
+<br>
 <p>
 	<B>Step 2:</B> You should now see a long form with information like
 	"First Name" and "Last Name". That form begins like this:<BR> <BR> <a
-		href="tutorial/screenshots/addpersonhelpstep2.png" class="image"
-		title="addpersonhelpstep2.png"
-		target="tutorial/screenshots/addpersonhelpstep2.png">
+		href="tutorial/screenshots/AddVolunteer.png" class="image"
+		title="AddVolunteer.png"
+		target="tutorial/screenshots/AddVolunteer.png">
 		&nbsp&nbsp&nbsp&nbsp<img
-		src="tutorial/screenshots/addpersonhelpstep2.png" width="10%"
-		rel="popover" data-img="tutorial/screenshots/addpersonhelpstep2.png"
+		src="tutorial/screenshots/AddVolunteer.png" width="10%"
+		rel="popover" data-img="tutorial/screenshots/AddVolunteer.png"
 		border="1px" align="middle"> </a> <BR> Now you can fill in these
 		fields with the correct information. <br>(NOTE:&nbsp All fields marked
 		by <font color="#FF0000">*</font> are required before a person can be
 	added to the database.)
 </p>
-
+<br>
 <p>
 	<B>Step 3:</B> When you finish, select the <B>Submit</B> button at the
-	bottom of the page, like this:<BR> <BR> <a
-		href="tutorial/screenshots/addpersonhelpstep3.png" class="image"
-		title="addpersonhelpstep3.png"
-		target="tutorial/screenshots/addpersonhelpstep3.png">
-		&nbsp&nbsp&nbsp&nbsp<img
-		src="tutorial/screenshots/addpersonhelpstep3.png" width="10%"
-		rel="popover" data-img="tutorial/screenshots/addpersonhelpstep3.png"
-		border="1px" align="middle"> </a>
+	bottom of the page.
+</p>
+<br>
 <p>
 	<B>Step 4:</B> If you make a mistake or omit a required field, <font
 		color=#FF0000>red</font> warnings will tell you what you need to
