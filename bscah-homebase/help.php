@@ -65,6 +65,8 @@
 					$assocHelp['quickStartGuide.php']='quickStartGuideHelp.inc.php';
 					$assocHelp['reports.php']='reportsHelp.inc.php';
 					$assocHelp['dataExport.php']='dataExportHelp.inc.php';
+                                        $assocHelp['addProject.php']='addProject.inc.php';
+                                        $assocHelp['editProject.php']='editProjectHelp.inc.php';
 
 					//personal home page
 					$assocHelp['index.php']='indexHelp.inc.php';
@@ -86,4 +88,5 @@
 		</div>
 	</body>
 </html>
+
 
