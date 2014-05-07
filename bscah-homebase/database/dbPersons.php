@@ -77,7 +77,7 @@ function add_person($person) {
             $person->get_schedule() . "','" .
             $person->get_notes() . "','" .
             $person->get_password() . "','" .
-            $person->get_availabiltiy() . "','" .
+            $person->get_availability() . "','" .
             $person->get_contact_preference() . "');";
     error_log('query is ' . $query);
     $result = mysql_query($query);
