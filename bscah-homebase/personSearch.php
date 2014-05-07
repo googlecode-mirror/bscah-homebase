@@ -84,7 +84,7 @@ session_cache_expire(30);
                     // now go after the volunteers that fit the search criteria
                     include_once('database/dbPersons.php');
                     include_once('domain/Person.php');
-                    $result = getonlythose_dbPersons($type, $status, $name, $_POST['s_day']);
+                    $result = getonlythose_persons($type, $status, $name, $_POST['s_day'], $_POST['s_shift']);
                     //$result = getall_dbPersons();
               
 
