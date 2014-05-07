@@ -13,7 +13,7 @@ echo("test complete</br>");
 
 // tests the add_person() function in dbPersons.php
 function test_insert_dbMasterSchedule() {
-    $new_MasterScheduleEntry = new MasterScheduleEntry("monthly","Wed", "14", "17", 2,
+    $new_MasterScheduleEntry = new MasterScheduleEntry("monthly","Wed","odd", "14", "17", 2,
 		"joe2071234567,sue2079876543", "This is a super fun shift.", "Afternoon Shift"); // not sure what the id looks like
    
     echo 'will test insert_dbMasterSchedule </br>';
@@ -32,8 +32,7 @@ function test_insert_dbMasterSchedule() {
 // tests the retrieve_person() function in dbPersons.php
 function test_retrieve_dbMasterSchedule() {
   //  $m = new person("Gabrielle", "Booth", "female", "14 Way St", "Harpswell", "ME", "04079", "", 1112345678, 2071112345, "ted@bowdoin.edu", "email", "Mother", 2077758989, "manager", "", "", "active", "programmer", "Steve_2077291234", "yes", "", "", "Mon:morning,Tue:morning", "", "", "02-19-89", "03-14-08", "", "");
-  $new_MasterScheduleEntry = new MasterScheduleEntry("monthly","Wed", "14", "17", 2,
-		"joe2071234567,sue2079876543", "This is a super fun shift.", "Afternoon Shift" ); // not sure what the id looks like
+  $new_MasterScheduleEntry = new MasterScheduleEntry("weekly", "Mon", "odd", "14", "17", 2 , "joe2071234567,sue2079876543", "I like pie.", "Night Shift"); // not sure what the id looks like
   
     echo 'will test retrieve_dbMasterSchedule </br>';
     error_log('testing retrieve');
@@ -48,9 +47,10 @@ function test_retrieve_dbMasterSchedule() {
     if ($mse == null)
         echo 'Retrieve failed</br>';
     else {
-        checkEquals($mse->get_notes(), "This is a super fun shift.");
-        checkEquals($mse->get_persons(), "joe2071234567,sue2079876543");
+        checkEquals($mse->get_MS_ID(), "weeklyMon14-17");
         checkEquals($mse->get_start_time(), "14");
+        checkEquals($mse->get_persons(), "joe2071234567,sue2079876543");
+        checkEquals($mse->get_notes(), "I like pie.");
     }
 
     $res =  delete_dbMasterSchedule($new_MasterScheduleEntry->get_MS_ID());
@@ -60,11 +60,11 @@ function test_retrieve_dbMasterSchedule() {
 
 // tests the retrieve_persons_by_name() function in dbPersons.php
 function test_update_dbMasterSchedule() {
-    $new_MasterScheduleEntry = new MasterScheduleEntry("monthly","Wed", 14, 17, 2,
+    $new_MasterScheduleEntry = new MasterScheduleEntry("monthly","Wed","odd", 14, 17, 2,
 		"joe2071234567,sue2079876543", "This is a super fun shift.", "Afternoon Shift"); // not sure what the id looks like
   
     echo 'will test update_dbMasterSchedule </br>';
-   $new_MasterScheduleEntry = new MasterScheduleEntry("monthly","Wed",  14, 17, 2,
+   $new_MasterScheduleEntry = new MasterScheduleEntry("monthly","Wed","odd",  14, 17, 2,
 		"joe2071234567,sue2079876543", "This is a super fun shift.", "Afternoon Shift"); // not sure what the id looks like
   
     echo 'will test update_dbMasterSchedule </br>';
@@ -77,7 +77,7 @@ function test_update_dbMasterSchedule() {
         echo "insert_dbMasterSchedule failed</br>";
     
     // removed one person
-    $updated_MasterScheduleEntry = new MasterScheduleEntry("monthly","Wed", "14", "17", 2,
+    $updated_MasterScheduleEntry = new MasterScheduleEntry("monthly","Wed","odd", "14", "17", 2,
 		"sue2079876543", "This is a super fun shift.", "Afternoon Shift"); // not sure what the id looks lik
     $mse = update_dbMasterSchedule($updated_MasterScheduleEntry);
     if ($mse == false)

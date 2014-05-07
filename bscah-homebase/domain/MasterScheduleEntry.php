@@ -21,6 +21,8 @@ class MasterScheduleEntry {
     	private $MS_ID;	        // unique string for each entry = schedule_type.day.start_time."-".end_time eg: monthlyWed14-17   
 	private $Schedule_type; // "monthly" (for guestchef type) or "weekly" (for weekday, weekend, and overnight types)
 	private $day;           // "Mon", "Tue", ... "Sun"
+        private $Week_no;       // week of month (1st-5th) for "monthly" or "weekly" Sat or Sun
+	                        // or week of year (odd or even) for "weekly" Mon-Fri
 	private $start_time;    // start time for the shift (9 - 21) eg: 10 means 10am, 13 means 1pm
 	private $end_time;      //end time for the shift & project(9 - 21) eg: 10 means 10am, 13 means 1pm
 	private $slots;         // the number of slots to be filled for this shift & project
@@ -31,13 +33,15 @@ class MasterScheduleEntry {
 	/**
 	* constructor for all MasterScheduleEntries
 	*/
-	function __construct($Schedule_type, $day,$start_time, $end_time, $slots, $persons, $notes, $Shifts){
+	function __construct($Schedule_type, $day, $Week_no , $start_time, $end_time, $slots, $persons, $notes, $Shifts){
                                     //   error_log('in MSE constructor');
 		$this->MS_ID = $Schedule_type.$day.$start_time."-".$end_time;
-                                         $this->Schedule_type = $Schedule_type;
+                $this->Schedule_type = $Schedule_type;
                                  //        error_log('schedule type is ' . $Schedule_type);
 		$this->day = $day;
                                 //        error_log('day '.$day);
+                $this->Week_no = $Week_no;
+                
 		$this->start_time = $start_time;
                                  //        error_log('start time '.$start_time);
 		$this->end_time = $end_time;
@@ -46,9 +50,9 @@ class MasterScheduleEntry {
                                   //         error_log('slots '.$slots);
 		$this->persons = $persons;
                                  //         error_log('persons '.$persons);
-                                         $this->notes = $notes;
+                $this->notes = $notes;
                                       // error_log('notes '.$notes);
-                                        $this->Shifts = $Shifts;
+                $this->Shifts = $Shifts;
                                     //   error_log('shifts '.$Shifts);
 	}
 	
@@ -66,7 +70,9 @@ class MasterScheduleEntry {
 	function get_day(){
 		return $this->day;
 	}
-	
+	function get_Week_no(){
+		return $this->Week_no;
+	}
 	function get_start_time(){ 
 		return $this->start_time;
 	}

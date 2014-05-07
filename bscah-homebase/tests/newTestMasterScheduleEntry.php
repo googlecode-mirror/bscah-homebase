@@ -10,7 +10,7 @@ testConstructor();
 //return a message if the first test past or fails 
 function testConstructor()
 { 
-$test_MasterScheduleEntry = new MasterScheduleEntry("weekly", "Mon", 14, 17, 2 , "joe2071234567,sue2079876543", "I like pie.", "Night Shift");
+$test_MasterScheduleEntry = new MasterScheduleEntry("weekly", "Mon", "odd", 14, 17, 2 , "joe2071234567,sue2079876543", "I like pie.", "Night Shift");
 
 echo "Testing first name".'</br>';
 if($test_MasterScheduleEntry->get_MS_ID()=="weeklyMon14-17") 
@@ -28,6 +28,10 @@ if($test_MasterScheduleEntry->get_day() == "Mon")
 else
     echo 'day test failed </br>';
 
+if($test_MasterScheduleEntry->get_Week_no() == "odd")
+    echo 'Week_no test succeeded </br>';
+else
+    echo 'Week_no  test failed </br>';
 
 if ($test_MasterScheduleEntry->get_start_time()==14)
     echo 'start time test succeeded </br>';

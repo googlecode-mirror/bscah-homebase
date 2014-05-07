@@ -42,6 +42,7 @@ include_once("domain/MasterScheduleEntry.php");
                 $week_days = array("Mon" => "Monday", "Tue" => "Tuesday", "Wed" => "Wednesday",
                     "Thu" => "Thursday", "Fri" => "Friday");
                 $weekend_days = array("Sat" => "Saturday", "Sun" => "Sunday");
+                $weekday_groups = array("odd", "even");
                 $weekend_groups = array("1st", "2nd", "3rd", "4th", "5th");
                 foreach ($weekday_groups as $weekday_group) {
                     show_master_week($weekday_group, $week_days);
