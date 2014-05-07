@@ -155,15 +155,15 @@ session_cache_expire(30);
                             //We have a manager authenticated
                             //log box
 
-                            echo('<div class="logBox"><p><strong>Recent Schedule Changes:</strong><br />');
-                            echo('<table class="searchResults">');
-                            echo('<tr><td class="searchResults"><u>Time</u></td><td class="searchResults"><u>Message</u></td></tr>');
-                            $log = get_last_log_entries(5);
-                            for ($i = 4; $i >= 0; --$i) {
-                                echo('<tr><td class="searchResults">' . $log[$i][1] . '</td>' .
-                                '<td class="searchResults">' . $log[$i][2] . '</td></tr>');
-                            }
-                            echo ('</table><br><a href="' . $path . 'log.php">View full log</a></p></div><br>');
+                           // echo('<div class="logBox"><p><strong>Recent Schedule Changes:</strong><br />');
+                           // echo('<table class="searchResults">');
+                           //echo('<tr><td class="searchResults"><u>Time</u></td><td class="searchResults"><u>Message</u></td></tr>');
+                           // $log = get_last_log_entries(5);
+                            //for ($i = 4; $i >= 0; --$i) {
+                            //    echo('<tr><td class="searchResults">' . $log[$i][1] . '</td>' .
+                            //    '<td class="searchResults">' . $log[$i][2] . '</td></tr>');
+                            //}
+                            //echo ('</table><br><a href="' . $path . 'log.php">View full log</a></p></div><br>');
 
                             //beginning of vacancy box
                             //For checking time
@@ -197,7 +197,7 @@ session_cache_expire(30);
                          //   if (mysql_num_rows($applicants_tab) > 0) {
                                 echo('<div class="applicantsBox"><p><strong>Open Applications:</strong><ul>');
                                 while ($thisRow = mysql_fetch_array($applicants_tab, MYSQL_ASSOC)) {
-                                    echo('<li type="circle"><a href="' . $path . 'personEdit.php?id=' . $thisRow['id'] .'" id = "appLink">' . $thisRow['first_name'] . ' ' . $thisRow['last_name'] . '</a></li>');
+                                    echo('<li type="circle"><a href="' . $path . 'personEdit.php?id=' . $thisRow['ID'] .'" ID = "appLink">' . $thisRow['NameFirst'] . ' ' . $thisRow['NameLast'] . '</a></li>');
                                 }
                                 echo('</ul></p></div><br>');
                         //    }

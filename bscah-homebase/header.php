@@ -54,7 +54,7 @@
         $permission_array['viewSchedule.php'] = 2;
         $permission_array['addWeek.php'] = 2;
         $permission_array['rmh.php'] = 2;
-        $permission_array['log.php'] = 2;
+        //$permission_array['log.php'] = 2;
         $permission_array['dataSearch.php'] = 2;
         $permission_array['reports.php'] = 2;
 
