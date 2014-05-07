@@ -123,7 +123,9 @@ CREATE TABLE IF NOT EXISTS `person` (
 
 INSERT INTO `person` (`ID`, `NameFirst`, `NameLast`, `Birthday`, `Gender`, `Address`, `City`, `State`, `Zip`, `Phone1`, `Phone2`, `Email`, `Type`, `Status`, `Schedule`, `Notes`, `Password`, `Availability`, `ContactPreference`) VALUES
 ('Alana2147483647', 'Alana', 'Mutum', '09/19/1993', 'F', '1140 Esther Street', 'Franklin Square', 'NY', '11010', 2147483647, NULL, 'lanixxjay@live.com', 'manager', NULL, '', '', '0a56fdd1488f6102ecd18dead95ed83c', '', 'email');
-
+('Erick6464924106', 'Erick', 'Tavera', '05/10/1992', 'M', '1232 Mockingbird Lane', 'Queens', 'NY', '11439', 6464924106, NULL, 'erick.tavera10@stjohns.edu', 'Volunteer', NULL, '', '', '', '323e5cf127866f33db001369b7a150be', '', 'email');
+('Humza6462207988', 'Kaming', 'Long', '03/17/1992', 'M', '3000 Union Tpke', 'Queens', 'NY', '11439', 6462207988, NULL, 'humza15@gmail.com', 'Volunteer', NULL, '', '', '', '8122dae99d7e5350db689e26377989bd', '', 'email');
+('Ivan3897654321', 'Ivan', 'Ortiz', '06/02/1993', 'M', '8000 Utopia Pkwy', 'Queens', 'NY', '11439', 3897654321, NULL, 'ivan11@gmail.com', 'Volunteer', NULL, '', '', '','45ffbe878705cd88de5f943eac87da3b', '', 'email'); 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
