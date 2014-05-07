@@ -32,21 +32,18 @@ session_cache_expire(30);
 			<li><a href="?helpPage=index.php">About your Personal Home Page</a></li>
 		</ul>
 		<br>
-		<li><strong>Working with the Volunteer Database</strong> (Managers
-			Only)</li>
+		<li><strong>Working with the Volunteer Database</strong></li>
 		<br>
 		<ul>
-			<li><a href="?helpPage=searchPeople.php">Searching for People (and
-					Phone Numbers)</a></li>
-			<li><a href="?helpPage=edit.php">Editing People</a></li>
-			<li><a href="?helpPage=rmh.php">Adding People </a></li>
+			<li><a href="?helpPage=searchPeople.php">Searching for a Volunteer</a></li>
+			<li><a href="?helpPage=rmh.php">Adding a Volunteer</a></li>
 		</ul>
 		<br>
                 <li><strong>Working with the Project Database</strong></li>
                 <br>
                 <ul>
-                    <li><a href="">Searching for Projects</a></li>
-                    <li><a href="">Editing Projects</a></li>
+                    <li><a href="?helpPage=addProject.php">Adding Projects</a></li>
+                    <li><a href="?helpPage=editProject.php">Searching for/Editing Projects</a></li>
                 </ul>
                 <br>
 		<li><a href="?helpPage=addWeek.php">Working with the Calendar</a></li>
@@ -80,9 +77,6 @@ session_cache_expire(30);
 		<br>
 		<li><a href="?helpPage=reports.php">Generating Reports</a> (Managers
 			Only)</li>
-		<br>
-		<li><a href="?helpPage=dataExport.php">Generating CSVs (Excel
-				Spreadsheets) from Volunteer Database</a> (Managers Only)</li>
 
 	</ol>
 	<p>
@@ -92,4 +86,6 @@ session_cache_expire(30);
 	</p>
 </body>
 </html>
+
+
 
