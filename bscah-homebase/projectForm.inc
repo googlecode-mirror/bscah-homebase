@@ -47,12 +47,13 @@
     <p>(<span style="font-size:x-small;color:FF0000">*</span> denotes required fields)
     <p>Name<span style="font-size:x-small;color:FF0000">*</span>: <input type="text" name="name" tabindex="1" value="<?PHP echo($project->get_name()) ?>">
     <p>Address<span style="font-size:x-small;color:FF0000">*</span>: <input type="text" name="address" tabindex="2" value="<?PHP echo($project->get_address()) ?>">
+    <p>Max # people that can be in this project<span style="font-size:x-small;color:FF0000">*</span>: <input type="vacancies" name="address" tabindex="3" value="<?PHP echo($project->get_vacancies()) ?>">
     <fieldset>    
          <legend>Project time information:</legend>
-               <p>Date of Project<span style="font-size:x-small;color:FF0000">*</span>: <input type="text" name="date" tabindex="2" value="<?PHP echo($project->get_date()) ?>">             
-                Day of Week<span style="font-size:x-small;color:FF0000">*</span>: <input type="text" name="dayOfWeek" tabindex="1" value="<?PHP echo($project->get_dayOfWeek()) ?>">
-               <p>Start Time<span style="font-size:x-small;color:FF0000">*</span>: <input type="text" name="start_time" MAXLENGTH=2 tabindex="7" value="<?PHP echo($project->get_start_time()) ?>">
-               <p>End Time<span style="font-size:x-small;color:FF0000">*</span>: <input type="text" name="end_time" MAXLENGTH=2 tabindex="7" value="<?PHP echo($project->get_end_time()) ?>">
+               <p>Date of Project<span style="font-size:x-small;color:FF0000">*</span>: <input type="text" name="date" MAXLENGTH=6 tabindex="2" value="<?PHP echo($project->get_date()) ?>">             
+               <p>Day of Week<span style="font-size:x-small;color:FF0000">*</span>: <input type="text" name="dayOfWeek" tabindex="1" value="<?PHP echo($project->get_dayOfWeek()) ?>">
+               <p>Start Time<span style="font-size:x-small;color:FF0000">*</span>: <input type="text" name="start_time" MAXLENGTH=4 tabindex="7" value="<?PHP echo($project->get_start_time()) ?>">
+               <p>End Time<span style="font-size:x-small;color:FF0000">*</span>: <input type="text" name="end_time" MAXLENGTH=4 tabindex="7" value="<?PHP echo($project->get_end_time()) ?>">
               
      </textarea></fieldset>
   <?PHP
@@ -62,7 +63,8 @@
         echo($project->get_notes());
         echo('</textarea></fieldset>');
         error_log("Day of week is " . $project->get_dayOfWeek());
-        
+        echo "<br />\n";
+        echo('Hit <input type="submit" value="Submit" name="Submit Edits"> to complete this application.<br /><br />');
         
 /*        
 if ($_SESSION['access_level'] == 0) {

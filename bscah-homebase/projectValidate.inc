@@ -18,23 +18,23 @@
  */
 function validate_form() {
     if ($_POST['mm_dd_yy'] == null || $_POST['mm_dd_yy'] == 'new')
-        $errors[] = 'Please enter a mm_dd_yy';
+        $errors[] = 'Please enter the date of this project';
     if ($_POST['address'] == null)
-        $errors[] = 'Please enter a address';
+        $errors[] = 'Please enter an address';
     if ($_POST['name'] == null)
         $errors[] = 'Please enter a name';
     if ($_POST['start_time'] == null)
         $errors[] = 'Please enter a start time';
     if ($_POST['end_time'] == null)
-        $errors[] = 'Please enter a end time';
+        $errors[] = 'Please enter an end time';
     if ($_POST['dayOfWeek'] == null)
         $errors[] = 'Please enter a day of the week';
     if ($_POST['vacancies'] == null)
-        $errors[] = 'Please enter the amount of vacancies';
-    if ($_POST['persons'] == null)
-        $errors[] = 'Please enter the amount of persons';
-    if ($_POST['notes'] == null)
-        $errors[] = 'Please enter notes';   
+        $errors[] = 'Please enter the amount of people that can join this project';
+    //if ($_POST['persons'] == null)
+        //$errors[] = 'Please enter the amount of persons';
+    //if ($_POST['notes'] == null)
+        //$errors[] = 'Please enter notes';   
     return $errors;
 }
 function show_errors($e) {

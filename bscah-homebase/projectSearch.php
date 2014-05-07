@@ -46,8 +46,7 @@ session_cache_expire(30);
                     echo '<option value="' . $day . '">' . $day . '</option>';
                 }
                 
-                echo '<p>Name (type a few letters): ';
-                echo '<input type="text" name="s_name">';
+               
                 /*echo '</select>';
                 echo "</td><td>";
                 $shifts = array('morning' => 'Morning (9-12)', 'earlypm' => 'Early Afternoon (12-3)', 'latepm' => 'Late Afternoon (3-6)',
