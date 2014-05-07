@@ -39,42 +39,42 @@
 	<B>Step 2:</B> The search criteria contains four parts:
 <p>
     1. The <B>type</B>: volunteer, manager, or guest. <BR> <BR> <a
-		href="tutorial/screenshots/Volunteer/VolunteerType.png" class="image"
+		href="tutorial/screenshots/VolunteerType.png" class="image"
 		title="VolunteerType.png" horizontalalign="center"
-		target="tutorial/screenshots/Volunteer/VolunteerType.png">
+		target="tutorial/screenshots/VolunteerType.png">
 		&nbsp&nbsp&nbsp&nbsp<img
-		src="tutorial/screenshots/Volunteer/VolunteerType.png" width="10%"
-		rel="popover" data-img="tutorial/screenshots/Volunteer/VolunteerType.png"
+		src="tutorial/screenshots/VolunteerType.png" width="10%"
+		rel="popover" data-img="tutorial/screenshots/VolunteerType.png"
 		border="1px" align="middle"> </a>
 </p>
 <p>
     2. The <B>status</B> of the volunteer: applicant or approved.<BR> <BR> <a
-		href="tutorial/screenshots/Volunteer/VolunteerStatus.png" class="image"
+		href="tutorial/screenshots/VolunteerStatus.png" class="image"
 		title="VolunteerStatus.png" horizontalalign="center"
-		target="tutorial/screenshots/Volunteer/VolunteerStatus.png">
+		target="tutorial/screenshots/VolunteerStatus.png">
 		&nbsp&nbsp&nbsp&nbsp<img
-		src="tutorial/screenshots/Volunteer/VolunteerStatus.png" width="10%"
-		rel="popover" data-img="tutorial/screenshots/Volunteer/VolunteerStatus.png"
+		src="tutorial/screenshots/VolunteerStatus.png" width="10%"
+		rel="popover" data-img="tutorial/screenshots/VolunteerStatus.png"
 		border="1px" align="middle"> </a>
 </p>
 <p>
     3. The volunteer's <B>name</B> can be entered.<BR> <BR> <a
-		href="tutorial/screenshots/Volunteer/SearchVolunteer.png" class="image"
+		href="tutorial/screenshots/SearchVolunteer.png" class="image"
 		title="SearchVolunteer.png" horizontalalign="center"
-		target="tutorial/screenshots/Volunteer/SearchVolunteer.png">
+		target="tutorial/screenshots/SearchVolunteer.png">
 		&nbsp&nbsp&nbsp&nbsp<img
-		src="tutorial/screenshots/Volunteer/SearchVolunteer.png" width="10%"
-		rel="popover" data-img="tutorial/screenshots/Volunteer/SearchVolunteer.png"
+		src="tutorial/screenshots/SearchVolunteer.png" width="10%"
+		rel="popover" data-img="tutorial/screenshots/SearchVolunteer.png"
 		border="1px" align="middle"> </a>
 </p>
 <p>
     4. The <B>availability</B> of the volunteer according to the day(s) they are scheduled to work.<BR> <BR> <a
-		href="tutorial/screenshots/Volunteer/VolunteerAvailability.png" class="image"
+		href="tutorial/screenshots/VolunteerAvailability.png" class="image"
 		title="VolunteerAvailability.png" horizontalalign="center"
-		target="tutorial/screenshots/Volunteer/VolunteerAvailability.png">
+		target="tutorial/screenshots/VolunteerAvailability.png">
 		&nbsp&nbsp&nbsp&nbsp<img
-		src="tutorial/screenshots/Volunteer/VolunteerAvailability.png" width="10%"
-		rel="popover" data-img="tutorial/screenshots/Volunteer/VolunteerAvailability.png"
+		src="tutorial/screenshots/VolunteerAvailability.png" width="10%"
+		rel="popover" data-img="tutorial/screenshots/VolunteerAvailability.png"
 		border="1px" align="middle"> </a>
 </p>
 <br>
