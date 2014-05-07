@@ -31,11 +31,11 @@
 <p>
 	<B>Step 1:</B> On the navigation bar at the top of the page, find <B>reports</B>.
 	<BR>Click on it and you should see the following page: <BR>
-	<BR> <a href="tutorial/screenshots/Reports/Reports.png" class="image"
+	<BR> <a href="tutorial/screenshots/Reports.png" class="image"
 		title="Reports.png" horizontalalign="center"
-		target="tutorial/screenshots/Reports/Reports.png"> &nbsp&nbsp&nbsp&nbsp<img
-		src="tutorial/screenshots/Reports/Reports.png" width="10%"
-		rel="popover" data-img="tutorial/screenshots/Reports/Reports.png"
+		target="tutorial/screenshots/Reports.png"> &nbsp&nbsp&nbsp&nbsp<img
+		src="tutorial/screenshots/Reports.png" width="10%"
+		rel="popover" data-img="tutorial/screenshots/Reports.png"
 		border="1px" align="center"> </a>
         <br>
         Here you may generate a report on a single volunteer's hours, total hours by all volunteers, or
@@ -43,19 +43,19 @@
 <p>
 	<B>Step 2:</B> If you wish to see a report on a specific volunteer, under "Select Report Hours:"
         choose <B>Individual Hours.</B><BR>
-        <a href="tutorial/screenshots/Reports/ReportsIndividualHours.png" class="image"
+        <a href="tutorial/screenshots/ReportsIndividualHours.png" class="image"
 		title="ReportsIndividualHours.png" horizontalalign="center"
-		target="tutorial/screenshots/Reports/ReportsIndividualHours.png"> &nbsp&nbsp&nbsp&nbsp<img
-		src="tutorial/screenshots/Reports/ReportsIndividualHours.png" width="10%" rel="popover"
-		data-img="tutorial/screenshots/Reports/ReportsIndividualHours.png" border="1px"
+		target="tutorial/screenshots/ReportsIndividualHours.png"> &nbsp&nbsp&nbsp&nbsp<img
+		src="tutorial/screenshots/ReportsIndividualHours.png" width="10%" rel="popover"
+		data-img="tutorial/screenshots/ReportsIndividualHours.png" border="1px"
 		align="center"> </a> 
         
         <br>Enter the volunteer's name in the appropriate text box and select the date range.
-	<BR> <a href="tutorial/screenshots/Reports/ReportsIndividuals.png" class="image"
+	<BR> <a href="tutorial/screenshots/ReportsIndividuals.png" class="image"
 		title="ReportsIndividuals.png" horizontalalign="center"
-		target="tutorial/screenshots/Reports/ReportsIndividuals.png"> &nbsp&nbsp&nbsp&nbsp<img
-		src="tutorial/screenshots/Reports/ReportsIndividuals.png" width="10%" rel="popover"
-		data-img="tutorial/screenshots/Reports/ReportsIndividuals.png" border="1px"
+		target="tutorial/screenshots/ReportsIndividuals.png"> &nbsp&nbsp&nbsp&nbsp<img
+		src="tutorial/screenshots/ReportsIndividuals.png" width="10%" rel="popover"
+		data-img="tutorial/screenshots/ReportsIndividuals.png" border="1px"
 		align="center"> </a> <BR>
 	<BR> Note that when you type in a few letters, a box should appear with
 	names containing those letters. You can choose the name by clicking it.
@@ -71,21 +71,21 @@
         <br>
 	<B>Step 3:</B> To view total volunteer hours, select "Total Hours."<BR>
 	<BR>
-	<a href="tutorial/screenshots/Reports/ReportsTotalHours.png" class="image"
+	<a href="tutorial/screenshots/ReportsTotalHours.png" class="image"
 		title="ReportsTotalHours.png" horizontalalign="center"
-		target="tutorial/screenshots/Reports/ReportsTotalHours.png"> &nbsp&nbsp&nbsp&nbsp<img
-		src="tutorial/screenshots/Reports/ReportsTotalHours.png" width="10%" rel="popover"
-		data-img="tutorial/screenshots/Reports/ReportsTotalHours.png" border="1px"
+		target="tutorial/screenshots/ReportsTotalHours.png"> &nbsp&nbsp&nbsp&nbsp<img
+		src="tutorial/screenshots/ReportsTotalHours.png" width="10%" rel="popover"
+		data-img="tutorial/screenshots/ReportsTotalHours.png" border="1px"
 		align="center"> </a> <BR>
                 <br> Again, select the date range and click the "Submit" button.
                 <br>
 	<BR><B>Step 4:</B> To view shifts staffed and vacancies, select "Shifts/Vacancies."<BR>
 	<BR>
-	<a href="tutorial/screenshots/Reports/ReportsShifts.png" class="image"
+	<a href="tutorial/screenshots/ReportsShifts.png" class="image"
 		title="ReportsShifts.png" horizontalalign="center"
-		target="tutorial/screenshots/Reports/ReportsShifts.png"> &nbsp&nbsp&nbsp&nbsp<img
-		src="tutorial/screenshots/Reports/ReportsShifts.png" width="10%"
-		rel="popover" data-img="tutorial/screenshots/Reports/ReportsShifts.png"
+		target="tutorial/screenshots/ReportsShifts.png"> &nbsp&nbsp&nbsp&nbsp<img
+		src="tutorial/screenshots/ReportsShifts.png" width="10%"
+		rel="popover" data-img="tutorial/screenshots/ReportsShifts.png"
 		border="1px" align="center"> </a>
         <br><br>Select the date range and click the "Submit" button.
 <p>
