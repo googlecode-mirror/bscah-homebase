@@ -29,31 +29,33 @@
 <p>
 	<strong>How to Add People to the Database</strong>
 <p>
-	<B>Step 1:</B> On the navigation bar at the top of the page, find <B>reports</B>
-	, like this:<BR> <BR> <a href="tutorial/screenshots/reportsstep1.png"
-		class="image" title="reportsstep1.png" horizontalalign="center"
-		target="tutorial/screenshots/reportsstep1.png"> &nbsp&nbsp&nbsp&nbsp<img
-		src="tutorial/screenshots/reportsstep1.png" width="10%" rel="popover"
-		data-img="tutorial/screenshots/reportsstep1.png" border="1px"
-		align="center"> </a> <BR>
+	<B>Step 1:</B> On the navigation bar at the top of the page, find <B>reports</B>.
 	<BR>Click on it and you should see the following page: <BR>
-	<BR> <a href="tutorial/screenshots/reportsstep1-2.png" class="image"
-		title="reportsstep1-2.png" horizontalalign="center"
-		target="tutorial/screenshots/reportsstep1-2.png"> &nbsp&nbsp&nbsp&nbsp<img
-		src="tutorial/screenshots/reportsstep1-2.png" width="10%"
-		rel="popover" data-img="tutorial/screenshots/reportsstep1-2.png"
+	<BR> <a href="tutorial/screenshots/Reports/Reports.png" class="image"
+		title="Reports.png" horizontalalign="center"
+		target="tutorial/screenshots/Reports/Reports.png"> &nbsp&nbsp&nbsp&nbsp<img
+		src="tutorial/screenshots/Reports/Reports.png" width="10%"
+		rel="popover" data-img="tutorial/screenshots/Reports/Reports.png"
 		border="1px" align="center"> </a>
+        <br>
+        Here you may generate a report on a single volunteer's hours, total hours by all volunteers, or
+        shifts and vacancies. 
 <p>
-	<B>Step 2:</B> If you wish to view total volunteer hours or shifts
-	staffed/vacancies, skip this step and go to <B>Step 3</B>. <BR>
-	<BR>If you wish to see a report on a specific volunteer, select
-	"Volunteer Names (and total hours)." Then under "Volunteer name(s)",
-	enter the volunteer's name. <BR>
-	<BR> <a href="tutorial/screenshots/reportsstep2.png" class="image"
-		title="reportsstep2.png" horizontalalign="center"
-		target="tutorial/screenshots/reportsstep2.png"> &nbsp&nbsp&nbsp&nbsp<img
-		src="tutorial/screenshots/reportsstep2.png" width="10%" rel="popover"
-		data-img="tutorial/screenshots/reportsstep2.png" border="1px"
+	<B>Step 2:</B> If you wish to see a report on a specific volunteer, under "Select Report Hours:"
+        choose <B>Individual Hours.</B><BR>
+        <a href="tutorial/screenshots/Reports/ReportsIndividualHours.png" class="image"
+		title="ReportsIndividualHours.png" horizontalalign="center"
+		target="tutorial/screenshots/Reports/ReportsIndividualHours.png"> &nbsp&nbsp&nbsp&nbsp<img
+		src="tutorial/screenshots/Reports/ReportsIndividualHours.png" width="10%" rel="popover"
+		data-img="tutorial/screenshots/Reports/ReportsIndividualHours.png" border="1px"
+		align="center"> </a> 
+        
+        <br>Enter the volunteer's name in the appropriate text box and select the date range.
+	<BR> <a href="tutorial/screenshots/Reports/ReportsIndividuals.png" class="image"
+		title="ReportsIndividuals.png" horizontalalign="center"
+		target="tutorial/screenshots/Reports/ReportsIndividuals.png"> &nbsp&nbsp&nbsp&nbsp<img
+		src="tutorial/screenshots/Reports/ReportsIndividuals.png" width="10%" rel="popover"
+		data-img="tutorial/screenshots/Reports/ReportsIndividuals.png" border="1px"
 		align="center"> </a> <BR>
 	<BR> Note that when you type in a few letters, a box should appear with
 	names containing those letters. You can choose the name by clicking it.
@@ -64,73 +66,30 @@
 		src="tutorial/screenshots/reportsstep2-2.png" width="10%"
 		rel="popover" data-img="tutorial/screenshots/reportsstep2-2.png"
 		border="1px" align="center"> </a> <BR>
-	<BR>If you wish to look at more than one volunteer, you can either
-	press the "Enter" key to add more rows or click on the "add more"
-	button. <BR>
-	<BR> <a href="tutorial/screenshots/reportsstep2-3.png" class="image"
-		title="reportsstep2-3.png" horizontalalign="center"
-		target="tutorial/screenshots/reportsstep2-3.png"> &nbsp&nbsp&nbsp&nbsp<img
-		src="tutorial/screenshots/reportsstep2-3.png" width="10%"
-		rel="popover" data-img="tutorial/screenshots/reportsstep2-3.png"
-		border="1px" align="center"> </a>
-<p>
-	<B>Step 3:</B> To view total volunteer hours, select "Volunteer Hours
-	(by day)": <BR>
+	<BR>If you wish to look at more than one volunteer, click on the "Add More" button located
+        right underneath the "Select Individual" text box.<BR>
+        <br>
+	<B>Step 3:</B> To view total volunteer hours, select "Total Hours."<BR>
 	<BR>
-	<a href="tutorial/screenshots/reportsstep3.png" class="image"
-		title="reportsstep3.png" horizontalalign="center"
-		target="tutorial/screenshots/reportsstep3.png"> &nbsp&nbsp&nbsp&nbsp<img
-		src="tutorial/screenshots/reportsstep3.png" width="10%" rel="popover"
-		data-img="tutorial/screenshots/reportsstep3.png" border="1px"
+	<a href="tutorial/screenshots/Reports/ReportsTotalHours.png" class="image"
+		title="ReportsTotalHours.png" horizontalalign="center"
+		target="tutorial/screenshots/Reports/ReportsTotalHours.png"> &nbsp&nbsp&nbsp&nbsp<img
+		src="tutorial/screenshots/Reports/ReportsTotalHours.png" width="10%" rel="popover"
+		data-img="tutorial/screenshots/Reports/ReportsTotalHours.png" border="1px"
 		align="center"> </a> <BR>
-	<BR>To view shifts staffed and vacancies, select "Shifts Staffed/Vacant
-	(by day)": <BR>
+                <br> Again, select the date range and click the "Submit" button.
+                <br>
+	<BR><B>Step 4:</B> To view shifts staffed and vacancies, select "Shifts/Vacancies."<BR>
 	<BR>
-	<a href="tutorial/screenshots/reportsstep3-2.png" class="image"
-		title="reportsstep3-2.png" horizontalalign="center"
-		target="tutorial/screenshots/reportsstep3-2.png"> &nbsp&nbsp&nbsp&nbsp<img
-		src="tutorial/screenshots/reportsstep3-2.png" width="10%"
-		rel="popover" data-img="tutorial/screenshots/reportsstep3-2.png"
+	<a href="tutorial/screenshots/Reports/ReportsShifts.png" class="image"
+		title="ReportsShifts.png" horizontalalign="center"
+		target="tutorial/screenshots/Reports/ReportsShifts.png"> &nbsp&nbsp&nbsp&nbsp<img
+		src="tutorial/screenshots/Reports/ReportsShifts.png" width="10%"
+		rel="popover" data-img="tutorial/screenshots/Reports/ReportsShifts.png"
 		border="1px" align="center"> </a>
+        <br><br>Select the date range and click the "Submit" button.
 <p>
-	<B>Step 4:</B> If you wish to view the entire history, skip this step
-	and go to <B>Step 5</B>. <BR>
-	<BR>If you wish to look at only last week's or last month's data, click
-	on the corresponding option, like this: <BR>
-	<BR> <a href="tutorial/screenshots/reportsstep4.png" class="image"
-		title="reportsstep4.png" horizontalalign="center"
-		target="tutorial/screenshots/reportsstep4.png"> &nbsp&nbsp&nbsp&nbsp<img
-		src="tutorial/screenshots/reportsstep4.png" width="10%" rel="popover"
-		data-img="tutorial/screenshots/reportsstep4.png" border="1px"
-		align="center"> </a> <BR>
-	<BR>If you wish to view hours during a specific date range, select the
-	Date Range option and the following should appear: <BR>
-	<BR> <a href="tutorial/screenshots/reportsstep4-2.png" class="image"
-		title="reportsstep4-2.png" horizontalalign="center"
-		target="tutorial/screenshots/reportsstep4-2.png"> &nbsp&nbsp&nbsp&nbsp<img
-		src="tutorial/screenshots/reportsstep4-2.png" width="10%"
-		rel="popover" data-img="tutorial/screenshots/reportsstep4-2.png"
-		border="1px" align="center"> </a> <BR>
-	<BR>Now if you click on the text box next to "from:" or "to:", a
-	calendar should appear:<BR>
-	<BR> <a href="tutorial/screenshots/reportsstep4-3.png" class="image"
-		title="reportsstep4-3.png" horizontalalign="center"
-		target="tutorial/screenshots/reportsstep4-3.png"> &nbsp&nbsp&nbsp&nbsp<img
-		src="tutorial/screenshots/reportsstep4-3.png" width="10%"
-		rel="popover" data-img="tutorial/screenshots/reportsstep4-3.png"
-		border="1px" align="center"> </a> <BR> You can either enter the date
-	in the format month/day/year or select a date on this calendar.
-<p>
-	<B>Step 5:</B> Then select the <B>Submit</B> button, like this:<BR> <BR>
-	<a href="tutorial/screenshots/reportsstep5.png" class="image"
-		title="reportsstep5.png" horizontalalign="center"
-		target="tutorial/screenshots/reportsstep5.png"> &nbsp&nbsp&nbsp&nbsp<img
-		src="tutorial/screenshots/reportsstep5.png" width="10%" rel="popover"
-		data-img="tutorial/screenshots/reportsstep5.png" border="1px"
-		align="center"> </a> <BR> Note that if you wish to view the entire
-	history, you don't have to choose a date - just select <B>Submit</B>.
-<p>
-	<B>Step 6:</B> <BR>The report for <B>Volunteer Names</B> (and total
+	<B>Step 5:</B> <BR>The report for <B>Volunteer Names</B> (and total
 	hours) may look like this:<BR> <BR> <a
 		href="tutorial/screenshots/reportsstep6.png" class="image"
 		title="reportsstep6.png" horizontalalign="center"
@@ -155,11 +114,8 @@
 		target="tutorial/screenshots/reportsstep6-3.png"> &nbsp&nbsp&nbsp&nbsp<img
 		src="tutorial/screenshots/reportsstep6-3.png" width="10%"
 		rel="popover" data-img="tutorial/screenshots/reportsstep6-3.png"
-		border="1px" align="center"> </a> <BR>For example, "Thu - Early
-	Afternoon - 5/2" says that on Thursdays 12-3pm from 10/01/2013 to
-	11/01/2013, there were 5 completely staffed shifts and 2 vacancies
-	total.
+		border="1px" align="center"> </a> <BR>
 <p>
-	<B>Step 7:</B> When you finish, you can generate a new report by
+	<B>Step 6:</B> When you finish, you can generate a new report by
 	refreshing the page and following the steps above or return to any
 	other function by selecting it on the navigation bar.
