@@ -58,7 +58,7 @@ function add_person($person) {
         connect();
     } */
       
- error_log('will insert person id= '.$person->get_id() . ' avail= ' . $person->get_availabiltiy());
+ error_log('will insert person id= '.$person->get_id() . ' avail= ' . $person->get_availability());
     $query = "INSERT INTO person VALUES ('" .
             $person->get_id(). "','" .
             $person->get_first_name() . "','" .
@@ -69,7 +69,6 @@ function add_person($person) {
             $person->get_city() . "','" .
             $person->get_state() . "','" .
             $person->get_zip() . "','" .
-            //$person->get_county() . "','" .
             $person->get_phone1() . "','" .
             $person->get_phone2() . "','".
             $person->get_email() . "','" .
