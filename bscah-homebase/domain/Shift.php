@@ -40,7 +40,7 @@ class Shift {
      */
 
     function __construct($id, $venue, $vacancies, $persons, $removed_persons, $notes) {
-    	$this->mm_dd_yy = substr($id, 0, 8);
+       $this->mm_dd_yy = substr($id, 0, 8);
         $this->name = substr($id, 9);
         $i = strpos($this->name, "-");
         if ($i>0) {

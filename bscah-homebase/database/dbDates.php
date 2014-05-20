@@ -53,6 +53,11 @@ function insert_dbDates($d) {
     connect();
     $query = "SELECT * FROM date WHERE id =\"" . $d->get_id() . "\"";
     $result = mysql_query($query);
+     if (!$result)
+      {
+           error_log('ERROR on select in insert_dbDates() '. mysql_error());
+           die('Invalid query: ' . mysql_error());
+      }
     if (mysql_num_rows($result) != 0) {
         delete_dbDates($d);
         connect();
@@ -60,7 +65,9 @@ function insert_dbDates($d) {
     $query = "INSERT INTO date VALUES
 				(\"" . $d->get_id() . "\",\"" .
             get_shifts_text($d) . "\",\"" . $d->get_mgr_notes() . "\")";
+     error_log("in insert_dbDates, query is" . $query);
     $result = mysql_query($query);
+   
     if (!$result) {
         echo ("unable to insert into date: " . $d->get_id() . mysql_error());
         mysql_close();
@@ -83,6 +90,11 @@ function delete_dbDates($d) {
     connect();
     $query = "DELETE FROM date WHERE id=\"" . $d->get_id() . "\"";
     $result = mysql_query($query);
+     if (!$result)
+      {
+           error_log('ERROR on select in delete_dbDates() '. mysql_error());
+           die('Invalid query: ' . mysql_error());
+      }
     if (!$result) {
         echo ("unable to delete from date: " . $d->get_id() . mysql_error());
         mysql_close();
@@ -130,6 +142,7 @@ function select_dbDates($id) {
         die("Invalid argument for date->select_dbDates call =" . $id);
     connect();
     $query = "SELECT * FROM date WHERE id =\"" . $id . "\"";
+    error_log("in select_dbDates, query is ". $query);
     $result = mysql_query($query);
     mysql_close();
     if (!$result) {

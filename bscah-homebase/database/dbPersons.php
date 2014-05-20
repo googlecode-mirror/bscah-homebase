@@ -160,6 +160,7 @@ function retrieve_persons_by_name ($name) {
 	$first_name = $name[0];
 	$last_name = $name[1];
     $query = "SELECT * FROM person WHERE NameFirst = '" . $first_name . "' AND NameLast = '". $last_name ."'";
+    error_log("in retrieve_persons_by_name, query is ".$query);
     $result = mysql_query($query);
      if (!$result)
     {
@@ -168,6 +169,9 @@ function retrieve_persons_by_name ($name) {
     }
     while ($result_row = mysql_fetch_assoc($result)) {
         $the_person = make_a_person($result_row);
+          error_log('in retrieve_person_by_name id is '.$thePerson->get_id());
+          error_log('in retrieve_person_by_name phone1 is '.$thePerson->get_phone1());
+           error_log('in retrieve_person_by_name type is '.$thePerson->get_type());
         $persons[] = $the_person;
     }
     return $persons;	
@@ -306,6 +310,20 @@ function getall_available($type, $day, $shift) {
     $query = "SELECT * FROM person WHERE (type LIKE '%" . $type . "%' OR type LIKE '%sub%')" .
             " AND availability LIKE '%" . $day .":". $shift .
             "%' AND status = 'active' ORDER BY last_name,first_name";
+    $result = mysql_query($query);
+      if (!$result)
+        die('Invalid query: ' . mysql_error());
+    mysql_close();
+    return $result;
+}
+
+// get all volunteer applicants
+// returns the result array from the query
+function getall_applicants()
+{
+    connect();
+    $query = "SELECT NameFirst,NameLast,id FROM person WHERE status LIKE '%applicant%' order by NameLast";
+    error_log("in getall_applicants, query is " . $query);
     $result = mysql_query($query);
       if (!$result)
         die('Invalid query: ' . mysql_error());

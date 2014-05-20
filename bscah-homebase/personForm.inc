@@ -131,9 +131,9 @@ else {
 	echo ('<option value="applicant"');
 	if ($person->get_status() == 'applicant')
     	echo (' SELECTED'); 
-    echo('>applicant</option>'); echo ('<option value="active"');
-	if ($person->get_status() == 'active')
-	    echo (' SELECTED'); echo('>active</option>');
+    echo('>applicant</option>'); echo ('<option value="approved"');
+	if ($person->get_status() == 'approved')
+	    echo (' SELECTED'); echo('>approved</option>');
 	echo ('<option value="LOA"');
 	if ($person->get_status() == 'LOA')
 	    echo (' SELECTED'); echo('>on leave</option>');
@@ -158,9 +158,9 @@ echo('</select>');
 					"<td>Thu&nbsp;&nbsp;</td><td>Fri&nbsp;&nbsp;</td><td>Sat&nbsp;&nbsp;</td><td>Sun</td></tr>";
     			foreach ($shifts as $weeknum => $weekvalues) {
        				echo ('<tr><td>'. $weekvalues . '</td>');
-       				foreach ($workdays as $workday) {
+       				foreach ($workdays as $day) {
        	  				$realkey = $day . ":". $weeknum;
-       	  				echo ('<td><input type="checkbox" name="availability[]" value=' . $realkey);
+       	  				echo ('<td><input type="checkbox" name="availability" value=' . $realkey);
     	  				if (in_array($day.":".$weeknum, $person->get_availability())) echo(' CHECKED');
     	  				echo ('></td>');
        				}
@@ -177,30 +177,29 @@ echo('</select>');
         ///*
         if ($id == 'new' || $person->get_status() == "applicant") {
             if ($_SESSION['access_level'] == 2) {
-            	$screeningType = $person->get_screening_type();
-                $screening = retrieve_dbApplicantScreenings($screeningType);
-                $screenings = getall_ApplicantScreenings();
-                echo('<p> Screening Type:&nbsp; <select name="screening_type">');
-                if ($person->get_screening_type() == "")
-                    echo('<option value="" SELECTED></option>');
-                foreach ($screenings as $s) {
-                    if ($s->get_status() == "published") {
-                        $t = $s->get_type();
-                        if ($screeningType == $t) {
-                            echo('<option value ="' . $t . '" SELECTED>' . $t . '</option>');
-                        } else {
-                            echo('<option value ="' . $t . '"> ' . $t . '</option>');
+       //     	$screeningType = $person->get_screening_type();
+        //        $screening = retrieve_dbApplicantScreenings($screeningType);
+        //        $screenings = getall_ApplicantScreenings();
+        //        echo('<p> Screening Type:&nbsp; <select name="screening_type">');
+     //           if ($person->get_screening_type() == "")
+      //              echo('<option value="" SELECTED></option>');
+      //          foreach ($screenings as $s) {
+       //             if ($s->get_status() == "published") {
+       //                 $t = $s->get_type();
+     //                   if ($screeningType == $t) {
+       //                     echo('<option value ="' . $t . '" SELECTED>' . $t . '</option>');
+        //                } else {
+        //                    echo('<option value ="' . $t . '"> ' . $t . '</option>');
                         }
                     }
-                }//*/
-                //*/
+            
        
                 echo('</select>&nbsp;');
 
                 // submit button that allows manager to associate person with applicant screening
                 //echo(' Hit <input type="submit" value="submit" name="Submit Edits"> to associate '.$person->get_first_name().' with this screening.<br><br>');
 
-                if ($screening) {
+          /*      if ($screening) {
                     $step_array = $screening->get_steps();
                     $date_array = $person->get_screening_status();
                     $step_count = count($step_array);
@@ -219,8 +218,8 @@ echo('</select>');
                     echo('</td><td>' . $j . '. ' . $step_array[$i] . '</td></tr>');
                 }
                 echo('</table>');
-                }
-                        } //added
+                }  */
+                  //      } //added
 
                 /*echo('<p>Motivation / Specialties:<br />');
                 echo('<textarea name="motivation" rows="2" cols="60">');
@@ -235,12 +234,13 @@ echo('</select>');
                     $i = strpos($reference, "_");
                     echo substr($reference, 0, $i) . " " . phone_edit(substr($reference, $i + 1)) . "     ";
                 }*/
-                echo('</textarea>');
-            echo "</fieldset>";
-        }//was told to delete but not sure
+     //           echo('</textarea>');
+    //        echo "</fieldset>";
+  //      }//was told to delete but not sure
 
         echo('<input type="hidden" name="schedule" value="' . implode(',', $person->get_schedule()) . '">');
         echo('<input type="hidden" name="password" value="' . $person->get_password() . ')">');
+        echo('<input type="hidden" name="type" value="' . $person->get_type() . ')">');
         echo('<input type="hidden" name="_submit_check" value="1"><p>');
         if ($_SESSION['access_level'] == 0)
             echo('Hit <input type="submit" value="Submit" name="Submit Edits"> to complete this application.<br /><br />');

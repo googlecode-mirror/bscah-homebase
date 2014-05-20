@@ -175,7 +175,7 @@ function masterslots_overlap($s1_start, $s1_end, $s2_start, $s2_end) {
 function get_master_shifts($type, $Week_no, $day) {
     connect();
     //$outcome = array();
-    $query = "SELECT * FROM dbMasterSchedule WHERE Week_no = '" . $Week_no . "' AND day = '" . $day .
+    $query = "SELECT * FROM masterschedule WHERE Week_no = '" . $Week_no . "' AND day = '" . $day .
             "' AND schedule_type = '" . $type . "'";
     $result = mysql_query($query);
      if (!$result)

@@ -103,8 +103,8 @@ session_cache_expire(30);
                         }
 
                         //NOTES OUTPUT
-                        echo('<div class="infobox"><p class="notes"><strong>Notes from House Manager:</strong><br />');
-                        echo($person->get_notes() . '</p></div><br>');
+                       echo('<div class="infobox"><p class="notes"><strong>Notes:</strong><br />');
+                       echo($person->get_notes() . '</p></div><br>');
 
                         //APPLICANT CHECK
                         if ($person->get_first_name() != 'guest' && $person->get_status() == 'applicant') {
@@ -170,15 +170,18 @@ session_cache_expire(30);
                             $today = mktime(0, 0, 0, date('m'), date('d'), date('y'));
                             $two_weeks = $today + 14 * 86400;
 
+                            // put into dbShift!
                             connect();
-                            $vacancy_query = "SELECT id,vacancies FROM dbShifts " .
+                            $vacancy_query = "SELECT id,vacancies FROM shift " .
                                     "WHERE vacancies > 0 ORDER BY id;";
+                            error_log("in index.php, will retrieve shift vacancies with this query: " . $vacancy_query);
                             $vacancy_list = mysql_query($vacancy_query);
                             if (!$vacancy_list)
                                 echo mysql_error();
                             //upcoming vacancies
+                            
                             if (mysql_num_rows($vacancy_list) > 0) {
-
+                               error_log("will display vacancies");
                                 echo('<div class="vacancyBox">');
                                 echo('<p><strong>Upcoming Vacancies:</strong><ul>');
                                 while ($thisRow = mysql_fetch_array($vacancy_list, MYSQL_ASSOC)) {
@@ -191,20 +194,20 @@ session_cache_expire(30);
                             }
                             //active applicants
                             connect();
-                            $app_query = "SELECT first_name,last_name,id FROM dbPersons WHERE status LIKE '%applicant%' order by last_name";
-                            $applicants_tab = mysql_query($app_query);
+    
+                            $applicants_tab = getall_applicants();
                             $numLines = 0;
-                         //   if (mysql_num_rows($applicants_tab) > 0) {
-                                echo('<div class="applicantsBox"><p><strong>Open Applications:</strong><ul>');
+                           if (mysql_num_rows($applicants_tab) > 0) {
+                                echo('<div class="applicantsBox"><p><strong>Open Volunteer Applications:</strong><ul>');
                                 while ($thisRow = mysql_fetch_array($applicants_tab, MYSQL_ASSOC)) {
-                                    echo('<li type="circle"><a href="' . $path . 'personEdit.php?id=' . $thisRow['ID'] .'" ID = "appLink">' . $thisRow['NameFirst'] . ' ' . $thisRow['NameLast'] . '</a></li>');
+                                    echo('<li type="circle"><a href="' . $path . 'personEdit.php?id=' . $thisRow['id'] .'" ID = "appLink">' . $thisRow['NameFirst'] . ' ' . $thisRow['NameLast'] . '</a></li>');
                                 }
                                 echo('</ul></p></div><br>');
-                        //    }
+                            }
                             mysql_close();
                         //volunteer birthdays and anniversary days
-                            connect();
-                            $anniv_query = "SELECT id,first_name,last_name,birthday,start_date FROM dbPersons WHERE status LIKE '%active%'";
+                         /*   connect();
+                            $anniv_query = "SELECT id,NameFirst,NameLast,birthday,start_date FROM person WHERE status LIKE '%active%'";
                             $anniversaries = mysql_query($anniv_query);
                             if (!$anniversaries)
                                 echo mysql_error();
@@ -223,10 +226,10 @@ session_cache_expire(30);
                                 }
                                 echo('</table></p></div><br>');
                             }
-                            mysql_close();
+                            mysql_close();  */
                             
                         // active volunteers who haven't worked recently
-                            $everyone = getall_names("active", "volunteer");
+                      /*      $everyone = getall_names("active", "volunteer");
                             if ($everyone && mysql_num_rows($everyone) > 0) {
                                 //active volunteers who haven't worked for the last two months
                                 $two_months_ago = $today - 60 * 86400;
@@ -249,7 +252,7 @@ session_cache_expire(30);
                                     }
                                 }
                                 echo('</table></p></div><br>');
-                            }
+                            }  */
                             
                             
                         }

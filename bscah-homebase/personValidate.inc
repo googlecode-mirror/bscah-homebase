@@ -29,18 +29,14 @@ function validate_form() {
         $errors[] = 'Please enter a valid zip code (5 digits: #####)';
     if ($_SESSION['access_level'] == 0 && ($_POST['status'] == null))
         $_POST['status'] = 'applicant';
-    if ($_POST['type'] == null && $_SESSION['access_level'] >= 1)
-        $errors[] = 'Please select a Position type';
-    if ($_POST['type'] != null && $_SESSION['access_level'] <= 1 && in_array('manager', $_POST['type']))
-        $errors[] = "Sorry, you can't promote yourself to manager.";
- //   if ($_POST['emergency_contact'] == null)
- //       $errors[] = 'Please enter an emergency contact';
+ //   if ($_POST['type'] != null && $_SESSION['access_level'] <= 1 && in_array('manager', $_POST['type']))
+  //      $errors[] = "Sorry, you can't promote yourself to manager.";
+ 
     if (!valid_phone($_POST['phone1']))
         $errors[] = 'Enter a valid primary phone number (10 digits: ### ### ####)';
     if ($_POST['phone2'] != "" && !valid_phone($_POST['phone2']))
         $errors[] = 'Enter a valid alternate phone number (10 digits: ### ### ####)';
- //   if (!valid_phone($_POST['emergency_phone']))
- //       $errors[] = 'Enter a valid emergency phone number (10 digits: ### ### ####)';
+
     if (!valid_email($_POST['email']) && $_POST['email'] != null)
         $errors[] = "Please enter a valid email";
     $birthday = "";
@@ -50,9 +46,9 @@ function validate_form() {
         $birthday = $_POST['DateOfBirth_Month'] . '-' . $_POST['DateOfBirth_Day'] . '-' . $_POST['DateOfBirth_Year'];
  //   if ($birthday=="--" || strlen($birthday) > 2 && strlen($birthday) < 8)
  //       $errors[] = 'Please select a valid birthday';
-    $start_date = $_POST['DateOfStart_Month'] . '-' . $_POST['DateOfStart_Day'] . '-' . $_POST['DateOfStart_Year'];
-    if (strlen($start_date) > 2 && strlen($start_date) < 8)
-        $errors[] = 'Please select a valid start date';
+//    $start_date = $_POST['DateOfStart_Month'] . '-' . $_POST['DateOfStart_Day'] . '-' . $_POST['DateOfStart_Year'];
+ //   if (strlen($start_date) > 2 && strlen($start_date) < 8)
+   //     $errors[] = 'Please select a valid start date';
     return $errors;
 }
 
