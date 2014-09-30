@@ -1,5 +1,5 @@
 <?php
 
-  echo 'encrypted password is ' . md5("cus1166")
-          
-          ?>
+    echo 'encrypted password is ' . md5("cus1166")
+
+?>
