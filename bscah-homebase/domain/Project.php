@@ -223,5 +223,3 @@ function report_projects_staffed_vacant($from, $to) {
 
 
 ?>
-
-}
