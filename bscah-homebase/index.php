@@ -70,8 +70,8 @@ session_cache_expire(30);
                     if ($person)
                         echo ('<p>If you want to learn the details of using this system, select <a href="' . $path . 'help.php">help</a>.');
                     ?>
-                    </ul>
-                <p>	When you are finished, please remember to <a href="<?php echo($path); ?>logout.php">logout</a>.</li>
+                </p>
+                <p>	When you are finished, please remember to <a href="<?php echo($path); ?>logout.php">logout</a>.</p>
 
                     <?PHP
                     if ($person) {
