@@ -36,6 +36,23 @@
             $shiftname = $_GET['shift'];
             $shift = [$group, $day, $shiftname];
             $shift = get_day_names($shift, $day);
+            $pls = new Shift("",
+                             $venue,
+                             get_total_vacancies(
+                                 $venue,
+                                 $shift[0],
+                                 $shift[1],
+                                 $shift[2]
+                             ),
+                             get_persons(
+                                 $venue,
+                                 $shift[0],
+                                 $shift[1],
+                                 $shift[2]
+                             ),
+                            "",
+                            ""
+            );
             include_once('database/dbMasterSchedule.php');
             include_once('domain/MasterScheduleEntry.php');
             include_once('database/dbLog.php');
@@ -157,7 +174,17 @@
                 $error = "Can't add new shift: you must select an end time.<br><br>";
             }
             else {
-                $entry = new MasterScheduleEntry($venue, $day, $group, $post['new_start'], $post['new_end'], 0, "", "");
+                $entry = new MasterScheduleEntry(
+                    $venue, // Schedule type
+                    $day, // Day
+                    $group, // Week no
+                    $post['new_start'], // Start time
+                    $post['new_end'], // End time
+                    0, // Slots
+                    "", // Persons
+                    "", // Notes
+                    $this->$shift
+                );
                 if (!insert_nonoverlapping($entry)) {
                     $error = "Can't insert a new shift into an overlapping time slot.<br><br>";
                 }
@@ -367,25 +394,18 @@
         connect();
         $start_time = substr($time, 0, strpos($time, "-"));
         if ($start_time > 0) {
-            if ($start_time < 12) // 9-11 = morning start time
-            {
+            if ($start_time < 12) { // 9-11 = morning start time
                 $chrtime = "morning";
             }
-            else {
-                if ($start_time < 14) // 12-1 = early afternoon start time
-                {
-                    $chrtime = "earlypm";
-                }
-                else {
-                    if ($start_time < 18)  // 2-5 = late afternoon start time
-                    {
-                        $chrtime = "latepm";
-                    }
-                    else {
-                        $chrtime = "evening";
-                    }
-                }
-            } // 6-9 = evening
+            else if ($start_time < 14) { // 12-1 = early afternoon start time
+                $chrtime = "earlypm";
+            }
+            else if ($start_time < 18) { // 2-5 = late afternoon start time
+                $chrtime = "latepm";
+            }
+            else if ($start_time < 22) { // 6-9 = evening
+                $chrtime = "evening";
+            }
         }
         else {
             $chrtime = "overnight";
@@ -408,7 +428,6 @@
             }
             if (!$match) {
                 $s = $s . "<option value=\"" . $value . "\">" . $label . "</option>";
-                $match = false;
             }
         }
 
@@ -436,7 +455,6 @@
             }
             if (!$match) {
                 $s = $s . "<option value=\"" . $value . "\">" . $label . "</option>";
-                $match = false;
             }
         }
 
@@ -472,34 +490,30 @@
         }
     }
 
+    /**
+     * Takes in a shift and a day and appends the long format of the date (eg Monday) and the short format (eg Mon)
+     * @param $shift The shift to add to
+     * @param $day The day of the week to add
+     *
+     * @return array The array with the long and short formats of the date appended
+     */
     function get_day_names(&$shift, $day) {
-        if ($day == "Mon") {
-            $shift[] = "Monday";
-            $shift[] = "Mon";
-        }
-        if ($day == "Tue") {
-            $shift[] = "Tuesday";
-            $shift[] = "Tue";
-        }
-        if ($day == "Wed") {
-            $shift[] = 'Wednesday';
-            $shift[] = "Wed";
-        }
-        if ($day == "Thu") {
-            $shift[] = "Thursday";
-            $shift[] = "Thu";
-        }
-        if ($day == "Fri") {
-            $shift[] = "Friday";
-            $shift[] = "Fri";
-        }
-        if ($day == "Sat") {
-            $shift[] = "Saturday";
-            $shift[] = "Sat";
+        $long_day =
+                $day == "Mon" ? "Monday" :
+                $day == "Tue" ? "Tuesday" :
+                $day == "Wed" ? "Wednesday" :
+                $day == "Thu" ? "Thursday" :
+                $day == "Fri" ? "Friday" :
+                $day == "Sat" ? "Saturday" :
+                $day == "Sun" ? "Sunday" :
+                "";
+
+        if ($long_day != "") {
+            $shift[] = $long_day;
+            $shift[] = $day;
         }
         else {
-            $shift[] = "Sunday";
-            $shift[] = "Sun";
+            error_log("ERROR: $day is not a valid day");
         }
 
         return $shift;

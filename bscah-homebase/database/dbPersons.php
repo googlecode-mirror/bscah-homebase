@@ -172,9 +172,9 @@
         }
         while ($result_row = mysql_fetch_assoc($result)) {
             $the_person = make_a_person($result_row);
-            error_log('in retrieve_person_by_name id is ' . $thePerson->get_id());
-            error_log('in retrieve_person_by_name phone1 is ' . $thePerson->get_phone1());
-            error_log('in retrieve_person_by_name type is ' . $thePerson->get_type());
+            error_log('in retrieve_person_by_name id is ' . $the_person->get_id());
+            error_log('in retrieve_person_by_name phone1 is ' . $the_person->get_phone1());
+            error_log('in retrieve_person_by_name type is ' . $the_person->get_type());
             $persons[] = $the_person;
         }
 
@@ -213,7 +213,7 @@
 
     function getall_persons() {
         connect();
-        $query = "SELECT * FROM person ORDER BY last_name,first_name";
+        $query = "SELECT * FROM person ORDER BY NameLast,NameFirst";
         $result = mysql_query($query);
         if (!$result) {
             die('Invalid query: ' . mysql_error());
@@ -290,9 +290,9 @@
     // what??
     function getall_names($status, $type) {
         connect();
-        $result = mysql_query("SELECT id,first_name,last_name,type FROM person " .
+        $result = mysql_query("SELECT id,NameFirst,NameLast,type FROM person " .
                               "WHERE status = '" . $status . "' AND TYPE LIKE '%" . $type .
-                              "%' ORDER BY last_name,first_name");
+                              "%' ORDER BY NameLast,NameFirst");
         if (!$result) {
             die('Invalid query: ' . mysql_error());
         }
@@ -308,7 +308,7 @@
     function getall_type($t) {
         connect();
         $query = "SELECT * FROM person WHERE (type LIKE '%" . $t .
-            "%' OR type LIKE '%sub%') AND status = 'active'  ORDER BY last_name,first_name";
+            "%' OR type LIKE '%sub%') AND status = 'active'  ORDER BY NameLast,NameFirst";
         $result = mysql_query($query);
         if (!$result) {
             die('Invalid query: ' . mysql_error());
@@ -331,7 +331,7 @@
         connect();
         $query = "SELECT * FROM person WHERE (type LIKE '%" . $type . "%' OR type LIKE '%sub%')" .
             " AND availability LIKE '%" . $day . ":" . $shift .
-            "%' AND status = 'active' ORDER BY last_name,first_name";
+            "%' AND status = 'active' ORDER BY NameLast,NameFirst";
         $result = mysql_query($query);
         if (!$result) {
             die('Invalid query: ' . mysql_error());
@@ -369,8 +369,8 @@
         }
         $query = "SELECT * FROM person WHERE type " . $string1 . $type . $string2 .
             " AND status LIKE '%" . $status . "%'" .
-            " AND (first_name LIKE '%" . $name . "%' OR last_name LIKE'%" . $name . "%')" .
-            " ORDER BY last_name,first_name";
+            " AND (NameFirst LIKE '%" . $name . "%' OR NameLast LIKE'%" . $name . "%')" .
+            " ORDER BY NameLast,NameFirst";
         $result = mysql_query($query);
         if (!$result) {
             die('Invalid query: ' . mysql_error());
@@ -431,8 +431,8 @@
 
         connect();
         $query = "SELECT " . $attr . " FROM person WHERE
-    			first_name REGEXP " . $first_name .
-            " and last_name REGEXP " . $last_name .
+    			NameFirst REGEXP " . $first_name .
+            " and NameLast REGEXP " . $last_name .
             " and (gender REGEXP " . $gender . ")" .
             " and (type REGEXP " . $type_query . ")" .
             " and status REGEXP " . $status .
@@ -440,7 +440,7 @@
             " and city REGEXP " . $city .
             " and zip REGEXP " . $zip .
             " and (phone1 REGEXP " . $phone . " or phone2 REGEXP " . $phone . " )" .
-            " and (email REGEXP " . $email . ") ORDER BY last_name, first_name";
+            " and (email REGEXP " . $email . ") ORDER BY NameLast, NameFirst";
         error_log("Querying database for exporting");
         error_log("query = " . $query);
         $result = mysql_query($query);

@@ -27,10 +27,10 @@
      */
     function create_dbLog() {
         connect();
-        mysql_query("DROP TABLE IF EXISTS dbLog");
+        mysql_query("DROP TABLE IF EXISTS dbbscah.dbLog");
         //NOTE: primary key set to id.  id is text in the form: mm-dd-yy-ss-se,  ss=shift start,  se=shift end
         $result =
-            mysql_query("CREATE TABLE dbLog (id INT(3) NOT NULL AUTO_INCREMENT,time TEXT, message TEXT, PRIMARY KEY(id))");
+            mysql_query("CREATE TABLE dbbscah.dbLog (id INT(3) NOT NULL AUTO_INCREMENT,time TEXT, message TEXT, PRIMARY KEY(id))");
         if (!$result) {
             echo mysql_error();
         }
@@ -43,6 +43,7 @@
     function add_log_entry($message) {
         $time = time();
         connect();
+
         $query = "INSERT INTO dbLog (time, message) VALUES (\"" . $time . "\",\"" . $message . "\")";
         $result = mysql_query($query);
         if (!$result) {

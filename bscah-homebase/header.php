@@ -84,6 +84,7 @@
                 //This line gives us the path to the html pages in question, useful if the server isn't installed @ root.
                 $path = strrev(substr(strrev($_SERVER['SCRIPT_NAME']), strpos(strrev($_SERVER['SCRIPT_NAME']), '/')));
 
+
                 //they're logged in and session variables are set.
                 if ($_SESSION['access_level'] >= 0) {
                     echo('<a href="' . $path . 'index.php"><b>home</b></a> | ');
@@ -120,7 +121,7 @@
                     echo('<strong>volunteers :</strong> <a href="' . $path . 'personSearch.php">search</a>,
 			        <a href="personEdit.php?id=' . 'new' . '">add </a> | ');
                     echo('<strong>projects :</strong> <a href="' . $path . 'projectSearch.php">search</a>,
-                                <a href="' . $path . 'projectCalender.php">project calender</a> , 
+                                <a href="' . $path . 'projectCalender.php">project calender</a> ,
 			        <a href="projectEdit.php?id=' . 'new' . '">add </a>');
 
                     echo(' | <strong><a href="' . $path . 'reports.php">reports</a> </strong>');
