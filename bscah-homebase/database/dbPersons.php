@@ -238,7 +238,7 @@
 
     function getall_volunteer_names() {
         connect();
-        $query = "SELECT first_name, last_name FROM person ORDER BY last_name,first_name";
+        $query = "SELECT NameFirst, NameLast FROM person ORDER BY NameLast,NameFirst";
         $result = mysql_query($query);
         if (!$result) {
             die('Invalid query: ' . mysql_error());
@@ -254,7 +254,7 @@
         }
         $names = [];
         while ($result_row = mysql_fetch_assoc($result)) {
-            $names[] = $result_row['first_name'] . ' ' . $result_row['last_name'];
+            $names[] = $result_row['NameFirst'] . ' ' . $result_row['NameLast'];
         }
         mysql_close();
 
