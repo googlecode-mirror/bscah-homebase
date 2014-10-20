@@ -17,6 +17,7 @@
      * this array is null (aka false) if there are no errors
      */
     function validate_form() {
+        
         if ($_POST['first_name'] == null || $_POST['first_name'] == 'new') {
             $errors[] = 'Please enter a first name';
         }

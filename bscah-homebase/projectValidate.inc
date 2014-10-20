@@ -17,7 +17,7 @@
      * this array is null (aka false) if there are no errors
      */
     function validate_form() {
-        if ($_POST['mm_dd_yy'] == null || $_POST['mm_dd_yy'] == 'new') {
+        if ($_POST['date'] == null || $_POST['date'] == 'new') {
             $errors[] = 'Please enter the date of this project';
         }
         if ($_POST['address'] == null) {
@@ -32,9 +32,9 @@
         if ($_POST['end_time'] == null) {
             $errors[] = 'Please enter an end time';
         }
-        if ($_POST['dayOfWeek'] == null) {
-            $errors[] = 'Please enter a day of the week';
-        }
+        //if ($_POST['dayOfWeek'] == null) {
+           // $errors[] = 'Please enter a day of the week';
+        //}
         if ($_POST['vacancies'] == null) {
             $errors[] = 'Please enter the amount of people that can join this project';
         }

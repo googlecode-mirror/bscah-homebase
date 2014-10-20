@@ -47,7 +47,7 @@
     }
 ?>
 <form method="POST">
-    <input type="hidden" name="old_id" value=<?PHP echo("\"" . $id . "\""); ?>>
+    <input type="hidden" name="old_id" value=<?PHP echo($id); ?>>
     <input type="hidden" name="_form_submit" value="1">
 
     <p>(<span style="font-size:x-small;color:FF0000">*</span> denotes required fields)
@@ -59,17 +59,15 @@
                                                                             value="<?PHP echo($project->get_address()) ?>">
 
     <p>Max # people that can be in this project<span style="font-size:x-small;color:FF0000">*</span>: <input
-            type="vacancies" name="address" tabindex="3" value="<?PHP echo($project->get_vacancies()) ?>">
+            type="number" name="vacancies" tabindex="3" value="<?PHP echo($project->get_vacancies()) ?>">
+        <!--Changed type from vacancies to numbers and name from address to vacancies-->
     <fieldset>
         <legend>Project time information:</legend>
         <p>Date of Project<span style="font-size:x-small;color:FF0000">*</span>: <input type="text" name="date"
-                                                                                        MAXLENGTH=6 tabindex="2"
+                                                                                        MAXLENGTH= 8 tabindex="2"
                                                                                         value="<?PHP echo($project->get_date()) ?>">
 
-        <p>Day of Week<span style="font-size:x-small;color:FF0000">*</span>: <input type="text" name="dayOfWeek"
-                                                                                    tabindex="1"
-                                                                                    value="<?PHP echo($project->get_dayOfWeek()) ?>">
-
+        
         <p>Start Time<span style="font-size:x-small;color:FF0000">*</span>: <input type="text" name="start_time"
                                                                                    MAXLENGTH=4 tabindex="7"
                                                                                    value="<?PHP echo($project->get_start_time()) ?>">
@@ -78,16 +76,17 @@
                                                                                  tabindex="7"
                                                                                  value="<?PHP echo($project->get_end_time()) ?>">
 
-            </textarea></fieldset>
+            </textarea</fieldset>
 <?PHP
 
     echo('<p>Notes:<br />');
     echo('<textarea name="notes" rows="2" cols="60">');
     echo($project->get_notes());
     echo('</textarea></fieldset>');
-    error_log("Day of week is " . $project->get_dayOfWeek());
+    //error_log("Day of week is " . $project->get_dayOfWeek());
     echo "<br />\n";
     echo('Hit <input type="submit" value="Submit" name="Submit Edits"> to complete this application.<br /><br />');
+    
 
 /*        
 if ($_SESSION['access_level'] == 0) {
