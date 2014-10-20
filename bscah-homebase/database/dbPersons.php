@@ -57,6 +57,7 @@
            } */
 
         error_log('will insert person id= ' . $person->get_id() . ' avail= ' . $person->get_availability());
+        $avail = implode(",",$person->get_availability());
         $query = "INSERT INTO person VALUES ('" .
             $person->get_id() . "','" .
             $person->get_first_name() . "','" .
@@ -75,7 +76,7 @@
             $person->get_schedule() . "','" .
             $person->get_notes() . "','" .
             $person->get_password() . "','" .
-            $person->get_availability() . "','" .
+            $avail . "','" .
             $person->get_contact_preference() . "');";
         error_log('query is ' . $query);
         $result = mysql_query($query);
@@ -359,18 +360,11 @@
     // retrieve only those persons that match the criteria given in the arguments
     function getonlythose_persons($type, $status, $name, $day, $shift) {
         connect();
-        if ($type == "manager") {
-            $string1 = " = '";
-            $string2 = "'";
-        }
-        else {
-            $string1 = " LIKE '%";
-            $string2 = "%'";
-        }
-        $query = "SELECT * FROM person WHERE type " . $string1 . $type . $string2 .
+      
+        $query = "SELECT * FROM person WHERE type LIKE '%" . $type . "%'" .
             " AND status LIKE '%" . $status . "%'" .
-            " AND (NameFirst LIKE '%" . $name . "%' OR NameLast LIKE'%" . $name . "%')" .
-            " ORDER BY NameLast,NameFirst";
+            " AND (NameFirst LIKE '%" . $name . "%' OR NameLast LIKE'%" . $name . "%')" . "AND availability LIKE '%" . $day .
+               "%'" . "AND availability LIKE '%" . $shift . "%'" . "ORDER BY NameLast,NameFirst";
         $result = mysql_query($query);
         if (!$result) {
             die('Invalid query: ' . mysql_error());
