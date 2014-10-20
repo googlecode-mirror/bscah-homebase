@@ -113,16 +113,22 @@
                 }
                 if ($_SESSION['access_level'] == 1.5) {
                     echo('<br>');
-                    echo('<strong>volunteers :</strong> <a href="' . $path . 'personSearch.php">search</a>');
+                    echo('<strong>volunteers :</strong> <a href="' . $path . 'personSearch.php">');
                 }
                 if ($_SESSION['access_level'] >= 2) {
                     echo('<br><a href="' . $path .
-                        'viewSchedule.php?frequency=weekly"><strong>master schedules</strong></a> | ');
+                     'viewSchedule.php?frequency=weekly"><strong>master schedules</strong></a> : '
+                            . '<a href=" ' . $path . 'viewSchedule.php?frequency=weekly">garden, </a>'
+                            . '<a href=" ' . $path . 'editMasterSchedule.php">pantry </a> | '); 
+
                     echo('<strong>volunteers :</strong> <a href="' . $path . 'personSearch.php">search</a>,
 			        <a href="personEdit.php?id=' . 'new' . '">add </a> | ');
+                    
                     echo('<strong>projects :</strong> <a href="' . $path . 'projectSearch.php">search</a>,
-                                <a href="' . $path . 'projectCalender.php">project calender</a> ,
-			        <a href="projectEdit.php?id=' . 'new' . '">add </a>');
+                                <a href="' . $path . 'projectCalender.php">project calender</a>, 
+			        <a href="projectEdit.php?id=' . 'new' . '">add, </a>
+                                <a href=" ' . $path . 'projectInfo.php">project information, </a>
+                                <a href=" ' . $path . 'specialProject.php">special project </a>');
 
                     echo(' | <strong><a href="' . $path . 'reports.php">reports</a> </strong>');
                     //    echo(' | <strong>data :</strong> <a href="' . $path . 'dataSearch.php">search and export</a> ');
