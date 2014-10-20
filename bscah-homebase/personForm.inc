@@ -181,8 +181,8 @@
                     echo(' SELECTED');
                 }
                 echo('>approved</option>');
-                echo('<option value="LOA"');
-                if ($person->get_status() == 'LOA') {
+                echo('<option value="onleave"');
+                if ($person->get_status() == 'onleave') {
                     echo(' SELECTED');
                 }
                 echo('>on leave</option>');
@@ -200,9 +200,9 @@
         <span class="bigTable">
             <table>
                 <?PHP
-                    $shifts = ['morning' => 'Morning (9-12)', 'earlypm' => 'Early afternoon (12-3)',
-                        'latepm' => 'Late afternoon (3-6)',
-                        'evening' => 'evening (6-9)', 'overnight' => "Overnight"];
+                    $shifts = ['Morning(9-12)' => 'Morning (9-12)', 'EarlyPM(12-3)' => 'Early afternoon (12-3)',
+                        'LatePM(3-6)' => 'Late afternoon (3-6)',
+                        'Evening(6-9)' => 'Evening (6-9)', 'Overnight' => "Overnight"];
                     $workdays = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
                     $person_availability = implode(',', $person->get_availability());
                     echo "<table>" .
@@ -212,9 +212,9 @@
                         echo('<tr><td>' . $weekvalues . '</td>');
                         foreach ($workdays as $day) {
                             $realkey = $day . ":" . $weeknum;
-                            echo('<td><input type="checkbox" name="availability" value=' . $realkey);
+                            echo('<td><input type="checkbox" name="availability[]" value=' . $realkey);
                             if (in_array($day . ":" . $weeknum, $person->get_availability())) {
-                                echo(' CHECKED');
+                                echo(' checked');
                             }
                             echo('></td>');
                         }
