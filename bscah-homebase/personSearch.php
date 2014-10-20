@@ -26,7 +26,10 @@
     <div id="content">
         <?PHP
             // display the search form
-            $area = $_GET['area'];
+        if(isset($_GET['area']))
+        {
+            $area = $_GET['area'];//fixes undefined error for area
+        }
             echo('<form method="post">');
             echo('<p><strong>Search for volunteers:</strong>');
 
@@ -40,7 +43,8 @@
 
             echo('&nbsp;&nbsp;Status:<select name="s_status">' .
                 '<option value="" SELECTED></option>' . '<option value="applicant">Applicant</option>' .
-                '<option value="Approved">Approved</option>' .
+                '<option value="Approved">Approved</option>' . '<option value = "onleave">On leave</option>'.
+                    '<option value= "former">Former</option>'.
                 '</select>');
             echo '<p>Name (type a few letters): ';
             echo '<input type="text" name="s_name">';
@@ -48,26 +52,29 @@
             echo '<fieldset>
 						<legend>Availability: </legend>
 							<table><tr>
-								<td>Day (of week)</td>
+								<td>Day       </td>
 								<td>Shift</td>
 								</tr>';
             echo "<tr>";
             echo "<td>";
             $days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
             echo '<select name="s_day">' . '<option value=""></option>';
-            foreach ($days as $day) {
+            foreach ($days as $day) 
+            {
                 echo '<option value="' . $day . '">' . $day . '</option>';
             }
-            /*echo '</select>';
+        
+            echo '</select>';
             echo "</td><td>";
-            $shifts = array('morning' => 'Morning (9-12)', 'earlypm' => 'Early Afternoon (12-3)', 'latepm' => 'Late Afternoon (3-6)',
-                'evening' => 'Evening (6-9)', 'overnight' => 'Overnight');
+            $shifts = ['Morning(9-12)' => 'Morning(9-12)', 'EarlyPM(12-3)' => 'EarlyPM(12-3)',
+                        'LatePM(3-6)' => 'LatePM(3-6)',
+                        'Evening(6-9)' => 'Evening(6-9)', 'Overnight' => "Overnight"];
             echo '<select name="s_shift">' . '<option value=""></option>';
             foreach ($shifts as $shiftno => $shiftname) {
                 echo '<option value="' . $shiftno . '">' . $shiftname . '</option>';
             }
 
-             */
+           
             echo '</select>';
             echo "</td>";
             echo "</tr>";
@@ -77,14 +84,16 @@
             echo('</form></p>');
 
             // if user hit "Search"  button, query the database and display the results
-            if ($_POST['s_submitted']) {
+            if (isset($_POST['s_submitted'])) {
                 $type = $_POST['s_type'];
                 $status = $_POST['s_status'];
                 $name = trim(str_replace('\'', '&#39;', htmlentities($_POST['s_name'])));
+                $day = $_POST['s_day'];
+                $shift = $_POST['s_shift'];
                 // now go after the volunteers that fit the search criteria
                 include_once('database/dbPersons.php');
                 include_once('domain/Person.php');
-                $result = getonlythose_persons($type, $status, $name, $_POST['s_day'], $_POST['s_shift']);
+                $result = getonlythose_persons($type, $status, $name, $day, $shift);
                 //$result = getall_dbPersons();
 
 
@@ -100,24 +109,37 @@
                 }
                 $availability = $_POST['s_day'];
                 if ($availability != " ") {
-                    echo " with availability " . $availability;
+                    echo " with an availability day of " . $availability;
+                }
+                if($availability == "")
+                {
+                    echo "  any day ";
+                }
+                $shiftOn = $_POST['s_shift'];
+                
+                if($shiftOn != " ")
+                {
+                    echo " with shift of " . $shiftOn;
+                }
+                if($shiftOn == "")
+                {
+                    echo "  any shifts.";
                 }
                 if (sizeof($result) > 0) {
                     echo ' (select one for more info).';
                     echo '<p><table> <tr><td>Name</td><td>Phone</td><td>E-mail</td><td>Availability</td></tr>';
                     foreach ($result as $vol) {
+                        
                         echo "<tr><td><a href=personEdit.php?id=" . str_replace(" ", "_", $vol->get_id()) . ">" .
                             $vol->get_first_name() . " " . $vol->get_last_name() . "</td><td>" .
                             phone_edit($vol->get_phone1()) . "</td><td>" .
-                            $vol->get_email() . "</td><td>";
-                        foreach ($vol->get_availability() as $availableon) {
-                            echo($availableon . ", ");
+                            $vol->get_email() . "</td><td>" . $avail = implode("  |  ", $vol->get_availability());
                         }
                         echo "</td></a></tr>";
                     }
                 }
                 echo '</table>';
-            }
+            
         ?>
         <!-- below is the footer that we're using currently-->
     </div>
