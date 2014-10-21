@@ -57,7 +57,7 @@
             delete_dbProjects($p);
             connect();
         }
-        $query = "INSERT INTO project (ProjectID,Address,Date, Vacancies,StartTime,EndTime, DayOfWeek,Name,Persons,Notes)"
+        $query = "INSERT INTO project (ProjectID,Address,Date, Vacancies,StartTime,EndTime,DayOfWeek,Name,Persons,Notes)"
             . " VALUES ('" . $p->get_id() . "','" .
             $p->get_address() . "','" .
             $p->get_mm_dd_yy() . "','" .
