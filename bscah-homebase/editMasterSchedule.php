@@ -33,36 +33,19 @@
             // $frequency=$_GET['frequency'];
             $venue = $_GET['venue'];
             $day = $_GET['day'];
-            $shiftname = $_GET['shift'];
-            $shift = [$group, $day, $shiftname];
+            $shift = $_GET['shift'];
+            $shift = [$group, $day, $shift];
             $shift = get_day_names($shift, $day);
-            $pls = new Shift("",
-                             $venue,
-                             get_total_vacancies(
-                                 $venue,
-                                 $shift[0],
-                                 $shift[1],
-                                 $shift[2]
-                             ),
-                             get_persons(
-                                 $venue,
-                                 $shift[0],
-                                 $shift[1],
-                                 $shift[2]
-                             ),
-                            "",
-                            ""
-            );
             include_once('database/dbMasterSchedule.php');
             include_once('domain/MasterScheduleEntry.php');
             include_once('database/dbLog.php');
-            //if($group=="" || $day=="" || $shiftname=="") {
+            //if($group=="" || $day=="" || $shift=="") {
             if ($group == "" || $day == "" || $shift == "") {
                 echo "<p>Invalid schedule parameters.  Please click on the \"Master Schedule\" link above to edit a master schedule shift.</p>";
             } // see if there is no master shift for this time slot and try to set times starting there
             else {
-                if (retrieve_dbMasterSchedule($venue . $day . $group . "-" . $shiftname) == false) {
-                    $result = process_set_times($_POST, $group, $day, $shiftname, $venue);
+                if (retrieve_dbMasterSchedule($venue . $day . $group . "-" . $shift) == false) {
+                    $result = process_set_times($_POST, $group, $day, $shift, $venue);
 
                     if ($result) {
                         $returnpoint = "viewSchedule.php?frequency=" . $venue;
@@ -78,7 +61,9 @@
                             substr($shift[1], 3) . " " . $shift[3] . "s " . "
 		</b></td></tr>"
                             . "<tr><td>
+        <b>Shift Name:</b>
 		<form method=\"POST\" style=\"margin-bottom:0;\">
+		<input name=\"shift_name\" type=\"text\"><br>
 		<select name=\"new_start\">
 		<option value=\"0\">Please select a new starting time</option>"
                             . get_all_times() .
@@ -96,7 +81,7 @@
                 else { // if one is there, see what we can do to update it
                     if (!process_fill_vacancy($_POST, $shift, $group, $venue) && // try to fill a vacancy
                         !process_add_volunteer($_POST, $shift, $venue) &&
-                        !process_remove_shift($_POST, $shift, $group, $day, $shiftname, $venue)
+                        !process_remove_shift($_POST, $shift, $group, $day, $shift, $venue)
                     ) { // try to remove the shift
                         if (process_unfill_shift($_POST, $shift, $venue)) {  // try to remove a person
                         }
@@ -162,7 +147,7 @@
         return $s;
     }
 
-    function process_set_times($post, $group, $day, $time, $venue) {
+    function process_set_times($post, $group, $day, $venue) {
         if (!array_key_exists('_submit_change_times', $post)) {
             return false;
         }
@@ -183,14 +168,14 @@
                     0, // Slots
                     "", // Persons
                     "", // Notes
-                    $this->$shift
+                    $post['shift_name']
                 );
                 if (!insert_nonoverlapping($entry)) {
                     $error = "Can't insert a new shift into an overlapping time slot.<br><br>";
                 }
             }
         }
-        if ($error) {
+        if (isset($error)) {
             echo $error;
 
             return true;
@@ -201,8 +186,8 @@
             add_log_entry('<a href=\"personEdit.php?id=' . $_SESSION['_id'] . '\">' . $_SESSION['f_name'] . ' ' .
                           $_SESSION['l_name'] .
                           '</a> added a new master schedule shift: <a href=\"editMasterSchedule.php?group=' .
-                          $group . "&day=" . $day . "&shift=" . $shiftname . "&venue=" . $venue . '\">' . $group . " " .
-                          $day . $shiftname . '</a>.');
+                          $group . "&day=" . $day . "&shift=" . $post['shift_name'] . "&venue=" . $venue . '\">' . $group . " " .
+                          $day . $post['shift_name'] . '</a>.');
 
             return true;
         }
@@ -222,8 +207,8 @@
             add_log_entry('<a href=\"personEdit.php?id=' . $_SESSION['_id'] . '\">' . $_SESSION['f_name'] . ' ' .
                           $_SESSION['l_name'] .
                           '</a> deleted a new master schedule shift: <a href=\"editMasterSchedule.php?group=' .
-                          $week_no . "&day=" . $day . "&shift=" . $shiftname . "&frequency=" . $frequency . '\">' .
-                          $frequency . " week_no " . $week_no . " " . $day . " " . $shiftname . '</a>.');
+                          $week_no . "&day=" . $day . "&shift=" . $shift . "&frequency=" . $frequency . '\">' .
+                          $frequency . " week_no " . $week_no . " " . $day . " " . $shift . '</a>.');
 
             return true;
         }

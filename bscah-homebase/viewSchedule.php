@@ -102,7 +102,7 @@
                 else {
                     if ($free_hour[$columns * ($hour - 9) + $i]) {
                         //	$t = $hour . "-" . ($hour+1);
-                        $master_shift = new MasterScheduleEntry("weekly", $day, $group, $hour, $hour + 1, 1, "", "");
+                        $master_shift = new MasterScheduleEntry("weekly", $day, $group, $hour, $hour + 1, 1, "", "", "");
                         echo do_shift($master_shift, 0);
                     }
                 }
@@ -117,7 +117,7 @@
                 echo do_shift($master_shift, 1);
             }
             else {
-                $master_shift = new MasterScheduleEntry("weekly", $day, $group, "overnight", 0, 1, "", "");
+                $master_shift = new MasterScheduleEntry("weekly", $day, $group, "overnight", 0, 1, "", "", "");
                 echo do_shift($master_shift, 0);
             }
         }

@@ -62,6 +62,7 @@
                 //$permission_array['log.php'] = 2;
                 $permission_array['dataSearch.php'] = 2;
                 $permission_array['reports.php'] = 2;
+                $permission_array['editMasterSchedule.php'] = 2;
 
                 //Check if they're at a valid page for their access level.
                 //   $current_page = substr($_SERVER['PHP_SELF'], 1);
