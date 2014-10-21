@@ -107,12 +107,15 @@
 			name=\"submit\">
 			</form><br>
 			</td></tr>"
-                            . "<tr><td valign=\"top\"><br>&nbsp;" . do_slot_num($shift, $venue) . "</td><td>
-			<form method=\"POST\" style=\"margin-bottom:0;\">
-			<input type=\"hidden\" name=\"_submit_add_slot\" value=\"1\"><br>
-			<input type=\"submit\" value=\"Add Slot\"
-			name=\"submit\" style=\"width: 250px\">
-			</form><br></td></tr>");
+                            . "<tr><td valign=\"top\"><br>&nbsp;" . do_slot_num($shift, $venue) . <<<TAG
+</td><td>
+			<form method="POST" style="margin-bottom:0;">
+			<input type="hidden" name="_submit_add_slot" value="1"><br>
+			<input type="submit" value="Add Slot"
+			name="submit" style="width: 250px">
+			</form><br></td></tr>
+TAG
+);
                         echo(display_filled_slots($persons)
                             . display_vacant_slots(get_total_vacancies($venue, $shift[0], $shift[1], $shift[2]))
                             . "</table>");

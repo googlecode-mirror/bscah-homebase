@@ -150,7 +150,7 @@
             die("Invalid argument for date->select_dbDates call =" . $id);
         }
         connect();
-        $query = "SELECT * FROM date WHERE id =\"" . $id . "\"";
+        $query = "SELECT * FROM date WHERE date_id =\"" . $id . "\"";
         error_log("in select_dbDates, query is " . $query);
         $result = mysql_query($query);
         mysql_close();
@@ -172,7 +172,7 @@
                         $s[$temp->get_name()] = $temp;
                     }
                 }
-                $d = new BSCAHdate($result_row[0], $s, $result_row[2]);
+                $d = new BSCAHdate($result_row[0], $s, "", $result_row[2]); // TODO: This constructor is malformed somehow
 
                 return $d;
             }

@@ -58,20 +58,25 @@
          *          && $this->name == substr($this->id, 9)
          */
         function set_start_end_time($st, $et) {
-            if (0 <= $st && $st < $et && $et < 24 &&
-                strpos(substr($this->id, 9), "-") !== false
-            ) {
-                $this->start_time = $st;
-                $this->end_time = $et;
-                $this->id = $this->mm_dd_yy . "-" . $this->start_time
-                    . "-" . $this->end_time;
-                $this->name = substr($this->id, 9);
+            // The user's input is valid if all of the following is true
+            $isValid =
+                $st >= 0 && // Start-time is within bounds, and
+                $st < $et && // Start-time is before end-time, and
+                $et < 24 && // End-time is within bounds, and
+                strpos(substr($this->id, 9), "-") !== false // There is a hyphen within the string (excluding the first 9 characters)
+            ;
 
-                return $this;
-            }
-            else {
-                return false;
-            }
+            // If the validity-test above failed, we will return false and exit this method
+            if (!$isValid) return false;
+
+            // If the validity-test above succeeded, we will continue and process the user's input
+            $this->start_time = $st;
+            $this->end_time = $et;
+            $this->id = $this->mm_dd_yy . "-" . $this->start_time
+                . "-" . $this->end_time;
+            $this->name = substr($this->id, 9);
+
+            return $this;
         }
 
         /*
@@ -217,6 +222,7 @@
         error_log("to date = " . $to);
         $from_date = date_create_from_mm_dd_yyyy($from);
         $to_date = date_create_from_mm_dd_yyyy($to);
+
         $reports = [
             'morning' => ['Mon' => [0, 0], 'Tue' => [0, 0], 'Wed' => [0, 0], 'Thu' => [0, 0],
                 'Fri' => [0, 0], 'Sat' => [0, 0], 'Sun' => [0, 0]],
@@ -234,7 +240,7 @@
         $all_projects = get_all_projects();
         foreach ($all_projects as $s) {
             $projects_date = date_create_from_mm_dd_yyyy($s->get_mm_dd_yy());
-            if ($projects_date >= $from_date && $project_date <= $to_date &&
+            if ($projects_date >= $from_date && $projects_date <= $to_date &&
                 (strlen($s->get_persons()) > 0 || $s->get_vacancies() > 0)
             ) {
                 $reports[$s->get_time_of_day()][$s->get_day()][0] += 1;

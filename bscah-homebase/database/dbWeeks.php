@@ -139,7 +139,6 @@
      * @return mysql entry corresponding to id
      */
     function select_dbWeeks($id) {
-
         if (strlen($id) != 8) {
             die("Invalid week id." . $id);
         }
@@ -149,10 +148,10 @@
             $id2 = date("m-d-y", mktime(0, 0, 0, substr($id, 0, 2), substr($id, 3, 2) - $dow + 1, substr($id, 6, 2)));
         }
         connect();
-        $query = "SELECT * FROM week WHERE id =\"" . $id2 . "\"";
+        $query = "SELECT * FROM weeks WHERE id =\"" . $id2 . "\"";
         $result = mysql_query($query);
         if (!$result || mysql_numrows($result) == 0) {
-            $query = "SELECT * FROM week WHERE id =\"" . $id . "\"";
+            $query = "SELECT * FROM weeks WHERE id =\"" . $id . "\"";
             $result = mysql_query($query);
             if (!$result) {
                 echo '<br>Could not run query: ' . mysql_error();
@@ -183,13 +182,12 @@
             $dates = explode("*", $result_row['dates']);
             $d = [];
             foreach ($dates as $date) {
-                $d[] = select_dbDates($date);
+                $temp = select_dbDates($date);
+                $d[] = $temp;
             }
-
             $w = new Week($d, "weekly", $result_row['weekday_group'],
                           $result_row['weekend_group'], $result_row['status']);
             error_log("3");
-
             return $w;
         }
         else {
