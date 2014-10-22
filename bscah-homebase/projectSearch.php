@@ -67,16 +67,22 @@
 
             // if user hit "Search"  button, query the database and display the results
             if ($_POST['s_submitted']) {
+                //type, status, and name of PROJECT
                 $type = $_POST['s_type'];
                 $status = $_POST['s_status'];
                 $name = trim(str_replace('\'', '&#39;', htmlentities($_POST['s_name'])));
+                
+                include_once('database/dbProjects.php');
+                include_once('domain/Project.php');
+                $Selected_Project = select_dbProjects($name);
+                echo($Selected_Project->get_id() . "<p></p>" . 
+                        $Selected_Project->get_address());
+                
                 // now go after the volunteers that fit the search criteria
                 include_once('database/dbPersons.php');
                 include_once('domain/Person.php');
-                $result = getonlythose_dbPersons($type, $status, $name, $_POST['s_day']);
-                //$result = getall_dbPersons();
-
-
+                $result = getonlythose_Persons(null, null, null, $_POST['s_day'], null);
+ 
                 echo '<p><strong>Search Results:</strong> <p>Found ' . sizeof($result) . ' ' . $status . ' ';
                 if ($type != "") {
                     echo $type . "s";

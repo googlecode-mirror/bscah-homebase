@@ -152,7 +152,7 @@
 
             $p = make_a_project($result_row);
         }
-
+        
         return $p;
     }
 
