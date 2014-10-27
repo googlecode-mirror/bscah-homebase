@@ -25,22 +25,23 @@
      * time - timestamp time()
      * message - text
      */
-    function create_dbLog() {
-        connect();
-        mysql_query("DROP TABLE IF EXISTS dbbscah.dbLog");
-        //NOTE: primary key set to id.  id is text in the form: mm-dd-yy-ss-se,  ss=shift start,  se=shift end
-        $result =
-            mysql_query("CREATE TABLE dbbscah.dbLog (id INT(3) NOT NULL AUTO_INCREMENT,time TEXT, message TEXT, PRIMARY KEY(id))");
-        if (!$result) {
-            echo mysql_error();
-        }
-        mysql_close();
-    }
+//    function create_dbLog() {
+//        connect();
+//        mysql_query("DROP TABLE IF EXISTS dbbscah.dbLog");
+//        //NOTE: primary key set to id.  id is text in the form: mm-dd-yy-ss-se,  ss=shift start,  se=shift end
+//        $result =
+//            mysql_query("CREATE TABLE dbbscah.dbLog (id INT(3) NOT NULL AUTO_INCREMENT,time TEXT, message TEXT, PRIMARY KEY(id))");
+//        if (!$result) {
+//            echo mysql_error();
+//        }
+//        mysql_close();
+    
 
     /**
      * adds a new log entry, using the current time for the timestamp
      */
     function add_log_entry($message) {
+        
         $time = time();
         connect();
 
