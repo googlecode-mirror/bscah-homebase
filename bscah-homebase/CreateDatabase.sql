@@ -201,3 +201,13 @@ CREATE TABLE IF NOT EXISTS `weeks` (
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+-- -- ----------------------------------------------------------
+-- 
+-- -- 
+-- -- Table structure for table `dblog`
+-- --
+-- 
+ CREATE TABLE IF NOT EXISTS  `dblog`(
+     `id` INT(3) NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    `time` text,
+   `message` text) ENGINE=InnoDB DEFAULT CHARSET=latin1;
