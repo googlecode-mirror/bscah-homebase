@@ -59,7 +59,7 @@
                 $permission_array['viewSchedule.php'] = 2;
                 $permission_array['addWeek.php'] = 2;
                 $permission_array['rmh.php'] = 2;
-                //$permission_array['log.php'] = 2;
+                $permission_array['log.php'] = 2;
                 $permission_array['dataSearch.php'] = 2;
                 $permission_array['reports.php'] = 2;
                 $permission_array['editMasterSchedule.php'] = 2;
@@ -132,6 +132,7 @@
                                 <a href=" ' . $path . 'specialProject.php">special project </a>');
 
                     echo(' | <strong><a href="' . $path . 'reports.php">reports</a> </strong>');
+                    echo(' | <strong><a href="' . $path . 'log.php">logs</a></strong>');
                     //    echo(' | <strong>data :</strong> <a href="' . $path . 'dataSearch.php">search and export</a> ');
                 }
                 echo(' | <a href="' . $path . 'logout.php"><b>logout</b></a>');
