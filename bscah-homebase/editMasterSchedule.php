@@ -45,7 +45,7 @@
             } // see if there is no master shift for this time slot and try to set times starting there
             else {
                 if (retrieve_dbMasterSchedule($venue . $day . $group . "-" . $shift) == false) {
-                    $result = process_set_times($_POST, $group, $day, $shift, $venue);
+                    $result = process_set_times($_POST, $group, $day, $shift);
 
                     if ($result) {
                         $returnpoint = "viewSchedule.php?frequency=" . $venue;
@@ -150,7 +150,7 @@ TAG
         return $s;
     }
 
-    function process_set_times($post, $group, $day, $venue) {
+    function process_set_times($post, $group, $day) {
         if (!array_key_exists('_submit_change_times', $post)) {
             return false;
         }
@@ -163,7 +163,7 @@ TAG
             }
             else {
                 $entry = new MasterScheduleEntry(
-                    $venue, // Schedule type
+                    $_GET['venue'], // Schedule type
                     $day, // Day
                     $group, // Week no
                     $post['new_start'], // Start time

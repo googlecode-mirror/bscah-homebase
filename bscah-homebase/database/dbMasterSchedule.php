@@ -31,9 +31,9 @@
         $weekday_weeks = ["odd", "even"];
         $weekend_weeks = ["1st", "2nd", "3rd", "4th", "5th"];
         // insert a single entry into the table
-        $e = new MasterScheduleEntry("weekly", "Mon", "odd", 9, 12, 0, "", "");
+        $e = new MasterScheduleEntry("weekly", "Mon", "odd", 9, 12, 0, "", "", "");
         insert_dbMasterSchedule($e);
-        $e = new MasterScheduleEntry("weekly", "Tue", "odd", "overnight", 0, 0, "", "");
+        $e = new MasterScheduleEntry("weekly", "Tue", "odd", "overnight", 0, 0, "", "", "");
         insert_dbMasterSchedule($e);
         // add more of these if we want to pre-fill some standard master schedule shifts;
         // otherwise, leave the rest of the table blank
@@ -70,7 +70,8 @@
             $entry->get_notes() . "','" .
             $entry->get_Shifts() .
             "');";
-        error_log("in insert into master schedule, query is " . $query);
+        //TODO: Log in a separate file
+        //error_log("in insert into master schedule, query is " . $query);
         $result = mysql_query($query);
         if (!$result) {
             echo mysql_error() . " - Unable to insert in masterschedule: " . $entry->get_MS_ID() . "\n";
@@ -86,7 +87,8 @@
     function retrieve_dbMasterSchedule($MS_ID) {
         connect();
         $query = "SELECT * FROM masterschedule WHERE MS_ID LIKE '%" . $MS_ID . "%'";
-        error_log('in restrieve_dbMasterSchedule, query is ' . $query);
+        //TODO: Log in a separate file
+        //error_log('in retrieve_dbMasterSchedule, query is ' . $query);
         $result = mysql_query($query);
         if (!$result) {
             error_log('ERROR on select in retrieve_dbMasterSchedule() ' . mysql_error());
