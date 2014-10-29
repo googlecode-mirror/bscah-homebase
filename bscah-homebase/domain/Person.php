@@ -218,7 +218,7 @@
             $report = ['Mon' => 0, 'Tue' => 0, 'Wed' => 0, 'Thu' => 0,
                 'Fri' => 0, 'Sat' => 0, 'Sun' => 0];
             if (array_key_exists($this->get_id(), $histories)) {
-                $hid = explode(',', $histories[$this->id]);
+                $hid = explode(',', $histories[$this->ID]);//ID was lowercased and so couldn't connect with the one in Person - GIOVI
                 foreach ($hid as $shift_id) {
                     $s = select_dbShifts($shift_id);
                     $shift_date = date_create_from_mm_dd_yyyy($s->get_mm_dd_yy());

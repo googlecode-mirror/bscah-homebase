@@ -9,15 +9,16 @@
      * (see <http://www.gnu.org/licenses/ for more information).
      *
      */
-
+//Changes: shift table added a few ids in different shifts IMPORTANT: ids in person's column must end with '+' in order the if statement to return true in line 405 - GIOVI
     include_once('database/dbPersons.php');
     include_once('domain/Person.php');
     include_once('database/dbShifts.php');
     include_once('domain/Shift.php');
     $names = getall_volunteer_names();
-    $histories = get_all_peoples_histories();
+    $histories = get_all_peoples_histories();// This returns a key sorted list of everyone's names that are or were in shifts; - GIOVI
+                                             //The key being the the person's id and the associated value being the id of every shift s/he is in separated by commas. - GIOVI
 
-    if (isset($_GET['q'])) {
+    if (isset($_POST['q'])) {
         show_hint($names);
     }
 
@@ -32,7 +33,7 @@
         $to = "";
         if (isset($_POST['date']) && $_POST['date'] != "") {
             if ($_POST['date'] == "last-week") {
-                $from = date("m/d/y", strtotime("2 weeks ago"));
+                $from = date("m/d/y", strtotime("6 weeks ago"));
                 $to = date("m/d/y", strtotime("last week"));
             }
             else {
@@ -46,7 +47,7 @@
                 }
             }
         }
-
+            //Affects Individual Hours, Total Hours, abd Shift/Vacancies respectivly - GIOVI
         if (isset($_POST['report-types'])) {
             if (in_array('volunteer-names', $_POST['report-types'])) {
                 report_by_volunteer_names($names, $histories, $from, $to);
@@ -61,7 +62,7 @@
         }
 
     }
-
+                                                   
     function report_by_volunteer_names($names, $histories, $from, $to) {
         echo("<br><b>Individual volunteer hours</b>");
         error_log("volunteer names");
@@ -121,7 +122,7 @@
 				<td>Mon</td>
 				<td>Tue</td>
 				<td>Wed</td>
-				<td>tdu</td>
+				<td>Thur</td> 
 				<td>Fri</td>
 				<td>Sat</td>
 				<td>Sun</td>
@@ -129,7 +130,7 @@
 			</tr>
 			</thead>
 			<tbody>
-	";
+	"; //<td>Thur</td> was mispelled as <td>tdu</td> ↑ - Giovi
         foreach (array_combine($labels, $reports) as $label => $report) {
             $res .= display_table_report($label, $report);
         }
