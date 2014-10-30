@@ -64,12 +64,13 @@
             delete_dbWeeks($w);
             connect();
         }
-        $query = "INSERT INTO week VALUES (\"" . $w->get_id() . "\"," . get_dates_text($w->get_dates()) . ",\"" .
-            $w->get_weekday_group() . "\",\"" .
-            $w->get_weekend_group() . "\",\"" .
-            $w->get_status() . "\",\"" .
-            $w->get_name() . "\",\"" .
-            $w->get_end() . "\")";
+        $query = "INSERT INTO week VALUES ('" .
+                $w->get_id() . "','" . 
+                $w->get_dates() . "','" . 
+                $w->get_status() . "','" .
+                $w->get_end() . "','" . 
+                "');";
+               
         $result = mysql_query($query);
         mysql_close();
         if (!$result) {
@@ -185,8 +186,7 @@
                 $temp = select_dbDates($date);
                 $d[] = $temp;
             }
-            $w = new Week($d, "weekly", $result_row['weekday_group'],
-                          $result_row['weekend_group'], $result_row['status']);
+            $w = new Week($id, $d, $result_row['status']);
             error_log("3");
             return $w;
         }
