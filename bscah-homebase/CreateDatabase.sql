@@ -212,7 +212,7 @@ CREATE TABLE IF NOT EXISTS `weeks` (
 -- -- Table structure for table `dblog`
 -- --
 -- 
- CREATE TABLE IF NOT EXISTS  `dblog`(
+CREATE TABLE IF NOT EXISTS  `dblog`(
     `id` INT(3) NOT NULL PRIMARY KEY AUTO_INCREMENT,
     `time` text,
    `message` text) ENGINE=InnoDB DEFAULT CHARSET=latin1;

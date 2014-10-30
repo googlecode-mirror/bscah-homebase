@@ -64,15 +64,15 @@
         <b>Shift Name:</b>
 		<form method=\"POST\" style=\"margin-bottom:0;\">
 		<input name=\"shift_name\" type=\"text\"><br>
-		<select name=\"new_start\">
+		<select hidden name=\"new_start\">
 		<option value=\"0\">Please select a new starting time</option>"
                             . get_all_times() .
-                            "</select><br>
-		<br><br>
-		<select name=\"new_end\">
+                            "</select>
+
+		<select hidden name=\"new_end\">
 		<option value=\"0\">and ending time for this shift.</option>"
                             . get_all_times() .
-                            "</select><br><br>
+                            "</select>
 		<input type=\"hidden\" name=\"_submit_change_times\" value=\"1\">
 		<input type=\"submit\" value=\"Add New Shift\" name=\"submit\">
 		</form><br></td></tr></table>");
@@ -151,32 +151,25 @@ TAG
     }
 
     function process_set_times($post, $group, $day) {
+        $times = explode("-", $_GET['shift']);
+        $start = $times[0];
+        $end = $times[1];
         if (!array_key_exists('_submit_change_times', $post)) {
             return false;
         }
-        if ($post['new_start'] == "0") {
-            $error = "Can't add new shift: you must select a start time.<br><br>";
-        }
-        else {
-            if ($post['new_start'] != "overnight" && $post['new_end'] == "0") {
-                $error = "Can't add new shift: you must select an end time.<br><br>";
-            }
-            else {
-                $entry = new MasterScheduleEntry(
-                    $_GET['venue'], // Schedule type
-                    $day, // Day
-                    $group, // Week no
-                    $post['new_start'], // Start time
-                    $post['new_end'], // End time
-                    0, // Slots
-                    "", // Persons
-                    "", // Notes
-                    $post['shift_name']
-                );
-                if (!insert_nonoverlapping($entry)) {
-                    $error = "Can't insert a new shift into an overlapping time slot.<br><br>";
-                }
-            }
+        $entry = new MasterScheduleEntry(
+            $_GET['venue'], // Schedule type
+            $day, // Day
+            $group, // Week no
+            $start, // Start time
+            $end, // End time
+            0, // Slots
+            "", // Persons
+            "", // Notes
+            $post['shift_name']
+        );
+        if (!insert_nonoverlapping($entry)) {
+            $error = "Can't insert a new shift into an overlapping time slot.<br><br>";
         }
         if (isset($error)) {
             echo $error;
@@ -189,7 +182,7 @@ TAG
             add_log_entry('<a href=\"personEdit.php?id=' . $_SESSION['_id'] . '\">' . $_SESSION['f_name'] . ' ' .
                           $_SESSION['l_name'] .
                           '</a> added a new master schedule shift: <a href=\"editMasterSchedule.php?group=' .
-                          $group . "&day=" . $day . "&shift=" . $post['shift_name'] . "&venue=" . $venue . '\">' . $group . " " .
+                          $group . "&day=" . $day . "&shift=" . $post['shift_name'] . "&venue=" . $post['$venue'] . '\">' . $group . " " .
                           $day . $post['shift_name'] . '</a>.');
 
             return true;
@@ -485,25 +478,24 @@ TAG
      *
      * @return array The array with the long and short formats of the date appended
      */
-    function get_day_names(&$shift, $day) {
-        $long_day =
-                $day == "Mon" ? "Monday" :
-                $day == "Tue" ? "Tuesday" :
-                $day == "Wed" ? "Wednesday" :
-                $day == "Thu" ? "Thursday" :
-                $day == "Fri" ? "Friday" :
-                $day == "Sat" ? "Saturday" :
-                $day == "Sun" ? "Sunday" :
-                "";
-
-        if ($long_day != "") {
-            $shift[] = $long_day;
+    function get_day_names($shift, $day) {
+        $days = [
+            "Mon" => "Monday",
+            "Tue" => "Tuesday",
+            "Wed" => "Wednesday",
+            "Thu" => "Thursday",
+            "Fri" => "Friday",
+            "Sat" => "Saturday",
+            "Sun" => "Sunday"
+        ];
+        $dayName = isset($days[$day]) ? $days[$day] : "";
+        if($dayName != ""){
+            $shift[] = $dayName;
             $shift[] = $day;
         }
-        else {
+        else{
             error_log("ERROR: $day is not a valid day");
         }
-
         return $shift;
     }
 
