@@ -66,7 +66,7 @@
         }
         $query = "INSERT INTO week VALUES ('" .
                 $w->get_id() . "','" . 
-                $w->get_dates() . "','" . 
+                get_dates_text($w->get_dates()) . "','" . 
                 $w->get_status() . "','" .
                 $w->get_end() .
                 "');";
