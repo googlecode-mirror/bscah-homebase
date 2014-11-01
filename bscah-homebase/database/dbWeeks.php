@@ -68,7 +68,7 @@
                 $w->get_id() . "','" . 
                 $w->get_dates() . "','" . 
                 $w->get_status() . "','" .
-                $w->get_end() . "','" . 
+                $w->get_end() .
                 "');";
                
         $result = mysql_query($query);
