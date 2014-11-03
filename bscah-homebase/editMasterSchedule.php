@@ -29,23 +29,21 @@
             if ($_SESSION['access_level'] < 2) {
                 die("<p>Only managers can edit the master schedule.</p>");
             }
-            $group = $_GET['group'];
             // $frequency=$_GET['frequency'];
             $venue = $_GET['venue'];
             $day = $_GET['day'];
-            $shift = $_GET['shift'];
-            $shift = [$group, $day, $shift];
+            $shift = [$day, $_GET['shift']];
             $shift = get_day_names($shift, $day);
             include_once('database/dbMasterSchedule.php');
             include_once('domain/MasterScheduleEntry.php');
             include_once('database/dbLog.php');
             //if($group=="" || $day=="" || $shift=="") {
-            if ($group == "" || $day == "" || $shift == "") {
+            if ($day == "" || $shift == "") {
                 echo "<p>Invalid schedule parameters.  Please click on the \"Master Schedule\" link above to edit a master schedule shift.</p>";
             } // see if there is no master shift for this time slot and try to set times starting there
             else {
-                if (retrieve_dbMasterSchedule($venue . $day . $group . "-" . $shift) == false) {
-                    $result = process_set_times($_POST, $group, $day, $shift);
+                if (retrieve_dbMasterSchedule($venue . $day . "-" . $shift) == false) {
+                    $result = process_set_times($_POST, $day, $shift);
 
                     if ($result) {
                         $returnpoint = "viewSchedule.php?frequency=" . $venue;
@@ -57,8 +55,8 @@
                     else {
                         //$groupdisplay = $venue . " Group ".$group;
                         echo("<table align=\"center\" width=\"450\"><tr><td align=\"center\" colspan=\"2\"><b>
-		Adding a New Master Schedule shift for " . $group .
-                            substr($shift[1], 3) . " " . $shift[3] . "s " . "
+		Adding a New Master Schedule shift for " .
+                            substr($shift[0], 3) . " " . $shift[2] . "
 		</b></td></tr>"
                             . "<tr><td>
         <b>Shift Name:</b>
@@ -79,9 +77,9 @@
                     }
                 }
                 else { // if one is there, see what we can do to update it
-                    if (!process_fill_vacancy($_POST, $shift, $group, $venue) && // try to fill a vacancy
+                    if (!process_fill_vacancy($_POST, $shift, $venue) && // try to fill a vacancy
                         !process_add_volunteer($_POST, $shift, $venue) &&
-                        !process_remove_shift($_POST, $shift, $group, $day, $shift, $venue)
+                        !process_remove_shift($_POST, $shift, $day, $shift, $venue)
                     ) { // try to remove the shift
                         if (process_unfill_shift($_POST, $shift, $venue)) {  // try to remove a person
                         }
@@ -95,11 +93,11 @@
                         }
                         // we've tried to clear the shift, add a slot, or remove a slot;
                         // so now display the shift again.
-                        $persons = get_persons($venue, $shift[0], $shift[1], $shift[2]);
+                        $persons = get_persons($venue, $shift[0], $shift[1]);
                         // $groupdisplay = $venue . " Group ".$group;
                         echo("<table align=\"center\" width=\"450\"><tr><td align=\"center\" colspan=\"2\"><b>
-			Master schedule shift for " . $group .
-                            substr($shift[1], 3) . " " . $shift[3] . "s, " . do_name($shift[2]) . "
+			Master schedule shift for " .
+                            substr($shift[1], 3) . " " . $shift[2] . "s, " . do_name($shift[1]) . "
 			</b>
 			<form method=\"POST\" style=\"margin-bottom:0;\">
 			<input type=\"hidden\" name=\"_submit_remove_shift\" value=\"1\"><br>
@@ -117,7 +115,7 @@
 TAG
 );
                         echo(display_filled_slots($persons)
-                            . display_vacant_slots(get_total_vacancies($venue, $shift[0], $shift[1], $shift[2]))
+                            . display_vacant_slots(get_total_vacancies($venue, $shift[0], $shift[1]))
                             . "</table>");
                         $returnpoint = "viewSchedule.php?frequency=" . $venue;
                         echo "<table align=\"center\"><tr><td align=\"center\" width=\"442\">
@@ -150,7 +148,7 @@ TAG
         return $s;
     }
 
-    function process_set_times($post, $group, $day) {
+    function process_set_times($post, $day) {
         $times = explode("-", $_GET['shift']);
         $start = $times[0];
         $end = $times[1];
@@ -160,7 +158,6 @@ TAG
         $entry = new MasterScheduleEntry(
             $_GET['venue'], // Schedule type
             $day, // Day
-            $group, // Week no
             $start, // Start time
             $end, // End time
             0, // Slots
@@ -178,33 +175,33 @@ TAG
         }
         else {
             //$groupdisplay = $venue . " Group ".$group." Time ".$time;
-            echo "Added a new shift for " . $group . " " . $day . "<br><br>";
+            echo "Added a new shift for " . $day . "<br><br>";
             add_log_entry('<a href=\"personEdit.php?id=' . $_SESSION['_id'] . '\">' . $_SESSION['f_name'] . ' ' .
                           $_SESSION['l_name'] .
-                          '</a> added a new master schedule shift: <a href=\"editMasterSchedule.php?group=' .
-                          $group . "&day=" . $day . "&shift=" . $post['shift_name'] . "&venue=" . $post['$venue'] . '\">' . $group . " " .
+                          '</a> added a new master schedule shift: <a href=\"editMasterSchedule.php?' .
+                          "day=" . $day . "&shift=" . $post['shift_name'] . "&venue=" . $post['$venue'] . '\">' . " " .
                           $day . $post['shift_name'] . '</a>.');
 
             return true;
         }
     }
 
-    function process_remove_shift($post, $shift, $week_no, $day, $time, $frequency) {
+    function process_remove_shift($post, $shift, $day, $time, $frequency) {
         if (!array_key_exists('_submit_remove_shift', $post)) {
             return false;
         }
-        $id = $frequency . $day . $week_no . "-" . $time;
+        $id = $frequency . $day . "-" . $time;
         if (delete_dbMasterSchedule($id)) {
-            echo "<br>Deleted master schedule shift for " . $groupdisplay . "<br><br>";
+            echo "<br>Deleted master schedule shift for " . "<br><br>";
             $returnpoint = "viewSchedule.php?frequency=" . $frequency;
             echo "<table align=\"center\"><tr><td align=\"center\" width=\"442\">
 				<br><a href=\"" . $returnpoint . "\">
 				Back to Master Schedule</a></td></tr></table>";
             add_log_entry('<a href=\"personEdit.php?id=' . $_SESSION['_id'] . '\">' . $_SESSION['f_name'] . ' ' .
                           $_SESSION['l_name'] .
-                          '</a> deleted a new master schedule shift: <a href=\"editMasterSchedule.php?group=' .
-                          $week_no . "&day=" . $day . "&shift=" . $shift . "&frequency=" . $frequency . '\">' .
-                          $frequency . " week_no " . $week_no . " " . $day . " " . $shift . '</a>.');
+                          '</a> deleted a new master schedule shift: <a href=\"editMasterSchedule.php?' .
+                          "day=" . $day . "&shift=" . $shift . "&frequency=" . $frequency . '\">' .
+                          $frequency . " " . $day . " " . $shift . '</a>.');
 
             return true;
         }
@@ -244,7 +241,7 @@ TAG
     }
 
     function do_slot_num($shift, $venue) {
-        $slots = get_total_slots($venue, $shift[0], $shift[1], $shift[2]);
+        $slots = get_total_slots($venue, $shift[0], $shift[1]);
         if ($slots == 1) {
             return "1 slot for this shift:";
         }
@@ -288,33 +285,33 @@ TAG
         return $s;
     }
 
-    function process_fill_vacancy($post, $shift, $group, $venue) {
+    function process_fill_vacancy($post, $shift, $venue) {
         if (!array_key_exists('_submit_fill_vacancy', $post)) {
             return false;
         }
-        $groupdisplay = $venue . " Group " . $group;
+        $groupdisplay = $venue;
         echo "<table align=\"center\"><tr><td align=\"center\" width=\"450\"><b>
-		Filling a vacancy for " . $groupdisplay . substr($shift[1], 3) . "<br>" . $shift[3] . ", " .
-            do_name($shift[2]) . "
+		Filling a vacancy for " . $groupdisplay . substr($shift[1], 3) . "<br>" . $shift[2] . ", " .
+            do_name($shift[1]) . "
 		</b></td></tr>
 		<tr><td><form method=\"POST\" style=\"margin-bottom:0;\">
 			<select name=\"scheduled_vol\">
-			<option value=\"0\" style=\"width: 371px;\">Select a volunteer With " . $shift[3] . ", " .
-            do_name($shift[2]) . " availability</option>"
+			<option value=\"0\" style=\"width: 371px;\">Select a volunteer With " . $shift[2] . ", " .
+            do_name($shift[1]) . " availability</option>"
             .
-            get_available_volunteer_options($shift[2], $shift[4], get_persons($venue, $shift[0], $shift[1], $shift[2]),
+            get_available_volunteer_options($shift[1], $shift[3], get_persons($venue, $shift[0], $shift[1]),
                                             $venue) .
             "</select><br><br>
 			<select name=\"all_vol\">
 			<option value=\"0\" style=\"width: 371px;\">Select from all volunteers in this group</option>"
-            . get_all_volunteer_options(get_persons($venue, $shift[0], $shift[1], $shift[2]), $venue) .
+            . get_all_volunteer_options(get_persons($venue, $shift[0], $shift[1]), $venue) .
             "</select><br><br>
 			<input type=\"hidden\" name=\"_submit_add_volunteer\" value=\"1\">
 			<input type=\"submit\" value=\"Add Volunteer\" name=\"submit\" style=\"width: 400px\">
 			</form></td></tr>";
         echo "</table>";
         echo "<table align=\"center\"><tr><td align=\"center\" width=\"450\">
-		<a href=\"editMasterSchedule.php?group=" . $shift[0] . "&day=" . $shift[1] . "&shift=" . $shift[2] . "&venue=" .
+		<a href=\"editMasterSchedule.php?" . "day=" . $shift[0] . "&shift=" . $shift[1] . "&venue=" .
             $venue . "\">Back to Shift</a><br></td></tr></table>";
 
         return true;
@@ -328,17 +325,17 @@ TAG
     }
 
     function process_unfill_shift($post, $shift, $venue) {
-        $persons = get_persons($venue, $shift[0], $shift[1], $shift[2]);
+        $persons = get_persons($venue, $shift[0], $shift[1]);
         if (!$persons[0]) {
             array_shift($persons);
         }
         for ($i = 0; $i < count($persons); ++$i) {
             if (array_key_exists('_submit_filled_slot_' . $i, $post)) {
                 if (is_array($persons[$i])) {
-                    unschedule_person($venue, $shift[0], $shift[1], $shift[2], $persons[$i]['id']);
+                    unschedule_person($venue, $shift[0], $shift[1], $persons[$i]['id']);
                 }
                 else {
-                    unschedule_person($venue, $shift[0], $shift[1], $shift[2], $persons[$i]);
+                    unschedule_person($venue, $shift[0], $shift[1], $persons[$i]);
                 }
 
                 return true;
@@ -350,7 +347,7 @@ TAG
 
     function process_add_slot($post, $shift, $venue) {
         if (array_key_exists('_submit_add_slot', $post)) {
-            edit_schedule_vacancy($venue, $shift[0], $shift[1], $shift[2], 1);
+            edit_schedule_vacancy($venue, $shift[0], $shift[1], 1);
 
             return true;
         }
@@ -360,7 +357,7 @@ TAG
 
     function process_ignore_slot($post, $shift, $venue) {
         if (array_key_exists('_submit_ignore_vacancy', $post)) {
-            edit_schedule_vacancy($venue, $shift[0], $shift[1], $shift[2], -1);
+            edit_schedule_vacancy($venue, $shift[0], $shift[1], -1);
 
             return true;
         }
@@ -368,7 +365,7 @@ TAG
         return false;
     }
 
-    function get_available_volunteer_options($time, $day, $persons, $week_no) {
+    function get_available_volunteer_options($time, $day, $persons) {
         if (!$persons[0]) {
             array_shift($persons);
         }
@@ -415,7 +412,7 @@ TAG
         return $s;
     }
 
-    function get_all_volunteer_options($persons, $week_no) {
+    function get_all_volunteer_options($persons) {
         if (!$persons[0]) {
             array_shift($persons);
         }
@@ -465,7 +462,7 @@ TAG
             return true;
         }
         else {
-            schedule_person($venue, $shift[0], $shift[1], $shift[2], $vol);
+            schedule_person($venue, $shift[0], $shift[1], $vol);
 
             return false;
         }

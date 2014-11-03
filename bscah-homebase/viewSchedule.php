@@ -42,16 +42,10 @@
                 $week_days = ["Mon" => "Monday", "Tue" => "Tuesday", "Wed" => "Wednesday",
                     "Thu" => "Thursday", "Fri" => "Friday"];
                 $weekend_days = ["Sat" => "Saturday", "Sun" => "Sunday"];
-                $weekday_groups = ["odd", "even"];
-                $weekend_groups = ["1st", "2nd", "3rd", "4th", "5th"];
-                foreach ($weekday_groups as $weekday_group) {
-                    show_master_week($weekday_group, $week_days);
-                    echo "<br>";
-                }
-                foreach ($weekend_groups as $weekend_group) {
-                    show_master_week($weekend_group, $weekend_days);
-                    echo "<br>";
-                }
+                show_master_week($week_days);
+                echo "<br>";
+                show_master_week($weekend_days);
+                echo "<br>";
             ?>
         </div>
     </div>
@@ -66,15 +60,15 @@
      * and series of days (Mon-Fri or Sat-Sun)
      */
 
-    function show_master_week($group, $days) {
+    function show_master_week($days) {
         echo('<br><table id="calendar" align="center" ><tr class="weekname"><td colspan="' . (sizeof($days) + 2) .
             '" ' .
-            'bgcolor="#99B1D1" align="center" >' . $group);
+            'bgcolor="#99B1D1" align="center" >');
         if (sizeof($days) > 2) {
-            echo(' weekday Master Schedule');
+            echo('Weekday Master Schedule');
         }
         else {
-            echo(' weekend Master Schedule');
+            echo('Weekend Master Schedule');
         }
         echo('</td></tr><tr><td bgcolor="#99B1D1">  </td>');
         foreach ($days as $day => $dayname) {
@@ -90,7 +84,7 @@
             echo("<tr><td class=\"masterhour\">" . show_hours($hour) . "</td>");
             $i = 0;
             foreach ($days as $day => $dayname) {
-                $master_shift = retrieve_dbMasterSchedule("weekly" . $day . $group . "-" . $hour);
+                $master_shift = retrieve_dbMasterSchedule("weekly" . $day . "-" . $hour);
                 /* retrieves a MasterScheduleEntry whose start time is $hour */
                 if ($master_shift) {
                     $shift_length = $master_shift->get_end_time() - $master_shift->get_start_time();
@@ -102,7 +96,7 @@
                 else {
                     if ($free_hour[$columns * ($hour - 9) + $i]) {
                         //	$t = $hour . "-" . ($hour+1);
-                        $master_shift = new MasterScheduleEntry("weekly", $day, $group, $hour, $hour + 1, 1, "", "", "");
+                        $master_shift = new MasterScheduleEntry("weekly", $day, $hour, $hour + 1, 1, "", "", "");
                         echo do_shift($master_shift, 0);
                     }
                 }
@@ -112,12 +106,12 @@
         }
         echo("<tr><td class=\"masterhour\">" . "overnight" . "</td>");
         foreach ($days as $day => $dayname) {
-            $master_shift = retrieve_dbMasterSchedule("weekly" . $day . $group . "-overnight");
+            $master_shift = retrieve_dbMasterSchedule("weekly" . $day . "-overnight");
             if ($master_shift) {
                 echo do_shift($master_shift, 1);
             }
             else {
-                $master_shift = new MasterScheduleEntry("weekly", $day, $group, "overnight", 0, 1, "", "", "");
+                $master_shift = new MasterScheduleEntry("weekly", $day, "overnight", 0, 1, "", "", "");
                 echo do_shift($master_shift, 0);
             }
         }
@@ -148,8 +142,8 @@
          */
         if ($master_shift_length == 0) {
             $s = "<td bgcolor=\"darkgray\" rowspan='" . $master_shift_length . "'>" .
-                "<a id=\"shiftlink\" href=\"editMasterSchedule.php?group=" .
-                $master_shift->get_week_no() . "&day=" . $master_shift->get_day() . "&shift=" .
+                "<a id=\"shiftlink\" href=\"editMasterSchedule.php?" .
+                "day=" . $master_shift->get_day() . "&shift=" .
                 $master_shift->get_time() . "&venue=" . $master_shift->get_schedule_type() . "\">" .
                 "<br>" .
                 "</td>";
@@ -157,16 +151,16 @@
         else {
             if ($master_shift->get_slots() == 0) {
                 $s = "<td rowspan='" . $master_shift_length . "'>" .
-                    "<a id=\"shiftlink\" href=\"editMasterSchedule.php?group=" .
-                    $master_shift->get_week_no() . "&day=" . $master_shift->get_day() . "&shift=" .
+                    "<a id=\"shiftlink\" href=\"editMasterSchedule.php?" .
+                    "day=" . $master_shift->get_day() . "&shift=" .
                     $master_shift->get_time() . "&venue=" . $master_shift->get_schedule_type() . "\">" .
                     "<br>" .
                     "</td>";
             }
             else {
                 $s = "<td rowspan='" . $master_shift_length . "'>" .
-                    "<a id=\"shiftlink\" href=\"editMasterSchedule.php?group=" .
-                    $master_shift->get_week_no() . "&day=" . $master_shift->get_day() . "&shift=" .
+                    "<a id=\"shiftlink\" href=\"editMasterSchedule.php?" .
+                    "day=" . $master_shift->get_day() . "&shift=" .
                     $master_shift->get_time() . "&venue=" . $master_shift->get_schedule_type() . "\">" .
                     get_people_for_shift($master_shift, $master_shift_length) .
                     "</td>";
@@ -181,10 +175,10 @@
          * an associative array of (venue, my_group, day, time,
          * start, end, slots, persons, notes) */
         $people =
-            get_persons($master_shift->get_schedule_type(), $master_shift->get_week_no(), $master_shift->get_day(),
+            get_persons($master_shift->get_schedule_type(), $master_shift->get_day(),
                         $master_shift->get_time());
         $slots =
-            get_total_slots($master_shift->get_schedule_type(), $master_shift->get_week_no(), $master_shift->get_day(),
+            get_total_slots($master_shift->get_schedule_type(), $master_shift->get_day(),
                             $master_shift->get_time());
         if (!$people[0]) {
             array_shift($people);
