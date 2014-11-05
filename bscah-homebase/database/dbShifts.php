@@ -67,11 +67,15 @@
             delete_dbShifts($s);
             connect();
         }
-        $query = "INSERT INTO shift VALUES (\"" . $s->get_id() . "\",\"" .
-            $s->get_start_time() . "\",\"" . $s->get_end_time() . "\",\"" . $s->get_venue() . "\"," .
-            $s->num_vacancies() . ",\"" .
-            implode("*", $s->get_persons()) . "\",\"" . implode("*", $s->get_removed_persons()) . "\",\""
-            . "\",\"" . $s->get_notes() . "\")";
+        $query = "INSERT INTO shift VALUES ('" . 
+                $s->get_id() . "','" .
+                $s->get_start_time() . "','" . 
+                $s->get_end_time() . "','" . 
+                $s->get_venue() . "','" .
+                $s->num_vacancies() . "','" .
+                implode("*", $s->get_persons()) . "','" . 
+                implode("*", $s->get_removed_persons()) . "','" .
+                $s->get_notes() . "');";
         $result = mysql_query($query);
         if (!$result) {
             echo "unable to insert into shift " . $s->get_id() . mysql_error();
