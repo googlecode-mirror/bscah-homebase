@@ -58,13 +58,13 @@
             die("Invalid argument for week->add_week function call");
         }
         connect();
-        $query = "SELECT * FROM week WHERE id =\"" . $w->get_id() . "\"";
+        $query = "SELECT * FROM weeks WHERE id =\"" . $w->get_id() . "\"";
         $result = mysql_query($query);
         if (mysql_num_rows($result) != 0) {
             delete_dbWeeks($w);
             connect();
         }
-        $query = "INSERT INTO week VALUES ('" .
+        $query = "INSERT INTO weeks VALUES ('" .
                 $w->get_id() . "','" . 
                 get_dates_text($w->get_dates()) . "','" . 
                 $w->get_status() . "','" .
@@ -98,7 +98,7 @@
             die("Invalid argument for delete_dbWeeks function call");
         }
         connect();
-        $query = "DELETE FROM week WHERE id=\"" . $w->get_id() . "\"";
+        $query = "DELETE FROM weeks WHERE id=\"" . $w->get_id() . "\"";
         $result = mysql_query($query);
         mysql_close();
         if (!$result) {
@@ -201,8 +201,12 @@
      */
     function get_all_dbWeeks() {
         connect();
-        $query = "SELECT * FROM Week ORDER BY end";
+    $query = "SELECT * FROM weeks ORDER BY end";
         $result = mysql_query($query);
+    if (!$result) {
+        error_log('ERROR on select in get_all_dbWeeks ' . mysql_error());
+        die('Invalid query: ' . mysql_error());
+    }
         mysql_close();
         $weeks = [];
         while ($result_row = mysql_fetch_assoc($result)) {
@@ -210,7 +214,6 @@
             $w = get_dbWeeks($result_row['id']);
             $weeks[] = $w;
         }
-
         return $weeks;
     }
 
@@ -222,12 +225,12 @@
      * @return string of date ids, * delimited
      */
     function get_dates_text($dates) {
-        $d = "\"" . $dates[0]->get_id();
+        $d =$dates[0]->get_id();
         for ($i = 1; $i < 7; ++$i) {
             $d = $d . "*" . $dates[$i]->get_id();
         }
 
-        return $d . "\"";
+        return $d;
     }
 
 ?>
