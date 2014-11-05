@@ -33,7 +33,7 @@
             <input type="hidden" name="_form_submit" value="report"/>
 
             <p class="search-description" id="today"><b>House Volunteer Hours, Shifts, Projects, and Vacancies</b><br> Report
-                date: <?php echo Date("F d, Y"); ?></p>
+                date: <?php echo Date("F d, Y"); ?> <br><br>To view hours worked by a volunteer, select Individual Hours<br>To view hours worked by all volunteers, select Total Hours<br> To view vacancies in shifts, select Shifts/Vacancies</p>
             <table>
                 <tr>
                     <td class="search-description" valign="top"> Select Report Type:
@@ -50,14 +50,14 @@
                         <p id="volunteer-name-inputs"
                            class="ui-widget"><input type="text" name="volunteer-names[]" class="volunteer-name" id="1">
                         </p>
-                        <button id="add-more">add more</button>
+                        <button id="add-more">Add More</button>
                         <br><br>
                     </td>
                     <td class="search-description" valign="top"> Select Date Range:
                         <input type="radio" name="date" value="date-range">
 
-                        <p id="fromto"> from : <input name="from" type="text" id="from">
-                            to : <input name="to" type="text" id="to"></p>
+                        <p id="fromto"> From : <input name="from" type="text" id="from">
+                            To : <input name="to" type="text" id="to"></p>
                     </td>
                 </tr>
             </table>

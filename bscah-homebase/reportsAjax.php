@@ -15,9 +15,12 @@
     include_once('database/dbShifts.php');
     include_once('domain/Shift.php');
     $names = getall_volunteer_names();
-    $shifthistories = get_all_peoples_histories();// This returns a key sorted list of everyone's names that are or were in shifts; - GIOVI
+    error_log("Were in reportsajax");
+
+   $shifthistories = get_all_peoples_histories();// This returns a key sorted list of everyone's names that are or were in shifts; - GIOVI
                                                   //The key being the the person's id and the associated value being the id of every shift s/he is in separated by commas. - GIOVI
     $projecthistories = get_all_peoples_histories_in_proj();//This returns a key sorted list of everyone's names that are or were in projects - GIOVI
+    
     
     if (isset($_GET['q'])) {//Was $_POST changing it to $_GET allows hints to display - GIOVI
         show_hint($names);
@@ -71,7 +74,7 @@
     }
                                                    
     function report_by_volunteer_names($names, $histories, $from, $to) {
-        echo("<br><b>Individual volunteer hours</b>");
+        echo("<br><b>Individual Volunteer Hours</b>");
         error_log("volunteer names");
         $the_persons = [];
         foreach ($names as $name) {
@@ -85,20 +88,25 @@
                 $reports[] = $p->report_hours($histories, $from, $to);
             }
         }
+        
+        echo("<br>This report shows the total hours worked by " .$p->get_first_name() . " " . $p->get_last_name(). " within the specified date range");
+
         echo display_table_reports($names, $reports);
 
     }
 
+
     function report_shifts_totalhours_by_day($shifthistories, $from, $to) {
-        echo("<br><b>Total Volunteer Shift hours</b>");
-        error_log("Shift volunteer hours");
+       echo("<br><b>Total Volunteer Hours</b>");
+        echo("<br>This report shows the total hours worked by all volunteers within the specified date range");
+         error_log("Shift volunteer hours");
 //	$all_volunteers = getall_dbPersons();
         $labels = [
-            "Morning",
-            "Early Afternoon",
-            "Late Afternoon",
-            "Evening",
-            "Overnight",
+            "Shift A <br>9 A.M. - 12 P.M.",
+            "Shift B <br>12 P.M. - 3 P.M.",
+            "Shift C <br>3 P.M. - 6 P.M.",
+            "Shift D <br>6 P.M. - 9 P.M.",
+            "Overnight Shift <br>12 A.M. - 6 A.M.",
             "Total"
         ];
         $reports = report_shifthours_by_day($shifthistories, $from, $to);
@@ -106,14 +114,15 @@
     }
     
     function report_shifts_staffed_vacant_by_day($from, $to) {
-        echo("<br><b>Shifts/vacancies</b>");
+        echo("<br><b>Shifts/Vacancies</b>");
+        echo("<br>This report shows the number of vacancies in each shift within specified date range");
         error_log("shifts hours");
         $labels = [
-            "Morning",
-            "Early Afternoon",
-            "Late Afternoon",
-            "Evening",
-            "Overnight",
+            "Shift A <br>9 A.M. - 12 P.M.",
+            "Shift B <br>12 P.M. - 3 P.M.",
+            "Shift C <br>3 P.M. - 6 P.M.",
+            "Shift D <br>6 P.M. - 9 P.M.",
+            "Overnight Shift <br>12 A.M. - 6 A.M.",
             "Total"
         ];
         $reports = report_shifts_staffed_vacant($from, $to);
@@ -159,15 +168,19 @@
 				<td>Mon</td>
 				<td>Tue</td>
 				<td>Wed</td>
-				<td>Thu</td> 
-				<td>Fri</td>
-				<td>Sat</td>
+                                <td>Thu</td>
+                                <td>Fri</td>
+                                <td>Sat</td>
 				<td>Sun</td>
 				<td>Total</td>
 			</tr>
 			</thead>
 			<tbody>
-	"; //<td>Thu</td> was mispelled as <td>tdu</td> ↑ - Giovi
+
+	";
+
+	
+
         foreach (array_combine($labels, $reports) as $label => $report) {
             $res .= display_table_report($label, $report);
         }
@@ -209,12 +222,13 @@
         $hint = [];
         if (strlen($q) > 0) {
             for ($i = 0; $i < count($names); $i++) {
-                if (strtolower($q) == strtolower(substr($names[$i], 0, strlen($q)))); {
-                    $hint[] = $names[$i];
+
+            if (strtolower($q) == strtolower(stristr($names[$i],strlen($q))));
+                {
+                   $hint[] = $names[$i];
                 }
-            }
+                }
         }
         echo json_encode($hint);
     }
-
-?>
+ ?>

@@ -124,9 +124,12 @@ INSERT INTO `person` (`ID`, `NameFirst`, `NameLast`, `Birthday`, `Gender`, `Addr
 ('Alana2147483647', 'Alana', 'Mutum', '09/19/93', 'F', '1140 Esther Street', 'Franklin Square', 'NY', '11010', '2147483647', NULL, 'lanixxjay@live.com', 'manager', NULL, '', '', '0a56fdd1488f6102ecd18dead95ed83c', '', 'email'),
 ('Erick6464924106', 'Erick', 'Tavera', '05/10/92', 'M', '1232 Mockingbird Lane', 'Queens', 'NY', '11439', '6464924106', NULL, 'erick.tavera10@stjohns.edu', 'Volunteer', 'approved', '', '', '323e5cf127866f33db001369b7a150be', '', 'email'),
 ('Humza6462207988', 'Humza', 'Ahmad', '03/17/92', 'M', '3000 Union Tpke', 'Queens', 'NY', '11439', '6462207988', NULL, 'humza15@gmail.com', 'Volunteer', 'approved', '', '', '8122dae99d7e5350db689e26377989bd', '', 'email'),
-('Ivan3897654321', 'Ivan', 'Ortiz', '06/02/93', 'M', '8000 Utopia Pkwy', 'Queens', 'NY', '11439', '3897654321', NULL, 'ivan11@gmail.com', 'guest', 'applicant', '', '','45ffbe878705cd88de5f943eac87da3b', '', 'email'),
+('Ivan3897654321', 'Ivan', 'Ortiz', '06/02/93', 'M', '8000 Utopia Pkwy', 'Queens', 'NY', '11439', '3897654321', NULL, 'ivan11@gmail.com', 'guest', 'applicant', '', '','45ffbe878705cd88de5f943eac87da3b', '', 'email'), 
+('Mark7186938903', 'Mark','Tavera', '08/24/94', 'M', '123 Main Street','Brooklyn', 'NY', '11230','7186938903', NULL, 'sampleemail@yahoo.com', 'Volunteer', 'approved',	'', '',	'74be16979710d4c4e7c6647856088456', '', 'email'),
+('Erick9149876342', 'Erick', 'Jones', '09/12/92', 'M', '123 Main Street', 'Brooklyn', 'NY', '11230', '9149876342', NULL, 'sampleemail2@yahoo.com', 'Volunteer',	'approved', '',	'', '74be16979710d4c4e7c6647856088456',	'', 'email'),
 ('Jefferson3475899639',	'Jefferson', 'Steelflex', '12-16-76', 'M', '1337 PWND rd.', 'Kingston',	'NY', '11478', '3475899639', NULL, 'bigbang@gmail.com', 'Volunteer', 'approved', '', '', 'd41d8cd98f00b204e9800998ecf8427e', '', 'email'),
 ('Gregory7188057221', 'Gregory', 'Wilson', '04-18-80', 'M', 'Main Street', 'Manhattan', 'NY', '11325', '7188057221', NULL, 'sectoidblaster@gmail.com', 'Volunteer', 'approved', '', '', '74be16979710d4c4e7c6647856088456', '', 'phone'); 
+
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
@@ -193,10 +196,12 @@ INSERT INTO `shift` (`id`, `start_time`, `end_time`, `venue`, `vacancies`, `pers
 ('05-21-14-12-15', 12, 15, 'HEALTH 360', 5, 'Jefferson3475899639+Jefferson+Steelflex+*Erick6464924106+Erick+Tavera+', NULL, NULL),
 ('05-22-14-12-15', 12, 15, 'Mobile Pantry', 6, 'Erick6464924106+Erick+Tavera+*Ivan3897654321+Ivan+Ortiz+', NULL, NULL),
 ('05-22-14-15-18', 15, 18, 'Mobile Pantry', 6, NULL, NULL, NULL),
-('05-23-14-9-18', 9, 18, 'REACH', 8, NULL, NULL, NULL), 
+('05-23-14-9-18', 9, 18, 'REACH', 8, NULL, NULL, NULL),
+('10-30-14-10-11', 10, 11, 'Test Venue', '10', 'Erick9149876342+Erick+Jones*Erick6464924106+Erick+Tavera', NULL, NULL),
+('10-31-14-13-14', 13, 14, 'Test Venue 2', '10', 'Erick9149876342+Erick+Jones*Erick6464924106+Erick+Tavera', NULL, NULL),
 ('07-12-14-12-18', 12, 18, 'Andersons Orphanage', 4, 'Humza6462207988+Humza+Ahmad+', NULL, NULL),
-('07-13-14-12-18', 12, 18, 'Andersons Orphanage', 4, 'Humza6462207988+Humza+Ahmad+', NULL, NULL),
 ('09-07-14-9-12', 9, 12, 'Freeside', 3, 'Gregory7188057221+Gregory+Wilson+*Jefferson3475899639+Jefferson+Steelflex+', NULL, NULL);
+
 
 -- --------------------------------------------------------
 

@@ -33,7 +33,11 @@
         include_once('domain/Person.php');
         include_once('database/dbShifts.php');
         include_once('domain/Shift.php');
-// The rest of the data is in reportAjax.php - GIOVI
+
+        include_once('reportsAjax.php');
+        
+        error_log("were in reports.php");
+ 
 ?>
 </div>
 

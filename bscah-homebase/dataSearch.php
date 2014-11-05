@@ -34,6 +34,7 @@
     include_once('database/dbPersons.php');
 
     if ($_POST['_form_submit'] != 1 && $_POST['_form_submit'] != 2 && $_POST['_form_submit'] != 3) {
+        error_log('jdjekd');
         include('dataSearch.inc.php');
     } // the form has not been submitted, so show it
 

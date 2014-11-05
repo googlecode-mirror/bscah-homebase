@@ -230,18 +230,18 @@
         $from_date = date_create_from_mm_dd_yyyy($from);
         $to_date = date_create_from_mm_dd_yyyy($to);
         $reports = [
-            'morning' => ['Mon' => [0, 0], 'Tue' => [0, 0], 'Wed' => [0, 0], 'Thu' => [0, 0],
-                'Fri' => [0, 0], 'Sat' => [0, 0], 'Sun' => [0, 0]],
-            'earlypm' => ['Mon' => [0, 0], 'Tue' => [0, 0], 'Wed' => [0, 0], 'Thu' => [0, 0],
-                'Fri' => [0, 0], 'Sat' => [0, 0], 'Sun' => [0, 0]],
-            'latepm' => ['Mon' => [0, 0], 'Tue' => [0, 0], 'Wed' => [0, 0], 'Thu' => [0, 0],
-                'Fri' => [0, 0], 'Sat' => [0, 0], 'Sun' => [0, 0]],
-            'evening' => ['Mon' => [0, 0], 'Tue' => [0, 0], 'Wed' => [0, 0], 'Thu' => [0, 0],
-                'Fri' => [0, 0], 'Sat' => [0, 0], 'Sun' => [0, 0]],
-            'overnight' => ['Mon' => [0, 0], 'Tue' => [0, 0], 'Wed' => [0, 0], 'Thu' => [0, 0],
-                'Fri' => [0, 0], 'Sat' => [0, 0], 'Sun' => [0, 0]],
-            'total' => ['Mon' => [0, 0], 'Tue' => [0, 0], 'Wed' => [0, 0], 'Thu' => [0, 0],
-                'Fri' => [0, 0], 'Sat' => [0, 0], 'Sun' => [0, 0]],
+            'morning' => ['Mon' => [0], 'Tue' => [0], 'Wed' => [0], 'Thu' => [0],
+                'Fri' => [0], 'Sat' => [0], 'Sun' => [0]],
+            'earlypm' => ['Mon' => [0], 'Tue' => [0], 'Wed' => [0], 'Thu' => [0],
+                'Fri' => [0], 'Sat' => [0], 'Sun' => [0]],
+            'latepm' => ['Mon' => [0], 'Tue' => [0], 'Wed' => [0], 'Thu' => [0],
+                'Fri' => [0], 'Sat' => [0], 'Sun' => [0]],
+            'evening' => ['Mon' => [0], 'Tue' => [0], 'Wed' => [0], 'Thu' => [0],
+                'Fri' => [0], 'Sat' => [0], 'Sun' => [0]],
+            'overnight' => ['Mon' => [0], 'Tue' => [0], 'Wed' => [0], 'Thu' => [0],
+                'Fri' => [0], 'Sat' => [0], 'Sun' => [0]],
+            'total' => ['Mon' => [0], 'Tue' => [0], 'Wed' => [0], 'Thu' => [0],
+                'Fri' => [0], 'Sat' => [0], 'Sun' => [0]],
         ];
         $all_shifts = get_all_shifts();
         foreach ($all_shifts as $s) {
@@ -249,10 +249,10 @@
             if ($shift_date >= $from_date && $shift_date <= $to_date &&
                 (strlen($s->get_persons()) > 0 || $s->get_vacancies() > 0)
             ) {
-                $reports[$s->get_time_of_day()][$s->get_day()][0] += 1;
-                $reports[$s->get_time_of_day()][$s->get_day()][1] += $s->get_vacancies();
-                $reports['total'][$s->get_day()][0] += 1;
-                $reports['total'][$s->get_day()][1] += $s->get_vacancies();
+                //$reports[$s->get_time_of_day()][$s->get_day()][0] += 1;
+                $reports[$s->get_time_of_day()][$s->get_day()][0] += $s->get_vacancies();
+                //$reports['total'][$s->get_day()][0] += 1;
+                $reports['total'][$s->get_day()][0] += $s->get_vacancies();
             }
         }
 

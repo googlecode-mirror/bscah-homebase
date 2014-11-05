@@ -28,8 +28,10 @@
     include_once(dirname(__FILE__) . '/../database/dbProjects.php');
     include_once('Shift.php');
     include_once('Person.php');
+
     include_once('Project.php');
     
+
     class Person {
 
         private $ID;            // id (unique key) = first_name . phone1
@@ -205,6 +207,7 @@
         // is the empty string, then the range is unbounded in that direction.
         // the dictionary is of the form {'Mon' => , 'Tue' => }.
         function report_hours($histories, $from, $to) {
+            error_log("in report hours");
             $min_date = "01/01/2000";
             $max_date = "12/31/2020";
             if ($from == '') {
@@ -220,7 +223,11 @@
             $report = ['Mon' => 0, 'Tue' => 0, 'Wed' => 0, 'Thu' => 0,
                 'Fri' => 0, 'Sat' => 0, 'Sun' => 0];
             if (array_key_exists($this->get_id(), $histories)) {
+
+                $hid = explode(',', $histories[$this->ID]);
+
                 $hid = explode(',', $histories[$this->ID]);//ID was lowercased and so couldn't connect with the one in Person - GIOVI
+
                 foreach ($hid as $shift_id) {
                     $s = select_dbShifts($shift_id);
                     $shift_date = date_create_from_mm_dd_yyyy($s->get_mm_dd_yy());
@@ -235,6 +242,7 @@
     }
 
     function report_shifthours_by_day($histories, $from, $to) {
+        error_log("report hours by day");
         $min_date = "01/01/2000";
         $max_date = "12/31/2020";
         if ($from == '') {
