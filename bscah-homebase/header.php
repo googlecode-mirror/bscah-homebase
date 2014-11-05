@@ -88,14 +88,14 @@
 
                 //they're logged in and session variables are set.
                 if ($_SESSION['access_level'] >= 0) {
-                    echo('<a href="' . $path . 'index.php"><b>home</b></a> | ');
+                    echo('<a href="' . $path . 'index.php"><b>Home</b></a> | ');
                     //echo('<a href="' . $path . 'projectEdit.php?id=' . 'new' . '"><b>projects</b></a> | ');
-                    echo('<a href="' . $path . 'about.php"><b>about</b></a>');
+                    echo('<a href="' . $path . 'about.php"><b>About</b></a>');
 
                 }
                 if ($_SESSION['access_level'] >= 1) {
                     echo(' | <a href="' . $path . 'help.php?helpPage=' . $current_page .
-                        '" target="_BLANK"><b>help</b></a>');
+                        '" target="_BLANK"><b>Help</b></a>');
                 }
                 if ($_SESSION['access_level'] == 0) {
                     echo(' | <a href="' . $path . 'personEdit.php?id=' . 'new' . '"><b>apply</b></a>');
@@ -117,25 +117,25 @@
                     echo('<strong>volunteers :</strong> <a href="' . $path . 'personSearch.php">');
                 }
                 if ($_SESSION['access_level'] >= 2) {
-                    echo('<br><a href="' . $path .
-                     'viewSchedule.php?frequency=weekly"><strong>master schedules</strong></a> : '
+                    echo('<br>'
+                            . '<strong>Master Schedules:</strong></a> '
                             . '<a href=" ' . $path . 'viewSchedule.php?frequency=weekly">garden, </a>'
                             . '<a href=" ' . $path . 'viewSchedule.php?frequency=weekly">pantry </a> | '); 
 
-                    echo('<strong>volunteers :</strong> <a href="' . $path . 'personSearch.php">search</a>,
+                    echo('<strong>Volunteers:</strong> <a href="' . $path . 'personSearch.php">search</a>,
 			        <a href="personEdit.php?id=' . 'new' . '">add </a> | ');
                     
-                    echo('<strong>projects :</strong> <a href="' . $path . 'projectSearch.php">search</a>,
+                    echo('<strong>Projects:</strong> <a href="' . $path . 'projectSearch.php">search</a>,
                                 <a href="' . $path . 'calendar.php">project calender</a>,
 			        <a href="projectEdit.php?id=' . 'new' . '">add, </a>
                                 <a href=" ' . $path . 'projectInfo.php">project information, </a>
                                 <a href=" ' . $path . 'specialProject.php">special project </a>');
 
-                    echo(' | <strong><a href="' . $path . 'reports.php">reports</a> </strong>');
-                    echo(' | <strong><a href="' . $path . 'log.php">logs</a></strong>');
+                    echo(' | <strong><a href="' . $path . 'reports.php">Reports</a> </strong>');
+                    echo(' | <strong><a href="' . $path . 'log.php">Logs</a></strong>');
                     //    echo(' | <strong>data :</strong> <a href="' . $path . 'dataSearch.php">search and export</a> ');
                 }
-                echo(' | <a href="' . $path . 'logout.php"><b>logout</b></a>');
+                echo('  <a href="' . $path . 'logout.php"><b>Logout</b></a>');
             }
         }
     ?>
