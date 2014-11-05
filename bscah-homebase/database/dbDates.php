@@ -52,7 +52,7 @@
             die("Invalid argument for date->insert_dbdates function call");
         }
         connect();
-        $query = "SELECT * FROM date WHERE id =\"" . $d->get_id() . "\"";
+        $query = "SELECT * FROM date WHERE DATE_ID =\"" . $d->get_id() . "\"";
         $result = mysql_query($query);
         if (!$result) {
             error_log('ERROR on select in insert_dbDates() ' . mysql_error());
@@ -64,7 +64,7 @@
         }
         $query = "INSERT INTO date VALUES
 				(\"" . $d->get_id() . "\",\"" .
-            get_shifts_text($d) . "\",\"" . $d->get_mgr_notes() . "\")";
+            get_shifts_text($d) . "\",\"" . $d->get_mgr_notes() . "\",\"" . $d->get_projects()."\")";
         error_log("in insert_dbDates, query is" . $query);
         $result = mysql_query($query);
 
@@ -91,7 +91,7 @@
             die("Invalid argument for shift->remove_date function call");
         }
         connect();
-        $query = "DELETE FROM date WHERE id=\"" . $d->get_id() . "\"";
+        $query = "DELETE FROM date WHERE DATE_ID=\"" . $d->get_id() . "\"";
         $result = mysql_query($query);
         if (!$result) {
             error_log('ERROR on select in delete_dbDates() ' . mysql_error());
@@ -197,5 +197,16 @@
 
         return $shift_text;
     }
+    
+    function update_dbDates_projects($date)
+    {
+        $db_date = select_dbDates($date);
+        $db_date->generate_projects($date);
+        update_dbDates($db_date);
+        
+    }                        
+   
+    
+
 
 ?>
