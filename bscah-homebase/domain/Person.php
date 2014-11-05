@@ -25,9 +25,11 @@
     include_once(dirname(__FILE__) . '/../database/dbZipCodes.php');
     include_once(dirname(__FILE__) . '/../database/dbShifts.php');
     include_once(dirname(__FILE__) . '/../database/dbPersons.php');
+    include_once(dirname(__FILE__) . '/../database/dbProjects.php');
     include_once('Shift.php');
     include_once('Person.php');
-
+    include_once('Project.php');
+    
     class Person {
 
         private $ID;            // id (unique key) = first_name . phone1
@@ -232,7 +234,7 @@
         }
     }
 
-    function report_hours_by_day($histories, $from, $to) {
+    function report_shifthours_by_day($histories, $from, $to) {
         $min_date = "01/01/2000";
         $max_date = "12/31/2020";
         if ($from == '') {
@@ -275,5 +277,47 @@
         return $reports;
     }
 
+    function report_projecthours_by_day($histories, $from, $to) {
+        $min_date = "01/01/2000";
+        $max_date = "12/31/2020";
+        if ($from == '') {
+            $from = $min_date;
+        }
+        if ($to == '') {
+            $to = $max_date;
+        }
+        error_log("from date = " . $from);
+        error_log("to date = " . $to);
+        $from_date = date_create_from_mm_dd_yyyy($from);
+        $to_date = date_create_from_mm_dd_yyyy($to);
+        $reports = [
+            'morning' => ['Mon' => 0, 'Tue' => 0, 'Wed' => 0, 'Thu' => 0,
+                'Fri' => 0, 'Sat' => 0, 'Sun' => 0],
+            'earlypm' => ['Mon' => 0, 'Tue' => 0, 'Wed' => 0, 'Thu' => 0,
+                'Fri' => 0, 'Sat' => 0, 'Sun' => 0],
+            'latepm' => ['Mon' => 0, 'Tue' => 0, 'Wed' => 0, 'Thu' => 0,
+                'Fri' => 0, 'Sat' => 0, 'Sun' => 0],
+            'evening' => ['Mon' => 0, 'Tue' => 0, 'Wed' => 0, 'Thu' => 0,
+                'Fri' => 0, 'Sat' => 0, 'Sun' => 0],
+            'overnight' => ['Mon' => 0, 'Tue' => 0, 'Wed' => 0, 'Thu' => 0,
+                'Fri' => 0, 'Sat' => 0, 'Sun' => 0],
+            'total' => ['Mon' => 0, 'Tue' => 0, 'Wed' => 0, 'Thu' => 0,
+                'Fri' => 0, 'Sat' => 0, 'Sun' => 0]
+        ];
+
+        foreach ($histories as $person_id => $person_projects) {
+            $ps = explode(',', $person_projects);
+            foreach ($ps as $project_id) {
+                $p = select_dbProjects($project_id);
+                $project_date = date_create_from_mm_dd_yyyy($p->get_mm_dd_yy());
+                if ($project_date >= $from_date && $project_date <= $to_date) {
+                    $reports[$p->get_time_of_day()][$p->get_dayOfWeek()] += $p->duration();//The first call was an $s; Changed to $p - GIOVI
+                    $reports['total'][$p->get_dayOfWeek()] += $p->duration();
+                }
+            }
+        }
+
+        return $reports;
+    }
 
 ?>

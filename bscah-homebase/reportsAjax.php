@@ -15,18 +15,19 @@
     include_once('database/dbShifts.php');
     include_once('domain/Shift.php');
     $names = getall_volunteer_names();
-    $histories = get_all_peoples_histories();// This returns a key sorted list of everyone's names that are or were in shifts; - GIOVI
-                                             //The key being the the person's id and the associated value being the id of every shift s/he is in separated by commas. - GIOVI
-
-    if (isset($_POST['q'])) {
+    $shifthistories = get_all_peoples_histories();// This returns a key sorted list of everyone's names that are or were in shifts; - GIOVI
+                                                  //The key being the the person's id and the associated value being the id of every shift s/he is in separated by commas. - GIOVI
+    $projecthistories = get_all_peoples_histories_in_proj();//This returns a key sorted list of everyone's names that are or were in projects - GIOVI
+    
+    if (isset($_GET['q'])) {//Was $_POST changing it to $_GET allows hints to display - GIOVI
         show_hint($names);
     }
 
     if (isset($_POST['_form_submit']) && $_POST['_form_submit'] == 'report') {
-        show_report($histories);
+        show_report($shifthistories, $projecthistories);
     }
 
-    function show_report($histories) {
+    function show_report($shifthistories, $projecthistories) {
 
         $names = $_POST['volunteer-names'];
         $from = "";
@@ -47,18 +48,24 @@
                 }
             }
         }
-            //Affects Individual Hours, Total Hours, abd Shift/Vacancies respectivly - GIOVI
+            //Affects Individual Hours, Total Hours, and Shift/Vacancies respectivly - GIOVI
+            //Added two more if statements to take in total projects and project vacancies - GIOVI
         if (isset($_POST['report-types'])) {
             if (in_array('volunteer-names', $_POST['report-types'])) {
-                report_by_volunteer_names($names, $histories, $from, $to);
+                report_by_volunteer_names($names, $shifthistories, $from, $to);//Check if this needs to have a connection to projects - GIOVI
             }
             if (in_array('volunteer-hours', $_POST['report-types'])) {
-                report_volunteer_hours_by_day($histories, $from, $to);
+                report_shifts_totalhours_by_day($shifthistories, $from, $to);
             }
             if (in_array('shifts-staffed-vacant', $_POST['report-types'])) {
                 report_shifts_staffed_vacant_by_day($from, $to);
             }
-
+            if (in_array('project-hours', $_POST['report-types'])) {
+                report_projects_totalhours_by_day($projecthistories, $from, $to);
+            }
+            if (in_array('project-staffed-vacant', $_POST['report-types'])) {
+                report_project_staffed_vacant_by_day($from, $to);
+            }
         }
 
     }
@@ -82,8 +89,8 @@
 
     }
 
-    function report_volunteer_hours_by_day($histories, $from, $to) {
-        echo("<br><b>Total Volunteer hours</b>");
+    function report_shifts_totalhours_by_day($shifthistories, $from, $to) {
+        echo("<br><b>Total Volunteer Shift hours</b>");
         error_log("Shift volunteer hours");
 //	$all_volunteers = getall_dbPersons();
         $labels = [
@@ -94,10 +101,10 @@
             "Overnight",
             "Total"
         ];
-        $reports = report_hours_by_day($histories, $from, $to);
+        $reports = report_shifthours_by_day($shifthistories, $from, $to);
         echo display_table_reports($labels, $reports);
     }
-
+    
     function report_shifts_staffed_vacant_by_day($from, $to) {
         echo("<br><b>Shifts/vacancies</b>");
         error_log("shifts hours");
@@ -113,6 +120,36 @@
         echo display_table_reports($labels, $reports);
     }
 
+        function report_projects_totalhours_by_day($projecthistories, $from, $to) {//New function for displaying the total hours for projects - GIOVI
+        echo("<br><b>Total Volunteer Project hours</b>");
+        error_log("Project volunteer hours");
+        $labels = [
+            "Morning",
+            "Early Afternoon",
+            "Late Afternoon",
+            "Evening",
+            "Overnight",
+            "Total"
+        ];
+        $reports = report_projecthours_by_day($projecthistories, $from, $to);
+        echo display_table_reports($labels, $reports);
+    }
+
+    function report_project_staffed_vacant_by_day($from, $to) {//New function for displaying the vacancies for projects - GIOVI
+        echo("<br><b>Project Vacancies</b>");
+        error_log("Project hours");
+        $labels = [
+            "Morning",
+            "Early Afternoon",
+            "Late Afternoon",
+            "Evening",
+            "Overnight",
+            "Total"
+        ];
+        $reports = report_projects_staffed_vacant($from, $to);
+        echo display_table_reports($labels, $reports);
+    }
+    
     function display_table_reports($labels, $reports) {
         $res = "
 		<table id = 'report'> 
@@ -122,7 +159,7 @@
 				<td>Mon</td>
 				<td>Tue</td>
 				<td>Wed</td>
-				<td>Thur</td> 
+				<td>Thu</td> 
 				<td>Fri</td>
 				<td>Sat</td>
 				<td>Sun</td>
@@ -130,7 +167,7 @@
 			</tr>
 			</thead>
 			<tbody>
-	"; //<td>Thur</td> was mispelled as <td>tdu</td> ↑ - Giovi
+	"; //<td>Thu</td> was mispelled as <td>tdu</td> ↑ - Giovi
         foreach (array_combine($labels, $reports) as $label => $report) {
             $res .= display_table_report($label, $report);
         }
@@ -144,11 +181,11 @@
         $row = "<tr>";
         $row .= "<td>" . $label . "</td>";
         $total = 0;
-        $total2 = 0;
+        //$total2 = 0;
         foreach ($report as $hours) {
             if (is_array($hours)) {
                 $total += $hours[0];
-                $total2 += $hours[1];
+                //$total2 += $hours[1];
                 $hours = implode('/', $hours);
             }
             else {
@@ -156,9 +193,9 @@
             }
             $row .= "<td>" . $hours . "</td>";
         }
-        if ($total2 > 0) {
-            $total = $total . "/" . $total2;
-        }
+        //if ($total2 > 0) {
+         //   $total = $total . "/" . $total2;
+        //}
         if (isset($total)) {
             $row .= "<td>" . $total . "</td>";
         }
@@ -172,7 +209,7 @@
         $hint = [];
         if (strlen($q) > 0) {
             for ($i = 0; $i < count($names); $i++) {
-                if (strtolower($q) == strtolower(substr($names[$i], 0, strlen($q)))) {
+                if (strtolower($q) == strtolower(substr($names[$i], 0, strlen($q)))); {
                     $hint[] = $names[$i];
                 }
             }

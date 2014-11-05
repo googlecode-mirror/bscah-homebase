@@ -32,19 +32,21 @@
         <form id="search-fields" method="post">
             <input type="hidden" name="_form_submit" value="report"/>
 
-            <p class="search-description" id="today"><b>House Volunteer Hours, Shifts, and Vacancies</b><br> Report
+            <p class="search-description" id="today"><b>House Volunteer Hours, Shifts, Projects, and Vacancies</b><br> Report
                 date: <?php echo Date("F d, Y"); ?></p>
             <table>
                 <tr>
                     <td class="search-description" valign="top"> Select Report Type:
                         <p><select multiple name="report-types[]" id="report-type">
                                 <option value="volunteer-names">Individual Hours</option>
-                                <option value="volunteer-hours">Total Hours</option>
-                                <option value="shifts-staffed-vacant">Shifts/Vacancies</option>
+                                <option value="volunteer-hours">Total Shift Hours</option>
+                                <option value="shifts-staffed-vacant">Shift Vacancies</option>
+                                <option value="project-hours">Total Project Hours</option>
+                                <option value="project-staffed-vacant">Project Vacancies</option>
                             </select>
                         </p>
                     </td>
-                    <td class="search-description"> Select Individuals (optional):
+                    <td class="search-description" id="indititle"> Select Individuals:
                         <p id="volunteer-name-inputs"
                            class="ui-widget"><input type="text" name="volunteer-names[]" class="volunteer-name" id="1">
                         </p>

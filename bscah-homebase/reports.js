@@ -19,7 +19,7 @@ $(function () {
     });
 
     $("input[name='date']").change(function () {
-        if ($("input[name='date']:checked").val() == 'date-range') {
+        if ($("input[name='date']:checked").val() === 'date-range') {//Added === - GIOVI
             $("#fromto").show();
         } else {
             $("#fromto").hide();
@@ -42,6 +42,28 @@ $(function () {
         e.preventDefault();
         var new_input = '<div class="ui-widget"> <input type="text" name="volunteer-names[]" class="volunteer-name"></div>';
         $("#volunteer-name-inputs").append(new_input);
-    })
+    });//Added semicolon - GIOVI
+
+$(function() //This function hides the Select Individuals section when Total Hours or Shift/Vacancies are selected - GIOVI
+{              
+    $('#indititle').hide();//indititle was added on line 47 in reports.inc.php as an id for the title of the individuals - GIOVI
+    $('#1').hide();
+    $('#add-more').hide();
+    $('#report-type').on('change', function() {
+        var type = document.getElementById('report-type');
+        if(type.value === 'volunteer-names') 
+        { 
+            $('#indititle').show();
+            $('#1').show();
+            $('#add-more').show();
+        } 
+        else
+        {
+            $('#indititle').hide();
+            $('#1').hide();
+            $('#add-more').hide();
+        }
+                                                       });
+});
 
 });

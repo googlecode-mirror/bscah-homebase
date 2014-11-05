@@ -137,20 +137,22 @@
         $query = "SELECT * FROM project WHERE ProjectID =\"" . $id . "\"";
         error_log("in select_dbProjects, query is " . $query);
         $result = mysql_query($query);
+        mysql_close();
         if (!$result) {
             error_log('ERROR on select in select_dbProjects() ' . mysql_error());
             die('Invalid query: ' . mysql_error());
         }
 
-        $result_row = mysql_fetch_assoc($result);
+        $result_row = mysql_fetch_row($result);//Was fetch_assoc - GIOVI
+
         if ($result_row != null) {
             $persons = [];
-            $removed_persons = [];
-            if ($result_row['Persons'] != "") {
-                $persons = explode("*", $result_row[5]);
+            //$removed_persons = []; Unnecessary - GIOVI
+            if ($result_row[8] != "") {
+                $persons = explode("*", $result_row[8]);
             }
-
-            $p = make_a_project($result_row);
+            //$p = make_a_project($result_row); Before - GIOVI
+            $p = new Project($result_row[0], $result_row[2], $result_row[1], $result_row[7], $result_row[4], $result_row[5], $result_row[3], $persons, $result_row[9]);
         }
         
         return $p;
@@ -309,19 +311,20 @@
         }
     }
 
-    function make_a_project($result_row) {
+    function make_a_project($result_row) 
+    {
         $the_project = new Project(
-            $result_row['ProjectID'],
+            $result_row['ProjectID'],//Temporary for using project reports - GIOVI
             $result_row['Date'],
             $result_row['Address'],
             $result_row['Name'],
             $result_row['StartTime'],
             $result_row['EndTime'],
             $result_row['Vacancies'],
-            //  $result_row['DayOfWeek'],
             $result_row['Persons'],
             $result_row['Notes']
-        );
+            //$result_row['DayOfWeek'],           
+                                   );
 
         return $the_project;
     }
@@ -335,7 +338,7 @@
 
             return false;
         }
-        $result = mysql_query($query);
+//Repeated line 332 on this line - GIOVI
         $projects = [];
         while ($result_row = mysql_fetch_assoc($result)) {
             $project = make_a_project($result_row);
@@ -380,12 +383,14 @@
             $persons = explode('*', $a_project->get_persons());
             if (!$persons[0])  // skip vacant projects
             {
-                array_project($persons);
+                array_shift($persons);//Was array_project, must have thought this was a user function - GIOVI
             }
             if (count($persons) > 0) {
                 foreach ($persons as $a_person) {
                     if (strpos($a_person, "+") > 0) {
+                            
                         $person_id = substr($a_person, 0, strpos($a_person, "+"));
+                        
                         if (array_key_exists($person_id, $histories)) {
                             $histories[$person_id] .= "," . $a_project->get_id();
                         }

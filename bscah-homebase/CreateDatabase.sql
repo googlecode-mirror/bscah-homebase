@@ -126,7 +126,7 @@ INSERT INTO `person` (`ID`, `NameFirst`, `NameLast`, `Birthday`, `Gender`, `Addr
 ('Humza6462207988', 'Humza', 'Ahmad', '03/17/92', 'M', '3000 Union Tpke', 'Queens', 'NY', '11439', '6462207988', NULL, 'humza15@gmail.com', 'Volunteer', 'approved', '', '', '8122dae99d7e5350db689e26377989bd', '', 'email'),
 ('Ivan3897654321', 'Ivan', 'Ortiz', '06/02/93', 'M', '8000 Utopia Pkwy', 'Queens', 'NY', '11439', '3897654321', NULL, 'ivan11@gmail.com', 'guest', 'applicant', '', '','45ffbe878705cd88de5f943eac87da3b', '', 'email'),
 ('Jefferson3475899639',	'Jefferson', 'Steelflex', '12-16-76', 'M', '1337 PWND rd.', 'Kingston',	'NY', '11478', '3475899639', NULL, 'bigbang@gmail.com', 'Volunteer', 'approved', '', '', 'd41d8cd98f00b204e9800998ecf8427e', '', 'email'),
-('Gregroy7188057221', 'Gregory', 'Wilson', '04-18-80', 'M', 'Main Street', 'Manhattan', 'NY', '11325', '7188057221', NULL, 'sectoidblaster@gmail.com', 'Volunteer', 'approved', '', '', '74be16979710d4c4e7c6647856088456', '', 'phone'); 
+('Gregory7188057221', 'Gregory', 'Wilson', '04-18-80', 'M', 'Main Street', 'Manhattan', 'NY', '11325', '7188057221', NULL, 'sectoidblaster@gmail.com', 'Volunteer', 'approved', '', '', '74be16979710d4c4e7c6647856088456', '', 'phone'); 
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
@@ -157,6 +157,16 @@ CREATE TABLE IF NOT EXISTS `project` (
   PRIMARY KEY (`ProjectID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='Collection of Projects';
 
+--
+-- Dumping data for table `project`
+--
+
+INSERT INTO `project` (`ProjectID`, `Address`, `Date`, `Vacancies`, `StartTime`, `EndTime`, `DayOfWeek`, `Name`, `Persons`, `Notes`) VALUES
+('07-17-14-9-12', '4119 Nuzum Court Williamsville', '07-17-14', '3', '9',	'12', 'Thu', '9-12', 'Erick6464924106+Erick+Tavera+*Humza6462207988+Humza+Ahmad+', ''),
+('09-24-14-12-15', '521 White Pine Lane Fredericksburg', '09-24-14', '2', '12',	'15', 'Wed', '12-15', 'Gregory7188057221+Gregory+Wilson+', ''),
+('11-07-14-18-23', '4964 Sardis Sta Grand Prairie', '11-07-14', '4', '18', '23', 'Fri', '18-23', 'Jefferson3475899639+Jefferson+Steelflex+*Erick6464924106+Erick+Tavera+', ''),
+('11-4-14-0-4', '2009 Wetzel Lane Grand Rapids', '11-4-14', '3', '0', '4', 'Tue', '0-4', 'Gregory7188057221+Gregory+Wilson+', '');
+
 -- --------------------------------------------------------
 
 --
@@ -186,7 +196,7 @@ INSERT INTO `shift` (`id`, `start_time`, `end_time`, `venue`, `vacancies`, `pers
 ('05-23-14-9-18', 9, 18, 'REACH', 8, NULL, NULL, NULL), 
 ('07-12-14-12-18', 12, 18, 'Andersons Orphanage', 4, 'Humza6462207988+Humza+Ahmad+', NULL, NULL),
 ('07-13-14-12-18', 12, 18, 'Andersons Orphanage', 4, 'Humza6462207988+Humza+Ahmad+', NULL, NULL),
-('09-07-14-9-12', 9, 12, 'Freeside', 3, 'Gregroy7188057221+Gregory+Wilson+*Jefferson3475899639+Jefferson+Steelflex+', NULL, NULL);
+('09-07-14-9-12', 9, 12, 'Freeside', 3, 'Gregory7188057221+Gregory+Wilson+*Jefferson3475899639+Jefferson+Steelflex+', NULL, NULL);
 
 -- --------------------------------------------------------
 
