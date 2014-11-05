@@ -114,7 +114,7 @@
                     $m = date("m", mktime(0, 0, 0, $_POST['month'], $_POST['day'] - $dow + 1, $_POST['year']));
                     $d = date("d", mktime(0, 0, 0, $_POST['month'], $_POST['day'] - $dow + 1, $_POST['year']));
                     $y = date("y", mktime(0, 0, 0, $_POST['month'], $_POST['day'] - $dow + 1, $_POST['year']));
-                    generate_populate_and_save_new_week($m, $d, $y, $_POST['weekday_group'], $_POST['weekend_group']);
+                    generate_populate_and_save_new_week($m, $d, $y);
                 }
                 else {
                     $timestamp = $_POST['_new_week_timestamp'];
@@ -123,29 +123,20 @@
                     $y = date("y", $timestamp);
                     // finds the last week, and calculates next week's groups
                     //$week = get_dbWeeks($m.'-'.$d.'-'.$y);
-                    $weekday_group = $_POST['weekday_group'];
-                    $weekend_group = $_POST['weekend_group'];
-                    generate_populate_and_save_new_week($m, $d, $y, $weekday_group, $weekend_group);
+                    generate_populate_and_save_new_week($m, $d, $y);
                 }
             }
 
             // uses the master schedule to create a new week in dbWeeks and
             // 7 new dates in dbDates and new shifts in dbShifts
             //
-            function generate_populate_and_save_new_week($m, $d, $y, $weekdaygroup, $weekendgroup) {
+            function generate_populate_and_save_new_week($m, $d, $y) {
                 // set the group names the format used by master schedule
                 $weekdays = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
                 $day_id = $m . "-" . $d . "-" . $y;
                 $dates = [];
                 foreach ($weekdays as $day) {
-                    if ($day == "Sat" || $day == "Sun") {
-                        $my_group = $weekendgroup;
-                    }
-                    else {
-                        $my_group = $weekdaygroup;
-                    }
-
-                    $venue_shifts = get_master_shifts("weekly", $my_group, $day);
+                    $venue_shifts = get_master_shifts("weekly", $day);
                     /* Each row in the array is an associative array
                      *  of (venue, my_group, day, time, start, end, slots, persons, notes)
                      *  and persons is a comma-separated string of ids, like "alex2077291234"
@@ -153,19 +144,19 @@
                     $shifts = [];
                     if (sizeof($venue_shifts) > 0) {
                         foreach ($venue_shifts as $venue_shift) {
-                            $shifts[] = generate_and_populate_shift($day_id, "weekly", $my_group, $day,
+                            $shifts[] = generate_and_populate_shift($day_id, "weekly", $day,
                                                                     $venue_shift->get_time(), "");
                         }
                     }
 
                     // makes a new date with these shifts
-                    $new_date = new BSCAHdate($day_id, $shifts, "");
+                    $new_date = new BSCAHdate($day_id, $shifts, "","");
                     $dates[] = $new_date;
                     $d++;
                     $day_id = date("m-d-y", mktime(0, 0, 0, $m, $d, $y));
                 }
                 // creates a new week from the dates
-                $newweek = new Week($dates, "weekly", $weekdaygroup, $weekendgroup, "unpublished");
+                $newweek = new Week($dates, "unpublished");
                 insert_dbWeeks($newweek);
                 add_log_entry('<a href=\"personEdit.php?id=' . $_SESSION['_id'] . '\">' . $_SESSION['f_name'] . ' ' .
                               $_SESSION['l_name'] . '</a> generated a new week: <a href=\"calendar.php?id=' .
@@ -174,9 +165,9 @@
 
             // makes new shifts, fills from master schedule
             //!
-            function generate_and_populate_shift($day_id, $venue, $group, $day, $time, $note) {
+            function generate_and_populate_shift($day_id, $venue,$day, $time, $note) {
                 // gets the people from the master schedule
-                $people = get_person_ids($venue, $group, $day, $time);
+                $people = get_person_ids($venue, $day, $time);
                 if (!$people[0]) {
                     array_shift($people);
                 }
@@ -189,7 +180,7 @@
                     }
                 }
                 // calculates vacancies
-                $vacancies = get_total_slots($venue, $group, $day, $time) - count($people);
+                $vacancies = get_total_slots($venue, $day, $time) - count($people);
                 // makes a new shift filled with people found above
                 $newShift = new Shift($day_id . "-" . $time, $venue, $vacancies, $people, [], "", $note);
 
