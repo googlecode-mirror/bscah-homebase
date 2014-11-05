@@ -120,7 +120,7 @@
                     echo('<br><a href="' . $path .
                      'viewSchedule.php?frequency=weekly"><strong>master schedules</strong></a> : '
                             . '<a href=" ' . $path . 'viewSchedule.php?frequency=weekly">garden, </a>'
-                            . '<a href=" ' . $path . 'editMasterSchedule.php">pantry </a> | '); 
+                            . '<a href=" ' . $path . 'viewSchedule.php?frequency=weekly">pantry </a> | '); 
 
                     echo('<strong>volunteers :</strong> <a href="' . $path . 'personSearch.php">search</a>,
 			        <a href="personEdit.php?id=' . 'new' . '">add </a> | ');
