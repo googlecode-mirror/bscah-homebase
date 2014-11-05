@@ -86,26 +86,16 @@
             error_log("in generate_shifts");
             $venues = ["weekly"];
             $days = [1 => "Mon", 2 => "Tue", 3 => "Wed", 4 => "Thu", 5 => "Fri", 6 => "Sat", 7 => "Sun"];
-            $weekdaygroups = ["odd", "even"];
-            $weekendgroups = ["1st", "2nd", "3rd", "4th", "5th"];
             $this->shifts = [];
             /* $master[$i] is an array of
              * (venue, my_group, day, time, start, end, slots, persons, notes)
              */
             foreach ($venues as $venue) {
-                if ($days[$day] == "Sat" || $days[$day] == "Sun") {
-                    $groups = $weekendgroups;
-                }
-                else {
-                    $groups = $weekdaygroups;
-                }
-                foreach ($groups as $group) {
-                    $master = get_master_shifts($venue, $group, $days[$day]);
+                    $master = get_master_shifts($venue, $days[$day]);
                     for ($i = 0; $i < sizeof($master); $i++) {
                         $t = $master[$i]->get_time();
                         $this->shifts[$t] = new Shift(
                             $this->id . "-" . $t, $venue, $master[$i]->get_slots(), null, null, "", "");
-                    }
                 }
             }
         }
@@ -114,26 +104,16 @@
         function generate_projects($day) {
             $venues = ["weekly"];
             $days = [1 => "Mon", 2 => "Tue", 3 => "Wed", 4 => "Thu", 5 => "Fri", 6 => "Sat", 7 => "Sun"];
-            $weekdaygroups = ["odd", "even"];
-            $weekendgroups = ["1st", "2nd", "3rd", "4th", "5th"];
             $this->shifts = [];
             /* $master[$i] is an array of
              * (venue, my_group, day, time, start, end, slots, persons, notes)
              */
             foreach ($venues as $venue) {
-                if ($days[$day] == "Sat" || $days[$day] == "Sun") {
-                    $groups = $weekendgroups;
-                }
-                else {
-                    $groups = $weekdaygroups;
-                }
-                foreach ($groups as $group) {
-                    $master = get_master_shifts($venue, $group, $days[$day]);
+                    $master = get_master_shifts($venue, $days[$day]);
                     for ($i = 0; $i < sizeof($master); $i++) {
                         $t = $master[$i]->get_time();
                         $this->projects[$t] = new Project( //Edited by James Loeffler and Eric
                             $this->id . "-" . $t, $venue, $master[$i]->get_slots(), null, null, "", "");
-                    }
                 }
             }
         }
