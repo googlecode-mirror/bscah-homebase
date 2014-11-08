@@ -31,11 +31,20 @@
 
         /**
          * Creates a new calendar week.
+         *
+         * @param $dates
+         * @param $venue
+         * @param $weekday_group
+         * @param $weekend_group
+         * @param $status
          */
 
         function __construct($dates, $status) {
             $this->dates = $dates;
             $this->status = $status;
+            foreach ($dates as $date) {
+                error_log("date is of class " . get_class($date));
+            }
             $this->id = $this->dates[0]->get_id();
             $this->name = $this->dates[0]->get_name() . " to " . $this->dates[6]->get_name();
             $this->end_of_week_timestamp = $this->dates[6]->get_end_time();
@@ -65,10 +74,6 @@
         if ($s == "unpublished" || $s == "published" || $s == "archived") {
             $this->status = $s;
         }
-        else {
-            return false;
-        }
     }
-
 
 ?>

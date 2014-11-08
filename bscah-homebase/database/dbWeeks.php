@@ -38,9 +38,9 @@
     //edited by James Loeffler but still unsure about the parameters in the query
     function create_dbWeeks() {
         connect();
-        mysql_query("DROP TABLE IF EXISTS week");
-        $result = mysql_query("CREATE TABLE Week (id CHAR(8) NOT NULL, dates TEXT,
-								, status TEXT,
+        mysql_query("DROP TABLE IF EXISTS WEEKS");
+        $result = mysql_query("CREATE TABLE WEEKS (id CHAR(8) NOT NULL, dates TEXT,
+								status TEXT,
 								name TEXT, end INT, PRIMARY KEY (id))");
         if (!$result) {
             echo mysql_error();
@@ -58,19 +58,24 @@
             die("Invalid argument for week->add_week function call");
         }
         connect();
-        $query = "SELECT * FROM weeks WHERE id =\"" . $w->get_id() . "\"";
+        $query = sprintf(
+            'SELECT * FROM DBBSCAH.WEEKS WHERE id=\'%s\'',
+            $w->get_id()
+        );
         $result = mysql_query($query);
         if (mysql_num_rows($result) != 0) {
             delete_dbWeeks($w);
             connect();
         }
-        $query = "INSERT INTO weeks VALUES ('" .
-                $w->get_id() . "','" . 
-                get_dates_text($w->get_dates()) . "','" . 
-                $w->get_status() . "','" .
-                $w->get_end() .
-                "');";
-               
+
+        $query = sprintf(
+            'INSERT INTO DBBSCAH.WEEKS VALUES("%s", "%s", "%s", %d)',
+            $w->get_id(),
+            get_dates_text($w->get_dates()),
+            $w->get_status(),
+            $w->get_end() // This one is an integer, so we don't need quotes around it in the template above
+        );
+
         $result = mysql_query($query);
         mysql_close();
         if (!$result) {
@@ -175,7 +180,7 @@
      *
      * @param $id = mm-dd-yy of the week to retrieve
      *
-     * @return the desired week, or null
+     * @return Week desired week, or null
      */
     function get_dbWeeks($id) {
         $result_row = select_dbWeeks($id);
@@ -186,7 +191,7 @@
                 $temp = select_dbDates($date);
                 $d[] = $temp;
             }
-            $w = new Week($id, $d, $result_row['status']);
+            $w = new Week($d, $result_row['status']);
             error_log("3");
             return $w;
         }
@@ -201,12 +206,12 @@
      */
     function get_all_dbWeeks() {
         connect();
-    $query = "SELECT * FROM weeks ORDER BY end";
+        $query = "SELECT * FROM weeks ORDER BY end";
         $result = mysql_query($query);
-    if (!$result) {
-        error_log('ERROR on select in get_all_dbWeeks ' . mysql_error());
-        die('Invalid query: ' . mysql_error());
-    }
+        if (!$result) {
+            error_log('ERROR on select in get_all_dbWeeks ' . mysql_error());
+            die('Invalid query: ' . mysql_error());
+        }
         mysql_close();
         $weeks = [];
         while ($result_row = mysql_fetch_assoc($result)) {

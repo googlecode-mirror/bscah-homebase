@@ -43,12 +43,7 @@
             // connects to the database to see if there are any weeks in the dbWeeks table
             $result = get_all_dbWeeks();
             // If no weeks for either the house or the family room, show first week form
-            if (sizeof($result) == 0) {
-                $firstweek = true;
-            }
-            else {
-                $firstweek = false;
-            }
+            $firstweek = sizeof($result) == 0;
             // publishes a week if the user is a manager
             if ($_GET['publish'] && $_SESSION['access_level'] >= 2) {
                 $id = $_GET['publish'];
@@ -91,23 +86,20 @@
                     }
                 }
                 else {
-                    if (!array_key_exists('_submit_check_newweek', $_POST)) {
-                        include('addWeek_newweek.inc');
-                    }
-                    else {
+                    // If the user submitted a form through "addweek_newweek.inc", this flag will be in their POST-data, and we can process their form
+                    if (array_key_exists('_submit_check_newweek', $_POST)) {
                         process_form($firstweek);
-                        include('addWeek_newweek.inc');
                     }
+                    include('addweek_newweek.inc');
                 }
             }
-
             // must be a manager
             function process_form($firstweek) {
 
                 if ($_SESSION['access_level'] < 2) {
                     return null;
                 }
-                if ($firstweek == true) {
+                if ($firstweek) {
                     //find the beginning of the week
                     $timestamp = mktime(0, 0, 0, $_POST['month'], $_POST['day'], $_POST['year']);
                     $dow = date("N", $timestamp);
@@ -153,6 +145,7 @@
                     $new_date = new BSCAHdate($day_id, $shifts, "","");
                     $dates[] = $new_date;
                     $d++;
+
                     $day_id = date("m-d-y", mktime(0, 0, 0, $m, $d, $y));
                 }
                 // creates a new week from the dates
@@ -165,6 +158,7 @@
 
             // makes new shifts, fills from master schedule
             //!
+            // TODO: Remove this functionality, you should not be able to add people to master schedule
             function generate_and_populate_shift($day_id, $venue,$day, $time, $note) {
                 // gets the people from the master schedule
                 $people = get_person_ids($venue, $day, $time);

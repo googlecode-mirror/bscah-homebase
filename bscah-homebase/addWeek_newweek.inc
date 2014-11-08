@@ -21,8 +21,6 @@
         <table border="1">
             <tr>
                 <td>Weeks</td>
-                <td>Weekday Group</td>
-                <td>Weekend Group</td>
                 <td>Status (options)</td>
             </tr>
             <?php
@@ -30,19 +28,22 @@
 
                 for ($i = 0; $i < sizeof($result); ++$i) {
                     $week = $result[$i];
-                    if ($i == sizeof($result) - 1 || $i == 0) {
-                        $remove = true;
-                    }
-                    else {
-                        $remove = false;
-                    }
+                    $remove = $i == sizeof($result) - 1 || $i == 0;
+
                     if (($week->get_status() == "archived" && $_GET['archive'] == "true") ||
                         $week->get_status() == "published" ||
                         ($week->get_status() == "unpublished" && $_SESSION['access_level'] >= 2)
                     ) {
-                        echo("<tr><td>" . $week->get_name() . "</td><td>" . $week->get_weekday_group() . "</td>" .
-                            "<td>" . $week->get_weekend_group() . "</td>" .
-                            "<td>" . show_week_options($week, $remove) . "</td></tr>");
+                        echo sprintf(
+                            '<tr>' .
+                                '<td>%s</td>' .
+                                '<td>%s</td>' .
+                                '<td>%s</td>' .
+                                '<td>%s</td>' .
+                            '</tr>',
+                            $week->get_name(),
+                            show_week_options($week, $remove)
+                        );
                     }
                 }
                 // finds the parameters for "generate next week" button
@@ -79,6 +80,12 @@
                             }
                         }
                     }
+                    /* TODO: The variable $last is only initialized if the "if ($week)" clause at line 50 above is true.
+                     * Is this intentional? It also looks like, in my test scenarios, that clause is never being returned as true
+                     * So what happens here when "if ($week)" returns false?
+                     *
+                     * There is also a string concatenation going on here with the "+" operator. I'm not sure what should actually be going on though.
+                     */
                     $new_week_timestamp =
                         mktime(0, 0, 0, substr($last, 0, 2), substr($last, 3, 2) + 7, substr($last, 6, 2));
                     echo('<tr><td>');
@@ -161,9 +168,7 @@
                     $id = $week->get_id();
                     $status = $week->get_status();
                     $end = $week->get_end();
-                    $options = "";
                     $rightnow = time();
-                    $oneweek = 60 * 60 * 24 * 7;
                     if ($status == "archived") {
                         $options = "archived (<a href=\"calendar.php?id=" . $id . "&venue=house\">view</a>)";
                     }

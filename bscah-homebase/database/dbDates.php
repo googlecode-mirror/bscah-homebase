@@ -47,10 +47,7 @@
      * Adds a RMHDate to the table
      * If the date already exists, the date is deleted and replaced.
      */
-    function insert_dbDates($d) {
-        if (!$d instanceof BSCAHdate) {
-            die("Invalid argument for date->insert_dbdates function call");
-        }
+    function insert_dbDates(BSCAHdate $d) {
         connect();
         $query = "SELECT * FROM date WHERE DATE_ID =\"" . $d->get_id() . "\"";
         $result = mysql_query($query);
@@ -62,9 +59,13 @@
             delete_dbDates($d);
             connect();
         }
-        $query = "INSERT INTO date VALUES
-				(\"" . $d->get_id() . "\",\"" .
-            get_shifts_text($d) . "\",\"" . $d->get_mgr_notes() . "\",\"" . $d->get_projects()."\")";
+        $query = sprintf(
+            'INSERT INTO DBBSCAH.DATE VALUES ("%s", "%s", "%s", "%s")',
+            $d->get_id(),
+            get_shifts_text($d),
+            $d->get_mgr_notes(),
+            "test!" // TODO: What are projects and what do we have to put them into the DB as?
+        );
         error_log("in insert_dbDates, query is" . $query);
         $result = mysql_query($query);
 

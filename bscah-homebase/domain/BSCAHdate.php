@@ -42,7 +42,6 @@
 
         //edited by James Loeffler and Eric
         function __construct($id, $shifts, $mgr_notes, $projects) {
-            error_log("in BSCAHDate constructor");
             $mm = substr($id, 0, 2);
             $dd = substr($id, 3, 2);
             $yy = substr($id, 6, 2);
@@ -83,7 +82,6 @@
          */
 
         function generate_shifts($day) {
-            error_log("in generate_shifts");
             $venues = ["weekly"];
             $days = [1 => "Mon", 2 => "Tue", 3 => "Wed", 4 => "Thu", 5 => "Fri", 6 => "Sat", 7 => "Sun"];
             $this->shifts = [];

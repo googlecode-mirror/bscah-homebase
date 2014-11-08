@@ -51,7 +51,6 @@
                 $week = get_dbWeeks($weekid); // get the week
                 // if invalid week or unpublished week and not a manager
 
-                echo "pls";
                 if (!$week instanceof Week || $week->get_status() == "unpublished" && $_SESSION['access_level'] < 1.5) {
                     echo 'This week\'s calendar is not available for viewing. ';
                     if ($_SESSION['access_level'] >= 2) {
