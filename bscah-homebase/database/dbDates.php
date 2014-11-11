@@ -64,7 +64,7 @@
             $d->get_id(),
             get_shifts_text($d),
             $d->get_mgr_notes(),
-            "test!" // TODO: What are projects and what do we have to put them into the DB as?
+            $d->get_projects()// TODO: What are projects and what do we have to put them into the DB as?
         );
         error_log("in insert_dbDates, query is" . $query);
         $result = mysql_query($query);
@@ -173,8 +173,12 @@
                         $s[$temp->get_name()] = $temp;
                     }
                 }
-                $d = new BSCAHdate($result_row[0], $s, "", $result_row[2]); // TODO: This constructor is malformed somehow
-
+              
+                $d = new BSCAHdate($result_row[0], $s, "", []); // TODO: This constructor is malformed somehow
+                 
+               
+                error_log($d->get_projects());
+                
                 return $d;
             }
             else {
@@ -202,10 +206,48 @@
     function update_dbDates_projects($date)
     {
         $db_date = select_dbDates($date);
-        $db_date->generate_projects($date);
-        update_dbDates($db_date);
+        if($db_date != null)
+        {
+            insert_dbDates_project($db_date);
+            
+            
+        }
+        else 
+        {
+            error_log("Date is currently not in date table");
+        }
         
-    }                        
+     
+ }
+
+       
+        
+      
+    
+    function insert_dbDates_project(BSCAHdate $d) {
+        connect();
+       
+        $query = sprintf(
+            'UPDATE date SET Projects = "%s" WHERE DATE_ID = "%s"',
+            $d->get_projects(),
+            $d->get_id()
+        );
+        error_log("in insert_dbDates, query is" . $query);
+        $result = mysql_query($query);
+
+        if (!$result) {
+            echo("unable to insert into date: " . $d->get_id() . mysql_error());
+            mysql_close();
+
+            return false;
+        }
+        mysql_close();
+        
+    }
+
+    
+    
+    
    
     
 

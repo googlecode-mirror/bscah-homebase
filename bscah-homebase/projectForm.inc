@@ -61,6 +61,8 @@
     <p>Max # people that can be in this project<span style="font-size:x-small;color:FF0000">*</span>: <input
             type="number" name="vacancies" tabindex="3" value="<?PHP echo($project->get_vacancies()) ?>">
         <!--Changed type from vacancies to numbers and name from address to vacancies-->
+    <p>Age Requirement<span style="font-size:x-small;color:FF0000">*</span>: <input
+            type="number" name="age" tabindex="3" value=" ?>">
     <fieldset>
         <legend>Project time information:</legend>
         <p>Date of Project<span style="font-size:x-small;color:FF0000">*</span>: <input type="text" name="date"
@@ -79,9 +81,9 @@
             </textarea</fieldset>
 <?PHP
 
-    echo('<p>Notes:<br />');
+    echo('<p>Project Description:<br />');
     echo('<textarea name="notes" rows="2" cols="60">');
-    echo($project->get_notes());
+    echo($project->get_project_description());
     echo('</textarea></fieldset>');
     //error_log("Day of week is " . $project->get_dayOfWeek());
     echo "<br />\n";

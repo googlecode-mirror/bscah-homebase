@@ -20,6 +20,7 @@
     session_cache_expire(30);
     include_once('database/dbProjects.php');
     include_once('domain/Project.php');
+     include_once('domain/BSCAHdate.php');
     $id = str_replace("_", " ", $_GET["id"]);
     //See what is in the $_GET["id"] array
     error_log("id is ". $_GET["id"]);
@@ -27,7 +28,7 @@
 
     if ($id == 'new') 
     {
-        $project = new Project(null, null, 'new', null, null, null, null, null, null, null);
+        $project = new Project(null, null, 'new', null, null, null, null, null);
     }
     
     else 
@@ -109,7 +110,7 @@
                 $vacancies = $_POST['vacancies']; //ereg_replace("[^0-9]", "", $_POST['vacancies']);
                 //$persons = trim(htmlentities($_POST['persons']));_log("In process form this is ".$mm_dd_yy);
                 $id = $_POST['old_id']; //trim(htmlentities($_POST['old_id']));
-                $notes = $_POST['notes']; //trim(htmlentities($_POST['notes']));
+                $project_description = $_POST['notes']; //trim(htmlentities($_POST['notes']));
 
                 $path = strrev(substr(strrev($_SERVER['SCRIPT_NAME']), strpos(strrev($_SERVER['SCRIPT_NAME']), '/')));
                 //step two: try to make the deletion, password change, addition, or change
@@ -171,9 +172,12 @@
 
                             $newproject =
                                 new Project($mm_dd_yy, $address, $name, $start_time, $end_time, //$dayOfWeek,
-                                 $vacancies, //$persons, //$id, 
-                                 $notes);
+                                 $vacancies, $persons, //$id, 
+                                 $project_description);
                                 $result = insert_dbProjects($newproject);
+                                $db_date_format = str_replace("/", "-", $mm_dd_yy);
+                                update_dbDates_projects($db_date_format);
+                                
                             if (!$result) 
                             {
                                 echo('<p class="error">Unable to add " .$mm_dd_yy." in the database. <br>Please report this error to the House Manager.');
@@ -186,7 +190,7 @@
                                 }
                                 else 
                                 {
-                                    echo("<p>You have successfully added ". $id . " to the database.</p>");
+                                    echo("<p>You have successfully added ". $newproject->get_id() . " to the database.</p>");
                                 }
                             }
                         }
@@ -207,8 +211,8 @@
                         {
                             $newproject =
                                 new Project($mm_dd_yy, $address, $name, $start_time, $end_time, //$dayOfWeek, 
-                                $vacancies, //$persons, //$id, 
-                                $notes);
+                                $vacancies, $persons, //$id, 
+                                $project_description);
                                 echo('<p>You have successfully edited <a href="' . $path . 'projectEdit.php?id=' . $id .
                                     '"><b>' . $mm_dd_yy . ' </b></a> in the database.</p>');
                             }

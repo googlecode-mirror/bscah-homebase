@@ -18,15 +18,15 @@
         private $vacancies;     // number of vacancies in this project
         private $persons;       // array of person ids filling slots, followed by their name, ie "malcom1234567890+Malcom+Jones"
         private $id;            // "mm-dd-yy-projName is the unique key
-        private $notes;         // notes written by the manager
+        private $project_description;         // notes written by the manager
 
         /*
          * construct an empty project with a certain number of vacancies
          */
 
-        function __construct($id, $date, $addr, $name, $start_time, $end_time, $vacancies, $persons, //$id is temporary for using project reports - GIOVI
+        function __construct($date, $addr, $name, $start_time, $end_time, $vacancies, $persons, 
         $notes) {
-            $this->mm_dd_yy = $date;  // first 8 chars of id
+            $this->mm_dd_yy = str_replace("/", "-", $date);
             $this->name = $name;
             $this->address = $addr;
             $this->start_time = $start_time;   // currently has to be integer - need to fix this
@@ -35,8 +35,8 @@
             $this->persons = $persons;
             $this->dayOfWeek = date("D", mktime(0, 0, 0, substr($this->mm_dd_yy, 0, 2), substr($this->mm_dd_yy, 3, 2),
                                                 "20" . substr($this->mm_dd_yy, 6, 2)));
-            $this->id = $id;
-            $this->notes = $notes;
+            $this->id = $date . "-" . $start_time. "-" . $end_time . "-". $name;
+            $this->project_description = $notes;
             error_log("in project constructor, date is " . $this->mm_dd_yy);
             error_log("in project constructor, addr is " . $addr);
             error_log("in project constructor, name is " . $name);
@@ -174,8 +174,8 @@
        //     return $this->day;
         //}
 
-        function get_notes() {
-            return $this->notes;
+        function get_project_description() {
+            return $this->project_description;
         }
 
         function get_vacancies() {
@@ -184,7 +184,7 @@
 
 
         function set_notes($notes) {
-            $this->notes = $notes;
+            $this->project_description = $notes;
         }
 
         function assign_persons($p) {

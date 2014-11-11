@@ -14,6 +14,8 @@
     include_once("Shift.php");
     include_once("Project.php"); // James Loeffler and Eric
     include_once(dirname(__FILE__) . '/../database/dbMasterSchedule.php');
+    include_once(dirname(__FILE__) . '/../database/dbProjects.php');
+    
 
     /* A class to manage an BSCAHDate
      * @version May 1, 2008
@@ -52,7 +54,9 @@
                 return;
             }
             $my_date = mktime(0, 0, 0, $mm, $dd, $yy);
+          
             $this->id = date("m-d-y", $my_date);
+            error_log($this->id);
             $this->month = date("M", $my_date);
             $this->day = date("D", $my_date);
             $this->year = date("Y", $my_date);
@@ -67,12 +71,8 @@
                 $this->generate_shifts($this->day_of_week);
             }
             //created by James Loeffler
-            if (sizeof($projects) !== 0) {
-                $this->projects = $projects;
-            }
-            else {
-                $this->generate_projects($this->day_of_week);
-            }
+            $this->generate_projects($this->id);
+            
             $this->mgr_notes = $mgr_notes;
         }
 
@@ -99,22 +99,12 @@
         }
 
         //Coppied from generate_shifts but changed to be generate projects by James Loeffler and Eric
-        function generate_projects($day) {
-            $venues = ["weekly"];
-            $days = [1 => "Mon", 2 => "Tue", 3 => "Wed", 4 => "Thu", 5 => "Fri", 6 => "Sat", 7 => "Sun"];
-            $this->shifts = [];
-            /* $master[$i] is an array of
-             * (venue, my_group, day, time, start, end, slots, persons, notes)
-             */
-            foreach ($venues as $venue) {
-                    $master = get_master_shifts($venue, $days[$day]);
-                    for ($i = 0; $i < sizeof($master); $i++) {
-                        $t = $master[$i]->get_time();
-                        $this->projects[$t] = new Project( //Edited by James Loeffler and Eric
-                            $this->id . "-" . $t, $venue, $master[$i]->get_slots(), null, null, "", "");
-                }
-            }
+
+        function generate_projects($id) {
+            $this->projects = implode("*", select_dbProjects_by_date($id));
         }
+
+        
 
         /*
          * @return "mm-dd-yy"
@@ -229,29 +219,10 @@
         }
 
         //added by James Loeffler and Eric
-        function get_project_id($project_start, $venue) {
-            if ($project_start == 21) {
-                $candidate = $this->get_id() . "-overnight";
-                foreach ($this->projects as $project) {
-                    if ($project->get_id() == $candidate) {
-                        return $project->get_id();
-                    }
-                }
-            }
-            else {
-                for ($i = $project_start + 1; $i < 22; $i++) {
-                    $candidate = $this->get_id() . "-" . $project_start . "-" . $i;
-                    foreach ($this->projects as $project) {
-                        if ($project->get_id() == $candidate) {
-                            return $project->get_id();
-                        }
-                    }
-                }
-            }
-
-            return false;
+        /**function get_project_id($date) {
+           
         }
-
+**/
         /*
          * replace a shift by a new shift in a date's associative array of shifts
          * @param the shift, the new shift
@@ -273,7 +244,7 @@
         }
 
         // added by James Loeffler and Eric
-        function replace_project($project, $newproject) {
+       /** function replace_project($project, $newproject) {
             $newprojects = [];
             foreach ($this->projects as $key => $value) {
                 if ($this->get_project($key)->get_id() === $project->get_id()) {
@@ -287,7 +258,7 @@
 
             return $this;
         }
-
+        **/
         /**
          * @return a string name of the date
          */
@@ -306,7 +277,6 @@
         function set_mgr_notes($s) {
             $this->mgr_notes = $s;
         }
-
-    }
-
+        }
+    
 ?>

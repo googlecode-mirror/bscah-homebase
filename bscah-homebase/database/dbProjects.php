@@ -19,14 +19,14 @@
      * 3 venue = "weekly"
      * 4 vacancies: # of vacancies for this shift
      * 5 persons: list of people ids, followed by their name, ie "max1234567890+Max+Palmer"
-     * 6 notes: shift notes
+     * 6 Project Desciption: 
      */
     function create_dbProjects() {
         connect();
         mysql_query("DROP TABLE IF EXISTS project");
         $result = mysql_query("CREATE TABLE project (id CHAR(20) NOT NULL, " .
                               "start_time INT, end_time INT, venue TEXT, vacancies INT, " .
-                              "persons TEXT, removed_persons TEXT, notes TEXT, PRIMARY KEY (id))");
+                              "persons TEXT, removed_persons TEXT, Project Description TEXT, PRIMARY KEY (id))");
         if (!$result) {
             echo mysql_error();
 
@@ -57,7 +57,7 @@
             delete_dbProjects($p);
             connect();
         }
-        $query = "INSERT INTO project (ProjectID,Address,Date, Vacancies,StartTime,EndTime,DayOfWeek,Name,Persons,Notes)"
+        $query = "INSERT INTO project (ProjectID,Address,Date, Vacancies,StartTime,EndTime,DayOfWeek,Name,Persons,ProjectDescription)"
             . " VALUES ('" . $p->get_id() . "','" .
             $p->get_address() . "','" .
             $p->get_mm_dd_yy() . "','" .
@@ -67,7 +67,7 @@
             $p->get_dayOfWeek() . "','" .
             $p->get_name() . "','" .
             implode("*", $p->get_persons()) . "','" .
-            $p->get_notes() . "');";
+            $p->get_project_description() . "');";
         error_log("in insert_dbProjects, insert query is " . $query);
         $result = mysql_query($query);
         if (!$result) {
@@ -156,6 +156,27 @@
         }
         
         return $p;
+    }
+    
+    function select_dbProjects_by_date($date) {
+        connect();
+        $projects = [];
+        $query = "SELECT ProjectID FROM project WHERE DATE =\"" . $date . "\"";
+        error_log("in select_dbProjects_by_date, query is " . $query);
+        $result = mysql_query($query);
+        if (!$result) {
+            error_log('ERROR on select in get_dbProjects() ' . mysql_error());
+            die('Invalid query: ' . mysql_error());
+        }
+
+        while ($row = mysql_fetch_array($result, MYSQL_NUM)) 
+        {
+            error_log($row[0]);
+            $projects[] = $row[0];
+            
+        }
+        
+        return $projects;
     }
 
 
@@ -314,7 +335,7 @@
     function make_a_project($result_row) 
     {
         $the_project = new Project(
-            $result_row['ProjectID'],//Temporary for using project reports - GIOVI
+            //$result_row['ProjectID'],
             $result_row['Date'],
             $result_row['Address'],
             $result_row['Name'],
@@ -322,7 +343,7 @@
             $result_row['EndTime'],
             $result_row['Vacancies'],
             $result_row['Persons'],
-            $result_row['Notes']
+            $result_row['Project Description']
             //$result_row['DayOfWeek'],           
                                    );
 

@@ -6,7 +6,7 @@
 
     test_insert_dbDates();
     test_update_dbDates();
-    test_replace_dbDates();
+    //test_replace_dbDates();
     test_select_dbDates();
     test_get_shifts_text();
 // need more tests!
@@ -17,7 +17,7 @@
     function test_insert_dbDates() {
         // note - I do not know what the date ids are going to look like. Change this when
         // you know how they will be formatted
-        $newDate = new BSCAHdate("02-24-14", "test", "notes", "p1*p2");
+        $newDate = new BSCAHdate("01-01-15", [], "notes", []);
         echo 'test</br>';
         echo 'will test insert_dbDates </br>';
         $result = insert_dbDates($newDate);
@@ -37,8 +37,8 @@
 
 //Created by James Loeffler
     function test_update_dbDates() {
-        $newDate = new BSCAHdate("02-24-14", "test", "notes", "p1*p2");
-        $nd = insert_dbDates($newDate);
+        $newDate = new BSCAHdate("01-01-15" ,[], "notes", []);
+        $nd = new BSCAHdate("02-15-15" ,[], "notes", []);
 
         echo 'will test update_dbDates </br>';
         $result = update_dbDates($nd);
@@ -51,18 +51,18 @@
         }
 
         $res = delete_dbDates($newDate);
+        $next_res = delete_dbDates($nd);
         if ($res == null) {
             echo 'Delete failed</br>';
         }
     }
 
 //Created by James Loeffler
-    function test_replace_dbDates() {
-        $newDate = new BSCAHdate("02-24-14", "test", "notes", "p1*p2");
-        $nd = insert_dbDates($newDate);
+    /**function test_replace_dbDates() {
+        $newDate = new BSCAHdate("01-01-15",  [], "notes", []);
 
-        $old_s = "02-24-14";
-        $new_s = "02-25-14";
+        $old_s = "9-11";
+        $new_s = "1-4";
         echo 'will test replace_dbDates </br>';
         $result = replace_dbDates($old_s, $new_s);
 
@@ -78,16 +78,20 @@
             echo 'Delete failed</br>';
         }
     }
-
+**/
 //Created by James Loeffler
     function test_select_dbDates() {
-        $newDate = new BSCAHdate("02-24-14", "test", "notes", "p1*p2");
+        $newDate = new BSCAHdate("01-01-15" ,[], "notes", []);
         $nd = insert_dbDates($newDate);
-        $id = "02-24-14";
+        $id = "01-01-15";
         echo 'will test select_dbDates</br>';
         $result = select_dbDates($id);
 
-        if (result != null) {
+        if ($result) {
+            echo 'select_dbDates succeeded</br>';
+        }
+        else 
+        {
             echo 'select_dbDates failed</br>';
         }
 
@@ -98,17 +102,18 @@
     }
 
     function test_get_shifts_text() {
-        $newDate = new BSCAHdate("02-24-14", "test", "notes", "p1*p2");
+        $newDate = new BSCAHdate("01-01-15",  "9-11", "notes", []);
         $nd = insert_dbDates($newDate);
 
         echo 'will test get_shifts_text</br>';
         $result = get_shifts_text($newDate);
 
-        if (result != null) {
-            echo 'select_dbDates failed</br>';
+        if ($result == null) 
+        {
+            echo 'get_shifts_text failed</br>';
         }
         else {
-            echo 'select_dbDates succeeded</br>';
+            echo 'get_shifts_text succeeded</br>';
         }
 
         $res = delete_dbDates($newDate);
