@@ -62,9 +62,20 @@
             type="number" name="vacancies" tabindex="3" value="<?PHP echo($project->get_vacancies()) ?>">
         <!--Changed type from vacancies to numbers and name from address to vacancies-->
     <p>Age Requirement<span style="font-size:x-small;color:FF0000">*</span>: <input
-            type="number" name="age" tabindex="3" value=" ?>">
+            type="number" name="age" tabindex="3" value="<?PHP echo($project->get_age()) ?>">
     <fieldset>
-        <legend>Project time information:</legend>
+        <legend>Project information:</legend>
+        <p>Project Type
+      <?PHP $types = ['Volunter', 'Team Building', 'Pantry Volunteer', 'Garden Volunteer', 'Building Project', 'PB & J Sandwiches', 'Birthday Boxes', 'Hygiene Kits', 'Body Kits', 'Emergency Relief Kits', 'Virtual Can Drive'];
+            echo '<select name="project_type">' . '<option value=' . ($project->get_type()) . '></option>';
+            foreach ($types as $type) 
+            {
+                echo '<option value="' . $type . '">' . $type . '</option>';
+            }
+        
+            echo '</select>';
+        ?>
+        <p>
         <p>Date of Project<span style="font-size:x-small;color:FF0000">*</span>: <input type="text" name="date"
                                                                                         MAXLENGTH= 8 tabindex="2"
                                                                                         value="<?PHP echo($project->get_date()) ?>">

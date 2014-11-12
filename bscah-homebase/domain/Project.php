@@ -11,12 +11,14 @@
     class Project {
         private $mm_dd_yy;      // String: "mm-dd-yy".
         private $address;        //location of project
+        private $project_type;
         private $name;          // String: 'ss-ee' or 'overnight', where ss = start time and ee = end time e.g., '9-12'
         private $start_time;    // Integer: e.g. 10 (meaning 10:00am)
         private $end_time;      // Integer: e.g. 13 (meaning 1:00pm)
         private $dayOfWeek;     // 3 letters, Mon, Tue, etc //This is the equivalent of day from shift.php - GIOVI
         private $vacancies;     // number of vacancies in this project
         private $persons;       // array of person ids filling slots, followed by their name, ie "malcom1234567890+Malcom+Jones"
+        private $age;
         private $id;            // "mm-dd-yy-projName is the unique key
         private $project_description;         // notes written by the manager
 
@@ -24,15 +26,17 @@
          * construct an empty project with a certain number of vacancies
          */
 
-        function __construct($date, $addr, $name, $start_time, $end_time, $vacancies, $persons, 
+        function __construct($date, $addr,$type, $name, $start_time, $end_time, $vacancies, $persons, $age,
         $notes) {
             $this->mm_dd_yy = str_replace("/", "-", $date);
             $this->name = $name;
             $this->address = $addr;
+            $this->project_type = $type;
             $this->start_time = $start_time;   // currently has to be integer - need to fix this
             $this->end_time = $end_time;     // currently has to be integer - need to fix this
             $this->vacancies = $vacancies;
             $this->persons = $persons;
+            $this->age = $age;
             $this->dayOfWeek = date("D", mktime(0, 0, 0, substr($this->mm_dd_yy, 0, 2), substr($this->mm_dd_yy, 3, 2),
                                                 "20" . substr($this->mm_dd_yy, 6, 2)));
             $this->id = $date . "-" . $start_time. "-" . $end_time . "-". $name;
@@ -110,6 +114,13 @@
          */
         function get_dayOfWeek() {
             return $this->dayOfWeek;
+        }
+        function get_type() {
+            return $this->project_type;
+        }
+        
+          function get_age() {
+            return $this->age;
         }
 
         function get_mm_dd_yy() {

@@ -208,12 +208,14 @@ CREATE TABLE IF NOT EXISTS `project` (
   `ProjectID` varchar(58) NOT NULL,
   `Address` varchar(50),
   `Date` varchar(10) NOT NULL,
+  `Type` varchar(30) NOT NULL,
   `Vacancies` int(3) NOT NULL,
   `StartTime` int(4) NOT NULL,  
   `EndTime` int(4) NOT NULL,
  `DayOfWeek` varchar(3) NOT NULL,
   `Name` varchar(50) NOT NULL,
   `Persons`  text,
+  `AgeRequirement`  int(3) DEFAULT NULL,
   `ProjectDescription` varchar(30) DEFAULT NULL,
   PRIMARY KEY (`ProjectID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='Collection of Projects';
@@ -222,19 +224,19 @@ CREATE TABLE IF NOT EXISTS `project` (
 -- Dumping data for table `project`
 --
 
-INSERT INTO `project` (`ProjectID`, `Address`, `Date`, `Vacancies`, `StartTime`, `EndTime`, `DayOfWeek`, `Name`, `Persons`, `ProjectDescription`) VALUES
-('02-24-14-900-1200-Food Delivery', '4119 Nuzum Court Williamsville', '02-24-14', '3', '900', '1200', 'Mon', 'Food Delivery', 'Erick6464924106+Erick+Tavera+*Humza6462207988+Humza+Ahmad+', ''),
-('02-25-14-1200-1500- Food Dleivery', '521 White Pine Lane Fredericksburg', '02-25-14', '2', '1200', '1500', 'Tue', 'Food Delivery', 'Gregory7188057221+Gregory+Wilson+' , ''),
-('02-26-14-1800-2300- Food Delivery', '4964 Sardis Sta Grand Prairie', '02-26-14', '4', '1800', '2300', 'Wed', 'Food Delivery', 'Jefferson3475899639+Jefferson+Steelflex+*Erick6464924106+Erick+Tavera+', ''),
-('02-27-14-100-400- Food Delivery', '2009 Wetzel Lane Grand Rapids', '02-27-14', '3', '100', '400', 'Thu', 'Food Delivery', 'Gregory7188057221+Gregory+Wilson+', ''),
-('02-24-14-900-1200-Truck Delivery', '4119 Nuzum Court Williamsville', '02-24-14', '3', '900', '1200', 'Mon', 'Truck Delivery', 'Erick6464924106+Erick+Tavera+*Humza6462207988+Humza+Ahmad+', ''),
-('02-25-14-1200-1500- Truck Delivery', '521 White Pine Lane Fredericksburg', '02-25-14', '2', '1200', '1500', 'Tue', 'Truck Delivery', 'Gregory7188057221+Gregory+Wilson+', ''),
-('02-26-14-1800-2300- Truck Delivery', '4964 Sardis Sta Grand Prairie', '02-26-14', '4', '1800', '2300', 'Wed', 'Truck Delivery', 'Jefferson3475899639+Jefferson+Steelflex+*Erick6464924106+Erick+Tavera', ''),
-('02-27-14-100-400- Truck Delivery', '2009 Wetzel Lane Grand Rapids', '02-27-14', '3', '100', '400', 'Thu', 'Truck Delivery', 'Gregory7188057221+Gregory+Wilson+', ''),
-('02-24-14-900-1200-Snack Delivery', '4119 Nuzum Court Williamsville', '02-24-14', '3', '900', '1200', 'Mon', 'Snack Delivery', 'Erick6464924106+Erick+Tavera+*Humza6462207988+Humza+Ahmad+', ''),
-('02-25-14-1200-1500- Snack Delivery', '521 White Pine Lane Fredericksburg', '02-25-14', '2', '1200', '1500', 'Tue', 'Snack Delivery', 'Gregory7188057221+Gregory+Wilson+', ''),
-('02-26-14-1800-2300- Snack Delivery', '4964 Sardis Sta Grand Prairie', '02-26-14', '4', '1800', '2300', 'Wed', 'Snack Delivery', 'Jefferson3475899639+Jefferson+Steelflex+*Erick6464924106+Erick+Tavera+', ''),
-('02-27-14-100-400- Snack Delivery', '2009 Wetzel Lane Grand Rapids', '02-27-14', '3', '100', '400', 'Thu', 'Snack Delivery', 'Gregory7188057221+Gregory+Wilson+', '');
+INSERT INTO `project` (`ProjectID`, `Address`, `Date`,`Type`, `Vacancies`, `StartTime`, `EndTime`, `DayOfWeek`, `Name`, `Persons`,`AgeRequirement` ,`ProjectDescription`) VALUES
+('02-24-14-900-1200-Food Delivery', '4119 Nuzum Court Williamsville', '02-24-14', null, '3', '900', '1200', 'Mon', 'Food Delivery', 'Erick6464924106+Erick+Tavera+*Humza6462207988+Humza+Ahmad+',null, ''),
+('02-25-14-1200-1500- Food Dleivery', '521 White Pine Lane Fredericksburg', '02-25-14',null, '2', '1200', '1500', 'Tue', 'Food Delivery', 'Gregory7188057221+Gregory+Wilson+' , null, ''),
+('02-26-14-1800-2300- Food Delivery', '4964 Sardis Sta Grand Prairie', '02-26-14',null, '4', '1800', '2300', 'Wed', 'Food Delivery', 'Jefferson3475899639+Jefferson+Steelflex+*Erick6464924106+Erick+Tavera+',null,  ''),
+('02-27-14-100-400- Food Delivery', '2009 Wetzel Lane Grand Rapids', '02-27-14',null, '3', '100', '400', 'Thu', 'Food Delivery', 'Gregory7188057221+Gregory+Wilson+',null, ''),
+('02-24-14-900-1200-Truck Delivery', '4119 Nuzum Court Williamsville', '02-24-14',null, '3', '900', '1200', 'Mon', 'Truck Delivery', 'Erick6464924106+Erick+Tavera+*Humza6462207988+Humza+Ahmad+',null,  ''),
+('02-25-14-1200-1500- Truck Delivery', '521 White Pine Lane Fredericksburg', '02-25-14',null, '2', '1200', '1500', 'Tue', 'Truck Delivery', 'Gregory7188057221+Gregory+Wilson+', null, ''),
+('02-26-14-1800-2300- Truck Delivery', '4964 Sardis Sta Grand Prairie', '02-26-14',null, '4', '1800', '2300', 'Wed', 'Truck Delivery', 'Jefferson3475899639+Jefferson+Steelflex+*Erick6464924106+Erick+Tavera', null, ''),
+('02-27-14-100-400- Truck Delivery', '2009 Wetzel Lane Grand Rapids', '02-27-14', null,'3', '100', '400', 'Thu', 'Truck Delivery', 'Gregory7188057221+Gregory+Wilson+', null,''),
+('02-24-14-900-1200-Snack Delivery', '4119 Nuzum Court Williamsville', '02-24-14',null, '3', '900', '1200', 'Mon', 'Snack Delivery', 'Erick6464924106+Erick+Tavera+*Humza6462207988+Humza+Ahmad+',null,  ''),
+('02-25-14-1200-1500- Snack Delivery', '521 White Pine Lane Fredericksburg', '02-25-14',null, '2', '1200', '1500', 'Tue', 'Snack Delivery', 'Gregory7188057221+Gregory+Wilson+',null,  ''),
+('02-26-14-1800-2300- Snack Delivery', '4964 Sardis Sta Grand Prairie', '02-26-14',null, '4', '1800', '2300', 'Wed', 'Snack Delivery', 'Jefferson3475899639+Jefferson+Steelflex+*Erick6464924106+Erick+Tavera+',null,  ''),
+('02-27-14-100-400- Snack Delivery', '2009 Wetzel Lane Grand Rapids', '02-27-14', null,'3', '100', '400', 'Thu', 'Snack Delivery', 'Gregory7188057221+Gregory+Wilson+',null,  '');
 
 
 -- --------------------------------------------------------

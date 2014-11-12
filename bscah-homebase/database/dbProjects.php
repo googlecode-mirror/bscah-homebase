@@ -57,17 +57,19 @@
             delete_dbProjects($p);
             connect();
         }
-        $query = "INSERT INTO project (ProjectID,Address,Date, Vacancies,StartTime,EndTime,DayOfWeek,Name,Persons,ProjectDescription)"
+        $query = "INSERT INTO project (ProjectID,Address,Date,Type,Vacancies,StartTime,EndTime,DayOfWeek,Name,Persons,AgeRequirement,ProjectDescription)"
             . " VALUES ('" . $p->get_id() . "','" .
             $p->get_address() . "','" .
             $p->get_mm_dd_yy() . "','" .
+            $p->get_type(). "','" .
             $p->num_vacancies() . "','" .
             $p->get_start_time() . "','" .
             $p->get_end_time() . "','" .
             $p->get_dayOfWeek() . "','" .
             $p->get_name() . "','" .
             implode("*", $p->get_persons()) . "','" .
-            $p->get_project_description() . "');";
+            $p->get_age() . "','" .
+            $p->get_project_description() . "')";
         error_log("in insert_dbProjects, insert query is " . $query);
         $result = mysql_query($query);
         if (!$result) {
@@ -151,8 +153,9 @@
             if ($result_row[8] != "") {
                 $persons = explode("*", $result_row[8]);
             }
-            //$p = make_a_project($result_row); Before - GIOVI
-            $p = new Project($result_row[0], $result_row[2], $result_row[1], $result_row[7], $result_row[4], $result_row[5], $result_row[3], $persons, $result_row[9]);
+            $p = make_a_project($result_row); 
+            //Before - GIOVI
+            //$p = new Project($result_row[0], $result_row[2], $result_row[1], $result_row[7], $result_row[4], $result_row[5], $result_row[3], $persons, $result_row[9]);
         }
         
         return $p;
@@ -338,11 +341,13 @@
             //$result_row['ProjectID'],
             $result_row['Date'],
             $result_row['Address'],
+            $result_row['Type'],
             $result_row['Name'],
             $result_row['StartTime'],
             $result_row['EndTime'],
             $result_row['Vacancies'],
             $result_row['Persons'],
+            $result_row['AgeRequirement'],    
             $result_row['Project Description']
             //$result_row['DayOfWeek'],           
                                    );

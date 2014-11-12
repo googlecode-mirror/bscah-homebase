@@ -28,7 +28,7 @@
 
     if ($id == 'new') 
     {
-        $project = new Project(null, null, 'new', null, null, null, null, null);
+        $project = new Project(null, null,null, null, null, null, null, null,null, null);
     }
     
     else 
@@ -65,7 +65,7 @@
             //{
                 //include('projectForm.inc');
             //}
-            if(isset($_POST['name']) && isset($_POST['address']) && isset($_POST['vacancies']) && isset($_POST['date'])&& isset($_POST['start_time']) && isset($_POST['end_time']) )
+            if(isset($_POST['name']) && isset($_POST['address']) && isset($_POST['project_type']) && isset($_POST['vacancies']) && isset($_POST['date'])&& isset($_POST['start_time']) && isset($_POST['end_time']) )
             {
                 //in this case, the form has been submitted, so validate it
                 $errors = validate_form();  //step one is validation.
@@ -104,11 +104,13 @@
                 error_log("In process form this is ".$mm_dd_yy);
                 $address = $_POST['address']; //trim(str_replace('\\\'', '\'', htmlentities($_POST['address'])));
                 $name = $_POST['name']; //trim(htmlentities($_POST['name']));
+                $type = $_POST['project_type'];
                 $start_time = $_POST['start_time']; //ereg_replace("[^0-9]", "", $_POST['start_time']);
                 $end_time = $_POST['end_time']; //ereg_replace("[^0-9]", "", $_POST['end_time']);
                 //$dayOfWeek = trim(htmlentities($_POST['dayOfWeek']));
                 $vacancies = $_POST['vacancies']; //ereg_replace("[^0-9]", "", $_POST['vacancies']);
                 //$persons = trim(htmlentities($_POST['persons']));_log("In process form this is ".$mm_dd_yy);
+                $age = $_POST['age'];
                 $id = $_POST['old_id']; //trim(htmlentities($_POST['old_id']));
                 $project_description = $_POST['notes']; //trim(htmlentities($_POST['notes']));
 
@@ -171,8 +173,8 @@
                         {
 
                             $newproject =
-                                new Project($mm_dd_yy, $address, $name, $start_time, $end_time, //$dayOfWeek,
-                                 $vacancies, $persons, //$id, 
+                                new Project($mm_dd_yy, $address, $type, $name, $start_time, $end_time, //$dayOfWeek,
+                                 $vacancies, $persons, $age, //$id, 
                                  $project_description);
                                 $result = insert_dbProjects($newproject);
                                 $db_date_format = str_replace("/", "-", $mm_dd_yy);
