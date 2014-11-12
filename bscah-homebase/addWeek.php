@@ -160,24 +160,8 @@
             //!
             // TODO: Remove this functionality, you should not be able to add people to master schedule
             function generate_and_populate_shift($day_id, $venue,$day, $time, $note) {
-                // gets the people from the master schedule
-                $people = get_person_ids($venue, $day, $time);
-                if (!$people[0]) {
-                    array_shift($people);
-                }
-                // changes the people array to the format used by Shift (id, fname lname)
-                for ($i = 0; $i < count($people); ++$i) {
-                    $person = retrieve_person($people[$i]);
-                    if ($person) {
-                        $people[$i] =
-                            $person->get_id() . "+" . $person->get_first_name() . "+" . $person->get_last_name();
-                    }
-                }
-                // calculates vacancies
-                $vacancies = get_total_slots($venue, $day, $time) - count($people);
-                // makes a new shift filled with people found above
-                $newShift = new Shift($day_id . "-" . $time, $venue, $vacancies, $people, [], "", $note);
-
+           
+                $newShift = new Shift($day_id . "-" . $time, $venue, "", "", "", $note);
                 return $newShift;
 
             }
