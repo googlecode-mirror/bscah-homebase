@@ -40,11 +40,8 @@
                     die("<p>Only managers can view the master schedule.</p>");
                 }
                 $week_days = ["Mon" => "Monday", "Tue" => "Tuesday", "Wed" => "Wednesday",
-                    "Thu" => "Thursday", "Fri" => "Friday"];
-                $weekend_days = ["Sat" => "Saturday", "Sun" => "Sunday"];
+                    "Thu" => "Thursday", "Fri" => "Friday", "Sat" => "Saturday", "Sun" => "Sunday"];
                 show_master_week($week_days);
-                echo "<br>";
-                show_master_week($weekend_days);
                 echo "<br>";
             ?>
         </div>
@@ -64,12 +61,8 @@
         echo('<br><table id="calendar" align="center" ><tr class="weekname"><td colspan="' . (sizeof($days) + 2) .
             '" ' .
             'bgcolor="#99B1D1" align="center" >');
-        if (sizeof($days) > 2) {
-            echo('Weekday Master Schedule');
-        }
-        else {
-            echo('Weekend Master Schedule');
-        }
+        $schedule_name = ucfirst($_GET['frequency']);
+        echo("$schedule_name Master Schedule");
         echo('</td></tr><tr><td bgcolor="#99B1D1">  </td>');
         foreach ($days as $day => $dayname) {
             echo('<td class="dow" align="center"> ' . $dayname . ' </td>');
@@ -84,7 +77,7 @@
             echo("<tr><td class=\"masterhour\">" . show_hours($hour) . "</td>");
             $i = 0;
             foreach ($days as $day => $dayname) {
-                $master_shift = retrieve_dbMasterSchedule("weekly" . $day . "-" . $hour);
+                $master_shift = retrieve_dbMasterSchedule($_GET['frequency'] . $day . $hour . "-" . ($hour + 1));
                 /* retrieves a MasterScheduleEntry whose start time is $hour */
                 if ($master_shift) {
                     $shift_length = $master_shift->get_end_time() - $master_shift->get_start_time();
@@ -96,7 +89,7 @@
                 else {
                     if ($free_hour[$columns * ($hour - 9) + $i]) {
                         //	$t = $hour . "-" . ($hour+1);
-                        $master_shift = new MasterScheduleEntry("weekly", $day, $hour, $hour + 1, 1, "", "", "");
+                        $master_shift = new MasterScheduleEntry($_GET['frequency'], $day, $hour, $hour + 1, 1, "", "", "");
                         echo do_shift($master_shift, 0);
                     }
                 }
@@ -106,12 +99,12 @@
         }
         echo("<tr><td class=\"masterhour\">" . "overnight" . "</td>");
         foreach ($days as $day => $dayname) {
-            $master_shift = retrieve_dbMasterSchedule("weekly" . $day . "-overnight");
+            $master_shift = retrieve_dbMasterSchedule($_GET['frequency'] . $day . "overnight");
             if ($master_shift) {
                 echo do_shift($master_shift, 1);
             }
             else {
-                $master_shift = new MasterScheduleEntry("weekly", $day, "overnight", 0, 1, "", "", "");
+                $master_shift = new MasterScheduleEntry($_GET['frequency'], $day, "overnight", 0, 1, "", "", "");
                 echo do_shift($master_shift, 0);
             }
         }
@@ -137,7 +130,7 @@
         }
     }
 
-    function do_shift($master_shift, $master_shift_length) {
+    function do_shift(MasterScheduleEntry $master_shift, $master_shift_length) {
         /* $master_shift is a MasterScheduleEntry object
          */
         if ($master_shift_length == 0) {
@@ -149,22 +142,12 @@
                 "</td>";
         }
         else {
-            if ($master_shift->get_slots() == 0) {
-                $s = "<td rowspan='" . $master_shift_length . "'>" .
-                    "<a id=\"shiftlink\" href=\"editMasterSchedule.php?" .
+                $s = "<td style=\"text-align:center\" rowspan='" . $master_shift_length . "'>" .
+                    '<a style="display:inline" id="shiftlink" href="editMasterSchedule.php?' .
                     "day=" . $master_shift->get_day() . "&shift=" .
                     $master_shift->get_time() . "&venue=" . $master_shift->get_schedule_type() . "\">" .
-                    "<br>" .
+                    $master_shift->get_shifts() .
                     "</td>";
-            }
-            else {
-                $s = "<td rowspan='" . $master_shift_length . "'>" .
-                    "<a id=\"shiftlink\" href=\"editMasterSchedule.php?" .
-                    "day=" . $master_shift->get_day() . "&shift=" .
-                    $master_shift->get_time() . "&venue=" . $master_shift->get_schedule_type() . "\">" .
-                    get_people_for_shift($master_shift, $master_shift_length) .
-                    "</td>";
-            }
         }
 
         return $s;

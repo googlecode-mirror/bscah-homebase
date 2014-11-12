@@ -119,8 +119,8 @@
                 if ($_SESSION['access_level'] >= 2) {
                     echo('<br>'
                             . '<strong>Master Schedules:</strong></a> '
-                            . '<a href=" ' . $path . 'viewSchedule.php?frequency=weekly">garden, </a>'
-                            . '<a href=" ' . $path . 'viewSchedule.php?frequency=weekly">pantry </a> | '); 
+                            . '<a href=" ' . $path . 'viewSchedule.php?frequency=garden">garden, </a>'
+                            . '<a href=" ' . $path . 'viewSchedule.php?frequency=pantry">pantry </a> | ');
 
                     echo('<strong>Volunteers:</strong> <a href="' . $path . 'personSearch.php">search</a>,
 			        <a href="personEdit.php?id=' . 'new' . '">add </a> | ');
