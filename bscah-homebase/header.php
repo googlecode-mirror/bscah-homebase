@@ -137,6 +137,7 @@
                 }
                 echo('  <a href="' . $path . 'logout.php"><b>Logout</b></a>');
             }
+            // pls
         }
     ?>
 </div>
