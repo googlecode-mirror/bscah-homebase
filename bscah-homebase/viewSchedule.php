@@ -39,8 +39,8 @@
                 if ($_SESSION['access_level'] < 2) {
                     die("<p>Only managers can view the master schedule.</p>");
                 }
-                $week_days = ["Mon" => "Monday", "Tue" => "Tuesday", "Wed" => "Wednesday",
-                    "Thu" => "Thursday", "Fri" => "Friday", "Sat" => "Saturday", "Sun" => "Sunday"];
+                $week_days = ["Sun" => "Sunday", "Mon" => "Monday", "Tue" => "Tuesday", "Wed" => "Wednesday",
+                    "Thu" => "Thursday", "Fri" => "Friday", "Sat" => "Saturday"];
                 show_master_week($week_days);
                 echo "<br>";
             ?>
@@ -77,7 +77,7 @@
             echo("<tr><td class=\"masterhour\">" . show_hours($hour) . "</td>");
             $i = 0;
             foreach ($days as $day => $dayname) {
-                $master_shift = retrieve_dbMasterSchedule($_GET['frequency'] . $day . $hour . "-" . ($hour + 1));
+                $master_shift = retrieve_dbMasterSchedule($_GET['frequency'] . $day . $hour . "-");
                 /* retrieves a MasterScheduleEntry whose start time is $hour */
                 if ($master_shift) {
                     $shift_length = $master_shift->get_end_time() - $master_shift->get_start_time();

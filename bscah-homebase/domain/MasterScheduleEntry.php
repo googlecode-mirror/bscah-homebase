@@ -105,6 +105,10 @@
             $this->notes = $notes;
         }
 
+        function set_end_time($time) {
+            $this->end_time = $time;
+        }
+
     }
 
 ?>
