@@ -168,7 +168,7 @@ CREATE TABLE IF NOT EXISTS `person` (
   `Schedule` varchar(100) NOT NULL COMMENT 'Dates scheduled for voliunteering',
   `Notes` varchar(200) NOT NULL,
   `Password`  text NOT NULL,
-  `Availability` varchar(50) NOT NULL COMMENT 'days and times free for volunteering',
+  `Availability` varchar(580) NOT NULL COMMENT 'days and times free for volunteering',
    `ContactPreference` varchar(15) NOT NULL COMMENT 'either email, mail or phone number',
   PRIMARY KEY (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;

@@ -135,22 +135,22 @@
 
         function get_time_of_day() {
             if ($this->start_time == 0) {
-                return "overnight";
+                return "Overnight";
             }
             else {
                 if ($this->start_time <= 10) {
-                    return "morning";
+                    return "Morning(9-12)";
                 }
                 else {
                     if ($this->start_time <= 13) {
-                        return "earlypm";
+                        return "EarlyPM(12-3)";
                     }
                     else {
                         if ($this->start_time <= 16) {
-                            return "latepm";
+                            return "LatePM(3-6)";
                         }
                         else {
-                            return "evening";
+                            return "Evening(6-9)";
                         }
                     }
                 }

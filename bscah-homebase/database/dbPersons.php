@@ -58,6 +58,7 @@
 
         error_log('will insert person id= ' . $person->get_id() . ' avail= ' . $person->get_availability());
         $avail = implode(",",$person->get_availability());
+        $schedule = implode(",", $person->get_schedule());
         $query = "INSERT INTO person VALUES ('" .
             $person->get_id() . "','" .
             $person->get_first_name() . "','" .
@@ -73,7 +74,7 @@
             $person->get_email() . "','" .
             $person->get_type() . "','" .
             $person->get_status() . "','" .
-            $person->get_schedule() . "','" .
+            $schedule . "','" .
             $person->get_notes() . "','" .
             $person->get_password() . "','" .
             $avail . "','" .
@@ -332,7 +333,7 @@
         connect();
         $query = "SELECT * FROM person WHERE (type LIKE '%" . $type . "%' OR type LIKE '%sub%')" .
             " AND availability LIKE '%" . $day . ":" . $shift .
-            "%' AND status = 'active' ORDER BY NameLast,NameFirst";
+            "%' AND status = 'approved' ORDER BY NameLast,NameFirst";
         $result = mysql_query($query);
         if (!$result) {
             die('Invalid query: ' . mysql_error());

@@ -309,7 +309,7 @@
         if (!$persons[0]) {
             array_shift($persons);
         }
-        $result = getall_available("volunteer", $day, $time);
+        $result = getall_available("Volunteer", $day, $time);
         $s = "";
         for ($i = 0; $i < mysql_num_rows($result); ++$i) {
             $row = mysql_fetch_row($result);

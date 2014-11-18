@@ -295,7 +295,7 @@
 
         echo('<input type="hidden" name="schedule" value="' . implode(',', $person->get_schedule()) . '">');
         echo('<input type="hidden" name="password" value="' . $person->get_password() . ')">');
-        echo('<input type="hidden" name="type" value="' . $person->get_type() . ')">');
+        echo('<input type="hidden" name="type" value="' . $person->get_type() . '">');
         echo('<input type="hidden" name="_submit_check" value="1"><p>');
         if ($_SESSION['access_level'] == 0) {
             echo('Hit <input type="submit" value="Submit" name="Submit Edits"> to complete this application.<br /><br />');
