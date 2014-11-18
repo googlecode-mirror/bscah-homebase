@@ -259,8 +259,21 @@
                         }
                         else {
                             if ($_SESSION['access_level'] == 0) {
-                                echo("<p>Your application has been successfully submitted.<br>  The House Manager will contact you soon.  Thank you!");
-                            }
+                               /* 
+                                $to      = 'volunteer@domain.com';
+                                $subject = 'Your Login!';
+                                $message = 'Your Login ID id: XXXXXXXXXXXXX' . "\r\n"
+                                           'Your Login Password is: XXXXXXXXXXXXX';
+                                $headers = 'From: webmaster@example.com' . "\r\n" .
+                                           'Reply-To: webmaster@example.com' . "\r\n" .
+                                           'X-Mailer: PHP/' . phpversion();
+
+                                mail($to, $subject, $message, $headers);
+                                */
+                                //this is a possible email function template that we can use
+                                echo("<p>Your application has been successfully submitted.<br>  You will be recieving an email shortly with your ID and Password soon!");
+                                error_log('The Email has been sent!');
+                            }//edited 11/3/2014 Rocco J. Sacramone
                             else {
                                 echo("<p>You have successfully added " . $first_name . " " . $last_name .
                                     " to the database.</p>");

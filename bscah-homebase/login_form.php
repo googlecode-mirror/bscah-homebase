@@ -9,16 +9,26 @@
      * (see <http://www.gnu.org/licenses/ for more information).
      *
      */
+
+    session_start();
+    session_cache_expire(30);
 ?><?php
     /*
      * Created on Mar 28, 2008
-     * @author Oliver Radwan <oradwan@bowdoin.edu>, Sam Roberts, James Cook
-     * @version 3/28/2008, revised 10/1/2013
+     * @author Oliver Radwan <oradwan@bowdoin.edu>, Sam Roberts, James Cook, Rocco Sacramone
+     * @version 3/28/2008, revised 10/27/2014
      */
 ?>
-</div>
+
+<html>
+<div id="container">
+<?PHP include('header.php'); ?>
+
 <div id="content">
     <?PHP
+    
+    //$_SESSION['access_level'] = 0; //set as a default until login
+    
         include_once('database/dbPersons.php');
         include_once('domain/Person.php');
         error_log("in login_form.php");
@@ -40,15 +50,16 @@
         }
         else {
             //check if they logged in as a guest:
-            if ($_POST['user'] == "guest" && $_POST['pass'] == "") {
-                $_SESSION['logged_in'] = 1;
-                $_SESSION['access_level'] = 0;
-                $_SESSION['type'] = "";
-                $_SESSION['_id'] = "guest";
-                echo "<script type=\"text/javascript\">window.location = \"index.php\";</script>";
-            }
+            //if ($_POST['user'] == "guest" && $_POST['pass'] == "") {
+              //  $_SESSION['logged_in'] = 1;
+              //  $_SESSION['access_level'] = 0;
+              //  $_SESSION['type'] = "";
+              //  $_SESSION['_id'] = "guest";
+            //    echo "<script type=\"text/javascript\">window.location = \"index.php\";</script>";
+            //}
             //otherwise authenticate their password
-            else {
+            //Rocco Sacramone - 10/29/14 guest functionallity removed
+            
                 $db_pass = md5($_POST['pass']);
                 $db_id = $_POST['user'];
                 $person = retrieve_person($db_id);
@@ -57,7 +68,7 @@
                     if ($person->get_password() == $db_pass) { //if the passwords match, login
                         $_SESSION['logged_in'] = 1;
                         if ($person->get_status() == "applicant") {
-                            $_SESSION['access_level'] = 0;
+                            $_SESSION['access_level'] = 0;          //will be removed in a later version
                         }
                         else {
                             if ('manager' == $person->get_type()) {
@@ -97,7 +108,7 @@
                     echo('<p><table><form method="post"><input type="hidden" name="_submit_check" value="true"><tr><td>Username:</td><td><input type="text" name="user" tabindex="1"></td></tr><tr><td>Password:</td><td><input type="password" name="pass" tabindex="2"></td></tr><tr><td colspan="2" align="center"><input type="submit" name="Login" value="Login"></td></tr></table>');
                 }
             }
-        }
+        //}
     ?>
     <?PHP include('footer.inc'); ?>
 </div>
