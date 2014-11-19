@@ -23,7 +23,10 @@
         </head>
         <body>
             <div id="container">
-                <?PHP include('header.php'); ?>
+                <?PHP
+                    include('header.php');
+                    include('accessController.php');
+                ?>
                 <div id="content">
                     <?php
                         if ($_SESSION['access_level'] < 2) {
