@@ -15,11 +15,11 @@ table#weeknav {
 table#weeknav td {
     border-width: 0px 0px 0px 0px;
     font-size: 14px;
-/ / font-weight : bold;
+ font-weight : bold;
 }
 
 table#shiftbox {
-/ / border-collapse : collapse;
+ border-collapse : collapse;
     font-family: verdana, arial, sans-serif;
     border: solid 0px #264576 !important;
     width: 100%;
@@ -32,17 +32,17 @@ table#shiftbox td {
 
 .persons {
     height: 55px;
-/ / border-style : none;
+ border-style : none;
 }
 
 .notes {
     height: 20px;
-/ / border-style : none;
+ border-style : none;
 }
 
 table#calendar {
     background-color: white;
-/ / width : 950 px;
+ width : 950 px;
 }
 
 table#calendar td {
@@ -120,7 +120,7 @@ a#shiftlink:hover {
 }
 
 textarea {
-/ / border : 1 px solid #000000;
+ border : 1 px solid #000000;
 }
 
 textarea#mgr_notes {
