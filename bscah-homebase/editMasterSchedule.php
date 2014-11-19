@@ -180,12 +180,11 @@
         else {
             $day_name[] = [];
             $day_name = get_day_names($day_name, $day);
-            //$groupdisplay = $venue . " Group ".$group." Time ".$time;
             echo "Added a new " . ucfirst($venue) ." shift for " . $day_name[1] . " which starts at " . explode(" to ", do_name($_GET['shift']))[0] . "<br><br>";
             add_log_entry('<a href=\"personEdit.php?id=' . $_SESSION['_id'] . '\">' . $_SESSION['f_name'] . ' ' .
                           $_SESSION['l_name'] .
                           '</a> added a new master schedule shift: <a href=\"editMasterSchedule.php?' .
-                          "day=" . $day . "&shift=" . $post['shift_name'] . "&venue=" . $post['$venue'] . '\">' . " " .
+                          "day=" . $day . "&shift=" . $post['shift_name'] . "&venue=" . $_GET['venue'] . '\">' . " " .
                           $day . $post['shift_name'] . '</a>.');
 
             return true;

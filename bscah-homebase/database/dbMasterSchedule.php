@@ -41,10 +41,7 @@
         return true;
     }
 
-    function insert_dbMasterSchedule($entry) {
-        if (!$entry instanceof MasterScheduleEntry) {
-            return false;
-        }
+    function insert_dbMasterSchedule(MasterScheduleEntry $entry) {
         connect();
         $result = mysql_query("SELECT * FROM masterschedule WHERE MS_ID = '" . $entry->get_MS_ID() . "'");
         if (!$result) {

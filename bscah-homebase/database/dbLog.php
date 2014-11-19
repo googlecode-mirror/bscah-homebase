@@ -45,9 +45,9 @@
         $time = time();
         connect();
 
-        $query = sprintf('INSERT INTO DBBSCAH.DBLOG (time, message) VALUES ("%s", "%s")',
+        $query = sprintf('INSERT INTO DBBSCAH.DBLOG (time, message) VALUES (`%s`, `%s`)',
             $time,
-            preg_replace('[^\]"', '\"', $message) // If there is a quote that is not escaped, escape it
+            str_replace('`', "", $message) // Remove all back`ticks
         );
         $result = mysql_query($query);
         if (!$result) {
