@@ -25,7 +25,9 @@
 </head>
 <body>
 <div id="container">
-    <?PHP include('header.php'); ?>
+    <?PHP include('header.php');
+          include('accessController.php');
+    ?>
     <div id="content">
         <?PHP
             if ($_SESSION['type'] == 'manager' || $_SESSION['type'] == 'volunteer') {

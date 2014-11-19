@@ -22,7 +22,9 @@
 </head>
 <body>
 <div id="container">
-    <?PHP include('header.php'); ?>
+    <?PHP include('header.php');
+          include('accessController.php');
+    ?>
     <div id="content">
         <?PHP
             // display the search form

@@ -23,7 +23,9 @@
 </head>
 <body>
 <div id="container">
-    <?PHP include('header.php'); ?>
+    <?PHP include('header.php'); 
+          include('accessController.php');
+    ?>
     <div id="content">
         <?php
             include('database/dbLog.php');

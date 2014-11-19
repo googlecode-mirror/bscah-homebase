@@ -28,6 +28,7 @@
 <div id="container">
     <?php
         include_once('header.php');
+        include_once('accessController.php');
         include_once('reports.inc.php');
         include_once('database/dbPersons.php');
         include_once('domain/Person.php');

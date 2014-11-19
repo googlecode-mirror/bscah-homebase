@@ -9,6 +9,7 @@
   */
 ?>
 
+<div align="center" id="navigationLinks">
 
 <?PHP
         //Log-in security
@@ -54,7 +55,7 @@
                 $permission_array['projectEdit.php'] = 2;
                 $permission_array['viewSchedule.php'] = 2;
                 $permission_array['addWeek.php'] = 2;
-                $permission_array['rmh.php'] = 2;
+                //$permission_array['rmh.php'] = 2;
                 $permission_array['log.php'] = 2;
                 $permission_array['dataSearch.php'] = 2;
                 $permission_array['reports.php'] = 2;
@@ -120,8 +121,8 @@
                 if ($_SESSION['access_level'] >= 2) {
                     echo('<br><a href="' . $path .
                      'viewSchedule.php?frequency=weekly"><strong>master schedules</strong></a> : '
-                            . '<a href=" ' . $path . 'viewSchedule.php?frequency=weekly">garden, </a>'
-                            . '<a href=" ' . $path . 'viewSchedule.php?frequency=weekly">pantry </a> | '); 
+                            . '<a href=" ' . $path . 'viewSchedule.php?frequency=garden ">garden, </a>'
+                            . '<a href=" ' . $path . 'viewSchedule.php?frequency=pantry">pantry </a> | '); 
 
                     echo('<strong>volunteers :</strong> <a href="' . $path . 'personSearch.php">search</a>,
 			        <a href="personEdit.php?id=' . 'new' . '">add </a> | ');
@@ -141,5 +142,6 @@
             }
         }
     ?>
+</div>
 
 

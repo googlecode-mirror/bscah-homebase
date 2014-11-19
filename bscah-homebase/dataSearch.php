@@ -26,7 +26,10 @@
 
 </head>
 <body>
-<div id="container"><?php include_once('header.php'); ?>
+<div id="container">
+    <?php include_once('header.php'); 
+          include_once('accessController.php');
+    ?> 
 <div id="content"><?php
     include_once('domain/Shift.php');
     include_once('database/dbShifts.php');
