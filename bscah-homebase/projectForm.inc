@@ -33,6 +33,8 @@
     else {
         if ($_SESSION['access_level'] == 2) {
             if ($id == 'new') {
+                echo('<p style = "font-size:16px"><strong>Notice: In order to add a new project to database you have to add the week to the weekly calendar first.'
+                        . '</strong><br />');
                 echo('<p><strong>New Project Form</strong><br />');
                 echo('Here you can add a new project into the database. </p>');
 

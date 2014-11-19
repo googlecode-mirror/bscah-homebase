@@ -178,11 +178,15 @@
                                  $project_description);
                                 $result = insert_dbProjects($newproject);
                                 $db_date_format = str_replace("/", "-", $mm_dd_yy);
-                                update_dbDates_projects($db_date_format);
+                                $update = update_dbDates_projects($db_date_format);
+                              
                                 
-                            if (!$result) 
+                            if (!$update) 
                             {
-                                echo('<p class="error">Unable to add " .$mm_dd_yy." in the database. <br>Please report this error to the House Manager.');
+                                delete_dbProjects($newproject);
+                                error_log("Project has not been added");
+                                echo("<p class='error'>The week of " . $mm_dd_yy . " must be added to the weekly calendar first. Select the Project Calendar tab and then choose Manage Weeks");
+                                
                             }
                             else 
                             {

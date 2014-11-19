@@ -27,7 +27,7 @@
         private $name;          // String: 'ss-ee' or 'overnight', where ss = start time and ee = end time e.g., '9-12'
         private $start_time;    // Integer: e.g. 10 (meaning 10:00am)
         private $end_time;      // Integer: e.g. 13 (meaning 1:00pm)
-        private $venue;         //  "weekly" or "monthly"
+        private $venue;         //  "garden" or "pantry"
         private $vacancies;     // number of vacancies in this shift
         private $persons;       // array of person ids filling slots, followed by their name, ie "malcom1234567890+Malcom+Jones"
         private $removed_persons; // array of persons who have previously been removed from this shift.
@@ -51,13 +51,13 @@
                 $this->start_time = 0;
                 $this->end_time = 1;
             }
-            $this->venue = $venue;
+            generate_venue($venue);
             $this->vacancies = $vacancies;
             $this->persons = $persons;
             $this->removed_persons = $removed_persons;
             $this->day = date("D", mktime(0, 0, 0, substr($this->mm_dd_yy, 0, 2), substr($this->mm_dd_yy, 3, 2),
                                           "20" . substr($this->mm_dd_yy, 6, 2)));
-            $this->id = $id;
+            $this->id = $id .$venue;
             $this->notes = $notes;
         }
 
@@ -258,6 +258,39 @@
 
         return $reports;
     }
+    function generate_venue($venue) 
+    {
+             if (is_int($venue))
+            {
+                if($venue == 0)
+                $this->venue = "garden";
+                
+                elseif ($venue == 1) 
+                $this->venue = "pantry";
+                
+                else 
+                {
+                    error_log("Not a valid entry for Venue");
+                    echo "Not a valid entry for Venue";
+                }
+                
+            }
+            
+            if(is_string($venue))
+            {
+                if(strtolower($venue) == "garden" || strtolower($venue) == "pantry" )
+                $this->venue = $venue;
+                
+                else 
+                {
+                    error_log("Not a valid entry for Venue");
+                    echo "Not a valid entry for Venue";
+                }
+                
+            }
+    }
+
+    
 
 
 ?>

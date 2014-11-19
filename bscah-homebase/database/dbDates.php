@@ -205,19 +205,21 @@
     
     function update_dbDates_projects($date)
     {
+        $update_status = false;
         $db_date = select_dbDates($date);
-        if($db_date != null)
+        if($db_date instanceof BSCAHdate && $db_date != null)
         {
             insert_dbDates_project($db_date);
-            
-            
+            $update_status = TRUE;
+              error_log("Your project is added to the date table");
         }
         else 
         {
             error_log("Date is currently not in date table");
+            
         }
         
-     
+     return $update_status;
  }
 
        
