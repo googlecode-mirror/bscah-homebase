@@ -45,7 +45,10 @@
         $time = time();
         connect();
 
-        $query = "INSERT INTO dbLog (time, message) VALUES (\"" . $time . "\",\"" . $message . "\")";
+        $query = sprintf('INSERT INTO DBBSCAH.DBLOG (time, message) VALUES ("%s", "%s")',
+            $time,
+            preg_replace('[^\]"', '\"', $message) // If there is a quote that is not escaped, escape it
+        );
         $result = mysql_query($query);
         if (!$result) {
             echo mysql_error();

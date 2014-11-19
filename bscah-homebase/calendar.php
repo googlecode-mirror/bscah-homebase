@@ -51,6 +51,7 @@
                     $weekid = date("m-d-y", time());
                 }
                 $week = get_dbWeeks($weekid); // get the week
+
                 // if invalid week or unpublished week and not a manager
 
                 if (!$week instanceof Week || $week->get_status() == "unpublished" && $_SESSION['access_level'] < 1.5) {

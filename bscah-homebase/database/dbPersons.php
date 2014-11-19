@@ -34,11 +34,7 @@
      * add a person to person table: if already there, return false
      */
 
-    function add_person($person) {
-        if (!$person instanceof person) {
-            return false;
-            die("Error: add_person type mismatch");
-        }
+    function add_person(person $person) {
         connect();
 
         $result = mysql_query("SELECT * FROM person WHERE id = '" . $person->get_ID() . "'");

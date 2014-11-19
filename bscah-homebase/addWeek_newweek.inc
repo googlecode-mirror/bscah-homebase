@@ -11,200 +11,162 @@
      */
 ?>
 
-<p>
-    <strong>Calendar Week Management</strong><br/>
-    Here you can add new weeks to the calendar and you can edit weeks that are already there. <br>Click the "Add new
-    week" button for adding a new week, or select an option at the right of an existing week.</p>
-<span class="nextWeekTable">
-    <form method="POST">
-        <p>
+<!--suppress CssUnusedSymbol -->
+<style>
+    /* Color-code the different week statuses for readability */
+    .archived {
+        background-color: #CCCCCC;
+        display: none;
+    }
+    .published {
+        background-color: #2ECC71;
+    }
+    .unpublished {
+        background-color: #E74C3C;
+    }
+    /* Highlight currently-active week of calendar in a more visible color */
+    a.ui-state-active {
+        background: #E74C3C !important;
+    }
+    /* Bold the current calendar date */
+    a.ui-state-highlight {
+        font-weight: bold !important;
+    }
+</style>
+
+<script src="lib/jquery-1.9.1.js"></script>
+<!-- Use jQuery UI for date-picker -->
+<script src="lib/jquery-ui.js"></script>
+<link rel="stylesheet" href="lib/jquery-ui.css" type="text/css"/>
+
+<script type="text/javascript">
+    $(function() {
+        var startDate;
+        var endDate;
+
+        var selectCurrentWeek = function() {
+            window.setTimeout(function () {
+                $('.week-picker').find('.ui-datepicker-current-day a').addClass('ui-state-active')
+            }, 1);
+        };
+
+        $('.week-picker').datepicker( {
+            showOtherMonths: true,
+            selectOtherMonths: true,
+            onSelect: function(dateText, inst) {
+                var date = $(this).datepicker('getDate');
+                startDate = new Date(date.getFullYear(), date.getMonth(), date.getDate() - date.getDay());
+                endDate = new Date(date.getFullYear(), date.getMonth(), date.getDate() - date.getDay() + 6);
+                var dateFormat = inst.settings.dateFormat || $.datepicker._defaults.dateFormat;
+                $('#startDate').val($.datepicker.formatDate( dateFormat, startDate, inst.settings ));
+
+                selectCurrentWeek();
+            },
+            beforeShowDay: function(date) {
+                var cssClass = '';
+                if(date >= startDate && date <= endDate)
+                    cssClass = 'ui-datepicker-current-day';
+                return [true, cssClass];
+            },
+            onChangeMonthYear: function () {
+                selectCurrentWeek();
+            }
+        });
+        var picker = '.week-picker .ui-datepicker-calendar tr';
+        $(picker).live('mousemove', function() { $(this).find('td a').addClass('ui-state-hover'); });
+        $(picker).live('mouseleave', function() { $(this).find('td a').removeClass('ui-state-hover'); });
+    });
+
+    /**
+     * Provides functionality for the "Show/Hide Archived Weeks" button by toggling the visibility of those HTML elements
+     */
+    function toggleArchiveVisibility() {
+        var $archiveHideShow = $('#archiveHideShow');
+
+        if ($archiveHideShow.text() == "Show Archived Weeks") {
+            $archiveHideShow.text("Hide Archived Weeks");
+            $('.archived').show();
+        } else {
+            $archiveHideShow.text("Show Archived Weeks");
+            $('.archived').hide();
+        }
+    }
+
+    function validateForm() {
+        return $("#startDate").val() !== "";
+    }
+</script>
+
+<div class="nextWeekTable">
+    <form method="POST" action="addWeek.php">
         <table border="1">
             <tr>
                 <td>Weeks</td>
                 <td>Status (options)</td>
             </tr>
-            <?php
-                $result = get_all_dbWeeks();
+            <?php print_existing_weeks(); ?>
+        </table>
+        <div class="week-picker" name="week-picker" id="week-picker"></div>
+        <input type="hidden" value="" name="start_date" id="startDate">
+        <input type="submit" value="Add new week" name="Add new week" onsubmit="return validateForm()">
+    </form>
+    <button onclick="toggleArchiveVisibility()" id="archiveHideShow">Show Archived Weeks</button>
+</div>
 
-                for ($i = 0; $i < sizeof($result); ++$i) {
-                    $week = $result[$i];
-                    $remove = $i == sizeof($result) - 1 || $i == 0;
+<?php
+    /**
+     * Prints all existing weeks to the document. Will not print "unpublished" weeks if the user is not a manager.
+     */
+    function print_existing_weeks() {
+        $result = get_all_dbWeeks();
 
-                    if (($week->get_status() == "archived" && $_GET['archive'] == "true") ||
-                        $week->get_status() == "published" ||
-                        ($week->get_status() == "unpublished" && $_SESSION['access_level'] >= 2)
-                    ) {
-                        echo sprintf(
-                            '<tr>' .
-                                '<td>%s</td>' .
-                                '<td>%s</td>' .
-                                '<td>%s</td>' .
-                                '<td>%s</td>' .
-                            '</tr>',
-                            $week->get_name(),
-                            show_week_options($week, $remove)
-                        );
-                    }
-                }
-                // finds the parameters for "generate next week" button
-                if ($_SESSION['access_level'] >= 2) {
-                    if ($week) {
-                        $last = $week->get_id();
-                        if ($week->get_weekday_group() == "odd") {
-                            $next_weekday_group = "even";
-                        }
-                        else {
-                            $next_weekday_group = "odd";
-                        }
+        for ($i = 0; $i < sizeof($result); ++$i) {
+            $week = $result[$i];
 
-                        $weekend_group = $week->get_weekend_group();
-                        if ($week->get_weekend_group() == "1st") {
-                            $weekend_group = "2nd";
-                        }
-                        else {
-                            if ($week->get_weekend_group() == "2nd") {
-                                $weekend_group = "3rd";
-                            }
-                            else {
-                                if ($week->get_weekend_group() == "3rd") {
-                                    $weekend_group = "4th";
-                                }
-                                else {
-                                    if ($week->get_weekend_group() == "4th" && substr($last, -5, 2) < 22) {
-                                        $weekend_group = "5th";
-                                    }
-                                    else {
-                                        $weekend_group = "1st";
-                                    }
-                                }
-                            }
-                        }
-                    }
-                    /* TODO: The variable $last is only initialized if the "if ($week)" clause at line 50 above is true.
-                     * Is this intentional? It also looks like, in my test scenarios, that clause is never being returned as true
-                     * So what happens here when "if ($week)" returns false?
-                     *
-                     * There is also a string concatenation going on here with the "+" operator. I'm not sure what should actually be going on though.
-                     */
-                    $new_week_timestamp =
-                        mktime(0, 0, 0, substr($last, 0, 2), substr($last, 3, 2) + 7, substr($last, 6, 2));
-                    echo('<tr><td>');
-                    echo "<input type=\"hidden\" name=\"_new_week_timestamp\" value=\"" . $new_week_timestamp . "\">
-								<input type=\"hidden\" name=\"_submit_check_newweek\" value=\"1\">
-								<input type=\"submit\" value=\"Add new week\" name=\"Add new week\">";
-                    echo "</td><td>";
-                    echo "<select name=\"weekday_group\">";
-                    // the group option menus, expected groups selected by default
-                    $groups = ["odd", "even"];
-                    foreach ($groups as $i) {
-                        echo "<option value=\"" . $i . "\"";
-                        if ($i == $next_weekday_group) {
-                            echo " SELECTED";
-                        }
-                        echo ">" . $i . "</option>";
-                    }
-                    echo "</td><td>";
-                    echo "<select name=\"weekend_group\">";
-                    // the group option menus, expected groups selected by default
-                    $groups = ["1st", "2nd", "3rd", "4th", "5th"];
-                    foreach ($groups as $i) {
-                        echo "<option value=\"" . $i . "\"";
-                        if ($i == $weekend_group) {
-                            echo " SELECTED";
-                        }
-                        echo ">" . $i . "</option>";
-                    }
-                    echo "</select></td>";
-                    echo('<td align="center"><a href="addWeek.php?archive=');
-                    if ($_GET['archive'] == "true") {
-                        echo 'false">Hide Archive</a></td></tr><tr>';
-                    }
-                    else {
-                        echo 'true">View Archive</a></td></tr><tr>';
-                    }
-                    if ($firstweek) {
-                        echo('<td colspan="4"><select name="month">');
-                        $months =
-                            ['', 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-                        $today = date("M");
-                        for ($i = 0; $i <= 12; ++$i) {
-                            echo("<option value=\"" . $i . "\"");
-                            if ($_POST['month'] == $i || $today == $months[$i]) {
-                                echo(" SELECTED");
-                            }
-                            echo(">" . $months[$i] . "</option>");
-                        }
-                        echo('</select> <select name="day"> <option value="0"></option>');
-                        $today = date("j");
-                        for ($i = 1; $i <= 31; ++$i) {
-                            echo("<option ");
-                            if ($_POST['day'] == $i || $today == $i) {
-                                echo(" SELECTED");
-                            }
-                            echo(">" . $i . "</option>");
-                        }
-                        echo('</select><select name="year"> <option value="0"></option>');
-                        $i = date("Y");
-                        echo("<option ");
-                        if ($_POST['year'] == $i || $_POST['year'] != $i + 1) {
-                            echo(" SELECTED");
-                        }
-                        echo(">" . $i . "</option>");
-                        echo("<option ");
-                        if ($_POST['year'] == $i + 1) {
-                            echo(" SELECTED");
-                        }
-                        echo(">" . ($i + 1) . "</option>");
-                        echo("</select></td>");
-                    }
-                    else {
-                        echo "<td colspan = '4'>";
-                    }
-                }
-                echo "</td></tr></table>";
+            $weekStatus = $week->get_status();
+            $showThisWeek = true;
+            if ($weekStatus == "unpublished" && $_SESSION['access_level'] < 2) {
+                $showThisWeek = false;
+            }
 
-                // determines what options apply to each week
-                function show_week_options($week, $remove) {
-                    $id = $week->get_id();
-                    $status = $week->get_status();
-                    $end = $week->get_end();
-                    $rightnow = time();
-                    if ($status == "archived") {
-                        $options = "archived (<a href=\"calendar.php?id=" . $id . "&venue=house\">view</a>)";
-                    }
-                    // see if right now is part of a new week.  If so, archive the previous week.
-                    // here was a BIG BUG -- today might not have an immediate predecessor week in the database,
-                    // in which case "week2" below will be null!  So this now accommodates gaps (missing weeks) in the dbWeeks table.
-                    else {
-                        if ($rightnow > $end) {
-                            $options = "archived (<a href=\"calendar.php?id=" . $id . "&venue=house\">view</a>)";
-                            $week2 = get_dbWeeks($id);
-                            if ($week2 != null) {
-                                $week2->set_status("archived");
-                                update_dbWeeks($week2);
-                            }
-                        }
-                        else {
-                            if ($status == "unpublished") {
-                                $options = "unpublished
-							(<a href=\"calendar.php?id=" . $id . "&venue=house&edit=true\">edit</a>)
-							(<a href=\"addWeek.php?publish=" . $id . "\">publish</a>)
-							(<a href=\"calendar.php?id=" . $id . "&venue=house\">view</a>)";
-                            }
-                            else { // status must be "published"
-                                $options = "published (<a href=\"calendar.php?id=" . $id . "&venue=house&edit=true\">edit</a>)
-							(<a href=\"addWeek.php?publish=" . $id . "\">unpublish</a>)
-							(<a href=\"calendar.php?id=" . $id . "&venue=house\">view</a>)";
-                            }
-                        }
-                    }
-                    if ($remove) {
-                        $options = $options . " (<a href=\"addWeek.php?remove=" . $id . "&archive=" . $_GET['archive'] .
-                            "\">remove</a>)";
-                    }
+            if ($showThisWeek) {
+                echo sprintf(
+                    "<tr class=\"$weekStatus\">" .
+                    '<td>%s</td>' .
+                    '<td>%s</td>' .
+                    '</tr>',
+                    $week->get_name(),
+                    show_week_options($week)
+                );
+            }
+        }
+    }
 
-                    return $options;
-                }
 
-            ?>
-    </form></span>
+    /**
+     * determines what options apply to each week
+     * @param Week $week The week to show options for
+     * @return string Preformatted data to be inserted into the table generated by {@link #print_existing_weeks}
+     */
+    function show_week_options(Week $week) {
+        $id = $week->get_id();
+        $status = $week->get_status();
+
+        // Possible options that can be used in the options for this week.
+        // Depending on what type of week it is, only some of these options will be used,
+        $view = "<a href='calendar.php?id=$id'>view</a>";
+        $remove = "<a href='addWeek.php?remove=$id'>remove</a>";
+        $edit = "<a href='calendar.php?id=$id&edit=true'>edit</a>";
+        $publish = "<a href='addWeek.php?publish=$id'>publish</a>";
+        $unpublish = "<a href='addWeek.php?publish=$id'>unpublish</a>";
+
+
+        if ($status == "archived") {
+            return "$status ($view) ($remove)";
+        } else if ($status == "published") {
+            return "$status ($edit) ($unpublish) ($view) ($remove)";
+        } else {
+            return "$status ($edit) ($publish) ($view) ($remove)";
+        }
+    }
+?>

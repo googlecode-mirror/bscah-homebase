@@ -187,14 +187,12 @@
     }
 
     /*
-     * @return all master schedule entries for a particular venue and day for shifts
      * Each row in the array is a MasterScheduleEntry
      * If there are no entries, return an empty array
+     * @return MasterScheduleEntry[] all master schedule entries for a particular venue and day for shifts
      */
-
     function get_master_shifts($type, $day) {
         connect();
-        //$outcome = array();
         $query = "SELECT * FROM masterschedule WHERE day = '" . $day .
             "' AND schedule_type = '" . $type . "'";
         $result = mysql_query($query);
@@ -478,17 +476,12 @@
     /*
      * @return number of vacancies for a particular schedule_type, Week_no, day, and time
      */
-
     function get_total_vacancies($Schedule_type, $day, $time) {
         $slots = get_total_slots($Schedule_type, $day, $time);
         $persons = count(get_persons($Schedule_type, $day, $time));
 
         return $slots - $persons;
     }
-
-    /*
-     * @return number of vacancies for a particular schedule_type, Week_no, day, and time
-     */
 
     function check_valid_schedule($Schedule_type, $day, $time) {
         connect();

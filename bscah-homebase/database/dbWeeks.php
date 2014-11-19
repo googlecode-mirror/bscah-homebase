@@ -51,11 +51,12 @@
     /**
      * Inserts a week into the db
      *
-     * @param $w the week to insert
+     * @param $w Week the week to insert
      */
-    function insert_dbWeeks($w) {
-        if (!$w instanceof Week) {
-            die("Invalid argument for week->add_week function call");
+    function insert_dbWeeks(Week $w) {
+        if (!assert_week_format($w)) {
+            error_log("ERROR: Your week object did not start on a Sunday or did not have a length of 7 days");
+            return false;
         }
         connect();
         $query = sprintf(
@@ -94,9 +95,21 @@
     }
 
     /**
+     * Use this method to sanity-check a Week object before it is inserted into the database
+     * @param Week $w The week object to check
+     *
+     * @return bool true only if the week starts on a Sunday and has a length of 7 days, otherwise return false
+     */
+    function assert_week_format(Week $w) {
+        $date = DateTime::createFromFormat("m-d-y", $w->get_id());
+        $dow = $date->format("w");
+        return $dow == 0 && count($w->get_dates()) == 7;
+    }
+
+    /**
      * Deletes a week from the db
      *
-     * @param $w the week to delete
+     * @param $w Week the week to delete
      */
     function delete_dbWeeks($w) {
         if (!$w instanceof Week) {
@@ -123,12 +136,9 @@
     /**
      * Updates a week in the db by deleting it and re-inserting it
      *
-     * @param $w the week to update
+     * @param $w Week the week to update
      */
-    function update_dbWeeks($w) {
-        if (!$w instanceof Week) {
-            die("Invalid argument for week->replace_week function call");
-        }
+    function update_dbWeeks(Week $w) {
         if (delete_dbWeeks($w)) {
             return insert_dbWeeks($w);
         }
@@ -140,39 +150,33 @@
     /**
      * Selects a week from the database
      *
-     * @param $id week id --
+     * @param $id id --
      *
-     * @return mysql entry corresponding to id
+     * @return array mysql entry corresponding to id
      */
     function select_dbWeeks($id) {
+        if (!is_string($id)) {
+            error_log("select_dbWeeks must have an id of string, but user provided a " . get_class($id));
+            return false;
+        }
         if (strlen($id) != 8) {
             die("Invalid week id." . $id);
         }
-        else {
-            $timestamp = mktime(0, 0, 0, substr($id, 0, 2), substr($id, 3, 2), substr($id, 6, 2));
-            $dow = date("N", $timestamp);
-            $id2 = date("m-d-y", mktime(0, 0, 0, substr($id, 0, 2), substr($id, 3, 2) - $dow + 1, substr($id, 6, 2)));
-        }
+        $date = DateTime::createFromFormat("m-d-y", $id);
+        $dow = $date->format("w");
+        $sunday = $date->modify("-$dow day");
+
+
         connect();
-        $query = "SELECT * FROM weeks WHERE id =\"" . $id2 . "\"";
+        $query = "SELECT * FROM weeks WHERE id =\"" . $sunday->format("m-d-y") . "\"";
         $result = mysql_query($query);
-        if (!$result || mysql_numrows($result) == 0) {
-            $query = "SELECT * FROM weeks WHERE id =\"" . $id . "\"";
-            $result = mysql_query($query);
-            if (!$result) {
-                echo '<br>Could not run query: ' . mysql_error();
-                $result_row = false;
-            }
-            else {
-                $result_row = mysql_fetch_assoc($result);
-            }
-        }
-        else {
-            $result_row = mysql_fetch_assoc($result);
+
+        if (!$result) {
+            error_log("Could not select week " . $id);
         }
         mysql_close();
 
-        return $result_row;
+        return mysql_fetch_assoc($result);
     }
 
     /**
@@ -184,6 +188,7 @@
      */
     function get_dbWeeks($id) {
         $result_row = select_dbWeeks($id);
+
         if ($result_row != null) {
             $dates = explode("*", $result_row['dates']);
             $d = [];
@@ -192,7 +197,6 @@
                 $d[] = $temp;
             }
             $w = new Week($d, $result_row['status']);
-            error_log("3");
             return $w;
         }
         else {
@@ -202,11 +206,11 @@
 
     /**
      * the full contents of dbWeeks, used by addWeek to list all scheduld weeks
-     * @return mysql result array of weeks
+     * @return Week[] mysql result array of weeks
      */
     function get_all_dbWeeks() {
         connect();
-        $query = "SELECT * FROM weeks ORDER BY end";
+        $query = "SELECT ID FROM DBBSCAH.WEEKS ORDER BY end";
         $result = mysql_query($query);
         if (!$result) {
             error_log('ERROR on select in get_all_dbWeeks ' . mysql_error());
@@ -214,12 +218,28 @@
         }
         mysql_close();
         $weeks = [];
-        while ($result_row = mysql_fetch_assoc($result)) {
-            error_log($result_row['id']);
-            $w = get_dbWeeks($result_row['id']);
-            $weeks[] = $w;
+
+        while ($row = mysql_fetch_array($result, MYSQL_ASSOC)) {
+            $weeks[] = get_dbWeeks($row['ID']);
         }
+
         return $weeks;
+    }
+
+    /**
+     * @return int The number of weeks in DBBSCAH.WEEKS
+     */
+    function get_dbWeeks_count() {
+        connect();
+        $query = "SELECT COUNT(*) FROM DBBSCAH.WEEKS";
+        $result = mysql_query($query);
+        if (!$result) {
+            $mysql_error = mysql_error();
+            error_log("ERROR on count in get_dbWeeks_count $mysql_error");
+            die ("Invalid query: $mysql_error");
+        }
+        mysql_close();
+        return $result;
     }
 
     /**

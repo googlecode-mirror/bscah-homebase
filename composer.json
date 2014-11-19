@@ -1,0 +1,9 @@
+{
+    "name": "st-johns/bscah-homebase",
+    "minimum-stability": "stable",
+    "license": "GPL v3",
+    "require": {
+        "apache/log4php": "2.3.0",
+        "phpunit/phpunit": "4.3.4"
+    }
+}

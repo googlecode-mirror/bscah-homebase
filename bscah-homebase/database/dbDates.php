@@ -66,7 +66,6 @@
             $d->get_mgr_notes(),
             $d->get_projects()// TODO: What are projects and what do we have to put them into the DB as?
         );
-        error_log("in insert_dbDates, query is" . $query);
         $result = mysql_query($query);
 
         if (!$result) {
@@ -144,7 +143,7 @@
 
     /**
      * selects a date from the table
-     * @return RMHDate
+     * @return BSCAHdate
      */
     function select_dbDates($id) {
         if (strlen($id) != 8) {
@@ -152,7 +151,6 @@
         }
         connect();
         $query = "SELECT * FROM date WHERE date_id =\"" . $id . "\"";
-        error_log("in select_dbDates, query is " . $query);
         $result = mysql_query($query);
         mysql_close();
         if (!$result) {
@@ -173,12 +171,12 @@
                         $s[$temp->get_name()] = $temp;
                     }
                 }
-              
+
                 $d = new BSCAHdate($result_row[0], $s, "", []); // TODO: This constructor is malformed somehow
-                 
-               
+
+
                 error_log($d->get_projects());
-                
+
                 return $d;
             }
             else {
@@ -202,33 +200,20 @@
 
         return $shift_text;
     }
-    
-    function update_dbDates_projects($date)
-    {
-        $update_status = false;
-        $db_date = select_dbDates($date);
-        if($db_date instanceof BSCAHdate && $db_date != null)
-        {
-            insert_dbDates_project($db_date);
-            $update_status = TRUE;
-              error_log("Your project is added to the date table");
-        }
-        else 
-        {
-            error_log("Date is currently not in date table");
-            
-        }
-        
-     return $update_status;
- }
 
-       
-        
-      
-    
+    function update_dbDates_projects($date) {
+        $db_date = select_dbDates($date);
+        if($db_date != null) {
+            insert_dbDates_project($db_date);
+        }
+        else {
+            error_log("Date is currently not in date table");
+        }
+    }
+
     function insert_dbDates_project(BSCAHdate $d) {
         connect();
-       
+
         $query = sprintf(
             'UPDATE date SET Projects = "%s" WHERE DATE_ID = "%s"',
             $d->get_projects(),
@@ -244,14 +229,6 @@
             return false;
         }
         mysql_close();
-        
+        return true;
     }
-
-    
-    
-    
-   
-    
-
-
 ?>

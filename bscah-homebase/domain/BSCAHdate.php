@@ -48,15 +48,12 @@
             $dd = substr($id, 3, 2);
             $yy = substr($id, 6, 2);
             if (!checkdate($mm, $dd, $yy)) {
-                $this->id = null;
-                echo "Error: invalid date for BSCAHdate constructor " . $mm . $dd . $yy;
-
-                return;
+                error_log("Error: invalid date for BSCAHdate constructor " . $mm . $dd . $yy);
+                return null;
             }
             $my_date = mktime(0, 0, 0, $mm, $dd, $yy);
           
             $this->id = date("m-d-y", $my_date);
-            error_log($this->id);
             $this->month = date("M", $my_date);
             $this->day = date("D", $my_date);
             $this->year = date("Y", $my_date);

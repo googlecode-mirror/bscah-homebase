@@ -165,7 +165,6 @@
         connect();
         $projects = [];
         $query = "SELECT ProjectID FROM project WHERE DATE =\"" . $date . "\"";
-        error_log("in select_dbProjects_by_date, query is " . $query);
         $result = mysql_query($query);
         if (!$result) {
             error_log('ERROR on select in get_dbProjects() ' . mysql_error());
