@@ -14,32 +14,7 @@
     include_once(dirname(__FILE__) . '/../domain/MasterScheduleEntry.php');
     include_once('dbinfo.php');
 
-    function create_dbMasterSchedule() {
-        connect();
-        mysql_query("DROP TABLE IF EXISTS masterschedule");
-        $result = mysql_query("CREATE TABLE masterschedule (MS_ID varchar(25) NOT NULL DEFAULT, Schedule_type TEXT NOT NULL, day TEXT NOT NULL,
-							start_time TEXT, end_time TEXT, slots int(11) DEFAULT NULL, persons TEXT, notes TEXT, Shifts TEXT NOT NULL )");
-        // id is a unique string for each entry: id = schedule_type.day.week_no.start_time."-".end_time and week_no == odd, even, 1st, 2nd, ... 5th
-        if (!$result) {
-            echo mysql_error() . " - Error creating masterschedule table.\n";
-
-            return false;
-        }
-        $schedule_types = ["weekly", "monthly"];
-        $week_days = ["Mon", "Tue", "Wed", "Thu", "Fri"];
-        $weekend_days = ["Sat", "Sun"];
-        $weekend_weeks = ["1st", "2nd", "3rd", "4th", "5th"];
-        // insert a single entry into the table
-        $e = new MasterScheduleEntry("weekly", "Mon", 9, 12, 0, "", "", "");
-        insert_dbMasterSchedule($e);
-        $e = new MasterScheduleEntry("weekly", "Tue", "overnight", 0, 0, "", "", "");
-        insert_dbMasterSchedule($e);
-        // add more of these if we want to pre-fill some standard master schedule shifts;
-        // otherwise, leave the rest of the table blank
-        mysql_close();
-
-        return true;
-    }
+   
 
     function insert_dbMasterSchedule(MasterScheduleEntry $entry) {
         connect();
@@ -69,7 +44,7 @@
         //error_log("in insert into master schedule, query is " . $query);
         $result = mysql_query($query);
         if (!$result) {
-            echo mysql_error() . " - Unable to insert in masterschedule: " . $entry->get_MS_ID() . "\n";
+            error_log('ERROR on select in insert_dbMasterSchedule() ' . mysql_error() . " - Unable to insert in masterschedule: " . $entry->get_MS_ID() );
             mysql_close();
 
             return false;
@@ -107,7 +82,7 @@
     function update_dbMasterSchedule($entry) {
         connect();
         if (!$entry instanceof MasterScheduleEntry) {
-            echo("Invalid argument for update_masterschedule function call");
+            error_log("Invalid argument for update_masterschedule function call");
 
             return false;
         }
@@ -115,7 +90,7 @@
             return insert_dbMasterschedule($entry);
         }
         else {
-            echo(mysql_error() . " - Unable to update masterschedule: " . $entry->get_MS_ID() . "\n");
+            error_log(mysql_error() . " - Unable to update masterschedule: " . $entry->get_MS_ID() );
 
             return false;
         }
@@ -133,7 +108,7 @@
             die('Invalid query: ' . mysql_error());
         }
         if (!$result) {
-            echo(mysql_error() . " - Unable to delete from masterschedule: " . $MS_ID . "\n");
+            error_log(mysql_error() . " - Unable to delete from masterschedule: " . $MS_ID );
 
             return false;
         }
