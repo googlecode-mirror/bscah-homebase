@@ -37,7 +37,7 @@
         private $ID;            // id (unique key) = first_name . phone1
         private $NameFirst;    // first name as a string
         private $NameLast;     // last name as a string
-        private $Birthday;      //birhday
+        private $Birthday;      //birthday
         private $Gender;        // gender - string
         private $Address;       // address - string
         private $City;          // city - string

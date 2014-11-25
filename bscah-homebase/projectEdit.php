@@ -39,7 +39,7 @@
             $id = str_replace(" ", "_", $_GET["id"]);
             error_log("The current id is " . $id);
             $project = select_dbProjects($id);
-            error_log("The project is". $project);
+            //error_log("The project is". $project);
             if (!$project) {
                 echo('<p id="error">Error: there\'s no projects with this id in the database</p>' . $id);
                 die();

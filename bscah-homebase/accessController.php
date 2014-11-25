@@ -103,7 +103,7 @@
                 if ($_SESSION['access_level'] == 1) {
                     echo(' | <strong>calendars:</strong> <a href="' . $path .
                         'calendar.php?venue=house">current, </a>');
-                    echo('<strong>projects :</strong> <a href="' . $path . 'projectSearch.php">search</a> |');
+                    echo('<strong>projects :</strong> <a href="' . $path . 'projectSearch.php?id=' . 'none' . '">search</a> |');
                     echo(' | <a href="' . $path . 'logout.php"><b>logout</b></a>');
                     //echo('<strong>projects :</strong> <a href="' . $path . 'projectSearch.php">search</a>,
                     //    <a href="projectEdit.php?id=' . 'new' . '">add </a>');
@@ -127,7 +127,7 @@
                     echo('<strong>volunteers :</strong> <a href="' . $path . 'personSearch.php">search</a>,
 			        <a href="personEdit.php?id=' . 'new' . '">add </a> | ');
                     
-                    echo('<strong>projects :</strong> <a href="' . $path . 'projectSearch.php">search</a>,
+                    echo('<strong>projects :</strong> <a href="' . $path . 'projectSearch.php?id=' . 'none' . '">search</a>,
                                 <a href="' . $path . 'calendar.php">project calender</a>,
 			        <a href="projectEdit.php?id=' . 'new' . '">add, </a>
                                 <a href=" ' . $path . 'projectInfo.php">project information, </a>
