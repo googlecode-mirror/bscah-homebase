@@ -15,8 +15,8 @@
 
 <html>
 
-<div id="container">
-<?PHP include('header.php'); ?>
+<!--<div id="container">-->
+<?PHP //include('header.php'); ?>
    
 <div id="content">
 <?php
