@@ -198,11 +198,12 @@
 
             // put into dbShift!
             connect();
-            $vacancy_query = "SELECT id,vacancies FROM shift " .
-                "WHERE vacancies > 0 ORDER BY id;";
+            $vacancy_query = "SELECT ID,VACANCIES FROM SHIFT " .
+                "WHERE VACANCIES > 0 ORDER BY ID;";
             error_log("in index.php, will retrieve shift vacancies with this query: " . $vacancy_query);
             $vacancy_list = mysql_query($vacancy_query);
             if (!$vacancy_list) {
+                error_log('sql error while retrieving shifts with vacancies '.mysql_error());
                 echo mysql_error();
             }
             //upcoming vacancies
@@ -212,25 +213,25 @@
                 echo('<div class="vacancyBox">');
                 echo('<p><strong>Upcoming Vacancies:</strong><ul>');
                 while ($thisRow = mysql_fetch_array($vacancy_list, MYSQL_ASSOC)) {
-                    $shift_date = mktime(0, 0, 0, substr($thisRow['id'], 0, 2), substr($thisRow['id'], 3, 2),
-                                         substr($thisRow['id'], 6, 2));
+                    $shift_date = mktime(0, 0, 0, substr($thisRow['ID'], 0, 2), substr($thisRow['ID'], 3, 2),
+                                         substr($thisRow['ID'], 6, 2));
                     if ($shift_date > $today && $shift_date < $two_weeks) {
-                        echo('<li type="circle"><a href="' . $path . 'editShift.php?shift=' . $thisRow['id'] . '">' .
-                            get_shift_name_from_id($thisRow['id']) . '</a></li>');
+                        echo('<li type="circle"><a href="' . $path . 'editShift.php?shift=' . $thisRow['ID'] . '">' .
+                            get_shift_name_from_id($thisRow['ID']) . '</a></li>');
                     }
                 }
                 echo('</ul></p></div><br>');
             }
             //active applicants
-            connect();
+       //     connect();
 
             $applicants_tab = getall_applicants();
             $numLines = 0;
             if (mysql_num_rows($applicants_tab) > 0) {
                 echo('<div class="applicantsBox"><p><strong>Open Volunteer Applications:</strong><ul>');
                 while ($thisRow = mysql_fetch_array($applicants_tab, MYSQL_ASSOC)) {
-                    echo('<li type="circle"><a href="' . $path . 'personEdit.php?id=' . $thisRow['id'] .
-                        '" ID = "appLink">' . $thisRow['NameFirst'] . ' ' . $thisRow['NameLast'] . '</a></li>');
+                    echo('<li type="circle"><a href="' . $path . 'personEdit.php?id=' . $thisRow['ID'] .
+                        '" ID = "appLink">' . $thisRow['NAMEFIRST'] . ' ' . $thisRow['NAMELAST'] . '</a></li>');
                 }
                 echo('</ul></p></div><br>');
             }

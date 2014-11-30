@@ -18,21 +18,7 @@
     include_once('dbinfo.php');
     include_once(dirname(__FILE__) . '/../domain/ApplicantScreening.php');
 
-    function create_dbApplicantScreenings() {
-        connect();
-        mysql_query("DROP TABLE IF EXISTS dbApplicantScreenings");
-        $result = mysql_query("CREATE TABLE dbApplicantScreenings (type TEXT NOT NULL,
-    	creator TEXT, steps TEXT, status TEXT)");
-        mysql_close();
-        if (!$result) {
-            echo mysql_error() . "Error creating dbApplicantScreenings table. <br>";
-
-            return false;
-        }
-        $screening = new ApplicantScreening($type, $_SESSION['_id'], "", "unpublished");
-
-        return true;
-    }
+    
 
     function insert_dbApplicantScreenings($screening) {
         if (!$screening instanceof ApplicantScreening) {
@@ -40,14 +26,14 @@
         }
 
         connect();
-        $query = "SELECT * FROM dbApplicantScreenings WHERE type = '" . $screening->get_type() . "'";
+        $query = "SELECT * FROM DBAPPLICANTSCREENINGS WHERE TYPE = '" . $screening->get_type() . "'";
         $result = mysql_query($query);
         if (mysql_num_rows($result) != 0) {
             delete_dbApplicantScreenings($screening->get_type());
             connect();
         }
 
-        $query = "INSERT INTO dbApplicantScreenings VALUES ('" .
+        $query = "INSERT INTO DBAPPLICANTSCREENINGS VALUES ('" .
             $screening->get_type() . "','" .
             $screening->get_creator() . "','" .
             implode(",", $screening->get_steps()) . "','" .
@@ -55,7 +41,7 @@
             "');";
         $result = mysql_query($query);
         if (!$result) {
-            echo(mysql_error() . " unable to insert into dbApplicantScreenings: " . $screening->get_type() . "\n");
+            echo(mysql_error() . " unable to insert into DBAPPLICANTSCREENINGS: " . $screening->get_type() . "\n");
             mysql_close();
 
             return false;
@@ -65,9 +51,9 @@
         return true;
     }
 
-    function retrieve_dbApplicantScreenings($type) {
+    function retrieve_DBAPPLICANTSCREENINGS($type) {
         connect();
-        $query = "SELECT * FROM dbApplicantScreenings WHERE type = '" . $type . "'";
+        $query = "SELECT * FROM DBAPPLICANTSCREENINGS WHERE TYPE = '" . $type . "'";
         $result = mysql_query($query);
         if (mysql_num_rows($result) !== 1) {
             mysql_close();
@@ -75,8 +61,8 @@
             return false;
         }
         $result_row = mysql_fetch_assoc($result);
-        $theScreening = new ApplicantScreening($result_row['type'], $result_row['creator'],
-                                               $result_row['steps'], $result_row['status']);
+        $theScreening = new ApplicantScreening($result_row['TYPE'], $result_row['CREATOR'],
+                                               $result_row['STEPS'], $result_row['STATUS']);
         mysql_close();
 
         return $theScreening;
@@ -84,7 +70,7 @@
 
     function getall_ApplicantScreenings() {
         connect();
-        $query = "SELECT * FROM dbApplicantScreenings ORDER BY type";
+        $query = "SELECT * FROM DBAPPLICANTSCREENINGS ORDER BY TYPE";
         $result = mysql_query($query);
         if ($result == null || mysql_num_rows($result) == 0) {
             mysql_close();
@@ -93,8 +79,8 @@
         }
         $theScreenings = [];
         while ($result_row = mysql_fetch_assoc($result)) {
-            $theScreening = new ApplicantScreening($result_row['type'], $result_row['creator'],
-                                                   $result_row['steps'], $result_row['status']);
+            $theScreening = new ApplicantScreening($result_row['TYPE'], $result_row['CREATOR'],
+                                                   $result_row['STEPS'], $result_row['STATUS']);
             $theScreenings[] = $theScreening;
         }
         mysql_close();
@@ -104,7 +90,7 @@
 
     function update_dbApplicantScreenings($screening) {
         if (!$screening instanceof ApplicantScreening) {
-            echo("Invalid argument for update_dbApplicantScreenings function call");
+            error_log("Invalid argument for update_dbApplicantScreenings function call");
 
             return false;
         }
@@ -112,7 +98,7 @@
             return insert_dbApplicantScreenings($screening);
         }
         else {
-            echo(mysql_error() . "unable to update dbApplicantScreenings table: " . $screening->get_type());
+            error_log(mysql_error() . "unable to update DBAPPLICANTSCREENINGS table: " . $screening->get_type());
 
             return false;
         }
@@ -120,11 +106,11 @@
 
     function delete_dbApplicantScreenings($type) {
         connect();
-        $query = "DELETE FROM dbApplicantScreenings WHERE type=\"" . $type . "\"";
+        $query = "DELETE FROM DBAPPLICANTSCREENINGS WHERE TYPE=\"" . $type . "\"";
         $result = mysql_query($query);
         mysql_close();
         if (!$result) {
-            echo(mysql_error() . " unable to delete from dbApplicantScreenings: " . $type);
+            error_log(mysql_error() . " unable to delete from DBAPPLICANTSCREENINGS: " . $type);
 
             return false;
         }

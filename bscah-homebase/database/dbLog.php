@@ -25,16 +25,7 @@
      * time - timestamp time()
      * message - text
      */
-//    function create_dbLog() {
-//        connect();
-//        mysql_query("DROP TABLE IF EXISTS dbbscah.dbLog");
-//        //NOTE: primary key set to id.  id is text in the form: mm-dd-yy-ss-se,  ss=shift start,  se=shift end
-//        $result =
-//            mysql_query("CREATE TABLE dbbscah.dbLog (id INT(3) NOT NULL AUTO_INCREMENT,time TEXT, message TEXT, PRIMARY KEY(id))");
-//        if (!$result) {
-//            echo mysql_error();
-//        }
-//        mysql_close();
+
     
 
     /**
@@ -45,7 +36,7 @@
         $time = time();
         connect();
 
-        $query = sprintf('INSERT INTO DBBSCAH.DBLOG (time, message) VALUES (`%s`, `%s`)',
+        $query = sprintf('INSERT INTO DBLOG (time, message) VALUES (`%s`, `%s`)',
             $time,
             str_replace('`', "", $message) // Remove all back`ticks
         );
@@ -61,10 +52,10 @@
      */
     function delete_log_entry($id) {
         connect();
-        $query = "DELETE FROM dbLog WHERE id=\"" . $id . "\"";
+        $query = "DELETE FROM DBLOG WHERE ID=\"" . $id . "\"";
         $result = mysql_query($query);
         if (!$result) {
-            echo mysql_error();
+            error_log('sql error in delete_log_entry ' .mysql_error());
         }
         mysql_close();
     }
@@ -77,10 +68,10 @@
     function delete_log_entries($ids) {
         connect();
         for ($i = 0; $i < count($ids); ++$i) {
-            $query = "DELETE FROM dbLog WHERE id=\"" . $ids[$i] . "\"";
+            $query = "DELETE FROM DBLOG WHERE ID=\"" . $ids[$i] . "\"";
             $result = mysql_query($query);
             if (!$result) {
-                echo mysql_error();
+                error_log('sql error in delete_log_entries ' . mysql_error());
             }
         }
         mysql_close();
@@ -92,10 +83,11 @@
      */
     function get_full_log() {
         connect();
-        $query = "SELECT * FROM dbLog ORDER BY time";
+        $query = "SELECT * FROM DBLOG ORDER BY TIME";
         $result = mysql_query($query);
         mysql_close();
         if (!$result) {
+            error_log('could not get the full log in dbLog.get_full_log');
             die("error getting log");
         }
         else {

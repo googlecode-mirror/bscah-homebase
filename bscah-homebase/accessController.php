@@ -51,6 +51,7 @@
                 $permission_array['calendar.php'] = 1;
                 $permission_array['projectInfo.php'] = 1;
                 $permission_array['projectTimeInfo.php'] = 1;
+                 $permission_array['projectSearch.php'] = 1;
                 //pages only managers can view
                 $permission_array['projectEdit.php'] = 2;
                 $permission_array['viewSchedule.php'] = 2;

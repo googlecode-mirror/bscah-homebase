@@ -28,15 +28,15 @@ USE `dbbscah`;
 -- Table structure for table `date`
 --
 
-CREATE TABLE IF NOT EXISTS `date` (
+CREATE TABLE IF NOT EXISTS `DATE` (
   `DATE_ID` varchar(8) NOT NULL,
-  `shifts` text,
-  `mgr_notes` text,
-  `Projects` text NOT NULL,
+  `SHIFTS` text,
+  `MGR_NOTES` text,
+  `PROJECTS` text NOT NULL,
   PRIMARY KEY (`DATE_ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
-INSERT INTO `date` (`DATE_ID`, `shifts`, `mgr_notes`, Projects) VALUES
+INSERT INTO `DATE` (`DATE_ID`, `SHIFTS`, `MGR_NOTES`, `PROJECTS`) VALUES
 ('02-24-14', '02-24-14-9-12*02-24-14-12-15*02-24-14-18-21*02-24-14-overnight', '', null),
 ('02-25-14', '02-25-14-9-12*02-25-14-12-15*02-25-14-15-18*02-25-14-18-21*02-25-14-overnight', '', null),
 ('02-26-14', '02-26-14-9-12*02-26-14-15-18*02-26-14-18-21*02-26-14-overnight', '', null),
@@ -127,16 +127,16 @@ SET time_zone = "+00:00";
 -- Table structure for table `masterschedule`
 --
 
-CREATE TABLE IF NOT EXISTS `masterschedule` (
+CREATE TABLE IF NOT EXISTS `MASTERSCHEDULE` (
   `MS_ID` varchar(25) NOT NULL DEFAULT '',
-  `Schedule_type` text NOT NULL,
-  `day` text NOT NULL,
-  `start_time` text NOT NULL,
-  `end_time` text,
-  `slots` int(11) DEFAULT NULL,
-  `persons` text,
-  `notes` text,
-  `Shifts` text NOT NULL
+  `SCHEDULE_TYPE` text NOT NULL,
+  `DAY` text NOT NULL,
+  `START_TIME` text NOT NULL,
+  `END_TIME` text,
+  `SLOTS` int(11) DEFAULT NULL,
+  `PERSONS` text,
+  `NOTES` text,
+  `SHIFTS` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
@@ -150,26 +150,26 @@ CREATE TABLE IF NOT EXISTS `masterschedule` (
 -- Table structure for table `person`
 --
 
-CREATE TABLE IF NOT EXISTS `person` (
+CREATE TABLE IF NOT EXISTS `PERSON` (
   `ID` varchar(25) NOT NULL,
-  `NameFirst` varchar(20) NOT NULL,
-  `NameLast` varchar(25) NOT NULL,
-  `Birthday` varchar(11) NOT NULL, 
-  `Gender` varchar(1) NOT NULL,
-  `Address` varchar(40) NOT NULL,
-  `City` varchar(25) NOT NULL,
-  `State` varchar(2) NOT NULL,
-  `Zip` varchar(5) NOT NULL,
-  `Phone1` varchar(12) NOT NULL,
-  `Phone2` varchar(12) DEFAULT NULL,
-  `Email` varchar(30) NOT NULL,
-  `Type` varchar(15) NOT NULL COMMENT 'Denotes wether a manager, volunteer or guest',
-  `Status` varchar(15) COMMENT 'values could be applicant or approved for volunteer, null for  manager',
-  `Schedule` varchar(100) NOT NULL COMMENT 'Dates scheduled for voliunteering',
-  `Notes` varchar(200) NOT NULL,
-  `Password`  text NOT NULL,
-  `Availability` varchar(580) NOT NULL COMMENT 'days and times free for volunteering',
-   `ContactPreference` varchar(15) NOT NULL COMMENT 'either email, mail or phone number',
+  `NAMEFIRST` varchar(20) NOT NULL,
+  `NAMELAST` varchar(25) NOT NULL,
+  `BIRTHDAY` varchar(11) NOT NULL, 
+  `GENDER` varchar(1) NOT NULL,
+  `ADDRESS` varchar(40) NOT NULL,
+  `CITY` varchar(25) NOT NULL,
+  `STATE` varchar(2) NOT NULL,
+  `ZIP` varchar(5) NOT NULL,
+  `PHONE1` varchar(12) NOT NULL,
+  `PHONE2` varchar(12) DEFAULT NULL,
+  `EMAIL` varchar(30) NOT NULL,
+  `TYPE` varchar(15) NOT NULL COMMENT 'Denotes wether a manager, volunteer or guest',
+  `STATUS` varchar(15) COMMENT 'values could be applicant or approved for volunteer, null for  manager',
+  `SCHEDULE` varchar(100) NOT NULL COMMENT 'Dates scheduled for voliunteering',
+  `NOTES` varchar(200) NOT NULL,
+  `PASSWORD`  text NOT NULL,
+  `AVAILABILITY` varchar(580) NOT NULL COMMENT 'days and times free for volunteering',
+   `CONTACTPREFERENCE` varchar(15) NOT NULL COMMENT 'either email, mail or phone number',
   PRIMARY KEY (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -177,7 +177,7 @@ CREATE TABLE IF NOT EXISTS `person` (
 -- Dumping data for table `person`
 --
 
-INSERT INTO `person` (`ID`, `NameFirst`, `NameLast`, `Birthday`, `Gender`, `Address`, `City`, `State`, `Zip`, `Phone1`, `Phone2`, `Email`, `Type`, `Status`, `Schedule`, `Notes`, `Password`, `Availability`, `ContactPreference`) VALUES
+INSERT INTO `PERSON` (`ID`, `NAMEFIRST`, `NAMELAST`, `BIRTHDAY`, `GENDER`, `ADDRESS`, `CITY`, `STATE`, `ZIP`, `PHONE1`, `PHONE2`, `EMAIL`, `TYPE`, `STATUS`, `SCHEDULE`, `NOTES`, `PASSWORD`, `AVAILABILITY`, `CONTACTPREFERENCE`) VALUES
 ('Alana2147483647', 'Alana', 'Mutum', '09/19/93', 'F', '1140 Esther Street', 'Franklin Square', 'NY', '11010', '2147483647', NULL, 'lanixxjay@live.com', 'manager', NULL, '', '', '0a56fdd1488f6102ecd18dead95ed83c', '', 'email'),
 ('Erick6464924106', 'Erick', 'Tavera', '05/10/92', 'M', '1232 Mockingbird Lane', 'Queens', 'NY', '11439', '6464924106', NULL, 'erick.tavera10@stjohns.edu', 'Volunteer', 'approved', '', '', '323e5cf127866f33db001369b7a150be', '', 'email'),
 ('Humza6462207988', 'Humza', 'Ahmad', '03/17/92', 'M', '3000 Union Tpke', 'Queens', 'NY', '11439', '6462207988', NULL, 'humza15@gmail.com', 'Volunteer', 'approved', '', '', '8122dae99d7e5350db689e26377989bd', '', 'email'),
@@ -204,27 +204,27 @@ INSERT INTO `person` (`ID`, `NameFirst`, `NameLast`, `Birthday`, `Gender`, `Addr
 -- Table structure for table `project`
 --
 
-CREATE TABLE IF NOT EXISTS `project` (
-  `ProjectID` varchar(58) NOT NULL,
-  `Address` varchar(50),
-  `Date` varchar(10) NOT NULL,
-  `Type` varchar(30) NOT NULL,
-  `Vacancies` int(3) NOT NULL,
-  `StartTime` int(4) NOT NULL,  
-  `EndTime` int(4) NOT NULL,
- `DayOfWeek` varchar(3) NOT NULL,
-  `Name` varchar(50) NOT NULL,
-  `Persons`  text,
-  `AgeRequirement`  int(3) DEFAULT NULL,
-  `ProjectDescription` varchar(30) DEFAULT NULL,
-  PRIMARY KEY (`ProjectID`)
+CREATE TABLE IF NOT EXISTS `PROJECT` (
+  `PROJECTID` varchar(58) NOT NULL,
+  `ADDRESS` varchar(50),
+  `DATE` varchar(10) NOT NULL,
+  `TYPE` varchar(30) NOT NULL,
+  `VACANCIES` int(3) NOT NULL,
+  `STARTTIME` int(4) NOT NULL,  
+  `ENDTIME` int(4) NOT NULL,
+ `DAYOFWEEK` varchar(3) NOT NULL,
+  `NAME` varchar(50) NOT NULL,
+  `PERSONS`  text,
+  `AGEREQUIREMENT`  int(3) DEFAULT NULL,
+  `PROJECTDESCRIPTION` varchar(30) DEFAULT NULL,
+  PRIMARY KEY (`PROJECTID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='Collection of Projects';
 
 --
 -- Dumping data for table `project`
 --
 
-INSERT INTO `project` (`ProjectID`, `Address`, `Date`,`Type`, `Vacancies`, `StartTime`, `EndTime`, `DayOfWeek`, `Name`, `Persons`,`AgeRequirement` ,`ProjectDescription`) VALUES
+INSERT INTO `PROJECT` (`PROJECTID`, `ADDRESS`, `DATE`,`TYPE`, `VACANCIES`, `STARTTIME`, `ENDTIME`, `DAYOFWEEK`, `NAME`, `PERSONS`,`AGEREQUIREMENT` ,`PROJECTDESCRIPTION`) VALUES
 ('02-24-14-900-1200-Food', '4119 Nuzum Court Williamsville', '02-24-14', null, '3', '900', '1200', 'Mon', 'Food', 'Erick6464924106+Erick+Tavera+*Humza6462207988+Humza+Ahmad+','50', ''),
 ('02-25-14-1200-1500-Food', '521 White Pine Lane Fredericksburg', '02-25-14',null, '2', '1200', '1500', 'Tue', 'Food', 'Gregory7188057221+Gregory+Wilson+' , '5', ''),
 ('02-26-14-1800-2300-Food Delivery', '4964 Sardis Sta Grand Prairie', '02-26-14',null, '4', '1800', '2300', 'Wed', 'Food Delivery', 'Jefferson3475899639+Jefferson+Steelflex+*Erick6464924106+Erick+Tavera+',null,  ''),
@@ -246,23 +246,23 @@ INSERT INTO `project` (`ProjectID`, `Address`, `Date`,`Type`, `Vacancies`, `Star
 -- Table structure for table `shift`
 --
 
-CREATE TABLE IF NOT EXISTS `shift` (
-  `id` varchar(20) NOT NULL DEFAULT '', 
-  `start_time` int(11) DEFAULT NULL,
-  `end_time` int(11) DEFAULT NULL,
-  `venue` text,
-  `vacancies` int(11) DEFAULT NULL,
-  `persons` text,
-  `removed_persons` text,
-  `notes` text,
-  PRIMARY KEY (`id`)
+CREATE TABLE IF NOT EXISTS `SHIFT` (
+  `ID` varchar(20) NOT NULL DEFAULT '', 
+  `START_TIME` int(11) DEFAULT NULL,
+  `END_TIME` int(11) DEFAULT NULL,
+  `VENUE` text,
+  `VACANCIES` int(11) DEFAULT NULL,
+  `PERSONS` text,
+  `REMOVED_PERSONS` text,
+  `NOTES` text,
+  PRIMARY KEY (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `shift`
 --
 
-INSERT INTO `shift` (`id`, `start_time`, `end_time`, `venue`, `vacancies`, `persons`, `removed_persons`, `notes`) VALUES
+INSERT INTO `SHIFT` (`ID`, `START_TIME`, `END_TIME`, `VENUE`, `VACANCIES`, `PERSONS`, `REMOVED_PERSONS`, `NOTES`) VALUES
 ('05-21-14-12-15', 12, 15, 'HEALTH 360', 5, 'Jefferson3475899639+Jefferson+Steelflex+*Erick6464924106+Erick+Tavera+', NULL, NULL),
 ('05-22-14-12-15', 12, 15, 'Mobile Pantry', 6, 'Erick6464924106+Erick+Tavera+*Ivan3897654321+Ivan+Ortiz+', NULL, NULL),
 ('05-22-14-15-18', 15, 18, 'Mobile Pantry', 6, NULL, NULL, NULL),
@@ -279,12 +279,12 @@ INSERT INTO `shift` (`id`, `start_time`, `end_time`, `venue`, `vacancies`, `pers
 -- Table structure for table `weeks`
 --
 
-CREATE TABLE IF NOT EXISTS `weeks` (
-  `id` varchar(8) NOT NULL,
-  `dates` text,
-  `status` text,
-  `end` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id`)
+CREATE TABLE IF NOT EXISTS `WEEKS` (
+  `ID` varchar(8) NOT NULL,
+  `DATES` text,
+  `STATUS` text,
+  `END` int(11) DEFAULT NULL,
+  PRIMARY KEY (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
@@ -296,7 +296,7 @@ CREATE TABLE IF NOT EXISTS `weeks` (
 -- -- Table structure for table `dblog`
 -- --
 -- 
-CREATE TABLE IF NOT EXISTS  `dblog`(
-    `id` INT(3) NOT NULL PRIMARY KEY AUTO_INCREMENT,
-    `time` text,
-   `message` text) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+CREATE TABLE IF NOT EXISTS  `DBLOG`(
+    `ID` INT(3) NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    `TIME` text,
+   `MESSAGE` text) ENGINE=InnoDB DEFAULT CHARSET=latin1;

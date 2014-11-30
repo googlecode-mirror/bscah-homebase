@@ -23,30 +23,7 @@
     include_once('dbinfo.php');
     include_once('dbDates.php');
 
-    /**
-     * Drops the dbWeeks table if it exists, and creates a new one slots =
-     * Table fields:
-     * [0] id: mm-dd-yy
-     * [1] dates: array of RMHDate ids
-     * [2] weekday_group: which weekday group is working this week
-     * [3] weekend_group: which weekend group is working this week
-     * [4] status: "unpublished", "published" or "archived"
-     * [5] name: name of the week
-     * [6] end: timestamp of the end of the week
-     */
-
-    //edited by James Loeffler but still unsure about the parameters in the query
-    function create_dbWeeks() {
-        connect();
-        mysql_query("DROP TABLE IF EXISTS WEEKS");
-        $result = mysql_query("CREATE TABLE WEEKS (id CHAR(8) NOT NULL, dates TEXT,
-								status TEXT,
-								name TEXT, end INT, PRIMARY KEY (id))");
-        if (!$result) {
-            echo mysql_error();
-        }
-        mysql_close();
-    }
+    
 
     /**
      * Inserts a week into the db
@@ -60,7 +37,7 @@
         }
         connect();
         $query = sprintf(
-            'SELECT * FROM DBBSCAH.WEEKS WHERE id=\'%s\'',
+            'SELECT * FROM WEEKS WHERE ID=\'%s\'',
             $w->get_id()
         );
         $result = mysql_query($query);
@@ -70,7 +47,7 @@
         }
 
         $query = sprintf(
-            'INSERT INTO DBBSCAH.WEEKS VALUES("%s", "%s", "%s", %d)',
+            'INSERT INTO WEEKS VALUES("%s", "%s", "%s", %d)',
             $w->get_id(),
             get_dates_text($w->get_dates()),
             $w->get_status(),
@@ -116,11 +93,12 @@
             die("Invalid argument for delete_dbWeeks function call");
         }
         connect();
-        $query = "DELETE FROM weeks WHERE id=\"" . $w->get_id() . "\"";
+        $query = "DELETE FROM WEEKS WHERE ID=\"" . $w->get_id() . "\"";
+        error_log('in delete_dbWeeks query is '.$query);
         $result = mysql_query($query);
         mysql_close();
         if (!$result) {
-            echo("unable to delete from week: " . $w->get_id() . mysql_error());
+            error_log("unable to delete from week: " . $w->get_id() . mysql_error());
 
             return false;
         }
@@ -168,7 +146,8 @@
 
 
         connect();
-        $query = "SELECT * FROM weeks WHERE id =\"" . $sunday->format("m-d-y") . "\"";
+        $query = "SELECT * FROM WEEKS WHERE ID =\"" . $sunday->format("m-d-y") . "\"";
+        error_log('in select_dbWeeks query is '.$query);
         $result = mysql_query($query);
 
         if (!$result) {
@@ -190,13 +169,13 @@
         $result_row = select_dbWeeks($id);
 
         if ($result_row != null) {
-            $dates = explode("*", $result_row['dates']);
+            $dates = explode("*", $result_row['DATES']);
             $d = [];
             foreach ($dates as $date) {
                 $temp = select_dbDates($date);
                 $d[] = $temp;
             }
-            $w = new Week($d, $result_row['status']);
+            $w = new Week($d, $result_row['STATUS']);
             return $w;
         }
         else {
@@ -210,7 +189,7 @@
      */
     function get_all_dbWeeks() {
         connect();
-        $query = "SELECT ID FROM DBBSCAH.WEEKS ORDER BY end";
+        $query = "SELECT ID FROM WEEKS ORDER BY END";
         $result = mysql_query($query);
         if (!$result) {
             error_log('ERROR on select in get_all_dbWeeks ' . mysql_error());
@@ -227,11 +206,11 @@
     }
 
     /**
-     * @return int The number of weeks in DBBSCAH.WEEKS
+     * @return int The number of weeks in WEEKS
      */
     function get_dbWeeks_count() {
         connect();
-        $query = "SELECT COUNT(*) FROM DBBSCAH.WEEKS";
+        $query = "SELECT COUNT(*) FROM WEEKS";
         $result = mysql_query($query);
         if (!$result) {
             $mysql_error = mysql_error();

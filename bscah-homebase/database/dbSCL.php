@@ -21,25 +21,7 @@
     include_once('dbinfo.php');
     include_once('domain/SCL.php');
 
-    /**
-     * Sets up a new dbSCL table by dropping and recreating
-     * id - same as corresponding shift id
-     * persons - array
-     * status - open/closed
-     * vacancies - # of openings to fill
-     * time - used to sort sub call lists properly
-     */
-    function create_dbSCL() {
-        connect();
-        mysql_query("DROP TABLE IF EXISTS dbSCL");
-        //NOTE: primary key set to id.  id is text in the form: mm-dd-yy-ss-se,  ss=shift start,  se=shift end
-        $result =
-            mysql_query("CREATE TABLE dbSCL (id CHAR(18) NOT NULL,persons TEXT, status TEXT, vacancies TEXT, time TEXT, PRIMARY KEY(id))");
-        if (!$result) {
-            echo mysql_error();
-        }
-        mysql_close();
-    }
+   
 
     /**
      * adds a SCL to the table

@@ -10,32 +10,6 @@ include_once('dbPersons.php');
 include_once('dbDates.php');
 include_once('dbinfo.php');
 
-/**
- * Drops the dbProjects table if it exists, and creates a new one
- * Table fields:
- * 0 id: "mm-dd-yy-ss-ee" is a unique key for this project
- * 1 start_time: Integer: e.g. 10 (meaning 10:00am)
- * 2 end_time: Integer: e.g. 13 (meaning 1:00pm)
- * 3 venue = "weekly"
- * 4 vacancies: # of vacancies for this shift
- * 5 persons: list of people ids, followed by their name, ie "max1234567890+Max+Palmer"
- * 6 Project Desciption: 
-     */
-    function create_dbProjects() {
-        connect();
-        mysql_query("DROP TABLE IF EXISTS project");
-        $result = mysql_query("CREATE TABLE project (id CHAR(20) NOT NULL, " .
-                              "start_time INT, end_time INT, venue TEXT, vacancies INT, " .
-                              "persons TEXT, removed_persons TEXT, Project Description TEXT, PRIMARY KEY (id))");
-        if (!$result) {
-            echo mysql_error();
-
-        return false;
-    }
-    mysql_close();
-
-    return true;
-}
 
 /**
  * Inserts a project into the db
@@ -44,10 +18,11 @@ include_once('dbinfo.php');
  */
 function insert_dbProjects($p) {
     if (!$p instanceof Project) {
+        error_log("Invalid argument for insert_dbProjects function call" . $p);
         die("Invalid argument for insert_dbProjects function call" . $p);
     }
     connect();
-    $query = 'SELECT * FROM project WHERE ProjectID ="' . $p->get_id() . '"';
+    $query = 'SELECT * FROM PROJECT WHERE PROJECTID ="' . $p->get_id() . '"';
     $result = mysql_query($query);
     if (!$result) {
         error_log('ERROR on select in insert_dbProjects() ' . mysql_error());
@@ -57,7 +32,8 @@ function insert_dbProjects($p) {
         delete_dbProjects($p);
         connect();
     }
-        $query = "INSERT INTO project (ProjectID,Address,Date,Type,Vacancies,StartTime,EndTime,DayOfWeek,Name,Persons,AgeRequirement,ProjectDescription)"
+        $query = "INSERT INTO PROJECT (PROJECTID,ADDRESS,DATE,TYPE,VACANCIES,STARTTIME,ENDTIME,"
+                . "DAYOFWEEK,NAME,PERSONS,AGEREQUIREMENT,PROJECTDESCRIPTION)"
             . " VALUES ('" . $p->get_id() . "','" .
             $p->get_address() . "','" .
             $p->get_mm_dd_yy() . "','" .
@@ -73,7 +49,7 @@ function insert_dbProjects($p) {
     error_log("in insert_dbProjects, insert query is " . $query);
     $result = mysql_query($query);
     if (!$result) {
-        echo "unable to insert into project " . $p->get_id() . mysql_error();
+        error_log('unable to insert into PROJECT ' . $p->get_id() . mysql_error());
         mysql_close();
 
         return false;
@@ -93,14 +69,15 @@ function delete_dbProjects($p) {
         die("Invalid argument for delete_dbProjects function call");
     }
     connect();
-    $query = "DELETE FROM project WHERE ProjectID=\"" . $p->get_id() . "\"";
+    $query = "DELETE FROM PROJECT WHERE PROJECTID=\"" . $p->get_id() . "\"";
+    error_log('in delete_dbProjects query is '.$query);
     $result = mysql_query($query);
     if (!$result) {
         error_log('ERROR on DELETE in delete_dbProjects() ' . mysql_error());
         die('Invalid query: ' . mysql_error());
     }
     if (!$result) {
-        echo "unable to delete from project " . $p->get_id() . mysql_error();
+        echo "unable to delete from PROJECT " . $p->get_id() . mysql_error();
         mysql_close();
 
         return false;
@@ -116,8 +93,8 @@ function delete_dbProjects($p) {
  * @param $p the project to update
  */
 function update_dbProjects($p) {
-    error_log("updating project in database");
     if (!$p instanceof Project) {
+        error_log('Invalid argument for project->replace_project function call');
         die("Invalid argument for project->replace_project function call");
     }
     delete_dbProjects($p);
@@ -136,7 +113,7 @@ function update_dbProjects($p) {
 function select_dbProjects($id) {
     connect();
     $p = null;
-    $query = "SELECT * FROM project WHERE ProjectID =\"" . $id . "\"";
+    $query = "SELECT * FROM PROJECT WHERE PROJECTID =\"" . $id . "\"";
     error_log("in select_dbProjects, query is " . $query);
     $result = mysql_query($query);
     mysql_close();
@@ -164,10 +141,11 @@ function select_dbProjects($id) {
     function select_dbProjects_by_date($date) {
         connect();
         $projects = [];
-        $query = "SELECT ProjectID FROM project WHERE DATE =\"" . $date . "\"";
+        $query = "SELECT PROJECTID FROM PROJECT WHERE DATE =\"" . $date . "\"";
+        error_log('in select_dbProjects_by_date  query is '.$query);
         $result = mysql_query($query);
         if (!$result) {
-            error_log('ERROR on select in get_dbProjects() ' . mysql_error());
+            error_log('ERROR on select in get_dbProjects_by_date() ' . mysql_error());
             die('Invalid query: ' . mysql_error());
         }
 
@@ -183,7 +161,8 @@ function select_dbProjects($id) {
 
 function search_dbProjects_By_Name($name) {
     connect();
-    $query = "SELECT * FROM project WHERE name like '" . $name . "%'";
+    $query = "SELECT * FROM PROJECT WHERE NAME like '" . $name . "%'";
+    error_log('in search_dbProjects_by_name  query is '.$query);
     $recordsProject = mysql_query($query);
     if (!$recordsProject) {
         error_log('ERROR in search_dbProjects_By_Name. Query is ' . $query);
@@ -202,7 +181,8 @@ function search_dbProjects_By_Name($name) {
  */
 function selectScheduled_dbProjects($person_id) {
     connect();
-    $project_ids = mysql_query("SELECT id FROM project WHERE persons LIKE '%" . $person_id . "%' ORDER BY id");
+    $project_ids = mysql_query("SELECT ID FROM PROJECT WHERE PERSONS LIKE '%" . $person_id . "%' ORDER BY ID");
+    error_log('in selectScheduled_dbProjects query is '.$query);
     $projects = [];
     if ($project_ids) {
         while ($thisRow = mysql_fetch_array($project_ids, MYSQL_ASSOC)) {
@@ -343,16 +323,16 @@ function proj_timeslots_overlap($s1_start, $s1_end, $s2_start, $s2_end) {
     {
         $the_project = new Project(
             //$result_row['ProjectID'],
-            $result_row['Date'],
-            $result_row['Address'],
-            $result_row['Type'],
-            $result_row['Name'],
-            $result_row['StartTime'],
-            $result_row['EndTime'],
-            $result_row['Vacancies'],
-            $result_row['Persons'],
-            $result_row['AgeRequirement'],    
-            $result_row['Project Description']
+            $result_row['DATE'],
+            $result_row['ADDRESS'],
+            $result_row['TYPE'],
+            $result_row['NAME'],
+            $result_row['STARTTIME'],
+            $result_row['ENDTIME'],
+            $result_row['VACANCIES'],
+            $result_row['PERSONS'],
+            $result_row['AGEREQUIREMENT'],    
+            $result_row['PROJECTDESCRIPTION']
             //$result_row['DayOfWeek'],           
     );
 
@@ -361,7 +341,7 @@ function proj_timeslots_overlap($s1_start, $s1_end, $s2_start, $s2_end) {
 
 function get_all_projects() {
     connect();
-    $query = "SELECT * FROM project";
+    $query = "SELECT * FROM PROJECT";
     $result = mysql_query($query);
     if ($result == null || mysql_num_rows($result) == 0) {
         mysql_close();
@@ -447,15 +427,17 @@ function proj_date_create_from_mm_dd_yyyy($mm_dd_yyyy) {
 //Gets all of the projects with the selected criteria
 function get_Projects_By_All_Fields($projName, $projAddress, $projDay, $projType, $projVac, $projDate){
     connect();
-    $query = "SELECT * FROM project WHERE name LIKE '%" . $projName . "%'" .
-            " AND address LIKE '%" . $projAddress . "%'" .
-            " AND DayOfWeek LIKE '%" . $projDay . "%'" .
-            " AND type LIKE '%" . $projType . "%'" . 
-            " AND vacancies LIKE '%" . $projVac . "%'" . 
-            "AND date LIKE '%" . $projDate . "%'" ;
+    $query = "SELECT * FROM PROJECT WHERE NAME LIKE '%" . $projName . "%'" .
+            " AND ADDRESS LIKE '%" . $projAddress . "%'" .
+            " AND DAYOFWEEK LIKE '%" . $projDay . "%'" .
+            " AND TYPE LIKE '%" . $projType . "%'" . 
+            " AND VACANCIES LIKE '%" . $projVac . "%'" . 
+            "AND DATE LIKE '%" . $projDate . "%'" ;
             //. "ORDER BY vacancies";
+    error_log('in get_Projects_By_All_Fields query is '.$query);
     $result = mysql_query($query);
     if(!$result) {
+            error_log('Invalid query in get_Projects_By_All_Fields: ' . mysql_error());
             die('Invalid query: ' . mysql_error());
     }
     
@@ -507,12 +489,12 @@ function add_A_Person($idProject, $idPerson, $fNamePerson, $lNamePerson) {
 function remove_Person_To_Person_Column($removedPersonConcatenated, $idProject) {
     //echo($removedPersonConcatenated);
     connect();
-    $query = "UPDATE project SET persons = \"" . $removedPersonConcatenated . "\" WHERE ProjectID = \"" . $idProject . "\"";
-    error_log($query);
+    $query = "UPDATE PROJECT SET PERSONS = \"" . $removedPersonConcatenated . "\" WHERE PROJECTID = \"" . $idProject . "\"";
+    error_log('in remove_Person_To_Person_Column query is ' .$query);
 
     $result = mysql_query($query);
     if (!$result) {
-        error_log("Error on add_A_person function, remove update query:" . mysql_error());
+        error_log("SQL Error in remove_Person_To_Person_Column function, :" . mysql_error());
         die();
     }
     echo("You were succesfully removed!");
@@ -521,11 +503,11 @@ function remove_Person_To_Person_Column($removedPersonConcatenated, $idProject) 
 function add_Person_From_Person_Column($allPeopleConcatenated, $idProject) {
     //Add new person to the end of the existing people in the DB (sql)
     connect();
-    $query = "UPDATE project SET persons = \"" . $allPeopleConcatenated . "\" WHERE ProjectID = \"" . $idProject . "\"";
-    error_log($query);
+    $query = "UPDATE PROJECT SET PERSONS = \"" . $allPeopleConcatenated . "\" WHERE PROJECTID = \"" . $idProject . "\"";
+    error_log('in add_Person_From_Person_Column query is ' .$query);
     $result = mysql_query($query);
     if (!$result) {
-        error_log("Error on add_A_person function, add update query:" . mysql_error());
+        error_log("SQL Error in add_Person_From_Person_Column function " . mysql_error());
         die();
     }
     echo("You were successfully added!.");

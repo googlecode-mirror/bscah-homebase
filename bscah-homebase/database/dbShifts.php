@@ -23,32 +23,7 @@
     include_once('dbDates.php');
     include_once('dbinfo.php');
 
-    /**
-     * Drops the dbShifts table if it exists, and creates a new one
-     * Table fields:
-     * 0 id: "mm-dd-yy-ss-ee" is a unique key for this shift
-     * 1 start_time: Integer: e.g. 10 (meaning 10:00am)
-     * 2 end_time: Integer: e.g. 13 (meaning 1:00pm)
-     * 3 venue = "weekly"
-     * 4 vacancies: # of vacancies for this shift
-     * 5 persons: list of people ids, followed by their name, ie "max1234567890+Max+Palmer"
-     * 6 notes: shift notes
-     */
-    function create_dbShifts() {
-        connect();
-        mysql_query("DROP TABLE IF EXISTS shift");
-        $result = mysql_query("CREATE TABLE shift (id CHAR(20) NOT NULL, " .
-                              "start_time INT, end_time INT, venue TEXT, vacancies INT, " .
-                              "persons TEXT, removed_persons TEXT, notes TEXT, PRIMARY KEY (id))");
-        if (!$result) {
-            echo mysql_error();
 
-            return false;
-        }
-        mysql_close();
-
-        return true;
-    }
 
 
     /**
@@ -61,13 +36,14 @@
             die("Invalid argument for insert_dbShifts function call" . $s);
         }
         connect();
-        $query = 'SELECT * FROM shift WHERE id ="' . $s->get_id() . '"';
+        $query = 'SELECT * FROM SHIFT WHERE ID ="' . $s->get_id() . '"';
+        error_log('in insert_dbShifts, query is '.$query);
         $result = mysql_query($query);
         if (mysql_num_rows($result) != 0) {
             delete_dbShifts($s);
             connect();
         }
-        $query = "INSERT INTO shift VALUES ('" . 
+        $query = "INSERT INTO SHIFT VALUES ('" . 
                 $s->get_id() . "','" .
                 $s->get_start_time() . "','" . 
                 $s->get_end_time() . "','" . 
@@ -76,9 +52,10 @@
                 implode("*", $s->get_persons()) . "','" . 
                 implode("*", $s->get_removed_persons()) . "','" .
                 $s->get_notes() . "');";
+        error_log('in insert_dbShifts, query is '.$query);
         $result = mysql_query($query);
         if (!$result) {
-            echo "unable to insert into shift " . $s->get_id() . mysql_error();
+            echo "unable to insert into SHIFT " . $s->get_id() . mysql_error();
             mysql_close();
 
             return false;
@@ -98,10 +75,11 @@
             die("Invalid argument for delete_dbShifts function call");
         }
         connect();
-        $query = "DELETE FROM shift WHERE id=\"" . $s->get_id() . "\"";
+        $query = "DELETE FROM SHIFT WHERE ID =\"" . $s->get_id() . "\"";
+        error_log('in delete_dbShifts, query is '.$query);
         $result = mysql_query($query);
         if (!$result) {
-            echo "unable to delete from shift " . $s->get_id() . mysql_error();
+            echo "unable to delete from SHIFT " . $s->get_id() . mysql_error();
             mysql_close();
 
             return false;
@@ -117,8 +95,9 @@
      * @param $s the shift to update
      */
     function update_dbShifts($s) {
-        error_log("updating shift in database");
+        error_log("updating SHIFT in database");
         if (!$s instanceof Shift) {
+            error_log("Invalid argument for shift->replace_shift function call");
             die("Invalid argument for shift->replace_shift function call");
         }
         delete_dbShifts($s);
@@ -137,7 +116,8 @@
     function select_dbShifts($id) {
         connect();
         $s = null;
-        $query = "SELECT * FROM shift WHERE id =\"" . $id . "\"";
+        $query = "SELECT * FROM SHIFT WHERE ID =\"" . $id . "\"";
+        error_log('in select_dbShifts query is '.$query);
         $result = mysql_query($query);
         mysql_close();
         if (!$result) {
@@ -170,7 +150,8 @@
      */
     function selectDateVenue_dbShifts($date, $venue) {
         connect();
-        $query = "SELECT * FROM shift WHERE id LIKE '%" . $date . "%' AND venue LIKE '%" . $venue . "%'";
+        $query = "SELECT * FROM SHIFT WHERE ID LIKE '%" . $date . "%' AND VENUE LIKE '%" . $venue . "%'";
+        error_log('in selectDateVenue_dbShifts query is '.$query);
         $result = mysql_query($query);
         mysql_close();
 
@@ -182,7 +163,9 @@
      */
     function selectScheduled_dbShifts($person_id) {
         connect();
-        $shift_ids = mysql_query("SELECT id FROM shift WHERE persons LIKE '%" . $person_id . "%' ORDER BY id");
+        $query = "SELECT ID FROM SHIFT WHERE PERSONS LIKE '%" . $person_id . "%' ORDER BY ID";
+        error_log('in selectScheduled_dbShifts query is '.$query);
+        $shift_ids = mysql_query($query);
         $shifts = [];
         if ($shift_ids) {
             while ($thisRow = mysql_fetch_array($shift_ids, MYSQL_ASSOC)) {
@@ -335,12 +318,12 @@
 
     function make_a_shift($result_row) {
         $the_shift = new Shift(
-            $result_row['id'],
-            $result_row['venue'],
-            $result_row['vacancies'],
-            $result_row['persons'],
-            $result_row['removed_persons'],
-            $result_row['notes']
+            $result_row['ID'],
+            $result_row['VENUE'],
+            $result_row['VACANCIES'],
+            $result_row['PERSONS'],
+            $result_row['REMOVED_PERSONS'],
+            $result_row['NOTES']
         );
 
         return $the_shift;
@@ -348,7 +331,7 @@
 
     function get_all_shifts() {
         connect();
-        $query = "SELECT * FROM shift";
+        $query = "SELECT * FROM SHIFT";
         $result = mysql_query($query);
         if ($result == null || mysql_num_rows($result) == 0) {
             mysql_close();

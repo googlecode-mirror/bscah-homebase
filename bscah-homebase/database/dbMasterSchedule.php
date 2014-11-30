@@ -18,7 +18,7 @@
 
     function insert_dbMasterSchedule(MasterScheduleEntry $entry) {
         connect();
-        $result = mysql_query("SELECT * FROM masterschedule WHERE MS_ID = '" . $entry->get_MS_ID() . "'");
+        $result = mysql_query("SELECT * FROM MASTERSCHEDULE WHERE MS_ID = '" . $entry->get_MS_ID() . "'");
         if (!$result) {
             error_log('ERROR on select in insert_dbMasterSchedule() ' . mysql_error());
             die('Invalid query: ' . mysql_error());
@@ -29,7 +29,7 @@
         }
 
 
-        $query = "INSERT INTO masterschedule VALUES ('" .
+        $query = "INSERT INTO MASTERSCHEDULE VALUES ('" .
             $entry->get_MS_ID() . "','" .
             $entry->get_Schedule_type() . "','" .
             $entry->get_day() . "','" .
@@ -44,7 +44,7 @@
         //error_log("in insert into master schedule, query is " . $query);
         $result = mysql_query($query);
         if (!$result) {
-            error_log('ERROR on select in insert_dbMasterSchedule() ' . mysql_error() . " - Unable to insert in masterschedule: " . $entry->get_MS_ID() );
+            error_log('ERROR on select in insert_dbMasterSchedule() ' . mysql_error() . " - Unable to insert in MASTERSCHEDULE: " . $entry->get_MS_ID() );
             mysql_close();
 
             return false;
@@ -56,7 +56,7 @@
 
     function retrieve_dbMasterSchedule($MS_ID) {
         connect();
-        $query = "SELECT * FROM masterschedule WHERE MS_ID LIKE '%" . $MS_ID . "%'";
+        $query = "SELECT * FROM MASTERSCHEDULE WHERE MS_ID LIKE '%" . $MS_ID . "%'";
         //TODO: Log in a separate file
         //error_log('in retrieve_dbMasterSchedule, query is ' . $query);
         $result = mysql_query($query);
@@ -70,10 +70,10 @@
             return false;
         }
         $result_row = mysql_fetch_assoc($result);
-        $theEntry = new MasterScheduleEntry($result_row['Schedule_type'], $result_row['day'],
-                                            $result_row['start_time'], $result_row['end_time'], $result_row['slots'],
-                                            $result_row['persons'],
-                                            $result_row['notes'], $result_row['Shifts']);
+        $theEntry = new MasterScheduleEntry($result_row['SCHEDULE_TYPE'], $result_row['DAY'],
+                                            $result_row['START_TIME'], $result_row['END_TIME'], $result_row['SLOTS'],
+                                            $result_row['PERSONS'],
+                                            $result_row['NOTES'], $result_row['SHIFTS']);
         mysql_close();
 
         return $theEntry;
@@ -90,7 +90,7 @@
             return insert_dbMasterschedule($entry);
         }
         else {
-            error_log(mysql_error() . " - Unable to update masterschedule: " . $entry->get_MS_ID() );
+            error_log(mysql_error() . " - Unable to update MASTERSCHEDULE: " . $entry->get_MS_ID() );
 
             return false;
         }
@@ -101,14 +101,15 @@
 
     function delete_dbMasterSchedule($MS_ID) {
         connect();
-        $query = "DELETE FROM masterschedule WHERE MS_ID = '" . $MS_ID . "'";
+        $query = "DELETE FROM MASTERSCHEDULE WHERE MS_ID = '" . $MS_ID . "'";
+        error_log('in delete_dbMasterSchedule query is '.$query);
         $result = mysql_query($query);
         if (!$result) {
             error_log('ERROR on DELETE in delete_dbMasterSchedule() ' . mysql_error());
             die('Invalid query: ' . mysql_error());
         }
         if (!$result) {
-            error_log(mysql_error() . " - Unable to delete from masterschedule: " . $MS_ID );
+            error_log(mysql_error() . " - Unable to delete from MASTERSCHEDULE: " . $MS_ID );
 
             return false;
         }
@@ -165,8 +166,9 @@
      */
     function get_master_shifts($type, $day) {
         connect();
-        $query = "SELECT * FROM masterschedule WHERE day = '" . $day .
+        $query = "SELECT * FROM MASTERSCHEDULE WHERE DAY = '" . $day .
             "' AND schedule_type = '" . $type . "'";
+        error_log('in get_master_shifts  query is '.$query);
         $result = mysql_query($query);
         if (!$result) {
             error_log('ERROR on select in get_master_shifts ' . mysql_error());
@@ -181,10 +183,10 @@
             $result_row = mysql_fetch_array($result, MYSQL_ASSOC);
             // problem - something about this call is faulty - it does not seem to be going through
             // to the constructor.
-            $testVar = new MasterScheduleEntry($result_row['Schedule_type'], $result_row['day'],
-                                               $result_row['start_time'], $result_row['end_time'], $result_row['slots'],
-                                               $result_row['persons'],
-                                               $result_row['notes'], $result_row['Shifts']);
+            $testVar = new MasterScheduleEntry($result_row['SCHEDULE_TYPE'], $result_row['DAY'],
+                                               $result_row['START_TIME'], $result_row['END_TIME'], $result_row['SLOTS'],
+                                               $result_row['PERSONS'],
+                                               $result_row['NOTES'], $result_row['SHIFTS']);
             $outcome[] = $testVar;
         }
 
@@ -198,9 +200,11 @@
 
     function schedule_person($venue, $day, $time, $person_id) {
         connect();
-        $query1 = "SELECT * FROM masterschedule WHERE MS_ID = '" .
+        $query1 = "SELECT * FROM MASTERSCHEDULE WHERE MS_ID = '" .
             $venue . $day . "-" . $time . "'";
-        $query2 = "SELECT * FROM persons WHERE MS_ID = '" . $person_id . "'";
+        $query2 = "SELECT * FROM PERSON WHERE MS_ID = '" . $person_id . "'";
+        error_log('in schedule_person query is '.$query1);
+        error_log('in schedule_person second query is '.$query2);
         $result = mysql_query($query1);
         $resultp = mysql_query($query2);
         if (!$result || !$resultp) {
@@ -213,19 +217,19 @@
         }
         $result_row = mysql_fetch_array($result, MYSQL_ASSOC);
         $resultp_row = mysql_fetch_array($resultp, MYSQL_ASSOC);
-        $persons = explode(',', $result_row['persons']);    // get an array of scheduled person id's
-        $schedule = explode(',', $resultp_row['schedule']); // get an array of person's scheduled times
-        $availability = explode(',', $resultp_row['availability']);     // and their availabiltiy
+        $persons = explode(',', $result_row['PERSONS']);    // get an array of scheduled person id's
+        $schedule = explode(',', $resultp_row['SCHEDULE']); // get an array of person's scheduled times
+        $availability = explode(',', $resultp_row['AVAILABILITY']);     // and their availabiltiy
         if (// in_array(substr($day,0,3).$chrtime, $availability) &&
             !in_array($person_id, $persons) &&
             !in_array($day . $time, $schedule)
         ) {
             $persons[] = $person_id;             // add the person to the array, and
             $schedule[] = $venue . $day . "-" . $time; // add the time to the person's schedule
-            $result_row['persons'] = implode(',', $persons);     // and update one row in each table
-            $resultp_row['schedule'] = implode(',', $schedule);  // in the database
-            mysql_query("UPDATE masterschedule SET persons = '" . $result_row['persons'] .
-                        "' WHERE id = '" . $venue . $day . "-" . $time . "'");
+            $result_row['PERSONS'] = implode(',', $persons);     // and update one row in each table
+            $resultp_row['SCHEDULE'] = implode(',', $schedule);  // in the database
+            mysql_query("UPDATE MASTERSCHEDULE SET PERSONS = '" . $result_row['persons'] .
+                        "' WHERE ID = '" . $venue . $day . "-" . $time . "'");
             mysql_query("UPDATE persons SET schedule = '" . $resultp_row['schedule'] .
                         "' WHERE id = '" . $person_id . "'");
             mysql_close();
@@ -244,9 +248,11 @@
 
     function unschedule_person($venue, $day, $time, $person_id) {
         connect();
-        $query = "SELECT * FROM masterschedule WHERE id = '" .
+        $query = "SELECT * FROM MASTERSCHEDULE WHERE ID = '" .
             $venue . $day . "-" . $time . "'";
-        $queryp = "SELECT * FROM persons WHERE id = '" . $person_id . "'";
+        error_log('in unschedule_person query is '.$query);
+        $queryp = "SELECT * FROM PERSON WHERE ID = '" . $person_id . "'";
+        error_log('in unschedule_person second query is '.$queryp);
         $result = mysql_query($query);
         $resultp = mysql_query($queryp);
         // be sure the person exists and is scheduled
@@ -257,13 +263,13 @@
         else {
             if (!$resultp || mysql_num_rows($resultp) !== 1) {
                 $result_row = mysql_fetch_array($result, MYSQL_ASSOC);
-                $persons = explode(',', $result_row['persons']);    // get an array of scheduled person id's
+                $persons = explode(',', $result_row['PERSONS']);    // get an array of scheduled person id's
                 if (in_array($person_id, $persons)) {
                     $index = array_search($person_id, $persons);
                     array_splice($persons, $index, 1);               // remove the person from the array, and
-                    $result_row['persons'] = implode(',', $persons); // and update one row in the schedule
-                    mysql_query("UPDATE masterschedule SET persons = '" . $result_row['persons'] .
-                                "' WHERE id = '" . $venue . $day . "-" . $time . "'");
+                    $result_row['PERSONS'] = implode(',', $persons); // and update one row in the schedule
+                    mysql_query("UPDATE MASTERSCHEDULE SET PERSONS = '" . $result_row['PERSONS'] .
+                                "' WHERE ID = '" . $venue . $day . "-" . $time . "'");
                 }
                 mysql_close();
                 die("Error: person not in database" . $person_id);
@@ -271,8 +277,8 @@
         }
         $result_row = mysql_fetch_array($result, MYSQL_ASSOC);
         $resultp_row = mysql_fetch_array($resultp, MYSQL_ASSOC);
-        $persons = explode(',', $result_row['persons']);    // get an array of scheduled person id's
-        $schedule = explode(',', $resultp_row['schedule']); // get an array of person's scheduled times
+        $persons = explode(',', $result_row['PERSONS']);    // get an array of scheduled person id's
+        $schedule = explode(',', $resultp_row['SCHEDULE']); // get an array of person's scheduled times
         if (in_array($person_id, $persons) /* && in_array($venue . $day . "-" . $time, $schedule)*/) {
             $index = array_search($person_id, $persons);
             $indexp = array_search($venue . $day . "-" . $time, $schedule);
@@ -280,12 +286,12 @@
             if (in_array($venue . $day . "-" . $time, $schedule)) {
                 array_splice($schedule, $indexp, 1);
             } // remove the time from the person's schedule
-            $result_row['persons'] = implode(',', $persons);     // and update one row in each table
-            $resultp_row['schedule'] = implode(',', $schedule);  // in the database
-            mysql_query("UPDATE masterschedule SET persons = '" . $result_row['persons'] .
-                        "' WHERE id = '" . $venue . $day . "-" . $time . "'");
-            mysql_query("UPDATE persons SET schedule = '" . $resultp_row['schedule'] .
-                        "' WHERE id = '" . $person_id . "'");
+            $result_row['PERSONS'] = implode(',', $persons);     // and update one row in each table
+            $resultp_row['SCHEDULE'] = implode(',', $schedule);  // in the database
+            mysql_query("UPDATE MASTERSCHEDULE SET PERSONS = '" . $result_row['PERSONS'] .
+                        "' WHERE ID = '" . $venue . $day . "-" . $time . "'");
+            mysql_query("UPDATE PERSONS SET SCHEDULE = '" . $resultp_row['SCHEDULE'] .
+                        "' WHERE ID = '" . $person_id . "'");
             mysql_close();
 
             return "";
@@ -300,9 +306,10 @@
 
     function make_notes($venue, $day, $time, $notes) {
         connect();
-        $query = "SELECT * FROM masterschedule WHERE Schedule_type = '" .
-            $venue . "' AND day = '" .
-            $day . "' AND time = '" . $time . "'";
+        $query = "SELECT * FROM MASTERSCHEDULE WHERE SCHEDULE_TYPE = '" .
+            $venue . "' AND DAY = '" .
+            $day . "' AND TIME = '" . $time . "'";
+        error_log('in make_notes query is '.$query);
         $result = mysql_query($query);
         if (!$result) {
             die("make_notes could not query the database");
@@ -315,9 +322,9 @@
         }
         $result_row = mysql_fetch_array($result, MYSQL_ASSOC);
         $result_row['notes'] = $notes;
-        mysql_query("UPDATE masterschedule SET notes = '" . $result_row['notes'] . "' WHERE Schedule_type = '" .
+        mysql_query("UPDATE MASTERSCHEDULE SET NOTES = '" . $result_row['NOTES'] . "' WHERE SCHEDULE_TYPE = '" .
                     $venue .
-                    "' AND day = '" . $day . "' AND time = '" . $time . "'");
+                    "' AND DAY = '" . $day . "' AND TIME = '" . $time . "'");
         mysql_close();
 
         return "";
@@ -330,10 +337,11 @@
 
     function is_scheduled($venue, $day, $time, $person_id) {
         connect();
-        $query = "SELECT * FROM masterschedule WHERE Schedule_type = '" .
+        $query = "SELECT * FROM MASTERSCHEDULE WHERE SCHEDULE_TYPE = '" .
             $venue .
-            "' AND day = '" .
-            $day . "' AND time = '" . $time . "'";
+            "' AND DAY = '" .
+            $day . "' AND TIME = '" . $time . "'";
+        error_log('in is_scheduled query is '.$query);
         $result = mysql_query($query);
         if (!$result) {
             die("is_scheduled could not query the database");
@@ -344,7 +352,7 @@
             return "Error: group-day-time not valid";
         }
         $result_row = mysql_fetch_array($result, MYSQL_ASSOC);
-        $persons = explode(',', $result_row['persons']);    // get array of scheduled person id's
+        $persons = explode(',', $result_row['PERSONS']);    // get array of scheduled person id's
         mysql_close();
         if (in_array($person_id, $persons)) {
             return true;
@@ -362,8 +370,9 @@
 
     function get_persons($Schedule_type, $day, $time) {
         connect();
-        $query1 = "SELECT * FROM masterschedule WHERE MS_ID = '" .
+        $query1 = "SELECT * FROM MASTERSCHEDULE WHERE MS_ID = '" .
             $Schedule_type . $day . "-" . $time . "'";
+        error_log('in get_persons query is '.$query1);
         $result = mysql_query($query1);
         if (!$result) {
             die("get_persons could not query the database");
@@ -376,10 +385,10 @@
             return $out;
         }
         $result_row = mysql_fetch_array($result, MYSQL_ASSOC);
-        $person_ids = explode(',', $result_row['persons']);    // get an array of scheduled person id's
+        $person_ids = explode(',', $result_row['PERSONS']);    // get an array of scheduled person id's
         foreach ($person_ids as $person_id) {
             if ($person_id != "") {
-                $query2 = "SELECT * FROM persons WHERE id = '" . $person_id . "'";
+                $query2 = "SELECT * FROM PERSON WHERE ID = '" . $person_id . "'";
                 $resultp = mysql_query($query2);
                 if (!$resultp) {
                     die("get_persons could not query the database");
@@ -404,8 +413,9 @@
 
     function get_person_ids($Schedule_type, $day, $time) {
         connect();
-        $query1 = "SELECT * FROM masterschedule WHERE MS_ID = '" .
+        $query1 = "SELECT * FROM MASTERSCHEDULE WHERE MS_ID = '" .
             $Schedule_type . $day . "-" . $time . "'";
+        error_log('in get_person_ids query is '.$query1);
         $result = mysql_query($query1);
         if (!$result) {
             die("get_person_ids could not query the database");
@@ -416,7 +426,7 @@
             return ["Error: group-day-time not valid"];
         }
         $result_row = mysql_fetch_array($result, MYSQL_ASSOC);
-        $person_ids = explode(',', $result_row['persons']);
+        $person_ids = explode(',', $result_row['PERSONS']);
         mysql_close();
 
         return $person_ids;
@@ -429,8 +439,9 @@
 
     function get_total_slots($Schedule_type, $day, $time) {
         connect();
-        $query1 = "SELECT * FROM masterschedule WHERE MS_ID = '" .
+        $query1 = "SELECT * FROM MASTERSCHEDULE WHERE MS_ID = '" .
             $Schedule_type . $day . "-" . $time . "'";
+        error_log('in get_total_slots query is '.$query1);
         $result = mysql_query($query1);
         if (!$result) {
             die("get_total_slots could not query the database");
@@ -457,8 +468,9 @@
 
     function check_valid_schedule($Schedule_type, $day, $time) {
         connect();
-        $query1 = "SELECT * FROM masterschedule WHERE MS_ID = '" .
+        $query1 = "SELECT * FROM MASTERSCHEDULE WHERE MS_ID = '" .
             $Schedule_type . $day . "-" . $time . "'";
+        error_log('in check_valid_schedule query is '.$query1);
         $result = mysql_query($query1);
         mysql_close();
         if (!$result) {
@@ -477,8 +489,9 @@
 
     function edit_schedule_vacancy($Schedule_type, $day, $time, $change) {
         connect();
-        $query1 = "SELECT * FROM masterschedule WHERE MS_ID = '" .
+        $query1 = "SELECT * FROM MASTERSCHEDULE WHERE MS_ID = '" .
             $Schedule_type . $day . "-" . $time . "'";
+        error_log('in edit_schedule_vacancy query is '.$query1);
         $result = mysql_query($query1);
         if (!$result) {
             die("edit_schedule_vacancy could not query the database");
@@ -489,9 +502,9 @@
             return false;
         }
         $result_row = mysql_fetch_array($result, MYSQL_ASSOC);
-        $result_row['slots'] = $result_row['slots'] + $change;
+        $result_row['slots'] = $result_row['SLOTS'] + $change;
         // id = schedule_type.day.Week_no.start_time."-".end_time
-        mysql_query("UPDATE masterschedule SET slots = '" . $result_row['slots'] .
+        mysql_query("UPDATE MASTERSCHEDULE SET SLOTS = '" . $result_row['SLOTS'] .
                     "' WHERE MS_ID = '" . $Schedule_type . $day . "-" . $time . "'");
         mysql_close();
 

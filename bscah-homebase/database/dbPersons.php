@@ -16,20 +16,7 @@
      */
     include_once('dbinfo.php');
     include_once(dirname(__FILE__) . '/../domain/Person.php');
-    /*
-    function create_persons()
-    {
-        connect();
-        mysql_query("DROP TABLE IF EXISTS person");
-        $result = mysql_query("CREATE TABLE person(ID varchar(25) NOT NULL, NameFirst varchar(20) NOT NULL, NameLast varchar(25) NOT NULL, "
-                . "Gender varchar(1) NOT NULL, Address varchar(40) NOT NULL, city TEXT, state VARCHAR(2), zip TEXT, "
-                . "county TEXT, phone1 VARCHAR(12) NOT NULL, phone2 VARCHAR(12), email TEXT, "
-                . "type TEXT, schedule TEXT, notes TEXT, password TEXT, availability TEXT)");
-
-        if (!$result)
-            echo mysql_error() . "Error creating person table<br>";
-    }
-    /
+   
     /*
      * add a person to person table: if already there, return false
      */
@@ -37,7 +24,7 @@
     function add_person(person $person) {
         connect();
 
-        $result = mysql_query("SELECT * FROM person WHERE id = '" . $person->get_ID() . "'");
+        $result = mysql_query("SELECT * FROM PERSON WHERE ID = '" . $person->get_ID() . "'");
         if (!$result) {
             error_log('ERROR on select in add_person() ' . mysql_error());
             die('Invalid query: ' . mysql_error());
@@ -55,7 +42,7 @@
         error_log('will insert person id= ' . $person->get_id() . ' avail= ' . $person->get_availability());
         $avail = implode(",",$person->get_availability());
         $schedule = implode(",", $person->get_schedule());
-        $query = "INSERT INTO person VALUES ('" .
+        $query = "INSERT INTO PERSON VALUES ('" .
             $person->get_id() . "','" .
             $person->get_first_name() . "','" .
             $person->get_last_name() . "','" .
@@ -80,7 +67,7 @@
 
         if (!$result) {
             error_log("error doing insert in add_person " . mysql_error());
-            echo mysql_error() . " - Unable to insert in person: " . $person->get_ID() . "\n";
+            echo mysql_error() . " - Unable to insert in PERSON: " . $person->get_ID() . "\n";
             mysql_close();
 
             return false;
@@ -97,7 +84,7 @@
     function remove_person($id) {
         error_log('in remove_person, id is ' . $id);
         connect();
-        $query = 'SELECT * FROM person WHERE id = "' . $id . '"';
+        $query = 'SELECT * FROM PERSON WHERE ID = "' . $id . '"';
         $result = mysql_query($query);
         if (!$result) {
             error_log('ERROR on select in remove_person() ' . mysql_error());
@@ -109,7 +96,7 @@
 
             return false;
         }
-        $query = 'DELETE FROM person WHERE id = "' . $id . '"';
+        $query = 'DELETE FROM PERSON WHERE ID = "' . $id . '"';
         $result = mysql_query($query);
         if (!$result) {
             error_log('ERROR on delete in remove_person() ' . mysql_error());
@@ -121,14 +108,13 @@
     }
 
     /*
-     * @return a Person from person table matching a particular id.
+     * @return a Person from PERSON table matching a particular id.
      * if not in table, return false
      */
 
     function retrieve_person($id) {
-        error_log('in retrieve_person id is ' . $id);
         connect();
-        $query = "SELECT * FROM person WHERE id = '" . $id . "'";
+        $query = "SELECT * FROM PERSON WHERE ID = '" . $id . "'";
         $result = mysql_query($query);
         if (!$result) {
             error_log('ERROR on select in retrieve_person ' . mysql_error());
@@ -161,7 +147,7 @@
         $name = explode(" ", $name);
         $first_name = $name[0];
         $last_name = $name[1];
-        $query = "SELECT * FROM person WHERE NameFirst = '" . $first_name . "' AND NameLast = '" . $last_name . "'";
+        $query = "SELECT * FROM PERSON WHERE NAMEFIRST = '" . $first_name . "' AND NAMELAST = '" . $last_name . "'";
         error_log("in retrieve_persons_by_name, query is " . $query);
         $result = mysql_query($query);
         if (!$result) {
@@ -181,7 +167,7 @@
 
     function change_password($id, $newPass) {
         connect();
-        $query = 'UPDATE person SET Password = "' . $newPass . '" WHERE id = "' . $id . '"';
+        $query = 'UPDATE PERSON SET PASSWORD = "' . $newPass . '" WHERE ID = "' . $id . '"';
         $result = mysql_query($query);
         if (!$result) {
             die('Invalid query: ' . mysql_error());
@@ -211,7 +197,8 @@
 
     function getall_persons() {
         connect();
-        $query = "SELECT * FROM person ORDER BY NameLast,NameFirst";
+        $query = "SELECT * FROM PERSON ORDER BY NAMELAST,NAMEFIRST";
+        error_log('in dbpersons.getall_persons query is '.$query);
         $result = mysql_query($query);
         if (!$result) {
             die('Invalid query: ' . mysql_error());
@@ -236,9 +223,11 @@
 
     function getall_volunteer_names() {
         connect();
-        $query = "SELECT NameFirst, NameLast FROM person ORDER BY NameLast,NameFirst";
+        $query = "SELECT NAMEFIRST, NAMELAST FROM PERSON ORDER BY NAMELAST,NAMEFIRST";
+        error_log('in dbPersons.getall_volunteer_names query is '.$query);
         $result = mysql_query($query);
         if (!$result) {
+            error_log('SQL query error in getall_volunteer_names()'. mysql_error());
             die('Invalid query: ' . mysql_error());
         }
         if ($result == null || mysql_num_rows($result) == 0) {
@@ -252,7 +241,7 @@
         }
         $names = [];
         while ($result_row = mysql_fetch_assoc($result)) {
-            $names[] = $result_row['NameFirst'] . ' ' . $result_row['NameLast'];
+            $names[] = $result_row['NAMEFIRST'] . ' ' . $result_row['NAMELAST'];
         }
         mysql_close();
 
@@ -261,25 +250,25 @@
 
     function make_a_person($result_row) {
         $thePerson = new Person(
-            $result_row['NameFirst'],
-            $result_row['NameLast'],
-            $result_row['Birthday'],
-            $result_row['Gender'],
-            $result_row['Address'],
-            $result_row['City'],
-            $result_row['State'],
-            $result_row['Zip'],
+            $result_row['NAMEFIRST'],
+            $result_row['NAMELAST'],
+            $result_row['BIRTHDAY'],
+            $result_row['GENDER'],
+            $result_row['ADDRESS'],
+            $result_row['CITY'],
+            $result_row['STATE'],
+            $result_row['ZIP'],
             // $result_row['County'],
-            $result_row['Phone1'],
-            $result_row['Phone2'],
-            $result_row['Email'],
-            $result_row['Type'],
-            $result_row['Status'],
-            $result_row['Schedule'],
-            $result_row['Notes'],
-            $result_row['Password'],
-            $result_row['Availability'],
-            $result_row['ContactPreference']
+            $result_row['PHONE1'],
+            $result_row['PHONE2'],
+            $result_row['EMAIL'],
+            $result_row['TYPE'],
+            $result_row['STATUS'],
+            $result_row['SCHEDULE'],
+            $result_row['NOTES'],
+            $result_row['PASSWORD'],
+            $result_row['AVAILABILITY'],
+            $result_row['CONTACTPREFERENCE']
         );
 
         return $thePerson;
@@ -288,10 +277,11 @@
     // what??
     function getall_names($status, $type) {
         connect();
-        $result = mysql_query("SELECT id,NameFirst,NameLast,type FROM person " .
-                              "WHERE status = '" . $status . "' AND TYPE LIKE '%" . $type .
-                              "%' ORDER BY NameLast,NameFirst");
+        $result = mysql_query("SELECT ID,NAMEFIRST,NAMELAST,TYPE FROM PERSON " .
+                              "WHERE STATUS = '" . $status . "' AND TYPE LIKE '%" . $type .
+                              "%' ORDER BY NAMELAST,NAMEFIRST");
         if (!$result) {
+            error_log('sql error in getall_names ' . mysql_error());
             die('Invalid query: ' . mysql_error());
         }
         mysql_close();
@@ -305,10 +295,12 @@
 
     function getall_type($t) {
         connect();
-        $query = "SELECT * FROM person WHERE (type LIKE '%" . $t .
-            "%' OR type LIKE '%sub%') AND status = 'active'  ORDER BY NameLast,NameFirst";
+        $query = "SELECT * FROM PERSON WHERE (TYPE LIKE '%" . $t .
+            "%' OR TYPE LIKE '%sub%') AND STATUS = 'active'  ORDER BY NAMELAST,NAMEFIRST";
+        error_log('in dbPersons.getall_type query is '.$query);
         $result = mysql_query($query);
         if (!$result) {
+            error_log('sql error in getall_type ' . mysql_error());
             die('Invalid query: ' . mysql_error());
         }
         if ($result == null || mysql_num_rows($result) == 0) {
@@ -327,11 +319,13 @@
 
     function getall_available($type, $day, $shift) {
         connect();
-        $query = "SELECT * FROM person WHERE (type LIKE '%" . $type . "%' OR type LIKE '%sub%')" .
-            " AND availability LIKE '%" . $day . ":" . $shift .
-            "%' AND status = 'approved' ORDER BY NameLast,NameFirst";
+        $query = "SELECT * FROM PERSON WHERE (TYPE LIKE '%" . $type . "%' OR TYPE LIKE '%sub%')" .
+            " AND AVAILABILITY LIKE '%" . $day . ":" . $shift .
+            "%' AND STATUS = 'approved' ORDER BY NAMELAST,NAMEFIRST";
+        error_log('in dbPersons.getall_available query is '.$query);
         $result = mysql_query($query);
         if (!$result) {
+            error_log('sql error in available ' . mysql_error());
             die('Invalid query: ' . mysql_error());
         }
         mysql_close();
@@ -343,10 +337,11 @@
     // returns the result array from the query
     function getall_applicants() {
         connect();
-        $query = "SELECT NameFirst,NameLast,id FROM person WHERE status LIKE '%applicant%' order by NameLast";
-        error_log("in getall_applicants, query is " . $query);
+        $query = "SELECT NAMEFIRST,NAMELAST,ID FROM PERSON WHERE STATUS LIKE '%applicant%' order by NAMELAST";
+        error_log("in dbpersons.getall_applicants, query is " . $query);
         $result = mysql_query($query);
         if (!$result) {
+            error_log('sql error in getall_applicants ' . mysql_error());
             die('Invalid query: ' . mysql_error());
         }
         mysql_close();
@@ -358,12 +353,14 @@
     function getonlythose_persons($type, $status, $name, $day, $shift) {
         connect();
       
-        $query = "SELECT * FROM person WHERE type LIKE '%" . $type . "%'" .
-            " AND status LIKE '%" . $status . "%'" .
-            " AND (NameFirst LIKE '%" . $name . "%' OR NameLast LIKE'%" . $name . "%')" . "AND availability LIKE '%" . $day .
-               "%'" . "AND availability LIKE '%" . $shift . "%'" . "ORDER BY NameLast,NameFirst";
+        $query = "SELECT * FROM PERSON WHERE TYPE LIKE '%" . $type . "%'" .
+            " AND STATUS LIKE '%" . $status . "%'" .
+            " AND (NAMEFIRST LIKE '%" . $name . "%' OR NAMELAST LIKE'%" . $name . "%')" . "AND AVAILABILITY LIKE '%" . $day .
+               "%'" . "AND AVAILABILITY LIKE '%" . $shift . "%'" . "ORDER BY NAMELAST,NAMEFIRST";
+        error_log("in dbPersons.getonlythose_persons, query is " . $query);
         $result = mysql_query($query);
         if (!$result) {
+            error_log('sql error in getonlythose_persons ' . mysql_error());
             die('Invalid query: ' . mysql_error());
         }
         $thePersons = [];
@@ -421,21 +418,22 @@
         error_log("query for type is " . $type_query);
 
         connect();
-        $query = "SELECT " . $attr . " FROM person WHERE
-    			NameFirst REGEXP " . $first_name .
-            " and NameLast REGEXP " . $last_name .
-            " and (gender REGEXP " . $gender . ")" .
-            " and (type REGEXP " . $type_query . ")" .
-            " and status REGEXP " . $status .
-            " and (start_date REGEXP " . $start_date . ")" .
-            " and city REGEXP " . $city .
-            " and zip REGEXP " . $zip .
-            " and (phone1 REGEXP " . $phone . " or phone2 REGEXP " . $phone . " )" .
-            " and (email REGEXP " . $email . ") ORDER BY NameLast, NameFirst";
-        error_log("Querying database for exporting");
+        $query = "SELECT " . $attr . " FROM PERSON WHERE
+    			NAMEFIRST REGEXP " . $first_name .
+            " and NAMELAST REGEXP " . $last_name .
+            " and (GENDER REGEXP " . $gender . ")" .
+            " and (TYPE REGEXP " . $type_query . ")" .
+            " and STATUS REGEXP " . $status .
+            " and (START_DATE REGEXP " . $start_date . ")" .
+            " and CITY REGEXP " . $city .
+            " and ZIP REGEXP " . $zip .
+            " and (PHONE1 REGEXP " . $phone . " or PHONE2 REGEXP " . $phone . " )" .
+            " and (EMAIL REGEXP " . $email . ") ORDER BY NAMELAST, NAMEFIRST";
+        error_log("Querying PERSON table for exporting");
         error_log("query = " . $query);
         $result = mysql_query($query);
         if (!$result) {
+            error_log("sql error in getpeople_for_export, query is " . mysql_error());
             die('Invalid query: ' . mysql_error());
         }
 

@@ -24,32 +24,14 @@
     include_once(dirname(__FILE__) . '/../domain/Shift.php');
     include_once('dbinfo.php');
 
-    /**
-     * Drops dbDates table and creates a new one.
-     * Elements of dbDates:
-     *  id: mm-dd-yy
-     *  shifts - * delimited list of shift ids
-     *  manager notes
-     */
-    function create_dbDates() {
-        connect();
-        mysql_query("DROP TABLE IF EXISTS date");
-        //Edited by James Loeffler by adding projects as a parameter
-        $result = mysql_query("CREATE TABLE date (id CHAR(8) NOT NULL, shifts TEXT,
-								mgr_notes TEXT, projects TEXT, PRIMARY KEY (id))");
-        if (!$result) {
-            echo mysql_error();
-        }
-        mysql_close();
-    }
-
+    
     /**
      * Adds a RMHDate to the table
      * If the date already exists, the date is deleted and replaced.
      */
     function insert_dbDates(BSCAHdate $d) {
         connect();
-        $query = "SELECT * FROM date WHERE DATE_ID =\"" . $d->get_id() . "\"";
+        $query = "SELECT * FROM DATE WHERE DATE_ID =\"" . $d->get_id() . "\"";
         $result = mysql_query($query);
         if (!$result) {
             error_log('ERROR on select in insert_dbDates() ' . mysql_error());
@@ -60,7 +42,7 @@
             connect();
         }
         $query = sprintf(
-            'INSERT INTO DBBSCAH.DATE VALUES ("%s", "%s", "%s", "%s")',
+            'INSERT INTO DATE VALUES ("%s", "%s", "%s", "%s")',
             $d->get_id(),
             get_shifts_text($d),
             $d->get_mgr_notes(),
@@ -69,7 +51,7 @@
         $result = mysql_query($query);
 
         if (!$result) {
-            echo("unable to insert into date: " . $d->get_id() . mysql_error());
+            echo("unable to insert into DATE: " . $d->get_id() . mysql_error());
             mysql_close();
 
             return false;
@@ -88,17 +70,18 @@
      */
     function delete_dbDates($d) {
         if (!$d instanceof BSCAHdate) {
+            error_log("Invalid argument for shift->remove_date function call");
             die("Invalid argument for shift->remove_date function call");
         }
         connect();
-        $query = "DELETE FROM date WHERE DATE_ID=\"" . $d->get_id() . "\"";
+        $query = "DELETE FROM DATE WHERE DATE_ID=\"" . $d->get_id() . "\"";
         $result = mysql_query($query);
         if (!$result) {
             error_log('ERROR on select in delete_dbDates() ' . mysql_error());
             die('Invalid query: ' . mysql_error());
         }
         if (!$result) {
-            echo("unable to delete from date: " . $d->get_id() . mysql_error());
+            error_log("unable to delete from DATE: " . $d->get_id() . mysql_error());
             mysql_close();
 
             return false;
@@ -147,15 +130,17 @@
      */
     function select_dbDates($id) {
         if (strlen($id) != 8) {
+            error_log('in select_dbDates,  Invalid argument for date->select_dbDates call = '. $id);
             die("Invalid argument for date->select_dbDates call =" . $id);
         }
         connect();
-        $query = "SELECT * FROM date WHERE date_id =\"" . $id . "\"";
+        $query = "SELECT * FROM DATE WHERE DATE_ID =\"" . $id . "\"";
+        error_log('in select_dbDates query is ' . $query);
         $result = mysql_query($query);
         mysql_close();
         if (!$result) {
-            echo 'Could not select from date: ' . $id;
-            error_log('Could not select from date: ' . $id);
+           // echo 'Could not select from date: ' . $id;
+            error_log('Could not select from DATE: ' . $id);
 
             return null;
         }
@@ -180,7 +165,7 @@
                 return $d;
             }
             else {
-                error_log("Could not fetch from date " . $id);
+                error_log("Could not fetch from DATE " . $id);
 
                 return null;
             }
@@ -207,7 +192,7 @@
             insert_dbDates_project($db_date);
         }
         else {
-            error_log("Date is currently not in date table");
+            error_log("Date is currently not in DATE table");
         }
     }
 
@@ -215,7 +200,7 @@
         connect();
 
         $query = sprintf(
-            'UPDATE date SET Projects = "%s" WHERE DATE_ID = "%s"',
+            'UPDATE DATE SET PROJECTS = "%s" WHERE DATE_ID = "%s"',
             $d->get_projects(),
             $d->get_id()
         );
@@ -223,7 +208,7 @@
         $result = mysql_query($query);
 
         if (!$result) {
-            echo("unable to insert into date: " . $d->get_id() . mysql_error());
+            echo("unable to insert into DATE: " . $d->get_id() . mysql_error());
             mysql_close();
 
             return false;

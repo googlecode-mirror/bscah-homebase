@@ -56,7 +56,7 @@ function createShift() //At the moment I can't get insert_dbShifts($s) to work s
     connect();
     
     $query = "INSERT INTO shift (id, start_time, end_time, venue, vacancies, persons, removed_persons, notes) 
-              VALUES('09-18-14-10-13', '10', '13', 'Soup Kitchen', '3', null, null, null)"; //Remember that the difference of 10 and 13(1pm) is 3 hours so John Smith's work time is 3 hours on a Thursday - GIOVI
+              VALUES('09-18-14-10-13', '10', '13', 'garden', '3', null, null, null)"; //Remember that the difference of 10 and 13(1pm) is 3 hours so John Smith's work time is 3 hours on a Thursday - GIOVI
     $result = mysql_query($query);
         if (!$result) {
             echo "unable to insert into shift " . $result->id. mysql_error();
