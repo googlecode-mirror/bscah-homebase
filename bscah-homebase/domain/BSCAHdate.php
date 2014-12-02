@@ -78,7 +78,7 @@
          * using the master schedule as a template
          */
 
-        function generate_shifts($day) {
+        function generate_shifts($day) { //This may have an error because id is trying to pass itself to a new shift - GIOVI
             $venues = ["garden","pantry"];
             $days = [1 => "Mon", 2 => "Tue", 3 => "Wed", 4 => "Thu", 5 => "Fri", 6 => "Sat", 7 => "Sun"];
             $this->shifts = [];

@@ -224,8 +224,8 @@ CREATE TABLE IF NOT EXISTS `PROJECT` (
 --
 
 INSERT INTO `PROJECT` (`PROJECTID`, `ADDRESS`, `DATE`,`TYPE`, `VACANCIES`, `STARTTIME`, `ENDTIME`, `DAYOFWEEK`, `NAME`, `PERSONS`,`AGEREQUIREMENT` ,`PROJECTDESCRIPTION`) VALUES
-('02-24-14-900-1200-Food', '4119 Nuzum Court Williamsville', '02-24-14', null, '3', '900', '1200', 'Mon', 'Food', 'Erick6464924106+Erick+Tavera+*Humza6462207988+Humza+Ahmad+','50', ''),
-('02-25-14-1200-1500-Food', '521 White Pine Lane Fredericksburg', '02-25-14',null, '2', '1200', '1500', 'Tue', 'Food', 'Gregory7188057221+Gregory+Wilson+' , '5', ''),
+('02-24-14-900-1200-Food Delivery', '4119 Nuzum Court Williamsville', '02-24-14', null, '3', '900', '1200', 'Mon', 'Food Delivery', 'Erick6464924106+Erick+Tavera+*Humza6462207988+Humza+Ahmad+','50', ''),
+('02-25-14-1200-1500-Food Delivery', '521 White Pine Lane Fredericksburg', '02-25-14',null, '2', '1200', '1500', 'Tue', 'Food Delivery', 'Gregory7188057221+Gregory+Wilson+' , '5', ''),
 ('02-26-14-1800-2300-Food Delivery', '4964 Sardis Sta Grand Prairie', '02-26-14',null, '4', '1800', '2300', 'Wed', 'Food Delivery', 'Jefferson3475899639+Jefferson+Steelflex+*Erick6464924106+Erick+Tavera+',null,  ''),
 ('02-27-14-100-400-Food Delivery', '2009 Wetzel Lane Grand Rapids', '02-27-14',null, '3', '100', '400', 'Thu', 'Food Delivery', 'Gregory7188057221+Gregory+Wilson+',null, ''),
 ('02-24-14-900-1200-Truck Delivery', '4119 Nuzum Court Williamsville', '02-24-14',null, '3', '900', '1200', 'Mon', 'Truck Delivery', 'Erick6464924106+Erick+Tavera+*Humza6462207988+Humza+Ahmad+',null,  ''),
@@ -235,18 +235,21 @@ INSERT INTO `PROJECT` (`PROJECTID`, `ADDRESS`, `DATE`,`TYPE`, `VACANCIES`, `STAR
 ('02-24-14-900-1200-Snack Delivery', '4119 Nuzum Court Williamsville', '02-24-14',null, '3', '900', '1200', 'Mon', 'Snack Delivery', 'Erick6464924106+Erick+Tavera+*Humza6462207988+Humza+Ahmad+',null,  ''),
 ('02-25-14-1200-1500-Snack Delivery', '521 White Pine Lane Fredericksburg', '02-25-14',null, '2', '1200', '1500', 'Tue', 'Snack Delivery', 'Gregory7188057221+Gregory+Wilson+',null,  ''),
 ('02-26-14-1800-2300-Snack Delivery', '4964 Sardis Sta Grand Prairie', '02-26-14',null, '4', '1800', '2300', 'Wed', 'Snack Delivery', 'Jefferson3475899639+Jefferson+Steelflex+*Erick6464924106+Erick+Tavera+',null,  ''),
-('02-27-14-100-400-Snack Delivery', '2009 Wetzel Lane Grand Rapids', '02-27-14', null,'3', '100', '400', 'Thu', 'Snack Delivery', 'Gregory7188057221+Gregory+Wilson+',null,  '');
-
-
+('02-27-14-100-400-Snack Delivery', '2009 Wetzel Lane Grand Rapids', '02-27-14', null,'3', '100', '400', 'Thu', 'Snack Delivery', 'Gregory7188057221+Gregory+Wilson+',null,  ''),
+('07-17-14-900-1200-Birdcage Washing', '4119 Nuzum Court Williamsville', '07-17-14', null, '3', '900', '1200', 'Thu', 'Birdcage Washing', 'Erick6464924106+Erick+Tavera+*Humza6462207988+Humza+Ahmad+', NULL, ''),
+('09-24-14-1200-1500-Pantry Restocking', '521 White Pine Lane Fredericksburg', '09-24-14', null, '2', '1200', '1500', 'Wed', 'Pantry Restocking', 'Gregory7188057221+Gregory+Wilson+', NULL, ''),
+('11-07-14-1800-2300-Window Wiping', '4964 Sardis Sta Grand Prairie', '11-07-14', null, '4', '1800', '2300', 'Fri', 'Window Wiping', 'Jefferson3475899639+Jefferson+Steelflex+*Erick6464924106+Erick+Tavera+', NULL, ''),
+('11-04-14-0-400-Floor Sweeping', '2009 Wetzel Lane Grand Rapids', '11-04-14', null, '3', '0', '400', 'Tue', 'Floor Sweeping', 'Gregory7188057221+Gregory+Wilson+', NULL, '');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `shift`
+-- Table structure for table `SHIFT`
 --
 
 CREATE TABLE IF NOT EXISTS `SHIFT` (
-  `ID` varchar(20) NOT NULL DEFAULT '', 
+  `SHIFTID` varchar(58) NOT NULL DEFAULT '', 
+  `DATE` varchar(10) NOT NULL,
   `START_TIME` int(11) DEFAULT NULL,
   `END_TIME` int(11) DEFAULT NULL,
   `VENUE` text,
@@ -254,25 +257,28 @@ CREATE TABLE IF NOT EXISTS `SHIFT` (
   `PERSONS` text,
   `REMOVED_PERSONS` text,
   `NOTES` text,
-  PRIMARY KEY (`ID`)
+  PRIMARY KEY (`SHIFTID`)
+
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `shift`
+-- Dumping data for table `SHIFT`
 --
 
-INSERT INTO `SHIFT` (`ID`, `START_TIME`, `END_TIME`, `VENUE`, `VACANCIES`, `PERSONS`, `REMOVED_PERSONS`, `NOTES`) VALUES
-('05-21-14-12-15', 12, 15, 'HEALTH 360', 5, 'Jefferson3475899639+Jefferson+Steelflex+*Erick6464924106+Erick+Tavera+', NULL, NULL),
-('05-22-14-12-15', 12, 15, 'Mobile Pantry', 6, 'Erick6464924106+Erick+Tavera+*Ivan3897654321+Ivan+Ortiz+', NULL, NULL),
-('05-22-14-15-18', 15, 18, 'Mobile Pantry', 6, NULL, NULL, NULL),
-('05-23-14-9-18', 9, 18, 'REACH', 8, NULL, NULL, NULL),
-('10-30-14-10-11', 10, 11, 'Test Venue', '10', 'Erick9149876342+Erick+Jones*Erick6464924106+Erick+Tavera', NULL, NULL),
-('10-31-14-13-14', 13, 14, 'Test Venue 2', '10', 'Erick9149876342+Erick+Jones*Erick6464924106+Erick+Tavera', NULL, NULL),
-('07-12-14-12-18', 12, 18, 'Andersons Orphanage', 4, 'Humza6462207988+Humza+Ahmad+', NULL, NULL),
-('09-07-14-9-12', 9, 12, 'Freeside', 3, 'Gregory7188057221+Gregory+Wilson+*Jefferson3475899639+Jefferson+Steelflex+', NULL, NULL);
+INSERT INTO `SHIFT` (`SHIFTID`, `DATE`, `START_TIME`, `END_TIME`, `VENUE`, `VACANCIES`, `PERSONS`, `REMOVED_PERSONS`, `NOTES`) VALUES
+('05-21-14-1200-1500-garden', '05-21-14', 1200, 1500, 'garden', 5, 'Jefferson3475899639+Jefferson+Steelflex+*Erick6464924106+Erick+Tavera+', NULL, NULL),
+('05-22-14-1200-1500-pantry', '05-22-14', 1200, 1500, 'pantry', 6, 'Erick6464924106+Erick+Tavera+*Ivan3897654321+Ivan+Ortiz+', NULL, NULL),
+('05-22-14-1500-1800-garden', '05-22-14',1500, 1800, 'garden', 6, NULL, NULL, NULL),
+('05-23-14-900-1800-pantry', '05-23-14', 900, 1800, 'pantry', 8, NULL, NULL, NULL),
+('07-12-14-1200-1800-garden', '07-12-14', 1200, 1800, 'garden', 4, 'Humza6462207988+Humza+Ahmad+', NULL, NULL),
+('09-07-14-900-1200-garden', '09-07-14', 900, 1200, 'garden', 3, 'Gregory7188057221+Gregory+Wilson+*Jefferson3475899639+Jefferson+Steelflex+', NULL, NULL),
+('10-30-14-1000-1100-pantry', '10-30-14', 1000, 1100, 'pantry', 7, 'Erick9149876342+Erick+Jones*Erick6464924106+Erick+Tavera', NULL, NULL),
+('10-31-14-1300-1400-pantry', '10-31-14', 1300, 1400, 'pantry', 5, 'Erick9149876342+Erick+Jones*Erick6464924106+Erick+Tavera', NULL, NULL),
+('11-05-14-1200-1500-garden', '11-05-14', 1200, 1500, 'garden', 2, 'Erick9149876342+Erick+Jones*Erick6464924106+Erick+Tavera', NULL, NULL),
+('11-15-14-1000-1200-pantry', '11-15-14', 1000, 1200, 'pantry', 3, 'Erick9149876342+Erick+Jones*Erick6464924106+Erick+Tavera', NULL, NULL),
+('11-20-14-1200-1800-garden', '11-20-14', 1200, 1800, 'garden', 10, 'Humza6462207988+Humza+Ahmad+', NULL, NULL);
 
-
--- --------------------------------------------------------
+----------------------------------------------------------
 
 --
 -- Table structure for table `weeks`

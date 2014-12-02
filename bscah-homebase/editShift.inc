@@ -196,10 +196,10 @@
         return false;
     }
 
-    function process_clear_shift($post, $shift, $venue) {
+    function process_clear_shift($post, $shift, $venue) { //This may have an error because id is trying to pass itself to a new shift - GIOVI
         if (array_key_exists('_submit_clear_shift', $post)) {
 
-            $shift = new Shift($shift->get_id(), "weekly", $shift->num_slots(), null, null, "", "");
+            $shift = new Shift($shift->get_id(), "weekly", $shift->num_slots(), null, null, "", ""); 
             update_dbShifts($shift);
             add_log_entry('<a href=\"personEdit.php?id=' . $_SESSION['_id'] . '\">' . $_SESSION['f_name'] . ' ' .
                           $_SESSION['l_name'] . '</a> cleared the shift: <a href=\"editShift.php?shift=' .

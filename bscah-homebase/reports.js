@@ -63,7 +63,11 @@ $(function() //This function hides the Select Individuals section when Total Hou
             $('#1').hide();
             $('#add-more').hide();
         }
-                                                       });
+                                               });
 });
+
+$(window).load(function() {
+    $('#loading').hide();
+  });
 
 });

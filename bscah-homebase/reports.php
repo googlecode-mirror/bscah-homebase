@@ -34,10 +34,9 @@
         include_once('domain/Person.php');
         include_once('database/dbShifts.php');
         include_once('domain/Shift.php');
-
-        include_once('reportsAjax.php');
+        include_once('accessController.php');
         
-        error_log("were in reports.php");
+        error_log("Was in reports.php");
  
 ?>
 </div>

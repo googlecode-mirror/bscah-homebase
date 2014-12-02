@@ -36,7 +36,7 @@
             die("Invalid argument for insert_dbShifts function call" . $s);
         }
         connect();
-        $query = 'SELECT * FROM SHIFT WHERE ID ="' . $s->get_id() . '"';
+        $query = 'SELECT * FROM SHIFT WHERE SHIFTID ="' . $s->get_id() . '"';
         error_log('in insert_dbShifts, query is '.$query);
         $result = mysql_query($query);
         if (mysql_num_rows($result) != 0) {
@@ -75,7 +75,7 @@
             die("Invalid argument for delete_dbShifts function call");
         }
         connect();
-        $query = "DELETE FROM SHIFT WHERE ID =\"" . $s->get_id() . "\"";
+        $query = "DELETE FROM SHIFT WHERE SHIFTID =\"" . $s->get_id() . "\"";
         error_log('in delete_dbShifts, query is '.$query);
         $result = mysql_query($query);
         if (!$result) {
@@ -116,7 +116,7 @@
     function select_dbShifts($id) {
         connect();
         $s = null;
-        $query = "SELECT * FROM SHIFT WHERE ID =\"" . $id . "\"";
+        $query = "SELECT * FROM SHIFT WHERE SHIFTID =\"" . $id . "\"";
         error_log('in select_dbShifts query is '.$query);
         $result = mysql_query($query);
         mysql_close();
@@ -128,13 +128,13 @@
             if ($result_row != null) {
                 $persons = [];
                 $removed_persons = [];
-                if ($result_row[5] != "") {
-                    $persons = explode("*", $result_row[5]);
-                }
                 if ($result_row[6] != "") {
-                    $removed_persons = explode("*", $result_row[6]);
+                    $persons = explode("*", $result_row[6]);
                 }
-                $s = new Shift($result_row[0], $result_row[3], $result_row[4], $persons, $removed_persons,$result_row[7]); // The last result_row was 8; Changed to 7 to see notes - GIOVI
+                if ($result_row[7] != "") {
+                    $removed_persons = explode("*", $result_row[7]);
+                }
+                $s = new Shift($result_row[1], $result_row[2], $result_row[3], $result_row[4], $result_row[5], $persons, $removed_persons, $result_row[8]);
             }
         }
 
@@ -150,7 +150,7 @@
      */
     function selectDateVenue_dbShifts($date, $venue) {
         connect();
-        $query = "SELECT * FROM SHIFT WHERE ID LIKE '%" . $date . "%' AND VENUE LIKE '%" . $venue . "%'";
+        $query = "SELECT * FROM SHIFT WHERE SHIFTID LIKE '%" . $date . "%' AND VENUE LIKE '%" . $venue . "%'";
         error_log('in selectDateVenue_dbShifts query is '.$query);
         $result = mysql_query($query);
         mysql_close();
@@ -318,7 +318,9 @@
 
     function make_a_shift($result_row) {
         $the_shift = new Shift(
-            $result_row['ID'],
+            $result_row['DATE'],
+            $result_row['START_TIME'],
+            $result_row['END_TIME'],
             $result_row['VENUE'],
             $result_row['VACANCIES'],
             $result_row['PERSONS'],
@@ -375,7 +377,7 @@
     }
 
     // this function is for reporting volunteer data
-    function get_all_peoples_histories() { // This function is now returning the correct data - GIOVI
+    function get_all_peoples_histories_in_shifts() { // This function is now returning the correct data - GIOVI
         $today = date('m-d-y');
         $histories = [];
         $all_shifts = get_all_shifts();
@@ -412,5 +414,4 @@
                           "20" . substr($mm_dd_yyyy, 6, 2));
         }
     }
-
 ?>

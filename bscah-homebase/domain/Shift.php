@@ -39,26 +39,18 @@
          * construct an empty shift with a certain number of vacancies
          */
 
-        function __construct($id, $venue, $vacancies, $persons, $removed_persons, $notes) {
-            $this->mm_dd_yy = substr($id, 0, 8);
-            $this->name = substr($id, 9);
-            $i = strpos($this->name, "-");
-            if ($i > 0) {
-                $this->start_time = substr($this->name, 0, $i);
-                $this->end_time = substr($this->name, $i + 1, 2);
-            }
-            else {  // assuming an overnight shift
-                $this->start_time = 0;
-                $this->end_time = 1;
-            }
+        function __construct($date, $start_time, $end_time, $venue, $vacancies, $persons, $removed_persons, $notes) {
+            $this->mm_dd_yy = str_replace("-", "/", $date); // Remember that '-' are for european dates (dd-mm-yyyy) and '/' are for american (mm/dd/yyy), the timestamp gets confused when we mix them up - GIOVI
+            $this->start_time = $start_time;
+            $this->end_time = $end_time;
             $this->venue = $venue;
-//          generate_venue($venue);
+            //generate_venue($venue);
             $this->vacancies = $vacancies;
             $this->persons = $persons;
             $this->removed_persons = $removed_persons;
             $this->day = date("D", mktime(0, 0, 0, substr($this->mm_dd_yy, 0, 2), substr($this->mm_dd_yy, 3, 2),
                                           "20" . substr($this->mm_dd_yy, 6, 2)));
-            $this->id = $id . $venue;
+            $this->id = $date . '-' . $start_time . '-' . $end_time . '-' . $venue;
             $this->notes = $notes;
         }
 
@@ -259,7 +251,6 @@
 
         return $reports;
     }
-    //TODO: Remove this function? It seems unneeded.
     function generate_venue($venue) 
     {
              if (is_int($venue))

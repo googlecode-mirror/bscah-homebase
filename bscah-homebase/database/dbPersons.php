@@ -224,7 +224,7 @@
     function getall_volunteer_names() {
         connect();
         $query = "SELECT NAMEFIRST, NAMELAST FROM PERSON ORDER BY NAMELAST,NAMEFIRST";
-        error_log('in dbPersons.getall_volunteer_names query is '.$query);
+        error_log('in dbPersons getall_volunteer_names query is '.$query);
         $result = mysql_query($query);
         if (!$result) {
             error_log('SQL query error in getall_volunteer_names()'. mysql_error());

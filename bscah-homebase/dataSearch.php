@@ -229,7 +229,7 @@
             }
         }
         if (in_array("history", $search_attr)) { // split history into several lines per person
-            $people_in_past_shifts = get_all_peoples_histories();
+            $people_in_past_shifts = get_all_peoples_histories_in_shifts();
             foreach ($people_in_past_shifts as $p => $history) {
                 fputcsv($handle, [$p, $history], ',', '"');
             }

@@ -25,6 +25,7 @@
     src="reports.js"></script>
 
 <link rel="stylesheet" href="reports.css" type="text/css"/>
+
 <div id="content">
     <div id="report-table">
         <p id="search-fields-container">
@@ -37,7 +38,7 @@
             <table>
                 <tr>
                     <td class="search-description" valign="top"> Select Report Type:
-                        <p><select multiple name="report-types[]" id="report-type">
+                        <p><select multiple name="report-types[]" id="report-type" style="height: 87px;">
                                 <option value="volunteer-names">Individual Hours</option>
                                 <option value="volunteer-hours">Total Shift Hours</option>
                                 <option value="shifts-staffed-vacant">Shift Vacancies</option>
@@ -62,6 +63,10 @@
                 </tr>
             </table>
             And hit <input type="submit" value="submit" id="report-submit" class="btn">
+            <div id="loading">
+            <img id="loading-image" src="images/processingreports.gif" alt="Loading..." />
+            </div>
+
         </form>
         <p id="outputs">
 

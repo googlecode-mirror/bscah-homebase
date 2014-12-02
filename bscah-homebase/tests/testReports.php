@@ -177,7 +177,7 @@ function addPersontoProject() //This will add a person to the Persons column in 
 
 function getReport()//The main tester, this will display the three tables that ought to be generated on the website
 {
-    $allshifthistories = get_all_peoples_histories(); // This returns a key sorted list of everyone's names that are or were in shifts; 
+    $allshifthistories = get_all_peoples_histories_in_shifts(); // This returns a key sorted list of everyone's names that are or were in shifts; 
                                              //The key being the the person's id and the associated value being the id of every shift s/he is in separated by commas. - GIOVI
     $allprojecthistories = get_all_peoples_histories_in_proj();//Same as above but for projects - GIOVI
     $namearr = array(NameFirst, NameLast);
@@ -194,5 +194,5 @@ function getReport()//The main tester, this will display the three tables that o
     
     report_projects_totalhours_by_day($allprojecthistories, '', '');
     
-    report_project_staffed_vacant_by_day('', '');
+     report_project_vacancies('', '');
 }

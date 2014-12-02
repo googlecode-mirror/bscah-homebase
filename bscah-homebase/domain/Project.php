@@ -2,6 +2,7 @@
 
 include_once(dirname(__FILE__) . '/../database/dbProjects.php');
 include_once(dirname(__FILE__) . '/../database/dbPersons.php');
+include_once('reportsAjax.php');
 
 /**
  * Description of Project
@@ -12,7 +13,7 @@ class Project {
         private $mm_dd_yy;      // String: "mm-dd-yy".
         private $address;        //location of project
         private $project_type;
-        private $name;          // String: 'ss-ee' or 'overnight', where ss = start time and ee = end time e.g., '9-12'
+        private $name;
         private $start_time;    // Integer: e.g. 10 (meaning 10:00am)
         private $end_time;      // Integer: e.g. 13 (meaning 1:00pm)
         private $dayOfWeek;     // 3 letters, Mon, Tue, etc //This is the equivalent of day from shift.php - GIOVI
@@ -24,9 +25,8 @@ class Project {
     /*
      * construct an empty project with a certain number of vacancies
      */
-        function __construct($date, $addr,$type, $name, $start_time, $end_time, $vacancies, $persons, $age,
-        $notes) {
-            $this->mm_dd_yy = str_replace("/", "-", $date);
+        function __construct($date, $addr, $type, $name, $start_time, $end_time, $vacancies, $persons, $age, $notes) {
+            $this->mm_dd_yy = str_replace("-", "/", $date); // Remember that '-' are for european dates (dd-mm-yyyy) and '/' are for american (mm/dd/yyy), the timestamp gets confused when we mix them up - GIOVI
             $this->name = $name;
             $this->address = $addr;
             $this->project_type = $type;
@@ -39,15 +39,15 @@ class Project {
                                                 "20" . substr($this->mm_dd_yy, 6, 2)));
             $this->id = $date . "-" . $start_time. "-" . $end_time . "-". $name;
             $this->project_description = $notes;
-            error_log("in project constructor, date is " . $this->mm_dd_yy);
-            error_log("in project constructor, addr is " . $addr);
-            error_log("in project constructor, name is " . $name);
-            error_log("in project constructor, start time is " . $this->start_time);
-            error_log("in project constructor, end time is " . $this->end_time);
-            error_log("in project constructor, day of week is " . $this->dayOfWeek);
-            error_log("in project constructor, vacancies is " . $this->vacancies);
-            error_log("in project constructor, id is " . $this->id);
-            error_log("in project constructor, notes is " . $notes);
+            //error_log("in project constructor, date is " . $this->mm_dd_yy);
+            //error_log("in project constructor, addr is " . $addr);
+            //error_log("in project constructor, name is " . $name);
+            //error_log("in project constructor, start time is " . $this->start_time);
+            //error_log("in project constructor, end time is " . $this->end_time);
+            //error_log("in project constructor, day of week is " . $this->dayOfWeek);
+            //error_log("in project constructor, vacancies is " . $this->vacancies);
+            //error_log("in project constructor, id is " . $this->id);
+            //error_log("in project constructor, notes is " . $notes);
         }
 
     /**
@@ -165,6 +165,12 @@ class Project {
             }
         }
     }
+        function get_num_of_persons() 
+        {
+            $peoparr = explode('*', $this->persons);
+            $numberofpeople = count($peoparr);
+            return $numberofpeople;
+        }
 
     function get_persons() {
         return $this->persons;
@@ -182,15 +188,29 @@ class Project {
         return $this->project_description;
     }
 
+
+        function get_remaining_vacancies($id) //This returns the remaining vacancies a project has depending on how many people are already part of it - GIOVI
+        {
+            error_log("The id is " . $id);
+            $proj = select_dbProjects($id);
+            $peoparr = $proj->get_persons();
+            $numofpeople = count($peoparr);
+ 
+            $vacancies = $proj->get_vacancies() - $numofpeople;
+            
+            error_log("The remaining number of vacancies is $vacancies ----------------------------------------");
+            
+            return $vacancies;
+        }
+
     function get_vacancies() {
         return $this->vacancies;
     }
 
-    
-    function set_notes($notes) {
-        $this->project_description = $notes;
-    }
-
+        function set_notes($notes) {
+            $this->project_description = $notes;
+        }
+        
     function assign_persons($p) {
         foreach ($this->persons as $person) {
             if (!in_array($person, $p)) {
@@ -212,48 +232,33 @@ class Project {
 
 }
 
-function report_projects_staffed_vacant($from, $to) {
-    $min_date = "01/01/2000";
-    $max_date = "12/31/2020";
-    if ($from == '') {
-        $from = $min_date;
-    }
-    if ($to == '') {
-        $to = $max_date;
-    }
-    error_log("from date = " . $from);
-    error_log("to date = " . $to);
-    $from_date = date_create_from_mm_dd_yyyy($from);
-    $to_date = date_create_from_mm_dd_yyyy($to);
+function report_projects_staffed_vacant($from, $to) { //This does not work again - GIOVI
+    $from_date = setFromDate($from);
+    $to_date = setToDate($to);
 
-    $reports = [
-        'morning' => ['Mon' => [0], 'Tue' => [0], 'Wed' => [0], 'Thu' => [0],
-            'Fri' => [0], 'Sat' => [0], 'Sun' => [0]],
-        'earlypm' => ['Mon' => [0], 'Tue' => [0], 'Wed' => [0], 'Thu' => [0],
-            'Fri' => [0], 'Sat' => [0], 'Sun' => [0]],
-        'latepm' => ['Mon' => [0], 'Tue' => [0], 'Wed' => [0], 'Thu' => [0],
-            'Fri' => [0], 'Sat' => [0], 'Sun' => [0]],
-        'evening' => ['Mon' => [0], 'Tue' => [0], 'Wed' => [0], 'Thu' => [0],
-            'Fri' => [0], 'Sat' => [0], 'Sun' => [0]],
-        'overnight' => ['Mon' => [0], 'Tue' => [0], 'Wed' => [0], 'Thu' => [0],
-            'Fri' => [0], 'Sat' => [0], 'Sun' => [0]],
-        'total' => ['Mon' => [0], 'Tue' => [0], 'Wed' => [0], 'Thu' => [0],
-            'Fri' => [0], 'Sat' => [0], 'Sun' => [0]],
-    ];
-    $all_projects = get_all_projects();
-    foreach ($all_projects as $s) {
-        $projects_date = date_create_from_mm_dd_yyyy($s->get_mm_dd_yy());
-        if ($projects_date >= $from_date && $projects_date <= $to_date &&
-                (strlen($s->get_persons()) > 0 || $s->get_vacancies() > 0)
-        ) {
+        $reports = [];
+        $all_projects = get_all_projects();
+        $count = 0;
+        
+        foreach ($all_projects as $p) 
+       {
+            
+            $projects_date = date_create_from_mm_dd_yyyy($p->get_mm_dd_yy());
+            
+            if ($projects_date >= $from_date && $projects_date <= $to_date) //&& (strlen($p->get_persons()) > 0 || $p->get_vacancies() > 0) Was removed; Its here in case its needed - GIOVI
+            {
+                if (!isset($reports[$p->get_id()][0])) { $reports[$p->get_id()][0] = NULL; }
+                
+                error_log("Getting the number of remaining vacancies--------------------------------------------");
 
-            $reports[$s->get_time_of_day()][$s->get_dayOfWeek()][0] += $s->get_vacancies();
 
-            $reports['total'][$s->get_dayOfWeek()][0] += $s->get_vacancies();
+                $reports[$p->get_id()][0] += $p->get_remaining_vacancies($p->get_id());
+                $count++;
+            }
         }
-    }
 
-    return $reports;
+        error_log("------- " . $count . " vacancy(ies) recorded-----------");       
+        return $reports;
 }
 
 function check_Age($perAge, $projAge){

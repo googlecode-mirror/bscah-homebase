@@ -198,12 +198,12 @@
 
             // put into dbShift!
             connect();
-            $vacancy_query = "SELECT ID,VACANCIES FROM SHIFT " .
-                "WHERE VACANCIES > 0 ORDER BY ID;";
+            $vacancy_query = "SELECT SHIFTID,VACANCIES FROM SHIFT " .
+                "WHERE VACANCIES > 0 ORDER BY SHIFTID;";
             error_log("in index.php, will retrieve shift vacancies with this query: " . $vacancy_query);
             $vacancy_list = mysql_query($vacancy_query);
             if (!$vacancy_list) {
-                error_log('sql error while retrieving shifts with vacancies '.mysql_error());
+                error_log('sql error while retrieving shifts with vacancies ' . mysql_error());
                 echo mysql_error();
             }
             //upcoming vacancies
@@ -213,11 +213,11 @@
                 echo('<div class="vacancyBox">');
                 echo('<p><strong>Upcoming Vacancies:</strong><ul>');
                 while ($thisRow = mysql_fetch_array($vacancy_list, MYSQL_ASSOC)) {
-                    $shift_date = mktime(0, 0, 0, substr($thisRow['ID'], 0, 2), substr($thisRow['ID'], 3, 2),
-                                         substr($thisRow['ID'], 6, 2));
+                    $shift_date = mktime(0, 0, 0, substr($thisRow['SHIFTID'], 0, 2), substr($thisRow['SHIFTID'], 3, 2),
+                                         substr($thisRow['SHIFTID'], 6, 2));
                     if ($shift_date > $today && $shift_date < $two_weeks) {
-                        echo('<li type="circle"><a href="' . $path . 'editShift.php?shift=' . $thisRow['ID'] . '">' .
-                            get_shift_name_from_id($thisRow['ID']) . '</a></li>');
+                        echo('<li type="circle"><a href="' . $path . 'editShift.php?shift=' . $thisRow['SHIFTID'] . '">' .
+                            get_shift_name_from_id($thisRow['SHIFTID']) . '</a></li>');
                     }
                 }
                 echo('</ul></p></div><br>');
@@ -235,7 +235,9 @@
                 }
                 echo('</ul></p></div><br>');
             }
-            mysql_close();
+            
+            //mysql_close(); This is giving the warning PHP Warning:  mysql_close(): no MySQL-Link resource supplied - GIOVI
+            
             //volunteer birthdays and anniversary days
             /*   connect();
                $anniv_query = "SELECT id,NameFirst,NameLast,birthday,start_date FROM person WHERE status LIKE '%active%'";

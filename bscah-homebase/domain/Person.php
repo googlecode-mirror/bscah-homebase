@@ -28,8 +28,8 @@
     include_once(dirname(__FILE__) . '/../database/dbProjects.php');
     include_once('Shift.php');
     include_once('Person.php');
-
     include_once('Project.php');
+    include_once('reportsAjax.php');
     
 
     class Person {
@@ -206,41 +206,90 @@
         // a given date range. $from and $to are strings of the form 'm/d/y', if one of the strings
         // is the empty string, then the range is unbounded in that direction.
         // the dictionary is of the form {'Mon' => , 'Tue' => }.
-        function report_hours($histories, $from, $to) {
-            error_log("in report hours");
-            $min_date = "01/01/2000";
-            $max_date = "12/31/2020";
-            if ($from == '') {
-                $from = $min_date;
-            }
-            if ($to == '') {
-                $to = $max_date;
-            }
-            error_log("from date = " . $from);
-            error_log("to date = " . $to);
-            $from_date = date_create_from_mm_dd_yyyy($from);
-            $to_date = date_create_from_mm_dd_yyyy($to);
-            $report = ['Mon' => 0, 'Tue' => 0, 'Wed' => 0, 'Thu' => 0,
-                'Fri' => 0, 'Sat' => 0, 'Sun' => 0];
-            if (array_key_exists($this->get_id(), $histories)) {
+        function report_hours($shifthis, $projecthis, $from, $to) {
+            $from_date = setFromDate($from);
+            $to_date = setToDate($to);
+    
+            $groupedreports = [];
+            $count = 0;
+            
+           $fw = getNormWeek($from_date);
+           $tw = getNormWeek($to_date);
+           $yearswithweeks = DateRange($fw, $tw);
+           
+    foreach($yearswithweeks as $years => $weeks)
+    {   
+        foreach ($weeks as $w) 
+        {    
+            $currentweek = getSunWeek($years, $w);
+            $weeklyreport = ['Sun' => [0, 0, 0], 'Mon' => [0, 0, 0], 'Tue' => [0, 0, 0], 'Wed' => [0, 0, 0], 'Thu' => [0, 0, 0], 'Fri' => [0, 0, 0], 'Sat' => [0, 0, 0]];
+            
+            if (array_key_exists($this->get_id(), $shifthis)) 
+           { 
+                $sfthid = explode(',', $shifthis[$this->ID]);
 
-                $hid = explode(',', $histories[$this->ID]);
-
-                $hid = explode(',', $histories[$this->ID]);//ID was lowercased and so couldn't connect with the one in Person - GIOVI
-
-                foreach ($hid as $shift_id) {
-                    $s = select_dbShifts($shift_id);
-                    $shift_date = date_create_from_mm_dd_yyyy($s->get_mm_dd_yy());
-                    if ($shift_date >= $from_date && $shift_date <= $to_date) {
-                        $report[$s->get_day()] += $s->duration();
+                foreach ($sfthid as $shift_id) 
+               {
+                 $s = select_dbShifts($shift_id);
+                  
+                 if (CheckIfDateIsInWeek($s->get_date(), $currentweek)) // This way the same shift's hours won't be taken for every week - GIOVI
+                    {  
+                        $shift_date = date_create_from_mm_dd_yyyy($s->get_mm_dd_yy());
+                    
+                         if ($shift_date >= $from_date && $shift_date <= $to_date) 
+                         { 
+                           $weeklyreport[$s->get_day()][0] += $s->duration(); //First element is for shift hours - GIOVI
+                         } 
                     }
                 }
             }
+            
+            if (array_key_exists($this->get_id(), $projecthis)) 
+           { 
+                $projhid = explode(',', $projecthis[$this->ID]);
 
-            return $report;
+                foreach ($projhid as $proj_id) 
+               {
+                    $p = select_dbProjects($proj_id);
+                    
+                    if (CheckIfDateIsInWeek($p->get_date(), $currentweek)) // This way the same project's hours won't be taken for every week - GIOVI
+                    {
+                        $proj_date = date_create_from_mm_dd_yyyy($p->get_mm_dd_yy());
+                    
+                        if ($proj_date >= $from_date && $proj_date <= $to_date)
+                        { 
+                            $weeklyreport[$p->get_dayOfWeek()][1] += $p->duration(); //Second element is for project hours - GIOVI
+                        } 
+                    }
+                      
+                }
+            }
+            
+            foreach ($weeklyreport as $day => $hrs)
+            {
+                $weeklyreport[$day][2] = $weeklyreport[$day][0] + $weeklyreport[$day][1]; // Third element is for the total of both shift and project hours - GIOVI
+            }
+            
+            $groupedreports[] = $weeklyreport;
+            $count++;
+        }
+    }
+            error_log("------- " . $count . " grouped report(s) recorded-----------");
+            error_log("/////EXITING the report_hours function--------------------");
+            return $groupedreports;
         }
     }
 
+    function CheckIfDateIsInWeek($datetocheck, $weekdate) //This is to check if a date falls within the current week starting with Sunday - GIOVI
+    {   error_log("-------------" . $datetocheck . " is checking to see if it's in " . $weekdate);
+        $checkingdate = strtotime($datetocheck);
+        $currentweek = strtotime($weekdate);
+        $endofweek = strtotime($weekdate . '+6 days');
+        
+        if ($checkingdate >= $currentweek && $checkingdate <= $endofweek) { error_log("The date check returned TRUE---------"); return TRUE;}
+        else { error_log("The date check returned FALSE---------"); return FALSE;}
+     }
+    
     function report_shifthours_by_day($histories, $from, $to) {
         error_log("report hours by day");
         $min_date = "01/01/2000";
@@ -285,46 +334,40 @@
         return $reports;
     }
 
-    function report_projecthours_by_day($histories, $from, $to) {
-        $min_date = "01/01/2000";
-        $max_date = "12/31/2020";
-        if ($from == '') {
-            $from = $min_date;
-        }
-        if ($to == '') {
-            $to = $max_date;
-        }
-        error_log("from date = " . $from);
-        error_log("to date = " . $to);
-        $from_date = date_create_from_mm_dd_yyyy($from);
-        $to_date = date_create_from_mm_dd_yyyy($to);
-        $reports = [
-            'morning' => ['Mon' => 0, 'Tue' => 0, 'Wed' => 0, 'Thu' => 0,
-                'Fri' => 0, 'Sat' => 0, 'Sun' => 0],
-            'earlypm' => ['Mon' => 0, 'Tue' => 0, 'Wed' => 0, 'Thu' => 0,
-                'Fri' => 0, 'Sat' => 0, 'Sun' => 0],
-            'latepm' => ['Mon' => 0, 'Tue' => 0, 'Wed' => 0, 'Thu' => 0,
-                'Fri' => 0, 'Sat' => 0, 'Sun' => 0],
-            'evening' => ['Mon' => 0, 'Tue' => 0, 'Wed' => 0, 'Thu' => 0,
-                'Fri' => 0, 'Sat' => 0, 'Sun' => 0],
-            'overnight' => ['Mon' => 0, 'Tue' => 0, 'Wed' => 0, 'Thu' => 0,
-                'Fri' => 0, 'Sat' => 0, 'Sun' => 0],
-            'total' => ['Mon' => 0, 'Tue' => 0, 'Wed' => 0, 'Thu' => 0,
-                'Fri' => 0, 'Sat' => 0, 'Sun' => 0]
-        ];
-
-        foreach ($histories as $person_id => $person_projects) {
-            $ps = explode(',', $person_projects);
-            foreach ($ps as $project_id) {
-                $p = select_dbProjects($project_id);
-                $project_date = date_create_from_mm_dd_yyyy($p->get_mm_dd_yy());
-                if ($project_date >= $from_date && $project_date <= $to_date) {
-                    $reports[$p->get_time_of_day()][$p->get_dayOfWeek()] += $p->duration();//The first call was an $s; Changed to $p - GIOVI
-                    $reports['total'][$p->get_dayOfWeek()] += $p->duration();
+    function report_projecthours($from, $to) {
+        $from_date = setFromDate($from);
+        $to_date = setToDate($to);
+        
+        $reports = [];
+        $all_projects = get_all_projects();
+        $count = 0;
+        
+        foreach ($all_projects as $p) 
+        {
+                
+            $project_date = date_create_from_mm_dd_yyyy($p->get_mm_dd_yy());
+                
+            if ($project_date >= $from_date && $project_date <= $to_date) 
+            {
+                
+                if (!isset($reports[$p->get_id()][0]) || !isset($reports[$p->get_id()][1]) || !isset($reports[$p->get_id()][2]))
+                {
+                    $reports[$p->get_id()][0] = NULL;
+                    $reports[$p->get_id()][1] = NULL;        
                 }
+                
+                    error_log("Getting total hours and number of volunteers---------------------------");
+                    error_log("The number of hours is " . $p->duration());
+                    error_log("The number of volunteers is " . $p->get_num_of_persons());
+                    
+                    $reports[$p->get_id()][0] += ($p->duration() * $p->get_num_of_persons());//Tell me to removed the multiplier if needed, all it does is multiply the number of hours by the number of volunteers in that particular project, I assume this is how it'll go to see the total hours being worked on be each volunteer - GIOVI
+                    $reports[$p->get_id()][1] += $p->get_num_of_persons();
+                    $count++;
+    
+                    error_log("End of loop--------------------------------------");
             }
         }
-
+        error_log("------- " . $count . " project(s) recorded-----------");
         return $reports;
     }
 

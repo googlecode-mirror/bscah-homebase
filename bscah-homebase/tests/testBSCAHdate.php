@@ -11,7 +11,7 @@
 
 //return a message if the first test past or fails 
     function testConstructor() {
-       $my_shifts[] = new Shift("02-28-10-9-13", "Garden", 1, [], [], "");
+       $my_shifts[] = new Shift("02-28-10-9-13", "Garden", 1, [], [], ""); //This may have an error because id is trying to pass itself to a new shift - GIOVI
        $my_project[] = new Project("02-28-10", null, "Food Delivery", 8, 11, 3, null, "notes");
        $test_date = new BSCAHdate("02-28-10", $my_shifts, "manager notes", $my_project);
        $replacement_project = new Project("02-28-14", null, "Truck Delivery", 9, 12, 3, null, "new notes");

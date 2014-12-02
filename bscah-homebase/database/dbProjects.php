@@ -46,14 +46,17 @@ function insert_dbProjects($p) {
             implode("*", $p->get_persons()) . "','" .
             $p->get_age() . "','" .
             $p->get_project_description() . "')";
-    error_log("in insert_dbProjects, insert query is " . $query);
-    $result = mysql_query($query);
-    if (!$result) {
-        error_log('unable to insert into PROJECT ' . $p->get_id() . mysql_error());
-        mysql_close();
+        
+        error_log("in insert_dbProjects, insert query is " . $query);
+        $checkresult = mysql_query($query);
+        if (!$checkresult) {
+            echo "unable to insert into project " . $p->get_id() . mysql_error();
+            mysql_close();
 
-        return false;
-    }
+            return false;
+                           }
+
+    
     mysql_close();
 
     return true;
@@ -99,11 +102,10 @@ function update_dbProjects($p) {
     }
     delete_dbProjects($p);
     insert_dbProjects($p);
-
     return true;
 }
 
-/**
+    /**
  * Selects a project from the database
  *
  * @param $id a project id
@@ -122,19 +124,19 @@ function select_dbProjects($id) {
         die('Invalid query: ' . mysql_error());
         }
 
-        $result_row = mysql_fetch_assoc($result);//Was fetch_assoc - GIOVI
+        $result_row = mysql_fetch_row($result);//Was fetch_assoc - GIOVI
 
         if ($result_row != null) {
             $persons = [];
             //$removed_persons = []; Unnecessary - GIOVI
-            if ($result_row[8] != "") {
-                $persons = explode("*", $result_row[8]);
+            if ($result_row[9] != "") {
+                $persons = explode("*", $result_row[9]);
             }
-            $p = make_a_project($result_row); 
-            //Before - GIOVI
-            //$p = new Project($result_row[0], $result_row[2], $result_row[1], $result_row[7], $result_row[4], $result_row[5], $result_row[3], $persons, $result_row[9]);
-        }
-        
+            //$p = make_a_project($result_row); This is pointless as it does the same as the one below with the exception that it can take the parameters directly - GIOVI
+             $p = new Project($result_row[2], $result_row[1], $result_row[3], $result_row[8], $result_row[5], $result_row[6], $result_row[4], $persons, $result_row[10], $result_row[11]);
+             
+            }
+      
         return $p;
     }
     
@@ -319,8 +321,8 @@ function proj_timeslots_overlap($s1_start, $s1_end, $s2_start, $s2_end) {
     }
 }
 
-    function make_a_project($result_row) 
-    {
+    function make_a_project($result_row) {
+        
         $the_project = new Project(
             //$result_row['ProjectID'],
             $result_row['DATE'],
@@ -334,10 +336,11 @@ function proj_timeslots_overlap($s1_start, $s1_end, $s2_start, $s2_end) {
             $result_row['AGEREQUIREMENT'],    
             $result_row['PROJECTDESCRIPTION']
             //$result_row['DayOfWeek'],           
-    );
+         );
 
-    return $the_project;
-}
+     return $the_project;
+    }
+
 
 function get_all_projects() {
     connect();
@@ -348,7 +351,7 @@ function get_all_projects() {
 
         return false;
     }
-//Repeated line 332 on this line - GIOVI
+       //$result = mysql_query($query); Repeated line - GIOVI
     $projects = [];
     while ($result_row = mysql_fetch_assoc($result)) {
         $project = make_a_project($result_row);
@@ -513,4 +516,4 @@ function add_Person_From_Person_Column($allPeopleConcatenated, $idProject) {
     echo("You were successfully added!.");
 }
 
-?>
+ ?>
