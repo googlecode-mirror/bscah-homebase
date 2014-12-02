@@ -92,7 +92,7 @@
                 else {
                     if ($free_hour[$columns * ($hour - 9) + $i]) {
                         //	$t = $hour . "-" . ($hour+1);
-                        $master_shift = new MasterScheduleEntry($_GET['frequency'], $day, $hour, $hour + 1, 1, "", "", "");
+                        $master_shift = new MasterScheduleEntry($_GET['frequency'], $day, $hour, $hour + 1, 1, "",[]);
                         echo do_shift($master_shift, 0);
                     }
                 }
@@ -107,7 +107,7 @@
                 echo do_shift($master_shift, 1);
             }
             else {
-                $master_shift = new MasterScheduleEntry($_GET['frequency'], $day, "overnight", 0, 1, "", "", "");
+                $master_shift = new MasterScheduleEntry($_GET['frequency'], $day, "overnight", 0, 1,"", "");
                 echo do_shift($master_shift, 0);
             }
         }
@@ -116,20 +116,31 @@
     }
 
     function show_hours($hour) {
-        $d = 3;
-        $clock = $hour < 12 ? $hour . "am" : $hour - 12 . "pm";
-        $clockend = $hour + $d < 12 ? ($hour + $d) . "am" : ($hour - 12 + $d) . "pm";
-        if ($clock == "0pm") {
-            $clock = "12pm";
-        }
-        if ($clockend == "0pm") {
-            $clockend = "12pm";
-        }
-        if (($clock) % $d == 0) {
-            return $clock . " - " . $clockend;
+        $d = 1;
+        $last_shift = 8;
+        if ($hour == 21) {
+            return "overnight";
         }
         else {
-            return "";
+            $clock = $hour < 12 ? $hour . "am" : $hour - 12 . "pm";
+            $clockend = $hour + $d < 12 ? ($hour + $d) . "am" : ($hour - 12 + $d) . "pm";
+            if ($clock == "0pm") {
+                $clock = "12pm";
+            }
+            if ($clockend == "0pm") {
+                $clockend = "12pm";
+            }
+            if (($clock) % $d == 0) {
+                if ($clock % $last_shift == 0) {
+                    return $clock . " - " . $clockend;
+                }
+                else {
+                    return $clock;
+                }
+            }
+            else {
+                return "";
+            }
         }
     }
 

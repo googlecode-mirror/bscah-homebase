@@ -88,7 +88,7 @@
             $free_hour[] = true;
         }
 //		echo ("Showing week ". $week->get_id(). " for venue " . $venue . " and first day " . $days[0]->get_id() . "<br>");
-        $daynames = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
+        $daynames = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
         echo('<table id="calendar" align="center" ><tr class="weekname"><td colspan="16" ' .
             'align="center" >' . 'House calendar: ' . $week->get_name() . '</td></tr>
 				<tr><td bgcolor=lightblue></td>');

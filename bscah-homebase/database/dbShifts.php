@@ -134,7 +134,7 @@
                 if ($result_row[6] != "") {
                     $removed_persons = explode("*", $result_row[6]);
                 }
-                $s = new Shift($result_row[0], $result_row[3], $result_row[4], $persons, $removed_persons, null, $result_row[7]); // The last result_row was 8; Changed to 7 to see notes - GIOVI
+                $s = new Shift($result_row[0], $result_row[3], $result_row[4], $persons, $removed_persons,$result_row[7]); // The last result_row was 8; Changed to 7 to see notes - GIOVI
             }
         }
 

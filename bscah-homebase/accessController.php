@@ -47,7 +47,7 @@
                 //pages volunteers can view
                 $permission_array['help.php'] = 1;
                 $permission_array['view.php'] = 1;
-                $permission_array['personSearch.php'] = 1;
+                 $permission_array['personSearch.php'] = 1;
                 $permission_array['calendar.php'] = 1;
                 $permission_array['projectInfo.php'] = 1;
                 $permission_array['projectTimeInfo.php'] = 1;
@@ -120,8 +120,7 @@
                     echo(' | <a href="' . $path . 'logout.php"><b>logout</b></a>');
                 }
                 if ($_SESSION['access_level'] >= 2) {
-                    echo('<br><a href="' . $path .
-                     'viewSchedule.php?frequency=weekly"><strong>master schedules</strong></a> : '
+                    echo(' | <strong> master schedules</strong> : '
                             . '<a href=" ' . $path . 'viewSchedule.php?frequency=garden ">garden, </a>'
                             . '<a href=" ' . $path . 'viewSchedule.php?frequency=pantry">pantry </a> | '); 
 

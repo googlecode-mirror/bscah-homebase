@@ -79,18 +79,18 @@
          */
 
         function generate_shifts($day) {
-            $venues = ["weekly"];
+            $venues = ["garden","pantry"];
             $days = [1 => "Mon", 2 => "Tue", 3 => "Wed", 4 => "Thu", 5 => "Fri", 6 => "Sat", 7 => "Sun"];
             $this->shifts = [];
             /* $master[$i] is an array of
-             * (venue, my_group, day, time, start, end, slots, persons, notes)
+             * (venue, my_group, day, time, start, end, slots, notes)
              */
             foreach ($venues as $venue) {
                     $master = get_master_shifts($venue, $days[$day]);
                     for ($i = 0; $i < sizeof($master); $i++) {
                         $t = $master[$i]->get_time();
-                        $this->shifts[$t] = new Shift(
-                            $this->id . "-" . $t, $venue, $master[$i]->get_slots(), null, null, "", "");
+                        $this->shifts[$t.$venue] = new Shift(
+                            $this->id . "-" . $t, $venue, $master[$i]->get_slots(), null, null, "");
                 }
             }
         }

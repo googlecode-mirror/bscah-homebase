@@ -164,7 +164,6 @@
             $start, // Start time
             $end, // End time
             0, // Slots
-            "", // Persons
             "", // Notes
             $shift_name
         );

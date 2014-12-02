@@ -51,13 +51,14 @@
                 $this->start_time = 0;
                 $this->end_time = 1;
             }
-            generate_venue($venue);
+            $this->venue = $venue;
+//          generate_venue($venue);
             $this->vacancies = $vacancies;
             $this->persons = $persons;
             $this->removed_persons = $removed_persons;
             $this->day = date("D", mktime(0, 0, 0, substr($this->mm_dd_yy, 0, 2), substr($this->mm_dd_yy, 3, 2),
                                           "20" . substr($this->mm_dd_yy, 6, 2)));
-            $this->id = $id .$venue;
+            $this->id = $id . $venue;
             $this->notes = $notes;
         }
 
@@ -258,6 +259,7 @@
 
         return $reports;
     }
+    //TODO: Remove this function? It seems unneeded.
     function generate_venue($venue) 
     {
              if (is_int($venue))
