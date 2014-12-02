@@ -131,7 +131,7 @@
             foreach ($venue_shifts as $venue_shift) {
                 /** @noinspection PhpUndefinedMethodInspection */
                 $shifts[] = generate_and_populate_shift($date->format("m-d-y"), $venue,
-                                                        $venue_shift->get_time(), "");
+                                                        $venue_shift->get_start_time(),$venue_shift->get_end_time(), "");
             }
 
             // makes a new date with these shifts
@@ -164,8 +164,8 @@
     // makes new shifts, fills from master schedule
     //!
     // TODO: Remove this functionality, you should not be able to add people to master schedule
-    function generate_and_populate_shift($day_id, $venue, $time, $note) {
-        $newShift = new Shift($day_id . "-" . $time, $venue, "","", "",$note);
+    function generate_and_populate_shift($day_id, $venue, $start, $end, $note) {
+        $newShift = new Shift($day_id,$start,$end, $venue, "","", "",$note);
         return $newShift;
 
     }

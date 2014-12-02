@@ -89,8 +89,10 @@
                     $master = get_master_shifts($venue, $days[$day]);
                     for ($i = 0; $i < sizeof($master); $i++) {
                         $t = $master[$i]->get_time();
+                        $s = $master[$i]->get_start_time();
+                        $e = $master[$i]->get_end_time();
                         $this->shifts[$t.$venue] = new Shift(
-                            $this->id . "-" . $t, $venue, $master[$i]->get_slots(), null, null, "");
+                            $this->id, $s,$e, $venue, $master[$i]->get_slots(), null, null, "");
                 }
             }
         }

@@ -45,6 +45,7 @@
         }
         $query = "INSERT INTO SHIFT VALUES ('" . 
                 $s->get_id() . "','" .
+                $s->get_date() . "','" .
                 $s->get_start_time() . "','" . 
                 $s->get_end_time() . "','" . 
                 $s->get_venue() . "','" .
