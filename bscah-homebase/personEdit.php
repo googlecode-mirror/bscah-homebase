@@ -57,10 +57,17 @@
 </head>
 <body>
 <div id="container">
-    <a href="index.php"</a>
+   
 <?PHP include('header.php');
-      include('accessController.php');?>
+
+    if($_SESSION['access_level'] == 1 || $_SESSION['access_level'] == 2)
+    {
+        include('accessController.php');   
+    }
+?>
+    
 <div id="content">
+    
 <?PHP
     include('personValidate.inc');
     if ($_POST['_form_submit'] != 1) { //in this case, the form has not been submitted, so show it

@@ -6,9 +6,6 @@
  * @author Rocco J. Sacramone
  * @version 10/19/2014 Revised: 10/29/2014
  */
-
-    session_start();
-    session_cache_expire(30);
 ?>
 
 <html>

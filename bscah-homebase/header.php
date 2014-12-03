@@ -18,10 +18,10 @@
     }
 </style>
 <script type="text/javascript" src="lib/jquery-1.9.1.js"></script>
+
 <div id="header">
     <!--<br><br><img src="images/rmhHeader.gif" align="center"><br>
     <h1><br><br>Homebase <br></h1>-->
-
 </div>
 
 

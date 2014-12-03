@@ -18,7 +18,7 @@
 <!--<div id="container">-->
 <?PHP //include('header.php'); ?>
    
-<div id="content">
+<div id="content" style="text-align: left">
 <?php
     //$_SESSION['access_level'] = 0;
 ?>

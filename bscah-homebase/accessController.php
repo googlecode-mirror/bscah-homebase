@@ -94,17 +94,15 @@
                     echo('<a href="' . $path . 'about.php"><b>about</b></a>');
 
                 }*/
-                if ($_SESSION['access_level'] >= 1) {
-                    echo(' | <a href="' . $path . 'help.php?helpPage=' . $current_page .
-                        '" target="_BLANK"><b>help</b></a>');
-                }
                 /*if ($_SESSION['access_level'] == 0) {
                     echo(' | <a href="' . $path . 'personEdit.php?id=' . 'new' . '"><b>apply</b></a>');
                 }*/
                 if ($_SESSION['access_level'] == 1) {
-                    echo(' | <strong>calendars:</strong> <a href="' . $path .
+                    echo('  <strong>calendars:</strong> <a href="' . $path .
                         'calendar.php?venue=house">current, </a>');
                     echo('<strong>projects :</strong> <a href="' . $path . 'projectSearch.php?id=' . 'none' . '">search</a> |');
+                    echo(' | <a href="' . $path . 'help.php?helpPage=' . $current_page .
+                        '" target="_BLANK"><b>help</b></a>');
                     echo(' | <a href="' . $path . 'logout.php"><b>logout</b></a>');
                     //echo('<strong>projects :</strong> <a href="' . $path . 'projectSearch.php">search</a>,
                     //    <a href="projectEdit.php?id=' . 'new' . '">add </a>');
@@ -114,13 +112,16 @@
                     //        echo('<a href="' . $path . 'calendar.php?venue=activities">activities | </a>');
                     //         echo('<a href="https://sites.google.com/site/rmhvolunteersite"><strong>around the house</strong> </a>');
                 }
+                
+             
+                
                 if ($_SESSION['access_level'] == 1.5) {
                     echo('<br>');
                     echo('<strong>volunteers :</strong> <a href="' . $path . 'personSearch.php">');
                     echo(' | <a href="' . $path . 'logout.php"><b>logout</b></a>');
                 }
                 if ($_SESSION['access_level'] >= 2) {
-                    echo(' | <strong> master schedules</strong> : '
+                    echo('  <strong> master schedules</strong> : '
                             . '<a href=" ' . $path . 'viewSchedule.php?frequency=garden ">garden, </a>'
                             . '<a href=" ' . $path . 'viewSchedule.php?frequency=pantry">pantry </a> | '); 
 
