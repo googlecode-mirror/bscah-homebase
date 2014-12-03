@@ -56,8 +56,12 @@
                         remove_week($_GET['remove']);
                     }
                     else if (array_key_exists('start_date', $_POST)) {
-                        generate_new_week(new DateTime($_POST['start_date']));
+                        // If the week-creation process fails, show the user an error
+                        if (!generate_new_week(new DateTime($_POST['start_date']))) {
+                            echo '<div style="font-weight: bold; color: red">ERROR: Could not create week object because the start-date that you selected wasn\'t a Sunday</div> ';
+                        }
                     }
+
                     include_once('addWeek_newweek.inc');
                     include_once('footer.inc');
                 ?>
@@ -147,22 +151,22 @@
         }
 
         // creates a new week from the dates
-        // TODO: I assumed that we should set weeks that have already passed to "archived", is this right?
+        // Week is set to "archived" if the week has already passed, otherwise is set to "unpublished"
         $newweek = new Week($dates, $date->getTimestamp() < time() ? "archived" : "unpublished");
 
         if ($newweek == null) {
             return false;
         }
-        insert_dbWeeks($newweek);
+
+        $insert_status = insert_dbWeeks($newweek);
         add_log_entry('<a href=\"personEdit.php?id=' . $_SESSION['_id'] . '\">' . $_SESSION['f_name'] . ' ' .
                       $_SESSION['l_name'] . '</a> generated a new week: <a href=\"calendar.php?id=' .
                       $newweek->get_id() . '&edit=true\">' . $newweek->get_name() . '</a>.');
 
-        return true;
+        return $insert_status;
     }
 
     // makes new shifts, fills from master schedule
-    //!
     // TODO: Remove this functionality, you should not be able to add people to master schedule
     function generate_and_populate_shift($day_id, $venue, $start, $end, $note) {
         $newShift = new Shift($day_id,$start,$end, $venue, "","", "",$note);
@@ -172,7 +176,9 @@
 
 
     // TODO: Why is this here? It should probably be somewhere else since it isn't even used in this file.
-    // displays form errors (only for first week)
+    /*
+     * displays form errors (only for first week)
+     */
     function show_errors($e) {
         //this function should display all of our errors.
         echo("<p><ul>");

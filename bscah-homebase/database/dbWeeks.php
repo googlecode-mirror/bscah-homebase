@@ -99,13 +99,11 @@
         mysql_close();
         if (!$result) {
             error_log("unable to delete from week: " . $w->get_id() . mysql_error());
-
             return false;
         }
-        else {
-            foreach ($w->get_dates() as $i) {
-                delete_dbDates($i);
-            }
+
+        foreach ($w->get_dates() as $i) {
+            delete_dbDates($i);
         }
 
         return true;
@@ -120,9 +118,7 @@
         if (delete_dbWeeks($w)) {
             return insert_dbWeeks($w);
         }
-        else {
-            return false;
-        }
+        return false;
     }
 
     /**

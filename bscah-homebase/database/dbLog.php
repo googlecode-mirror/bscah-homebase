@@ -32,14 +32,13 @@
      * adds a new log entry, using the current time for the timestamp
      */
     function add_log_entry($message) {
-        
-        $time = time();
         connect();
 
-        $query = sprintf('INSERT INTO DBLOG (time, message) VALUES (`%s`, `%s`)',
-            $time,
-            str_replace('`', "", $message) // Remove all back`ticks
+        $query = sprintf("INSERT INTO DBLOG (`time`, `message`) VALUES ('%s', '%s')",
+            time(),
+            str_replace("'", '"', $message) // Replace all single-quotes with double-quotes
         );
+
         $result = mysql_query($query);
         if (!$result) {
             echo mysql_error();

@@ -160,7 +160,7 @@
                 // try to add a new project to the database
                 //else {
                     if ($_POST['old_id'] == 'new')
-                   {
+                    {
                         $id = $mm_dd_yy;
                         //check if there's already an entry
                         $dup = select_dbProjects($id);

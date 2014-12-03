@@ -157,7 +157,7 @@
                     }
                 }
 
-                $d = new BSCAHdate($result_row[0], $s, "", []); // TODO: This constructor is malformed somehow
+                $d = new BSCAHdate($result_row[0], $s, "", []);
 
 
                 error_log($d->get_projects());
@@ -194,6 +194,7 @@
         else {
             error_log("Date is currently not in DATE table");
         }
+        return $db_date != null;
     }
 
     function insert_dbDates_project(BSCAHdate $d) {
