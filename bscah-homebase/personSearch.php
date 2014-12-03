@@ -28,6 +28,7 @@
     ?>
     <div id="content">
         <?PHP
+        include('projectTypes.php');
             // display the search form
         if(isset($_GET['area']))
         {
@@ -73,11 +74,39 @@
                         'LatePM(3-6)' => 'LatePM(3-6)',
                         'Evening(6-9)' => 'Evening(6-9)', 'Overnight' => "Overnight"];
             echo '<select name="s_shift">' . '<option value=""></option>';
-            foreach ($shifts as $shiftno => $shiftname) {
+            foreach ($shifts as $shiftno => $shiftname) 
+            {
                 echo '<option value="' . $shiftno . '">' . $shiftname . '</option>';
             }
 
-           
+          
+            echo '</select>';
+            echo "</td>";
+            echo "</tr>";
+            echo '</table></fieldset>';
+
+         
+            $projectTypes = new projectTypes();
+           echo '<fieldset>
+						<legend> Project Type: </legend>
+							<table><tr>
+								<td>Types  </td>
+								<td></td>
+								</tr>';
+            echo "<tr>";
+            echo "<td>";
+         
+            echo '<select name="s_types">' . '<option value=""></option>';
+            foreach ($projectTypes->types as $type) 
+            {
+                echo '<option value="' . $type . '">' . $type . '</option>';
+            }
+        
+            echo "</td>";
+            echo "<td>";
+            echo '</select>';
+            
+            
             echo '</select>';
             echo "</td>";
             echo "</tr>";
@@ -85,6 +114,10 @@
 
             echo('<p><input type="hidden" name="s_submitted" value="1"><input type="submit" name="Search" value="Search">');
             echo('</form></p>');
+            
+            
+           
+           
 
             // if user hit "Search"  button, query the database and display the results
             if (isset($_POST['s_submitted'])) {
@@ -99,6 +132,7 @@
                 $result = getonlythose_persons($type, $status, $name, $day, $shift);
                 //$result = getall_dbPersons();
 
+                
 
                 echo '<p><strong>Search Results:</strong> <p>Found ' . sizeof($result) . ' ' . $status . ' ';
                 if ($type != "") {
