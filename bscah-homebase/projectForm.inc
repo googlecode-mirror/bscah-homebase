@@ -68,14 +68,19 @@
     <fieldset>
         <legend>Project information:</legend>
         <p>Project Type
-      <?PHP $types = ['Volunter', 'Team Building', 'Pantry Volunteer', 'Garden Volunteer', 'Building Project', 'PB & J Sandwiches', 'Birthday Boxes', 'Hygiene Kits', 'Body Kits', 'Emergency Relief Kits', 'Virtual Can Drive'];
+      <?PHP 
+      include('projectTypes.php');
+      $projectTypes = new projectTypes();
+      //$types = ['Volunter', 'Team Building', 'Pantry Volunteer', 'Garden Volunteer', 'Building Project', 'PB & J Sandwiches', 'Birthday Boxes', 'Hygiene Kits', 'Body Kits', 'Emergency Relief Kits', 'Virtual Can Drive'];
             echo '<select name="project_type">' . '<option value=' . ($project->get_type()) . '></option>';
-            foreach ($types as $type) 
+            foreach ($projectTypes->types as $type) 
             {
                 echo '<option value="' . $type . '">' . $type . '</option>';
             }
         
             echo '</select>';
+            
+        
         ?>
         <p>
         <p>Date of Project<span style="font-size:x-small;color:FF0000">*</span>: <input type="text" name="date"
@@ -101,7 +106,7 @@
     //error_log("Day of week is " . $project->get_dayOfWeek());
     echo "<br />\n";
     echo('Hit <input type="submit" value="Submit" name="Submit Edits"> to complete this application.<br /><br />');
-    
+ 
 
 /*        
 if ($_SESSION['access_level'] == 0) {
