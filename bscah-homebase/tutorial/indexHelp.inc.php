@@ -33,7 +33,7 @@
     <strong>Information about Your Personal Home Page</strong>
 <p>Whenever you log into BSCAH's Homebase, some useful personal information will
     appear.
-<p>
+<p>  
     <B>If you are a volunteer or a manager</B> and you've never changed
     your password, you will see the following display: <BR> <BR> <a
         href="tutorial/screenshots/homeHelp2.png" class="image"
@@ -47,8 +47,15 @@
     house manager. Until you change your password, this display continue to
     appear here.
 <p>
-    <B>If you are a volunteer</B>, you will see a display of your upcoming
-    scheduled shifts, which looks like this: <a
+    
+<B>If you are a volunteer</B> and you would like to check out our current project so you can sign up for one and start volunteering, please click <strong><a href="currentProjectDetailed.php">Current Projects</a></strong>
+<p>If you would like more information on what projects are and what you would do, please click <strong><a href="projectInfo.php">Project Info</a></strong>
+<p>If you would like to check out the schedule's of the volunteer projects, please click <strong><a href="viewSchedule.php?frequency=garden">Garden</a></strong> for the garden schedule or <strong><a href="viewSchedule.php?frequency=pantry">Pantry</a></strong> for the pantry schedule, or you can even click <strong><a href="calendar.php">Project Calender</a></strong> for the project calender
+    
+    <p>
+    You will also see a display of your upcoming
+    scheduled shifts, which looks like this: <p>
+        <a
         href="tutorial/screenshots/indexHelp_upcoming_shifts.png"
         class="image" title="indexHelp_upcoming_shifts.png"
         target="tutorial/screenshots/indexHelp_upcoming_shifts.png">
@@ -58,11 +65,13 @@
             data-img="tutorial/screenshots/indexHelp_upcoming_shifts.png"
             border="1px" align="center"> </a> <br> If you need to cancel a shift,
     please call the front desk (302-656-4847).
-<p>
+    
+    <p>
     <B>If you are a manager</B>, you will also see the following current
     information displayed:
 <p>
-    A log of the most recent schedule changes, which looks like this: <a
+    A log of the most recent schedule changes, which looks like this: <p> 
+    <a
         href="tutorial/screenshots/indexHelp_recent_changes.png" class="image"
         title="indexHelp_recent_changes.png"
         target="tutorial/screenshots/indexHelp_recent_changes.png">
@@ -70,19 +79,12 @@
             src="tutorial/screenshots/indexHelp_recent_changes.png" width="10%"
             rel="popover"
             data-img="tutorial/screenshots/indexHelp_recent_changes.png"
-            border="1px" align="center"> </a> <br> If you select <b>View full log</b>
-    you will see a full listing of all schedule changes, like this: <a
-        href="tutorial/screenshots/indexHelp_full_log.png" class="image"
-        title="indexHelp_full_log.png"
-        target="tutorial/screenshots/indexHelp_full_log.png">
-        &nbsp&nbsp&nbsp&nbsp<img
-            src="tutorial/screenshots/indexHelp_full_log.png" width="10%"
-            rel="popover" data-img="tutorial/screenshots/indexHelp_full_log.png"
-            border="1px" align="center"> </a> <br> This full log allows you to
-    delete some or all of its entries, once they are no longer useful.
-<p>
+            border="1px" align="center"> </a> <br>
+            
+           <p>
     A list of upcoming birthdays and volunteer anniversaries, which looks
-    like this: <a
+    like this: <p> 
+                <a
         href="tutorial/screenshots/indexHelp_upcoming_birthdays.png"
         class="image" title="indexHelp_upcoming_birthdays.png"
         target="tutorial/screenshots/indexHelp_upcoming_birthdays.png">
@@ -92,7 +94,8 @@
             data-img="tutorial/screenshots/indexHelp_upcoming_birthdays.png"
             border="1px" align="center"> </a>
 <p>
-    A list of upcoming calendar vacancies, which looks like this: <a
+                -    A list of upcoming calendar vacancies, which looks like this: <p> 
+                <a
         href="tutorial/screenshots/indexHelp_upcoming_vacancies.png"
         class="image" title="indexHelp_upcoming_vacancies.png"
         target="tutorial/screenshots/indexHelp_upcoming_vacancies.png">
@@ -100,19 +103,5 @@
             src="tutorial/screenshots/indexHelp_upcoming_vacancies.png"
             width="10%" rel="popover"
             data-img="tutorial/screenshots/indexHelp_upcoming_vacancies.png"
-            border="1px" align="center"> </a> <br> Selecting any of the vacancies
-    in this list takes you directly to that shift on the calendar, so that
-    you can examine its sub call list or other details.
+            border="1px" align="center"> </a> <br> 
 <p>
-    A list of all open applications, which looks like this: <a
-        href="tutorial/screenshots/indexHelp_open_applications.png"
-        class="image" title="indexHelp_open_applications.png"
-        target="tutorial/screenshots/indexHelp_open_applications.png">
-        &nbsp&nbsp&nbsp&nbsp<img
-            src="tutorial/screenshots/indexHelp_open_applications.png" width="10%"
-            rel="popover"
-            data-img="tutorial/screenshots/indexHelp_open_applications.png"
-            border="1px" align="center"> </a> <br> An "open" application signifies
-    an applicant whose status has not yet been changed to "active". Only
-    "active" volunteers can be scheduled for a shift. <br> If an
-    application has been viewed, the link text will appear grey.

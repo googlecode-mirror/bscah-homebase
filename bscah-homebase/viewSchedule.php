@@ -32,6 +32,7 @@
     <!--  Body portion starts here -->
     <body>
     <div id="container">
+        <a href="index.php"</a>
         <?php
             include_once("header.php");
             include('accessController.php');

@@ -23,8 +23,10 @@
 </head>
 <body>
 <div id="container">
+    <a href="index.php"</a>
     <?PHP include('header.php'); ?>
-    <div id="content">
+    <div id="content">     
+    
         <p><strong>Background</strong><br/><br/>
 
             <a href="http://code.google.com/p/rmh-homebase/">

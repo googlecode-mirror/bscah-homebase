@@ -22,6 +22,7 @@ session_cache_expire(30);
     </head>
     <body>
         <div id="container">
+            <a href="index.php"</a>
             <?PHP include('header.php');
             include('accessController.php');?>
             <div id="content">

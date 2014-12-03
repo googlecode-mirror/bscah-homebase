@@ -27,6 +27,7 @@
     </head>
     <body>
         <div id="container">
+            <a href="index.php"</a>
             <?PHP include_once('header.php'); ?>
             <?php include_once('accessController.php'); ?>
             <div id="content">

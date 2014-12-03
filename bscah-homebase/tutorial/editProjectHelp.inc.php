@@ -29,18 +29,24 @@
 </script>
 
 <p>
-    <strong>How to Edit Project Information</strong>
+    <strong>How to Search/Edit Project Information</strong> 
 <p>
-    <B>Step 1:</B> On the navigation bar at the top of the page, find <B>Projects.</B>
+    <B>Step 1:</B> On the navigation bar at the top of the page, find <B>Projects</B>
+<p> <B> Step 2:</B> Then from there click on the <B>Search</B> tab next to <B>Projects</B> 
 </p>
 <p>
-    <B>Step 2:</B> This is the form where you enter the volunteer's information such as name, phone,
-    address, their shifts, etc.<BR> <BR> <a
-        href="tutorial/screenshots/AddProject.png" class="image"
-        title="AddProject.png"
-        target="tutorial/screenshots/AddProject.png">
+    <B>Step 3:</B> When you click that it will take you to this page 
+</p>
+<a
+        href="tutorial/screenshots/SearchProject.png" class="image"
+        title="SearchProject.png"
+        target="tutorial/screenshots/SearchProject.png">
         &nbsp&nbsp&nbsp&nbsp<img
-            src="tutorial/screenshots/AddProject.png" width="10%"
-            rel="popover" data-img="tutorial/screenshots/AddProject.png"
+            src="tutorial/screenshots/SearchProject.png" width="10%"
+            rel="popover" data-img="tutorial/screenshots/SearchProject.png"
             border="1px" align="middle"> </a>
-</p>
+
+<P> Here you will enter information like project name, date, etc. </P>
+<B>Step 4:</B> When you are done filling out the information you can hit submit and if there are no errors it will take you to the projects that met your search criteria.
+<P> If there were errors it will revert you back to the same page and ask you to correct them before you can move on. Once you've corrected them you can hit submit and continue on with your search.
+<P> Once your search is complete you can click on the project your searching for and you can find out more information about it, you can join it, or you can even edit it if you have the rights to.

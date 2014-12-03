@@ -38,6 +38,7 @@
 </head>
 <body>
 <div id="container">
+    <a href="index.php"</a>
     <?php include("header.php"); ?>
     <div id="content">
         <?php

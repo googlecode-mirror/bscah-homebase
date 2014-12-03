@@ -19,15 +19,13 @@
     <link rel="stylesheet" href="styles.css" type="text/css"/>
     
 
-<div id="header">
-    <!--<br><br><img src="images/rmhHeader.gif" align="center"><br>
-    <h1><br><br>Homebase <br></h1>-->
-
-</div>
+<div id="container">
+    <a href="index.php"</a>
+    <?PHP include('header.php'); ?>
+    <div id="content">
 </head>
 <body>
     
-<div id="content">
 <?php
    /*if (!isset($_SESSION['logged_in'])) 
        {
