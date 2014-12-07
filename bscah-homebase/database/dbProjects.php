@@ -42,7 +42,7 @@
             $p->get_start_time() . "','" .
             $p->get_end_time() . "','" .
             $p->get_dayOfWeek() . "','" .
-            $p->get_name() . "','" .
+            str_replace(" ", "_", $p->get_name()) . "','" .
             implode("*", $p->get_persons()) . "','" .
             $p->get_age() . "','" .
             $p->get_project_description() . "')";
