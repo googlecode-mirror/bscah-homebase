@@ -158,7 +158,7 @@ session_cache_expire(30);
         $week = get_dbWeeks($week_id);
 
 
-        if ($week->get_status() == "unpublished") {
+        if ((!$week)|| ($week->get_status() == "unpublished" )) {
             echo "This week's calendar is not available for viewing.";
             if ($_SESSION['access_level'] >= 2) {
                 echo "<br/> <a href='addWeek.php'>Manage weeks</a>";
