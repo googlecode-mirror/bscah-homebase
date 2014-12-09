@@ -224,22 +224,22 @@ CREATE TABLE IF NOT EXISTS `PROJECT` (
 --
 
 INSERT INTO `PROJECT` (`PROJECTID`, `ADDRESS`, `DATE`,`TYPE`, `VACANCIES`, `STARTTIME`, `ENDTIME`, `DAYOFWEEK`, `NAME`, `PERSONS`,`AGEREQUIREMENT` ,`PROJECTDESCRIPTION`) VALUES
-('02-24-14-900-1200-Food Delivery', '4119 Nuzum Court Williamsville', '02-24-14', null, '3', '900', '1200', 'Mon', 'Food Delivery', 'Erick6464924106+Erick+Tavera+*Humza6462207988+Humza+Ahmad+','50', ''),
-('02-25-14-1200-1500-Food Delivery', '521 White Pine Lane Fredericksburg', '02-25-14',null, '2', '1200', '1500', 'Tue', 'Food Delivery', 'Gregory7188057221+Gregory+Wilson+' , '5', ''),
-('02-26-14-1800-2300-Food Delivery', '4964 Sardis Sta Grand Prairie', '02-26-14',null, '4', '1800', '2300', 'Wed', 'Food Delivery', 'Jefferson3475899639+Jefferson+Steelflex+*Erick6464924106+Erick+Tavera+',null,  ''),
-('02-27-14-100-400-Food Delivery', '2009 Wetzel Lane Grand Rapids', '02-27-14',null, '3', '100', '400', 'Thu', 'Food Delivery', 'Gregory7188057221+Gregory+Wilson+',null, ''),
-('02-24-14-900-1200-Truck Delivery', '4119 Nuzum Court Williamsville', '02-24-14',null, '3', '900', '1200', 'Mon', 'Truck Delivery', 'Erick6464924106+Erick+Tavera+*Humza6462207988+Humza+Ahmad+',null,  ''),
-('02-25-14-1200-1500-Truck Delivery', '521 White Pine Lane Fredericksburg', '02-25-14',null, '2', '1200', '1500', 'Tue', 'Truck Delivery', 'Gregory7188057221+Gregory+Wilson+', null, ''),
-('02-26-14-1800-2300-Truck Delivery', '4964 Sardis Sta Grand Prairie', '02-26-14',null, '4', '1800', '2300', 'Wed', 'Truck Delivery', 'Jefferson3475899639+Jefferson+Steelflex+*Erick6464924106+Erick+Tavera', null, ''),
-('02-27-14-100-400-Truck Delivery', '2009 Wetzel Lane Grand Rapids', '02-27-14', null,'3', '100', '400', 'Thu', 'Truck Delivery', 'Gregory7188057221+Gregory+Wilson+', null,''),
-('02-24-14-900-1200-Snack Delivery', '4119 Nuzum Court Williamsville', '02-24-14',null, '3', '900', '1200', 'Mon', 'Snack Delivery', 'Erick6464924106+Erick+Tavera+*Humza6462207988+Humza+Ahmad+',null,  ''),
-('02-25-14-1200-1500-Snack Delivery', '521 White Pine Lane Fredericksburg', '02-25-14',null, '2', '1200', '1500', 'Tue', 'Snack Delivery', 'Gregory7188057221+Gregory+Wilson+',null,  ''),
-('02-26-14-1800-2300-Snack Delivery', '4964 Sardis Sta Grand Prairie', '02-26-14',null, '4', '1800', '2300', 'Wed', 'Snack Delivery', 'Jefferson3475899639+Jefferson+Steelflex+*Erick6464924106+Erick+Tavera+',null,  ''),
-('02-27-14-100-400-Snack Delivery', '2009 Wetzel Lane Grand Rapids', '02-27-14', null,'3', '100', '400', 'Thu', 'Snack Delivery', 'Gregory7188057221+Gregory+Wilson+',null,  ''),
-('07-17-14-900-1200-Birdcage Washing', '4119 Nuzum Court Williamsville', '07-17-14', null, '3', '900', '1200', 'Thu', 'Birdcage Washing', 'Erick6464924106+Erick+Tavera+*Humza6462207988+Humza+Ahmad+', NULL, ''),
-('09-24-14-1200-1500-Pantry Restocking', '521 White Pine Lane Fredericksburg', '09-24-14', null, '2', '1200', '1500', 'Wed', 'Pantry Restocking', 'Gregory7188057221+Gregory+Wilson+', NULL, ''),
-('11-07-14-1800-2300-Window Wiping', '4964 Sardis Sta Grand Prairie', '11-07-14', null, '4', '1800', '2300', 'Fri', 'Window Wiping', 'Jefferson3475899639+Jefferson+Steelflex+*Erick6464924106+Erick+Tavera+', NULL, ''),
-('11-04-14-0-400-Floor Sweeping', '2009 Wetzel Lane Grand Rapids', '11-04-14', null, '3', '0', '400', 'Tue', 'Floor Sweeping', 'Gregory7188057221+Gregory+Wilson+', NULL, '');
+('02-24-14-900-1200-Food Delivery', '4119 Nuzum Court Williamsville', '02-24-14', null, '3', '900', '1200', 'Mon', 'Food_Delivery', 'Erick6464924106+Erick+Tavera+*Humza6462207988+Humza+Ahmad+','50', ''),
+('02-25-14-1200-1500-Food Delivery', '521 White Pine Lane Fredericksburg', '02-25-14',null, '2', '1200', '1500', 'Tue', 'Food_Delivery', 'Gregory7188057221+Gregory+Wilson+' , '5', ''),
+('02-26-14-1800-2300-Food Delivery', '4964 Sardis Sta Grand Prairie', '02-26-14',null, '4', '1800', '2300', 'Wed', 'Food_Delivery', 'Jefferson3475899639+Jefferson+Steelflex+*Erick6464924106+Erick+Tavera+',null,  ''),
+('02-27-14-100-400-Food Delivery', '2009 Wetzel Lane Grand Rapids', '02-27-14',null, '3', '100', '400', 'Thu', 'Food_Delivery', 'Gregory7188057221+Gregory+Wilson+',null, ''),
+('02-24-14-900-1200-Truck Delivery', '4119 Nuzum Court Williamsville', '02-24-14',null, '3', '900', '1200', 'Mon', 'Truck_Delivery', 'Erick6464924106+Erick+Tavera+*Humza6462207988+Humza+Ahmad+',null,  ''),
+('02-25-14-1200-1500-Truck Delivery', '521 White Pine Lane Fredericksburg', '02-25-14',null, '2', '1200', '1500', 'Tue', 'Truck_Delivery', 'Gregory7188057221+Gregory+Wilson+', null, ''),
+('02-26-14-1800-2300-Truck Delivery', '4964 Sardis Sta Grand Prairie', '02-26-14',null, '4', '1800', '2300', 'Wed', 'Truck_Delivery', 'Jefferson3475899639+Jefferson+Steelflex+*Erick6464924106+Erick+Tavera', null, ''),
+('02-27-14-100-400-Truck Delivery', '2009 Wetzel Lane Grand Rapids', '02-27-14', null,'3', '100', '400', 'Thu', 'Truck_Delivery', 'Gregory7188057221+Gregory+Wilson+', null,''),
+('02-24-14-900-1200-Snack_Delivery', '4119 Nuzum Court Williamsville', '02-24-14',null, '3', '900', '1200', 'Mon', 'Snack_Delivery', 'Erick6464924106+Erick+Tavera+*Humza6462207988+Humza+Ahmad+',null,  ''),
+('02-25-14-1200-1500-Snack_Delivery', '521 White Pine Lane Fredericksburg', '02-25-14',null, '2', '1200', '1500', 'Tue', 'Snack_Delivery', 'Gregory7188057221+Gregory+Wilson+',null,  ''),
+('02-26-14-1800-2300-Snack_Delivery', '4964 Sardis Sta Grand Prairie', '02-26-14',null, '4', '1800', '2300', 'Wed', 'Snack_Delivery', 'Jefferson3475899639+Jefferson+Steelflex+*Erick6464924106+Erick+Tavera+',null,  ''),
+('02-27-14-100-400-Snack_Delivery', '2009 Wetzel Lane Grand Rapids', '02-27-14', null,'3', '100', '400', 'Thu', 'Snack_Delivery', 'Gregory7188057221+Gregory+Wilson+',null,  ''),
+('07-17-14-900-1200-Birdcage Washing', '4119 Nuzum Court Williamsville', '07-17-14', null, '3', '900', '1200', 'Thu', 'Birdcage_Washing', 'Erick6464924106+Erick+Tavera+*Humza6462207988+Humza+Ahmad+', NULL, ''),
+('09-24-14-1200-1500-Pantry Restocking', '521 White Pine Lane Fredericksburg', '09-24-14', null, '2', '1200', '1500', 'Wed', 'Pantry_Restocking', 'Gregory7188057221+Gregory+Wilson+', NULL, ''),
+('11-07-14-1800-2300-Window Wiping', '4964 Sardis Sta Grand Prairie', '11-07-14', null, '4', '1800', '2300', 'Fri', 'Window_Wiping', 'Jefferson3475899639+Jefferson+Steelflex+*Erick6464924106+Erick+Tavera+', NULL, ''),
+('11-04-14-0-400-Floor Sweeping', '2009 Wetzel Lane Grand Rapids', '11-04-14', null, '3', '0', '400', 'Tue', 'Floor_Sweeping', 'Gregory7188057221+Gregory+Wilson+', NULL, '');
 
 -- --------------------------------------------------------
 
@@ -272,10 +272,10 @@ INSERT INTO `SHIFT` (`SHIFTID`, `DATE`, `START_TIME`, `END_TIME`, `VENUE`, `VACA
 ('05-23-14-900-1800-pantry', '05-23-14', 900, 1800, 'pantry', 8, NULL, NULL, NULL),
 ('07-12-14-1200-1800-garden', '07-12-14', 1200, 1800, 'garden', 4, 'Humza6462207988+Humza+Ahmad+', NULL, NULL),
 ('09-07-14-900-1200-garden', '09-07-14', 900, 1200, 'garden', 3, 'Gregory7188057221+Gregory+Wilson+*Jefferson3475899639+Jefferson+Steelflex+', NULL, NULL),
-('10-30-14-1000-1100-pantry', '10-30-14', 1000, 1100, 'pantry', 7, 'Erick9149876342+Erick+Jones*Erick6464924106+Erick+Tavera', NULL, NULL),
-('10-31-14-1300-1400-pantry', '10-31-14', 1300, 1400, 'pantry', 5, 'Erick9149876342+Erick+Jones*Erick6464924106+Erick+Tavera', NULL, NULL),
-('11-05-14-1200-1500-garden', '11-05-14', 1200, 1500, 'garden', 2, 'Erick9149876342+Erick+Jones*Erick6464924106+Erick+Tavera', NULL, NULL),
-('11-15-14-1000-1200-pantry', '11-15-14', 1000, 1200, 'pantry', 3, 'Erick9149876342+Erick+Jones*Erick6464924106+Erick+Tavera', NULL, NULL),
+('10-30-14-1000-1100-pantry', '10-30-14', 1000, 1100, 'pantry', 7, 'Erick9149876342+Erick+Jones+*Erick6464924106+Erick+Tavera+', NULL, NULL),
+('10-31-14-1300-1400-pantry', '10-31-14', 1300, 1400, 'pantry', 5, 'Erick9149876342+Erick+Jones+*Erick6464924106+Erick+Tavera+', NULL, NULL),
+('11-05-14-1200-1500-garden', '11-05-14', 1200, 1500, 'garden', 2, 'Erick9149876342+Erick+Jones+*Erick6464924106+Erick+Tavera+', NULL, NULL),
+('11-15-14-1000-1200-pantry', '11-15-14', 1000, 1200, 'pantry', 3, 'Erick9149876342+Erick+Jones+*Erick6464924106+Erick+Tavera+', NULL, NULL),
 ('11-20-14-1200-1800-garden', '11-20-14', 1200, 1800, 'garden', 10, 'Humza6462207988+Humza+Ahmad+', NULL, NULL);
 
 ----------------------------------------------------------

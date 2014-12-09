@@ -45,13 +45,13 @@
             $this->start_time = $start_time;
             $this->end_time = $end_time;
             $this->venue = $venue;
-            //generate_venue($venue);
+            generate_venue($venue);
             $this->vacancies = $vacancies;
             $this->persons = $persons;
             $this->removed_persons = $removed_persons;
             $this->day = date("D", mktime(0, 0, 0, substr($this->mm_dd_yy, 0, 2), substr($this->mm_dd_yy, 3, 2),
                                           "20" . substr($this->mm_dd_yy, 6, 2)));
-            $this->id = $date . '-' . $start_time . '-' . $end_time . '-' . $venue;
+            $this->id = str_replace("/", "-", $this->mm_dd_yy) . '-' . $start_time . '-' . $end_time . '-' . $this->venue;
             $this->notes = $notes;
         }
 
@@ -272,7 +272,7 @@
                 else
                 {
                     error_log("Not a valid entry for Venue");
-                    echo "Not a valid entry for Venue";
+                   
                 }
 
             }
@@ -285,7 +285,7 @@
                 else
                 {
                     error_log("Not a valid entry for Venue");
-                    echo "Not a valid entry for Venue";
+                   
                 }
 
             }

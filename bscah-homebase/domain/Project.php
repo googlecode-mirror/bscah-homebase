@@ -27,7 +27,7 @@ class Project {
      */
         function __construct($date, $addr, $type, $name, $start_time, $end_time, $vacancies, $persons, $age, $notes) {
             $this->mm_dd_yy = str_replace("-", "/", $date); // Remember that '-' are for european dates (dd-mm-yyyy) and '/' are for american (mm/dd/yyy), the timestamp gets confused when we mix them up - GIOVI
-            $this->name = $name;
+            $this->name = str_replace(" ", "_", $name);
             $this->address = $addr;
             $this->project_type = $type;
             $this->start_time = $start_time;   // currently has to be integer - need to fix this
@@ -37,7 +37,7 @@ class Project {
             $this->age = $age;
             $this->dayOfWeek = date("D", mktime(0, 0, 0, substr($this->mm_dd_yy, 0, 2), substr($this->mm_dd_yy, 3, 2),
                                                 "20" . substr($this->mm_dd_yy, 6, 2)));
-            $this->id = $date . "-" . $start_time. "-" . $end_time . "-". $name;
+            $this->id = str_replace("/", "-", $this->mm_dd_yy) . "-" . $start_time. "-" . $end_time . "-". $this->name;
             $this->project_description = $notes;
             //error_log("in project constructor, date is " . $this->mm_dd_yy);
             //error_log("in project constructor, addr is " . $addr);

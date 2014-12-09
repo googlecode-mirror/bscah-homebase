@@ -20,7 +20,10 @@
     session_cache_expire(30);
     include_once('database/dbProjects.php');
     include_once('domain/Project.php');
-     include_once('domain/BSCAHdate.php');
+    include_once('domain/BSCAHdate.php');
+
+  
+     
     $id = str_replace("_", " ", $_GET["id"]);
     //See what is in the $_GET["id"] array
     error_log("id is ". $_GET["id"]);
@@ -56,24 +59,34 @@
 </head>
 <body>
 <div id="container">
-    <?PHP include('header.php'); ?>
+    <?PHP include('header.php'); 
+      include('accessController.php');
+      ?>
     <div id="content">
-        <?PHP        
-            include('projectValidate.inc');
-            
-            //if(!(isset($_POST["Submit Edits"]))) //in this case, the form has not been submitted, so show it
-            //{
-                //include('projectForm.inc');
-            //}
-            if(isset($_POST['name']) && isset($_POST['address']) && isset($_POST['project_type']) && isset($_POST['vacancies']) && isset($_POST['date'])&& isset($_POST['start_time']) && isset($_POST['end_time']) )
+        <?PHP                
+            if($_POST['type'] == "Team Building")
             {
+                error_log("Enter project form.inc");
+                include('projectValidate.inc');
+                include('projectForm.inc');
+            }
+            
+            else if ($_POST['type'] == "Fundraising")
+            {
+                include('specialProjectForm.php');
+            }
+            else if( isset($_POST['name']) && isset($_POST['address']) && isset($_POST['project_type']) && isset($_POST['vacancies']) && isset($_POST['date'])&& isset($_POST['start_time']) && isset($_POST['end_time']) )
+            {
+                include('projectValidate.inc');
+               
+                
                 //in this case, the form has been submitted, so validate it
                 $errors = validate_form();  //step one is validation.
                 // errors array lists problems on the form submitted
                 if ($errors) {
                     // display the errors and the form to fix
                     show_errors($errors);
-                   include('projectForm.inc');
+                    include('projectForm.inc');
                 }
             
                 // this was a successful form submission; update the database and exit
@@ -87,11 +100,12 @@
                 die();
             }
             
-            
-            else 
+            else
             {
-                include('projectForm.inc');
+               include('projectDecisionPoint.php');
             }
+            
+          
 
             /**
              * process_form sanitizes data, concatenates needed data, and enters it all into a database
@@ -100,7 +114,17 @@
             {
                 //echo($_POST['first_name']);
                 //step one: sanitize data by replacing HTML entities and escaping the ' character
-                $mm_dd_yy = $_POST['date'];// trim(str_replace('\\\'', '', htmlentities(str_replace('&', 'and', $_POST['date']))));
+                if (substr($_POST['date'], 0, 2) == 20) // If the date format is yyyy/dd/mm change to std. - GIOVI
+                {   
+                    $eurodate = explode('-', $_POST['date']);
+                    $eurodate[0] = substr($eurodate[0], 2, 3);
+                    $swapdate = [$eurodate[1], $eurodate[2], $eurodate[0]];
+                    $amerdate = implode('/', $swapdate);
+                    $mm_dd_yy = $amerdate;
+                }
+                
+                else { $mm_dd_yy = $_POST['date']; }
+                
                 error_log("In process form this is ".$mm_dd_yy);
                 $address = $_POST['address']; //trim(str_replace('\\\'', '\'', htmlentities($_POST['address'])));
                 $name = $_POST['name']; //trim(htmlentities($_POST['name']));

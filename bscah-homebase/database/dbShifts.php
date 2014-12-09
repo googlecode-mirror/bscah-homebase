@@ -150,6 +150,54 @@
 
         return $result;
     }
+    
+     function select_persons_by_venue($venue) {
+        connect();
+        $query = "SELECT PERSONS FROM SHIFT WHERE VENUE =\"" . $venue . "\"" . " AND PERSONS IS NOT NULL";
+        error_log('in select_persons_by_venue query is '.$query);
+        $result = mysql_query($query);
+        mysql_close();
+        $persons = [];
+        $persons_info = [];
+        $persons_id = [];
+      
+      
+        
+        while ($row = mysql_fetch_array($result, MYSQL_NUM)) 
+       {    
+            error_log($row[0]);
+            $persons[] = explode("*", $row[0]);
+            
+            
+           
+       }
+       
+       foreach($persons as $person)
+            {
+                
+                $persons_info[] = explode("+",  implode($person));
+                
+            }
+             foreach($persons_info as $person_info)
+            {
+                    
+                    for($i = 0; $i < count($person_info); $i+=3)
+                    { 
+                       
+                            if($person_info[$i] != "")
+                            {
+                                error_log($person_info[$i]);
+                                $persons_id[] = $person_info[$i];
+                            }   
+                    }  
+   
+                
+            }
+       $unique_persons_id = array_unique($persons_id);
+        return $unique_persons_id;
+        
+        
+    }
 
     /**
      * Returns an array of $ids for all shifts scheduled for the person having $person_id

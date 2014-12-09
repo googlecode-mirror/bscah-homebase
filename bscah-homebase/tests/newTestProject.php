@@ -9,7 +9,7 @@
 //return a message if the first test past or fails 
     function testConstructor() {
         $test_project =
-            new Project("03-12-14", "Address", "10-13", 10, 13, 15, "malcom1234567890+Malcom+Jones", "hiya");
+            new Project("03-12-14", "Address", null,"Food Delivery", 10, 13, 5, "malcom1234567890+Malcom+Jones", 18, "hiya");
 
         echo "Testing mm_dd_yy" . '</br>';
         if ($test_project->get_mm_dd_yy() == "03-12-14") {
@@ -19,7 +19,7 @@
             echo 'mm_dd_yy test failed </br>';
         }
 
-        if ($test_project->get_name() == "10-13") {
+        if ($test_project->get_name() == "Food Delivery") {
             echo 'name test succeeded </br>';
         }
         else {
@@ -39,7 +39,7 @@
         else {
             echo 'end time test failed </br>';
         }
-        if ($test_project->get_vacancies() == 15) {
+        if ($test_project->get_vacancies() == 5) {
             echo 'vacancies test succeeded </br>';
         }
         else {

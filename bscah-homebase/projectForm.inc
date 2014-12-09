@@ -83,16 +83,17 @@
         
         ?>
         <p>
-        <p>Date of Project<span style="font-size:x-small;color:FF0000">*</span>: <input type="text" name="date"
+        <p>Date of Project<span style="font-size:x-small;color:FF0000">*</span>: <input type="date" name="date"
                                                                                         MAXLENGTH= 8 tabindex="2"
                                                                                         value="<?PHP echo($project->get_date()) ?>">
 
         
-        <p>Start Time<span style="font-size:x-small;color:FF0000">*</span>: <input type="text" name="start_time"
+        
+        <p>Start Time<span style="font-size:x-small;color:FF0000">*</span>: <input type="time" name="start_time"
                                                                                    MAXLENGTH=4 tabindex="7"
                                                                                    value="<?PHP echo($project->get_start_time()) ?>">
 
-        <p>End Time<span style="font-size:x-small;color:FF0000">*</span>: <input type="text" name="end_time" MAXLENGTH=4
+        <p>End Time<span style="font-size:x-small;color:FF0000">*</span>: <input type="time" name="end_time" MAXLENGTH=4
                                                                                  tabindex="7"
                                                                                  value="<?PHP echo($project->get_end_time()) ?>">
 

@@ -96,7 +96,7 @@
             echo "<tr>";
             echo "<td>";
          
-            echo '<select name="s_types">' . '<option value=""></option>';
+            echo '<select name="project_types">' . '<option value=""></option>';
             foreach ($projectTypes->types as $type) 
             {
                 echo '<option value="' . $type . '">' . $type . '</option>';
@@ -129,17 +129,78 @@
                 // now go after the volunteers that fit the search criteria
                 include_once('database/dbPersons.php');
                 include_once('domain/Person.php');
+                include_once('database/dbShifts.php');
+                include_once('database/dbProjects.php');
                 $result = getonlythose_persons($type, $status, $name, $day, $shift);
                 //$result = getall_dbPersons();
-
+               
+                $actual_result = [];
+                if($_POST['project_types'] != "")
+                {
+                    if($_POST['project_types'] == "Garden Volunteer")
+                    {
+                        $persons_project_type_result = select_persons_by_venue('garden');
+                        foreach($result as $person)
+                            foreach($persons_project_type_result as $project_type_result)
+                            {
+                                if($person->get_id() == $project_type_result)
+                                {
+                                    $actual_result[] = $person;
+                                }
+                            }
+                     }
                 
-
-                echo '<p><strong>Search Results:</strong> <p>Found ' . sizeof($result) . ' ' . $status . ' ';
+                
+                    else if($_POST['project_types'] == "Pantry Volunteer")
+                    {
+                        $persons_project_type_result = select_persons_by_venue('pantry');
+                    
+                        foreach($result as $person)
+                            foreach($persons_project_type_result as $project_type_result)
+                            {
+                                if($person->get_id() == $project_type_result)
+                                 {
+                                    $actual_result[] = $person;
+                                 }   
+                            }
+                    }
+                    
+                      else if($_POST['project_types'] == "Building Project Volunteer")
+                    {
+                        $persons_project_type_result = select_persons_from_projects();
+                    
+                        foreach($result as $person)
+                            foreach($persons_project_type_result as $project_type_result)
+                            {
+                                if($person->get_id() == $project_type_result)
+                                 {
+                                    $actual_result[] = $person;
+                                 }   
+                            }
+                    }
+                 
+                }
+                else
+                {
+                    $actual_result = getonlythose_persons($type, $status, $name, $day, $shift);
+                }
+                
+                
+                
+              
+            
+              
+                 echo '<p><strong>Search Results:</strong> <p>Found ' . sizeof($actual_result) . ' ' . $status . ' ';
                 if ($type != "") {
                     echo $type . "s";
                 }
                 else {
                     echo "persons";
+                  
+                }
+                if($_POST['project_types'] != "")
+                {
+                    echo ' who worked as a '. $_POST['project_types'];
                 }
                 if ($name != "") {
                     echo ' with name like "' . $name . '"';
@@ -165,7 +226,7 @@
                 if (sizeof($result) > 0) {
                     echo ' (select one for more info).';
                     echo '<p><table> <tr><td>Name</td><td>Phone</td><td>E-mail</td><td>Availability</td></tr>';
-                    foreach ($result as $vol) {
+                    foreach ($actual_result as $vol) {
                         
                         echo "<tr><td><a href=personEdit.php?id=" . str_replace(" ", "_", $vol->get_id()) . ">" .
                             $vol->get_first_name() . " " . $vol->get_last_name() . "</td><td>" .
@@ -186,3 +247,4 @@
 </html>
 
 
+  
