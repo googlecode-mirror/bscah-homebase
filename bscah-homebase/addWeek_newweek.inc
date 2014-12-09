@@ -154,9 +154,9 @@
 
         // Possible options that can be used in the options for this week.
         // Depending on what type of week it is, only some of these options will be used,
-        $view = "<a href='calendar.php?id=$id'>view</a>";
+        $view = "<a href='calendar_new.php?id=$id'>view</a>";
         $remove = "<a href='addWeek.php?remove=$id'>remove</a>";
-        $edit = "<a href='calendar.php?id=$id&edit=true'>edit</a>";
+        $edit = "<a href='calendar_new.php?id=$id&edit=true'>edit</a>";
         $publish = "<a href='addWeek.php?publish=$id'>publish</a>";
         $unpublish = "<a href='addWeek.php?publish=$id'>unpublish</a>";
 

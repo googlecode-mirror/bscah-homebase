@@ -26,7 +26,7 @@
 
     
     /**
-     * Adds a RMHDate to the table
+     * Adds a {@link BSCAHdate} to the table
      * If the date already exists, the date is deleted and replaced.
      */
     function insert_dbDates(BSCAHdate $d) {

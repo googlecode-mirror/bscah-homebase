@@ -202,6 +202,27 @@
     }
 
     /**
+     * @return Week[] all dbWeeks that are published
+     */
+    function get_all_published_dbWeeks() {
+        connect();
+        $query = "SELECT ID FROM WEEKS WHERE STATUS!='unpublished' ORDER BY END";
+        $result = mysql_query($query);
+        if (!$result) {
+            error_log('ERROR on select in get_all_dbWeeks ' . mysql_error());
+            die('Invalid query: ' . mysql_error());
+        }
+        mysql_close();
+        $weeks = [];
+
+        while ($row = mysql_fetch_array($result, MYSQL_ASSOC)) {
+            $weeks[] = get_dbWeeks($row['ID']);
+        }
+
+        return $weeks;
+    }
+
+    /**
      * @return int The number of weeks in WEEKS
      */
     function get_dbWeeks_count() {

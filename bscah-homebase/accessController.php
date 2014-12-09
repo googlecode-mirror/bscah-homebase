@@ -48,7 +48,7 @@
                 $permission_array['help.php'] = 1;
                 $permission_array['view.php'] = 1;
                  $permission_array['personSearch.php'] = 1;
-                $permission_array['calendar.php'] = 1;
+                $permission_array['calendar_new.php'] = 1;
                 $permission_array['projectInfo.php'] = 1;
                 $permission_array['projectTimeInfo.php'] = 1;
                  $permission_array['projectSearch.php'] = 1;
@@ -99,7 +99,7 @@
                 }*/
                 if ($_SESSION['access_level'] == 1) {
                     echo('  <strong>calendars:</strong> <a href="' . $path .
-                        'calendar.php?venue=house">current, </a>');
+                        'calendar_new.php?venue=house">current, </a>');
                     echo('<strong>projects :</strong> <a href="' . $path . 'projectSearch.php?id=' . 'none' . '">search</a> |');
                     echo(' | <a href="' . $path . 'help.php?helpPage=' . $current_page .
                         '" target="_BLANK"><b>help</b></a>');
@@ -129,7 +129,7 @@
 			        <a href="personEdit.php?id=' . 'new' . '">add </a> | ');
                     
                     echo('<strong>projects :</strong> <a href="' . $path . 'projectSearch.php?id=' . 'none' . '">search</a>,
-                                <a href="' . $path . 'calendar.php">project calender</a>,
+                                <a href="' . $path . 'calendar_new.php">project calender</a>,
 			        <a href="projectEdit.php?id=' . 'new' . '">add, </a>
                                 <a href=" ' . $path . 'projectInfo.php">project information, </a>
                                 <a href=" ' . $path . 'specialProject.php">special project </a>');

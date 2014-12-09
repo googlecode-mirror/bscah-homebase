@@ -105,87 +105,86 @@
 
         
 
-        /*
-         * @return "mm-dd-yy"
+        /**
+         * @return string "mm-dd-yy"
          */
-
         function get_id() {
             return $this->id;
         }
 
+        /**
+         * @return int the day of month
+         */
         function get_dom() {
             return $this->dom;
         }
 
-        /*
-         * @return the textual day of the week
+        /**
+         * @return string the textual day of the week
          */
-
         function get_day() {
             return $this->day;
         }
 
-        /*
-         * @return the numerical day of the week
+        /**
+         * @return int the numerical day of the week
          */
-
         function get_day_of_week() {
             return $this->day_of_week;
         }
 
-        /*
-         * @return the numerical day of the year (starting at 1)
+        /**
+         * @return int the numerical day of the year (starting at 1)
          */
-
         function get_day_of_year() {
             return $this->day_of_year;
         }
 
-        /*
-         * @return the year
+        /**
+         * @return int the year
          */
-
         function get_year() {
             return $this->year;
         }
 
-        /*
-         * @return the shifts
+        /**
+         * @return Shift[] shifts
          */
-
         function get_shifts() {
             return $this->shifts;
         }
 
-
-        //added by James Loeffler and Eric
+        /**
+         * @return Project[] projects for this date
+         */
         function get_projects() {
             return $this->projects;
         }
 
-        /*
-         * @return the number of shifts for this day
+        /**
+         * @return int the number of shifts for this day
          */
-
         function get_num_shifts() {
             return count($this->shifts);
         }
 
-        //added by James Loeffler and Eric
+        /**
+         * @return int the number of projects for this day
+         */
         function get_num_projects() {
             return count($this->projects);
         }
 
-        /*
-         * @return a shift
-         * @param the shift's key
+        /**
+         * @return Shift the shift with the given key
          */
-
         function get_shift($key) {
             return $this->shifts[$key];
         }
 
-        //added by James Loeffler and Eric
+        /**
+         * @return Project the project with the given key
+         */
         function get_project($key) {
             return $this->projects[$key];
         }
@@ -217,16 +216,12 @@
             return false;
         }
 
-        //added by James Loeffler and Eric
-        /**function get_project_id($date) {
-           
-        }
-**/
-        /*
+
+        /**
          * replace a shift by a new shift in a date's associative array of shifts
          * @param the shift, the new shift
+         * @return BSCAHdate this object
          */
-
         function replace_shift($shift, $newshift) {
             $newshifts = [];
             foreach ($this->shifts as $key => $value) {
@@ -242,33 +237,24 @@
             return $this;
         }
 
-        // added by James Loeffler and Eric
-       /** function replace_project($project, $newproject) {
-            $newprojects = [];
-            foreach ($this->projects as $key => $value) {
-                if ($this->get_project($key)->get_id() === $project->get_id()) {
-                    $newprojects[$newproject->get_id()] = $newproject;
-                }
-                else {
-                    $newprojects[$key] = $value;
-                }
-            }
-            $this->projects = $newprojects;
 
-            return $this;
-        }
-        **/
         /**
-         * @return a string name of the date
+         * @return string name of the date
          */
         function get_name() {
             return date("F j, Y", mktime(0, 0, 0, $this->month_num, $this->dom, $this->year));
         }
 
+        /**
+         * @return int
+         */
         function get_end_time() {
             return mktime(23, 59, 59, $this->month_num, $this->dom, $this->year);
         }
 
+        /**
+         * @return string
+         */
         function get_mgr_notes() {
             return $this->mgr_notes;
         }
@@ -276,6 +262,6 @@
         function set_mgr_notes($s) {
             $this->mgr_notes = $s;
         }
-        }
+    }
     
 ?>

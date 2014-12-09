@@ -24,6 +24,7 @@
     class Shift {
 
         private $mm_dd_yy;      // String: "mm-dd-yy".
+        // TODO: $name never actually gets set
         private $name;          // String: 'ss-ee' or 'overnight', where ss = start time and ee = end time e.g., '9-12'
         private $start_time;    // Integer: e.g. 10 (meaning 10:00am)
         private $end_time;      // Integer: e.g. 13 (meaning 1:00pm)
@@ -207,6 +208,13 @@
             }
         }
 
+        /**
+         * @return int the total number of slots (sum of available vacancies and the number of people currently registered)
+         */
+        function get_total_slots() {
+            return $this->vacancies + count($this->persons);
+        }
+
     }
 
     function report_shifts_staffed_vacant($from, $to) {
@@ -251,39 +259,39 @@
 
         return $reports;
     }
-    function generate_venue($venue) 
+    function generate_venue($venue)
     {
              if (is_int($venue))
             {
                 if($venue == 0)
                 $this->venue = "garden";
-                
-                elseif ($venue == 1) 
+
+                elseif ($venue == 1)
                 $this->venue = "pantry";
-                
-                else 
+
+                else
                 {
                     error_log("Not a valid entry for Venue");
                     echo "Not a valid entry for Venue";
                 }
-                
+
             }
-            
+
             if(is_string($venue))
             {
                 if(strtolower($venue) == "garden" || strtolower($venue) == "pantry" )
                 $this->venue = $venue;
-                
-                else 
+
+                else
                 {
                     error_log("Not a valid entry for Venue");
                     echo "Not a valid entry for Venue";
                 }
-                
+
             }
     }
 
-    
+
 
 
 ?>

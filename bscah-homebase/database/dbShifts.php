@@ -26,15 +26,7 @@
 
 
 
-    /**
-     * Inserts a shift into the db
-     *
-     * @param $s the shift to insert
-     */
-    function insert_dbShifts($s) {
-        if (!$s instanceof Shift) {
-            die("Invalid argument for insert_dbShifts function call" . $s);
-        }
+    function insert_dbShifts(Shift $s) {
         connect();
         $query = 'SELECT * FROM SHIFT WHERE SHIFTID ="' . $s->get_id() . '"';
         error_log('in insert_dbShifts, query is '.$query);
