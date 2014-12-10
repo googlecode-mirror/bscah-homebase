@@ -21,13 +21,14 @@
     else{
     $_SESSION['exists'] = true;
     {*/
-           if (!isset($_SESSION['logged_in'])) {
+        if (!isset($_SESSION['logged_in'])) {
             error_log('in accessController.php, not logged in, will call login form');
-            //include('login_form.php');   old code
             include('homepageMain.php');    //calls the newhomepage
-            //include('header.php');
+            //include('projectInfo.php');
             die();
         }
+         
+        //}
         else {
             if ($_SESSION['logged_in']) {
                 error_log('in accessController.php, _logged_in is set');
@@ -49,7 +50,7 @@
                 $permission_array['view.php'] = 1;
                  $permission_array['personSearch.php'] = 1;
                 $permission_array['calendar_new.php'] = 1;
-                $permission_array['projectInfo.php'] = 1;
+                //$permission_array['projectInfo.php'] = 1;
                 $permission_array['projectTimeInfo.php'] = 1;
                  $permission_array['projectSearch.php'] = 1;
                 //pages only managers can view
@@ -61,7 +62,7 @@
                 $permission_array['dataSearch.php'] = 2;
                 $permission_array['reports.php'] = 2;
                 $permission_array['editMasterSchedule.php'] = 2;
-                $permission_array['projectInfo.php'] = 2;
+                //$permission_array['projectInfo.php'] = 2;
                 $permission_array['projectTimeInfo.php'] = 2;
                 $permission_array['projectLeaderInfo.php'] = 2;
 
@@ -96,7 +97,7 @@
                 }*/
                 /*if ($_SESSION['access_level'] == 0) {
                     echo(' | <a href="' . $path . 'personEdit.php?id=' . 'new' . '"><b>apply</b></a>');
-                }*/
+                }*/              
                 if ($_SESSION['access_level'] == 1) {
                     echo('  <strong>calendars:</strong> <a href="' . $path .
                         'calendar_new.php?venue=house">current, </a>');
@@ -136,6 +137,8 @@
 
                     echo(' | <strong><a href="' . $path . 'reports.php">reports</a> </strong>');
                     echo(' | <strong><a href="' . $path . 'log.php">logs</a></strong>');
+                    echo(' | <a href="' . $path . 'help.php?helpPage=' . $current_page .
+                        '" target="_BLANK"><b>help</b></a>');
                     echo(' | <a href="' . $path . 'logout.php"><b>logout</b></a>');
                     //    echo(' | <strong>data :</strong> <a href="' . $path . 'dataSearch.php">search and export</a> ');
                 }

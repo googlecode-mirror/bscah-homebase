@@ -22,11 +22,16 @@
   <div id="container">
         <?php
            include_once("header.php");
-           include('accessController.php');
+           
+           if($_SESSION['access_level'] == 1 || $_SESSION['access_level'] == 2)
+           {
+               include('accessController.php');   
+           }
         ?>
         
     <div id="content">
         <?php
+              
            if(($_GET['frequency'])!= "")
            {
                $frequency = $_GET['frequency'];

@@ -35,7 +35,7 @@
      
         <p> If you are looking to sign up to be a volunteer, you can fill out a volunteer application <strong><a href="personEdit.php?id=new">here</a></strong>.
         </p>
-
+     
         <p> If you are an existing or returning volunteer, please <strong><a href="login_form.php">login here</a></strong>.
         </p>
         

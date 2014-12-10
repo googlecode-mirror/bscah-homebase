@@ -20,9 +20,10 @@
      */
 ?>
 
-<html>
-<div id="container">
 <?PHP include('header.php'); ?>
+<html>
+   
+<div id="container">
 
 <div id="content">
     <?PHP
