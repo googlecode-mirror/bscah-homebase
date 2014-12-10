@@ -32,9 +32,10 @@
     <!--  Body portion starts here -->
     <body>
     <div id="container">
-        <a href="index.php"</a>
         <?php
+            echo "<a href=\"index.php\">";
             include_once("header.php");
+            echo "</a>";
             include('accessController.php');
         ?>
 
@@ -78,7 +79,7 @@
             $free_hour[] = true;
         }
         for ($hour = 9; $hour < 21; $hour++) {
-            echo("<tr><td class=\"masterhour\">" . show_hours($hour) . "</td>");
+            echo("<tr><td class=\"masterhour\"><center>" . show_hours($hour) . "</center></td>");
             $i = 0;
             foreach ($days as $day => $dayname) {
                 $master_shift = retrieve_dbMasterSchedule($_GET['frequency'] . $day . $hour . "-");
@@ -99,9 +100,9 @@
                 }
                 $i++;
             }
-            echo("<td class=\"masterhour\">" . show_hours($hour) . "</td></tr>");
+            echo("<td class=\"masterhour\"><center>" . show_hours($hour) . "</center></td></tr>");
         }
-        echo("<tr><td class=\"masterhour\">" . "overnight" . "</td>");
+        echo("<tr><td class=\"masterhour\"><center>" . "overnight" . "</center></td>");
         foreach ($days as $day => $dayname) {
             $master_shift = retrieve_dbMasterSchedule($_GET['frequency'] . $day . "overnight");
             if ($master_shift) {
@@ -112,7 +113,7 @@
                 echo do_shift($master_shift, 0);
             }
         }
-        echo("<td class=\"masterhour\">" . "overnight" . "</td></tr>");
+        echo("<td class=\"masterhour\"><center>" . "overnight" . "</center></td></tr>");
         echo "</table>";
     }
 

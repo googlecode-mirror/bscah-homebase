@@ -130,6 +130,7 @@ session_cache_expire(30);
             /* For some reason, FullCalendar doesn't set its height to auto by default */
             height: auto !important;
         }
+        .fc-event-inner { border: 50000px !important; }
     </style>
 </head>
 
