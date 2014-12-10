@@ -125,7 +125,7 @@ session_cache_expire(30);
                     if ($selectedProj == null) {
                         echo ( "The ID is invalid.");
                         die();
-                    } else if($tempAge >= $ageZeroy){
+                    } else if($tempAge >= $ageZero){
                         error_log('user id is ' . $_SESSION['_id']);
                         
                         $completePerson = retrieve_person($personToBeAdded);

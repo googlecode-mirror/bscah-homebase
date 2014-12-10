@@ -139,8 +139,8 @@
 
         return $p;
     }
-
-    function select_dbProjects_by_date($date) {
+    
+function select_dbProjects_by_date($date) {
         connect();
         $projects = [];
         $query = "SELECT PROJECTID FROM PROJECT WHERE DATE =\"" . $date . "\"";
@@ -160,7 +160,6 @@
 
         return $projects;
     }
-
     function search_dbProjects_By_Name($name) {
         connect();
         $query = "SELECT * FROM PROJECT WHERE NAME like '" . $name . "%'";
@@ -177,7 +176,45 @@
         }
         return $projects;
     }
-
+    //queries from the database from project name and its date
+    function select_project_by_date_and_name($name, $date)
+    {
+        connect();
+        $projects[] = "";
+        $query = "SELECT * FROM PROJECT WHERE NAME LIKE '%" . $name . "%' AND DATE LIKE '%" . $date . "%'";
+        error_log("in dbProject.select_project_by_date_and_name(), query is " . $query);
+        $result = mysql_query($query);
+        if(!$result)
+        {
+            error_log('sql error in select_project_by_date_and_name' . mysql_error());
+            die('Invalid query: ' . mysql_error());
+        }
+      $projects = [];
+        while ($result_row = mysql_fetch_assoc($result)) {
+            $theProject = make_a_project($result_row);
+            $projects[] = $theProject;
+        }
+        return $projects;
+        
+    }
+    function getonlythose_projects_by_type($type) {
+        connect();
+      
+        $query = "SELECT * FROM PROJECT WHERE TYPE LIKE '%" . $type . "%'";
+        error_log("in dbProject.getonlythose_projects_by_type(), query is " . $query);
+        $result = mysql_query($query);
+        if (!$result) {
+            error_log('sql error in getonlythose_projects ' . mysql_error());
+            die('Invalid query: ' . mysql_error());
+        }
+        $projects = [];
+        while ($result_row = mysql_fetch_assoc($result)) {
+            $theProject = make_a_project($result_row);
+            $projects[] = $theProject;
+        }
+        return $projects;
+    }
+    
     /**
      * Returns an array of $ids for all projects scheduled for the person having $person_id
      */
@@ -509,7 +546,7 @@
 
         //Get the current project so that you can get the current people in the project.
         $currentProject = select_dbProjects($idProject);
-        $currentPeople = $currentProject->get_persons();
+        $currentPeople = implode("*",$currentProject->get_persons());
 
         //Use the * delimiter to separate multiple values in a single persons field. (Breaks 1NF)
         $allPeople = explode('*', $currentPeople);
