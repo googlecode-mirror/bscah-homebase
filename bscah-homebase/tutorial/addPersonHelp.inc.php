@@ -44,7 +44,7 @@
         &nbsp&nbsp&nbsp&nbsp<img
             src="tutorial/screenshots/AddVolunteer.png" width="10%"
             rel="popover" data-img="tutorial/screenshots/AddVolunteer.png"
-            border="1px" align="middle"> </a> <BR> Now you can fill in these
+            border="1px" align="middle"> </a> <BR> <p> Now you can fill in these
     fields with the correct information. <br>(NOTE:&nbsp All fields marked
     by <font color="#FF0000">*</font> are required before a person can be
     added to the database.)
@@ -65,7 +65,7 @@
         &nbsp&nbsp&nbsp&nbsp<img
             src="tutorial/screenshots/addpersonhelpstep4.png" width="10%"
             rel="popover" data-img="tutorial/screenshots/addpersonhelpstep4.png"
-            border="1px" align="middle"> </a> <br>After you make these
+            border="1px" align="middle"> </a> <br> <p> After you make these
     corrections, repeat <B>Step 3</B>.
 <p>
     <B>Step 5:</B> If you have no errors or omissions, you will see a page

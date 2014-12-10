@@ -30,100 +30,48 @@
 </script>
 
 <p>
-    <strong>Working with the Calendar</strong>
+    <strong>Working with the Master Schedule and Calendar</strong>
 <p>
-    The calendar has four different pages, one for each venue: the <strong>House</strong>
-    calendar, the <strong>Guest chef</strong> calendar, the <strong>Parking</strong>
-    calendar, and the <strong>Activities</strong> calendar. The House and
-    Guest Chef calendars show all the persons scheduled to volunteer for
-    each shift.
-<p>
-    <b>Step 1:</b> To begin working with a calendar page, find <B>calendar:</B>
-    and select a venue, like <B>House</B>:<BR> <BR> <a
-        href="tutorial/screenshots/manageCalendarHelp_choose_house.png"
-        class="image" title="manageCalendarHelp_choose_house.png"
-        horizontalalign="center"
-        target="tutorial/screenshots/manageCalendarHelp_choose_house.png">
+    The master schedule entails many things, one being the Calendar. So you will get more information on the Calendar through this help page as well. 
+<p> to understand the Master Schedule there are 3 main steps you will need to go through:
+<p> <b>Step 1:</b> You need to generate a master schedule entry through the open cells on the garden or pantry tabs.
+<p> This is what a blank garden calendar looks like under the master schedule: <p> 
+    <a
+        href="tutorial/screenshots/blankCalendar.png"
+        class="image" title="blankCalendar.png"
+        target="tutorial/screenshots/blankCalendar.png">
         &nbsp&nbsp&nbsp&nbsp<img
-            src="tutorial/screenshots/manageCalendarHelp_choose_house.png"
+            src="tutorial/screenshots/blankCalendar.png" width="10%"
             rel="popover"
-            data-img="tutorial/screenshots/manageCalendarHelp_choose_house.png"
-            width="10%" border="1px" align="center"> </a>
-<p>
-    <b>Step 2:</b> You will then see the House volunteer calendar on the
-    screen. Here is that calendar for the week beginning November 18, 2013.
-    Notice that <b>Vacancies</b> are highlighted for each shift that isn't
-    fully staffed.'<BR> <BR> <a
-        href="tutorial/screenshots/manageCalendarHelp_vacant_shift.png"
-        class="image" title="manageCalendarHelp_vacant_shift.png"
-        horizontalalign="center"
-        target="tutorial/screenshots/manageCalendarHelp_vacant_shift.png">
+            data-img="tutorial/screenshots/blankCalendar.png"
+            border="1px" align="center"> </a>
+<p> 
+    When you click on one of the empty cells, this is the page that comes up where you will need to add a shift with a length of time: <p> 
+    <a
+        href="tutorial/screenshots/addingToMasterSchedule.png"
+        class="image" title="addingToMasterSchedule.png"
+        target="tutorial/screenshots/addingToMasterSchedule.png">
         &nbsp&nbsp&nbsp&nbsp<img
-            src="tutorial/screenshots/manageCalendarHelp_vacant_shift.png"
+            src="tutorial/screenshots/addingToMasterSchedule.png" width="10%"
             rel="popover"
-            data-img="tutorial/screenshots/manageCalendarHelp_vacant_shift.png"
-            width="10%" border="1px" align="center"> </a>
-<p>
-    <B>Step 3:</B> You can view the calendar schedule for future and
-    previous weeks by selecting the <strong>Next Week &gt&gt</strong> or <strong>&lt&lt
-        Previous Week</strong> button on the top right or left corner of the
-    calendar, like this:<BR> <BR> <a
-        href="tutorial/screenshots/manageCalendarHelp_next_week.png"
-        class="image" title="manageCalendarHelp_next_week.png"
-        target="tutorial/screenshots/manageCalendarHelp_next_week.png">
+            data-img="tutorial/screenshots/addingToMasterSchedule.png"
+            border="1px" align="center"> </a> <p> 
+                And this is what the garden calendar under master schedule looks like when you added a shift to it: <p> 
+                <a
+        href="tutorial/screenshots/calendarWithJob.png"
+        class="image" title="calendarWithJob.png"
+        target="tutorial/screenshots/calendarWithJob.png">
         &nbsp&nbsp&nbsp&nbsp<img
-            src="tutorial/screenshots/manageCalendarHelp_next_week.png"
+            src="tutorial/screenshots/calendarWithJob.png" width="10%"
             rel="popover"
-            data-img="tutorial/screenshots/manageCalendarHelp_next_week.png"
-            width="10%" border="1px" align="middle"> </a>
-<p>
-    <B>Step 4:</B> To make any calendar changes, you must first select <strong>(edit
-        this week)</strong> at the top of the calendar, like this:<BR> <BR> <a
-        href="tutorial/screenshots/manageCalendarHelp_edit_week.png"
-        class="image" title="manageCalendarHelp_edit_week.png"
-        target="tutorial/screenshots/manageCalendarHelp_edit_week.png">
-        &nbsp&nbsp&nbsp&nbsp<img
-            src="tutorial/screenshots/manageCalendarHelp_edit_week.png"
-            rel="popover"
-            data-img="tutorial/screenshots/manageCalendarHelp_edit_week.png"
-            width="10%" border="1px" align="middle"> </a>
-<p>Here are the help pages pertaining to using the calendar:
-<ul>
-    <li><a href="?helpPage=generateWeek.php">Generating and publishing new
-            calendar weeks (Managers Only)</a>
-    </li>
-    <li><strong>Editing a Shift on the Calendar</strong>
-    </li>
-    <p>
-
-
-    <ul>
-        <li><a href="?helpPage=cancelShift.php">Canceling a Shift (Volunteers
-                Only)</a>
-        </li>
-        <li><a href="help.php?helpPage=assignToShift.php">Filling a Vacancy</a>
-        </li>
-        <li><a href="help.php?helpPage=addSlotToShift.php">Adding/removing a
-                slot (Managers Only)</a>
-        </li>
-        <li><a href="help.php?helpPage=addPersonToShift.php">Adding/removing a
-                person from a shift</a>
-        </li>
-        <li><a href="help.php?helpPage=subCallList.php">Using a Sub Call List
-                (Managers Only)</a>
-        </li>
-    </ul>
-    <p>
-
-
-    <li><a href="?helpPage=addNotes.php">Adding notes</a>
-    </li>
-    <li><a href="?helpPage=navigateThroughWeeks.php">Navigate to Different
-            Weeks</a>
-    </li>
-
-</ul>
-
-<p>
-    <B>Step 5:</B> You can return to any other function by selecting it on
-    the navigation bar.
+            data-img="tutorial/screenshots/calendarWithJob.png"
+            border="1px" align="center"> </a>
+            <p> 
+                Once you have a filled cell you can click it to view its info or delete the shift. You can also name and/or set the shift length. 
+            <p>
+                <b>Step 2: </b> Construct a new week using the add week button under the calendar management page. You want to construct the weeks that have shifts and projects added to it. <p> 
+                When you add a week to the calendar that will call the the cells generated before with their shifts and lengths and it will be added to the calendar. <p> 
+                Once you feel the week is ready to go public, you can publish it; HOWEVER, once the week is published you will not be able to add anymore cells (shifts or projects) on the calendar for that week!
+            <p> 
+                <b>Step 3:</b> You can now view the populated Calendar from the Project Calendar tab with the weeks that are generated. 
+            <p>Here volunteers can view / find shifts and join the projects that are published on these weeks</p>

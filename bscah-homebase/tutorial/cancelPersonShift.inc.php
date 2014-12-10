@@ -1,5 +1,5 @@
 <p>
-    <strong>How to Cancel Your Shift</strong>
+    <strong>How to Cancel / Edit Your Shift</strong>
 <p>
     <B>Step 1:</B>
 </p>

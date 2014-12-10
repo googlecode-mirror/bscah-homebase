@@ -29,30 +29,18 @@
     });
 </script>
 
-<p>
+<p> </p>
     <strong>Information about Your Personal Home Page</strong>
 <p>Whenever you log into BSCAH's Homebase, some useful personal information will
     appear.
-<p>  
-    <B>If you are a volunteer or a manager</B> and you've never changed
-    your password, you will see the following display: <BR> <BR> <a
-        href="tutorial/screenshots/homeHelp2.png" class="image"
-        title="homeHelp2.png" target="tutorial/screenshots/homeHelp2.png">
-        &nbsp&nbsp&nbsp&nbsp<img src="tutorial/screenshots/homeHelp2.png"
-                                 width="10%" border="1px" rel="popover"
-                                 data-img="tutorial/screenshots/homeHelp2.png" align="center"> </a> <br>
-    You may change your password by entering it and then entering your new
-    password twice. After you change your password in this way, it will be
-    known only to you. If you forget your password, please contact the
-    house manager. Until you change your password, this display continue to
-    appear here.
-<p>
-    
+<p> </p> 
 <B>If you are a volunteer</B> and you would like to check out our current project so you can sign up for one and start volunteering, please click <strong><a href="currentProjectDetailed.php">Current Projects</a></strong>
 <p>If you would like more information on what projects are and what you would do, please click <strong><a href="projectInfo.php">Project Info</a></strong>
-<p>If you would like to check out the schedule's of the volunteer projects, please click <strong><a href="viewSchedule.php?frequency=garden">Garden</a></strong> for the garden schedule or <strong><a href="viewSchedule.php?frequency=pantry">Pantry</a></strong> for the pantry schedule, or you can even click <strong><a href="calendar.php">Project Calender</a></strong> for the project calender
-    
-    <p>
+<p>If you would like to check out the schedule's of the volunteer projects, please click <strong><a href="viewSchedule.php?frequency=garden">Garden</a></strong> for the garden schedule or <strong><a href="viewSchedule.php?frequency=pantry">Pantry</a></strong> for the pantry schedule, 
+   or you can even click <strong><a href="calendar.php">Project Calender</a></strong> (only for managers) to know which projects are published and which are unpublished. 
+<p> </p> <strong>If your a manager </strong> and you would like more information on the project calendar please visit the Working With The Calendar Help Page - <strong><a href="generateWeekHelp.inc.php">Generating and Publishing New Calendar Weeks</a></strong>
+<p> </p>  
+        <strong> On the Homepage:</strong> <p> 
     You will also see a display of your upcoming
     scheduled shifts, which looks like this: <p>
         <a
@@ -63,10 +51,10 @@
             src="tutorial/screenshots/indexHelp_upcoming_shifts.png" width="10%"
             rel="popover"
             data-img="tutorial/screenshots/indexHelp_upcoming_shifts.png"
-            border="1px" align="center"> </a> <br> If you need to cancel a shift,
+            border="1px" align="center"> </a> <br> <p> If you need to cancel a shift,
     please call the front desk (302-656-4847).
     
-    <p>
+        <p> </p> 
     <B>If you are a manager</B>, you will also see the following current
     information displayed:
 <p>

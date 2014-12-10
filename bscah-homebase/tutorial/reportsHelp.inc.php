@@ -29,8 +29,6 @@
 </script>
 
 <p>
-    <strong>How to Add People to the Database</strong>
-<p>
     <B>Step 1:</B> On the navigation bar at the top of the page, find <B>reports</B>.
     <BR>Click on it and you should see the following page: <BR>
     <BR> <a href="tutorial/screenshots/Reports.png" class="image"
@@ -40,19 +38,20 @@
             rel="popover" data-img="tutorial/screenshots/Reports.png"
             border="1px" align="center"> </a>
     <br>
+<p> 
     Here you may generate a report on a single volunteer's hours, total hours by all volunteers, or
     shifts and vacancies.
 <p>
     <B>Step 2:</B> If you wish to see a report on a specific volunteer, under "Select Report Hours:"
-    choose <B>Individual Hours.</B><BR>
+    choose <B>Individual Hours.</B><BR> <p> 
     <a href="tutorial/screenshots/ReportsIndividualHours.png" class="image"
        title="ReportsIndividualHours.png" horizontalalign="center"
        target="tutorial/screenshots/ReportsIndividualHours.png"> &nbsp&nbsp&nbsp&nbsp<img
             src="tutorial/screenshots/ReportsIndividualHours.png" width="10%" rel="popover"
             data-img="tutorial/screenshots/ReportsIndividualHours.png" border="1px"
-            align="center"> </a>
+            align="center"> </a> <p> 
 
-    <br>Enter the volunteer's name in the appropriate text box and select the date range.
+            <br>Enter the volunteer's name in the appropriate text box and select the date range. <p> 
     <BR> <a href="tutorial/screenshots/ReportsIndividuals.png" class="image"
             title="ReportsIndividuals.png" horizontalalign="center"
             target="tutorial/screenshots/ReportsIndividuals.png"> &nbsp&nbsp&nbsp&nbsp<img
@@ -98,7 +97,8 @@
         target="tutorial/screenshots/reportsstep6.png"> &nbsp&nbsp&nbsp&nbsp<img
             src="tutorial/screenshots/reportsstep6.png" width="10%" rel="popover"
             data-img="tutorial/screenshots/reportsstep6.png" border="1px"
-            align="center"> </a> <BR>The number under a day (eg. Mon) indicates
+            align="center"> </a> <BR> <p> 
+    The number under a day (eg. Mon) indicates
     the total hours worked on that day. In our example, Amy Jones did not
     work any hours from 11/03/2013 - 12/09/2013. <BR>
     <BR>The report for <B>Volunteer Hours</B> (by day) may look like this:
@@ -121,3 +121,7 @@
     <B>Step 6:</B> When you finish, you can generate a new report by
     refreshing the page and following the steps above or return to any
     other function by selecting it on the navigation bar.
+<p>
+    Keep in mind: <p> 
+    - When your generating the reports you cant put a date (time period) of more than 4 years. <p>
+    - If your time period is more than a year, expect a longer wait to generate the results (couple seconds)

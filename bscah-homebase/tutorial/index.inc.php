@@ -46,17 +46,16 @@
         <li><a href="?helpPage=editProject.php">Searching for/Editing Projects</a></li>
     </ul>
     <br>
-    <li><a href="?helpPage=addWeek.php">Working with the Calendar</a></li>
+    <li><strong>Working with the Project Calendar</strong></li>
     <br>
     <ul>
         <li><a href="?helpPage=generateWeek.php">Generating and publishing
-                new calendar weeks (Managers Only)</a></li>
-        <li><strong>Editing a Shift on the Calendar</strong></li>
+                new calendar weeks</a></li>
         <p>
 
 
         <ul>
-            <li><a href="?helpPage=cancelShift.php">Canceling a Shift
+            <li><a href="?helpPage=cancelShift.php">Editing/Canceling a Shift
                     (Volunteers Only)</a></li>
             <li><a href="help.php?helpPage=addSlotToShift.php">Adding/removing a
                     slot (Managers Only)</a></li>
@@ -72,7 +71,7 @@
 
     </ul>
     <br>
-    <li><a href="?helpPage=masterSchedule.php">Working with the Master
+    <li><a href="?helpPage=addWeek.php">Working with the Master
             Schedule</a> (Managers Only)
     </li>
     <br>
