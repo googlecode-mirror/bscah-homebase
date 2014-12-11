@@ -20,10 +20,16 @@
      */
 ?>
 
-<?PHP include('header.php'); ?>
 <html>
-   
+<title>
+        BSCAH Login Form
+    </title>
+    <link rel="stylesheet" href="styles.css" type="text/css"/>
+</head>
+<body>
 <div id="container">
+   
+<?PHP include('header.php'); ?>
 
 <div id="content">
     <?PHP
