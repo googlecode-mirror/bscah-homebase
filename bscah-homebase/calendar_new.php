@@ -21,22 +21,8 @@ session_cache_expire(30);
 <head>
     <title>Calendar Viewing</title>
 
-    <!-- jQuery 2.x -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-
-    <!-- FullCalendar and related libraries -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/2.2.3/fullcalendar.min.css" type="text/css"/>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.8.4/moment.js" type="text/javascript"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/2.2.3/fullcalendar.min.js" type="text/javascript"></script>
-
-    <!-- Bootstrap -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
-
+    <?php include_once("fullcalendar.inc")?>
     <script type="text/javascript">
-        // Gets the current version of jQuery because header.php loads jQuery 1.x into the "$" symbol, which breaks everything
-        var jQ2 = jQuery.noConflict();
-
         /**
          * Creates the FullCalendar object in <div id="calendar"> HTML element
          * @param json The JSON returned from the PHP function "get_fullcalendar_json(Week $week)"
@@ -66,79 +52,32 @@ session_cache_expire(30);
                     maxTime: '22:00:00', // We set this to end at 10PM, because we are going to rename the 9-10PM slot to "overnight"
 
                     eventClick: function(event, jsEvent, view) {
-                        jQ2('#modal-vacancies').html('<span style="color: ' + event.color + '">' + event.vacancies + '</span> vacancies remaining');
-                        jQ2('#modal-persons').html(makeUL(event.persons));
-                        jQ2('#calendar-modal').modal();
+                        showModal(event, jsEvent, view);
                     },
 
                     eventAfterAllRender: function(view) {
-                        // Gets the 2nd-to-last row of the table, which is the row with the last label for time,
-                        // and replaces its text with "Overnight"
-                        jQ2(jQ2('.fc-axis.fc-time.fc-widget-content').get(-2)).find("span").text("Overnight");
-
-
-                        // We have to trick FullCalendar into thinking the window was resized
-                        // so that it re-renders the calendar. This keeps the "Overnight" label from flowing out of its box
-                        jQ2(document).ready(function() {
-                            jQ2(window).trigger('resize');
-                        });
+                        reflowCalendar(view);
                     }
                 })
             })
         }
 
-        function getStartDate(json) {
-            var id = <?php echo '"'.$_GET['id'].'"'?>;
-
-            if (id == "") {
-                return json[0].start;
-            }
-
-            return moment(id, "MM-DD-YY").format("YYYY-MM-DD");
-        }
-
-        /**
-         * @returns {HTMLElement} Unordered list that represents the JS array passed in
-         */
-        function makeUL(array) {
-            // Create the list element:
-            var list = document.createElement('ul');
-
-            for(var i = 0; i < array.length; i++) {
-                // Create the list item:
-                var item = document.createElement('li');
-
-                // Set its contents:
-                item.appendChild(document.createTextNode(array[i]));
-
-                // Add it to the list:
-                list.appendChild(item);
-            }
-
-            // Finally, return the constructed list:
-            return list;
-        }
 
     </script>
 
     <link rel="stylesheet" href="styles.css" type="text/css"/>
     <link rel="stylesheet" href="calendarhouse.css" type="text/css"/>
 
-    <!--suppress CssUnusedSymbol -->
-    <style>
-        .fc-time-grid-container {
-            /* For some reason, FullCalendar doesn't set its height to auto by default */
-            height: auto !important;
-        }
-        .fc-event-inner { border: 50000px !important; }
-    </style>
+
 </head>
 
 <body>
 <div id="container">
     <?php
+    echo "<a href=\"index.php\">";
     include_once("header.php");
-    include_once("accessController.php");
+    echo "</a>";
+    include_once('accessController.php');
     ?>
     <div id="content">
         <?php
@@ -159,7 +98,7 @@ session_cache_expire(30);
         $week = get_dbWeeks($week_id);
 
 
-        if ((!$week)|| ($week->get_status() == "unpublished" )) {
+        if ($week == null || $week->get_status() == "unpublished") {
             echo "This week's calendar is not available for viewing.";
             if ($_SESSION['access_level'] >= 2) {
                 echo "<br/> <a href='addWeek.php'>Manage weeks</a>";

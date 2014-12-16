@@ -24,8 +24,10 @@
         <body>
             <div id="container">
                 <a href="index.php"</a>
-                <?PHP
-                    include('header.php');
+                <?php
+                    echo "<a href=\"index.php\">";
+                    include_once("header.php");
+                    echo "</a>";
                     include('accessController.php');
                 ?>
                 <div id="content">

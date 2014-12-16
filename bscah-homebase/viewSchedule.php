@@ -52,6 +52,7 @@
         </div>
     </div>
     </body>
+        <?php include_once("footer.inc"); ?>
     </html>
 
 
@@ -168,39 +169,4 @@
 
         return $s;
     }
-
-    function get_people_for_shift(MasterScheduleEntry $master_shift) {
-        /* $master_shift is a MasterScheduleEntry object
-         * an associative array of (venue, my_group, day, time,
-         * start, end, slots, persons, notes) */
-        $people =
-            get_persons($master_shift->get_schedule_type(), $master_shift->get_day(),
-                        $master_shift->get_time());
-        $slots =
-            get_total_slots($master_shift->get_schedule_type(), $master_shift->get_day(),
-                            $master_shift->get_time());
-        if (!$people[0]) {
-            array_shift($people);
-        }
-        $p = "<br>";
-        for ($i = 0; $i < count($people); ++$i) {
-            if (is_array($people[$i])) {
-                $p = $p . "&nbsp;" . $people[$i]['first_name'] . " " . $people[$i]['last_name'] . "<br>";
-            }
-            else {
-                $p = $p . "&nbsp;" . $people[$i] . "<br>";
-            }
-        }
-        if ($slots - count($people) > 0) {
-            $p = $p . "&nbsp;<b>Vacancies (" . ($slots - count($people)) . ")</b><br>";
-        }
-        else {
-            if (count($people) == 0) {
-                $p = $p . "&nbsp;<br>";
-            }
-        }
-
-        return substr($p, 0, strlen($p) - 4);
-    }
-
 ?>

@@ -45,7 +45,8 @@
             $this->start_time = $start_time;
             $this->end_time = $end_time;
             $this->venue = $venue;
-           // generate_venue($venue);
+            // TODO: generate_venue is broken, it references "$this" outside of an object context
+//            generate_venue($venue);
             $this->vacancies = $vacancies;
             $this->persons = $persons;
             $this->removed_persons = $removed_persons;

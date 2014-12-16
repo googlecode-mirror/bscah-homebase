@@ -28,8 +28,12 @@
     <body>
         <div id="container">
             <a href="index.php"</a>
-            <?PHP include_once('header.php'); ?>
-            <?php include_once('accessController.php'); ?>
+            <?php
+                echo "<a href=\"index.php\">";
+                include_once("header.php");
+                echo "</a>";
+                include_once('accessController.php');
+            ?>
             <div id="content">
                 <p>
                     <strong>Calendar Week Management</strong>

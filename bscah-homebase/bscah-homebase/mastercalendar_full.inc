@@ -1,11 +1,12 @@
 <?php
-/**
- * @author Kevin Most
- * @version 2014-12-01
- * The new frontend support for the Weekly Calendar
- */
-session_start();
-session_cache_expire(30);
+    /**
+     * @author Matthew Freitas
+     * @version 2014-12-15
+     * The new frontend support for the Master Calendar
+     */
+    session_start();
+    session_cache_expire(30);
+    include_once("database/dbMasterSchedule.php")
 ?>
 
 <?php
@@ -16,30 +17,29 @@ session_cache_expire(30);
         // In PHP, you can create a JSON from an array of associative arrays.
         // We will iterate over every shift in this week and add each shift as a new associative array
         $json_builder = [];
-
+        $week_days = ["Sun" => "Sunday", "Mon" => "Monday", "Tue" => "Tuesday", "Wed" => "Wednesday",
+            "Thu" => "Thursday", "Fri" => "Friday", "Sat" => "Saturday"];
         // For each shift in each day in each week, create a JSON element
-        foreach(get_all_published_dbWeeks() as $week) {
-            foreach ($week->get_dates() as $day) {
-                foreach ($day->get_shifts() as $shift) {
-                    // Please check the FullCalendar.io documentation to learn what fields to put here
-                    // http://fullcalendar.io/docs/event_data/Event_Object/
-                    $json_element = [
-                        'title' => generate_title($shift), // TODO: This should probably be a real, descriptive name, but our shifts don't actually have names yet
-                        'allDay' => false,
-                        'start' => shift_times_to_iso8601($shift, true),
-                        'end' => shift_times_to_iso8601($shift, false),
-                        'url' => "#", // We just want this to be clickable, JS will handle the actual onclick process
-                        'color' => get_color($shift),
-                        'borderColor' => get_border_color($shift),
-                        // We can also add elements to the JSON that just come along for the ride.
-                        // 'persons' and 'vacancies' are not parts of the FullCalendar API, but they are useful because
-                        // we can reference them later from the callbacks available to us in the fullCalendar() method
-                        'persons' => $shift->get_persons(),
-                        'vacancies' => $shift->get_vacancies()
-                    ];
+        foreach($week_days as $day) {
+            foreach (get_master_shifts($venue, $day) as $shift) {
+                // Please check the FullCalendar.io documentation to learn what fields to put here
+                // http://fullcalendar.io/docs/event_data/Event_Object/
+                $json_element = [
+                    'title' => generate_title($shift), // TODO: This should probably be a real, descriptive name, but our shifts don't actually have names yet
+                    'allDay' => false,
+                    'start' => shift_times_to_iso8601($shift, true),
+                    'end' => shift_times_to_iso8601($shift, false),
+                    'url' => "#", // We just want this to be clickable, JS will handle the actual onclick process
+                    'color' => get_color($shift),
+                    'borderColor' => get_border_color($shift),
+                    // We can also add elements to the JSON that just come along for the ride.
+                    // 'persons' and 'vacancies' are not parts of the FullCalendar API, but they are useful because
+                    // we can reference them later from the callbacks available to us in the fullCalendar() method
+                    'persons' => $shift->get_persons(),
+                    'vacancies' => $shift->get_vacancies()
+                ];
 
-                    $json_builder[] = $json_element;
-                }
+                $json_builder[] = $json_element;
             }
         }
 
@@ -103,7 +103,6 @@ session_cache_expire(30);
             default:
                 return null;
         }
-
 
         return DateTime::createFromFormat(
             $date_format,
