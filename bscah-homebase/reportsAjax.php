@@ -33,7 +33,7 @@
                                       //The key being the the person's id and the associated value being the id of every shift s/he is in separated by commas. - GIOVI
         $projecthistories = get_all_peoples_histories_in_proj();//This returns a key sorted list of everyone's names that are or were in projects - GIOVI
         
-        $names = $_POST['volunteer-names'];
+        $name = $_POST['volunteer-names'];
         $from = "";
         $to = "";
         if (isset($_POST['date']) && $_POST['date'] != "") {
@@ -56,16 +56,16 @@
             //Added two more if statements to take in total projects and project vacancies - GIOVI
         if (isset($_POST['report-types'])) {
             if (in_array('volunteer-names', $_POST['report-types'])) {
-                report_by_volunteer_names($names, $shifthistories, $projecthistories, $from, $to);//Check if this needs to have a connection to projects - GIOVI
+                report_by_individual_volunteer($name, $shifthistories, $projecthistories, $from, $to);//Check if this needs to have a connection to projects - GIOVI
             }
             if (in_array('volunteer-hours', $_POST['report-types'])) {
-                report_shifts_totalhours_by_day($shifthistories, $from, $to);
+                report_shifts_totalhours($from, $to);
             }
             if (in_array('shifts-staffed-vacant', $_POST['report-types'])) {
-                report_shifts_staffed_vacant_by_day($from, $to);
+                report_shift_vacancies($from, $to);
             }
             if (in_array('project-hours', $_POST['report-types'])) {
-                report_projects_totalhours_by_day($from, $to);
+                report_projects_totalhours($from, $to);
             }
             if (in_array('project-staffed-vacant', $_POST['report-types'])) {
                  report_project_vacancies($from, $to);
@@ -74,142 +74,59 @@
             error_log("******END: show_report******");
     }
                                                 
-    function report_by_volunteer_names($names, $shifthistories, $projecthistories, $from, $to) {//Will still need to figure out how to implement both shift and project hours - GIOVI
+    function report_by_individual_volunteer($name, $shifthistories, $projecthistories, $from, $to) {
         echo("<br><b>Individual Volunteer Hours</b>");
-        error_log("volunteer names");
         
         $labels = IndividualHoursLabel($from, $to);
         
-        $the_persons = [];
-        foreach ($names as $name) { $the_persons = array_merge($the_persons, retrieve_persons_by_name($name)); }
+        foreach ($name as $n) { $individual = retrieve_persons_by_name($n); }
         
-        
-        foreach ($the_persons as $p) {
-            if ($p != null) {
-                echo("<br>This report shows the total hours worked by " . $p->get_first_name() . " " . $p->get_last_name(). " within the specified date range");
-                error_log("/////ENTERING the report_hours function for " . $p->get_first_name() . " " . $p->get_last_name(). "--------------------");
-                $reports = $p->report_hours($shifthistories, $projecthistories, $from, $to); //An array contaning [0] shift, [1] project, and [2] total should be returned - GIOVI
+        foreach ($individual as $i)
+        {
+            if ($i != null) 
+            {
+                echo("<br>This report shows the total hours worked by " . $i->get_first_name() . " " . $i->get_last_name(). " within the specified date range");
+                error_log("/////ENTERING the report_hours function for " . $i->get_first_name() . " " . $i->get_last_name(). "--------------------");
+                $reports = $i->report_individual_hours($shifthistories, $projecthistories, $from, $to); //An array contaning [0] shift, [1] project, and [2] total should be returned - GIOVI
             }
         }
-        
-        echo displayIndividualHoursReport($labels, $reports);
+       
+            echo displayIndividualHoursReport($labels, $reports);
+        }
 
-    }
 
-
-    function report_shifts_totalhours_by_day($shifthistories, $from, $to) {
-       echo("<br><b>Total Volunteer Hours</b>");
+    function report_shifts_totalhours($from, $to) {
+       echo("<br><b>Total Volunteer Shift Hours</b>");
         echo("<br>This report shows the total hours worked by all volunteers within the specified date range");
-         error_log("Shift volunteer hours");
-//	$all_volunteers = getall_dbPersons();
-        $labels = [
-            "Shift A <br>9 A.M. - 12 P.M.",
-            "Shift B <br>12 P.M. - 3 P.M.",
-            "Shift C <br>3 P.M. - 6 P.M.",
-            "Shift D <br>6 P.M. - 9 P.M.",
-            "Overnight Shift <br>12 A.M. - 6 A.M.",
-            "Total"
-        ];
-        $reports = report_shifthours_by_day($shifthistories, $from, $to);
-        echo display_table_reports($labels, $reports);
+        error_log("Shift volunteer hours");
+        $labels = shiftLabel($from, $to, 'hours');
+        $reports = report_shifthours($from, $to);
+        echo displayShiftTotalHoursReport($labels, $reports);
     }
     
-    function report_shifts_staffed_vacant_by_day($from, $to) {
-        echo("<br><b>Shifts/Vacancies</b>");
+    function report_shift_vacancies($from, $to) {
+        echo("<br><b>Shift Vacancies</b>");
         echo("<br>This report shows the number of vacancies in each shift within specified date range");
-        error_log("shifts hours");
-        $labels = [
-            "Shift A <br>9 A.M. - 12 P.M.",
-            "Shift B <br>12 P.M. - 3 P.M.",
-            "Shift C <br>3 P.M. - 6 P.M.",
-            "Shift D <br>6 P.M. - 9 P.M.",
-            "Overnight Shift <br>12 A.M. - 6 A.M.",
-            "Total"
-        ];
+        error_log("Shift Vacancies");
+        $labels = shiftLabel($from, $to, 'vacancies');
         $reports = report_shifts_staffed_vacant($from, $to);
-        echo display_table_reports($labels, $reports);
+        echo displayShiftVacancyReport($labels, $reports);
     }
 
-    function report_projects_totalhours_by_day($from, $to) {//New function for displaying the total hours for projects - GIOVI
+    function report_projects_totalhours($from, $to) {//New function for displaying the total hours for projects - GIOVI
         echo("<br><b>Total Volunteer Project hours</b>");
         error_log("Project Total volunteer hours");
-        $labels = projectLabel($from, $to);
+        $labels = projectLabel($from, $to, 'hours');
         $reports = report_projecthours($from, $to);
         echo displayProjectTotalHoursReport($labels, $reports);
     }
 
     function  report_project_vacancies($from, $to) {//New function for displaying the vacancies for projects - GIOVI
         echo("<br><b>Project Vacancies</b>");
-        error_log("Project hours");
-        $labels = projectLabel($from, $to);
+        error_log("Project Vacancies");
+        $labels = projectLabel($from, $to, 'vacancies');
         $reports = report_projects_staffed_vacant($from, $to);
         echo displayProjectVacancyReport($labels, $reports);
-    }
-    
-    function display_table_reports($labels, $reports) {
-        $res = "<style type='text/css'>
-                newft { font-size:14px; color:black; font-weight:bold; }
-                </style>
-                    <table id = 'report'> 
-			<thead>
-			<tr>
-				<td></td>
-				<td><newft>Mon</newft></td>
-				<td><newft>Tue</newft></td>
-				<td><newft>Wed</newft></td>
-                                <td><newft>Thu</newft></td>
-                                <td><newft>Fri</newft></td>
-                                <td><newft>Sat</newft></td>
-				<td><newft>Sun</newft></td>
-				<td><newft>Total</newft></td>
-			</tr>
-			</thead>
-			<tbody>";
-
-	if (count($labels) == count($reports))
-        {
-            foreach (array_combine($labels, $reports) as $label => $report) 
-            {
-                $res .= display_table_report($label, $report);
-            }
-        }
-        else 
-        {
-                error_log("<br>FAIL: The two arrays are not equal");
-                echo ("<br> - FAIL: There was an error in combining the arrays.");
-                die();
-        }
-        $res = $res . "</tbody></table>";
-
-        return $res;
-    }
-
-    function display_table_report($label, $report) {
-
-        $row = "<tr>";
-        $row .= "<td style='font-size:14px; color:black; font-weight:bold'>" . $label . "</td>";
-        $total = 0;
-        //$total2 = 0;
-        foreach ($report as $hours) {
-            if (is_array($hours)) {
-                $total += $hours[0];
-                //$total2 += $hours[1];
-                $hours = implode('/', $hours);
-            }
-            else {
-                $total += $hours;
-            }
-            $row .= "<td  style='font-size:14px; color:black; font-weight:bold; text-align:center'>" . $hours . "</td>";
-        }
-        //if ($total2 > 0) {
-         //   $total = $total . "/" . $total2;
-        //}
-        if (isset($total)) {
-            $row .= "<td style='font-size:14px; color:black; font-weight:bold; text-align:center'>" . $total . "</td>";
-        }
-        $row .= "</tr>";
-
-        return $row;
     }
 
     function show_hint($names) {
@@ -303,25 +220,84 @@
         return $labels;
     }
     
-    function projectLabel($from, $to) { //This is used to print out display the project table the new way - GIOVI
+    function projectLabel($from, $to, $section) { //This is used to print out display the project table the new way - GIOVI
         $from_date = setFromDate($from);
         $to_date = setToDate($to);
         
         $labels = [];
         $projdata = get_all_projects();  
         $count = 0;
-        
+       
         foreach ($projdata as $project)
         {
             $projects_date = date_create_from_mm_dd_yyyy($project->get_mm_dd_yy());
            
-            if ($projects_date >= $from_date && $projects_date <= $to_date) 
+                if ($section === 'hours')
+                {
+                    if ($projects_date >= $from_date && $projects_date <= $to_date && $project->get_persons() != null) 
+                    {
+                        $starthrmin = ConvertTimeToHrMin($project->get_start_time());
+                        $endhrmin = ConvertTimeToHrMin($project->get_end_time());
+                    
+                        array_push($labels, $project->get_date() . "<br>" . ArrangeMinutesInHours($starthrmin[0], $starthrmin[1]) . " - " . ArrangeMinutesInHours($endhrmin[0], $endhrmin[1]) . "<br><nobr>" . $project->get_name() . "</nobr>");
+                        $count++;
+                    }
+                }
+                
+                if ($section === 'vacancies')
+                {
+                    if ($projects_date >= $from_date && $projects_date <= $to_date && $project->get_vacancies() != 0) 
+                    {
+                        $starthrmin = ConvertTimeToHrMin($project->get_start_time());
+                        $endhrmin = ConvertTimeToHrMin($project->get_end_time());
+                    
+                        array_push($labels, $project->get_date() . "<br>" . ArrangeMinutesInHours($starthrmin[0], $starthrmin[1]) . " - " . ArrangeMinutesInHours($endhrmin[0], $endhrmin[1]) . "<br><nobr>" . $project->get_name() . "</nobr>");
+                        $count++;
+                    }
+                }   
+        }
+        
+        error_log("------- " . $count . " project label(s) recorded-----------");
+        return $labels;
+    }
+    
+    function shiftLabel($from, $to, $section) { //This is used to print out display the project table the new way - GIOVI
+        $from_date = setFromDate($from);
+        $to_date = setToDate($to);
+        
+        $labels = [];
+        $shiftdata = get_all_shifts();  
+        $count = 0;
+        
+        foreach ($shiftdata as $shift)
+        {
+            $shifts_date = date_create_from_mm_dd_yyyy($shift->get_mm_dd_yy());
+           
+            if ($section === 'hours')
             {
-               array_push($labels, $project->get_date() . "<br>" . $project->get_start_time() . " - " . $project->get_end_time() . "<br>" . $project->get_name());
-               $count++;
+                if ($shifts_date >= $from_date && $shifts_date <= $to_date && $shift->get_persons() != null) 
+                {
+                    $starthrmin = ConvertTimeToHrMin($shift->get_start_time());
+                    $endhrmin = ConvertTimeToHrMin($shift->get_end_time());
+                    
+                    array_push($labels, $shift->get_date() . "<br>" . ArrangeMinutesInHours($starthrmin[0], $starthrmin[1]) . " - " . ArrangeMinutesInHours($endhrmin[0], $endhrmin[1]) . "<br>" . $shift->get_venue());
+                    $count++;
+                }
+            }
+            
+            if ($section === 'vacancies')
+            {
+                if ($shifts_date >= $from_date && $shifts_date <= $to_date && $shift->get_vacancies() != 0) 
+                {
+                    $starthrmin = ConvertTimeToHrMin($shift->get_start_time());
+                    $endhrmin = ConvertTimeToHrMin($shift->get_end_time());
+                    
+                    array_push($labels, $shift->get_date() . "<br>" . ArrangeMinutesInHours($starthrmin[0], $starthrmin[1]) . " - " . ArrangeMinutesInHours($endhrmin[0], $endhrmin[1]) . "<br>" . $shift->get_venue());
+                    $count++;
+                }
             }
         }
-        error_log("------- " . $count . " project label(s) recorded-----------");
+        error_log("------- " . $count . " shift label(s) recorded-----------");
         return $labels;
     }
     
@@ -373,28 +349,120 @@
      {
         $row = "<tr>";
         $row .= "<td style='font-size:14px; color:black; font-weight:bold'>" . $label . "</td>";
-        $total = [0, 0, 0];
+        $total = [[0, 0], [0, 0], [0, 0]]; //Hours and minutes for shift, project, total
+        $datawithhrmins = [null, null, null];
         foreach ($report as $data) 
-        {
+        {   
             if (is_array($data)) {
-                $total[0] += $data[0];
-                $total[1] += $data[1];
-                $total[2] += $data[2];
-                $data = implode("<br>", $data);
+                $total[0][0] += $data[0][0]; //Shift total
+                $total[0][1] += $data[0][1];
+                $total[1][0] += $data[1][0]; //Project total
+                $total[1][1] += $data[1][1];
+                $total[2][0] += $data[2][0]; //Grand total
+                $total[2][1] += $data[2][1];
+                
+                $datawithhrmins[0] = ArrangeMinutesInHours($data[0][0], $data[0][1]);
+                $datawithhrmins[1] = ArrangeMinutesInHours($data[1][0], $data[1][1]);
+                $datawithhrmins[2] = ArrangeMinutesInHours($data[2][0], $data[2][1]);
+                
+                $data = implode("<br>", $datawithhrmins);
             }
             
-            else { $total += $data; }
+            else {  $total[0][0] += $data[0][0]; 
+                    $total[0][1] += $data[0][1];
+                    $total[1][0] += $data[1][0]; 
+                    $total[1][1] += $data[1][1];
+                    $total[2][0] += $data[2][0]; 
+                    $total[2][1] += $data[2][1]; }
             
-            $row .= "<td style='font-size:14px; color:black; font-weight:bold; text-align:center; vertical-align: bottom'>" . $data . "</td>";
+            $row .= "<td style='font-size:14px; color:black; font-weight:bold; text-align:center; vertical-align: bottom'><nobr>" . $data . "</nobr></td>";
         }
         
-            $row .= "<td style='font-size:14px; color:black; font-weight:bold; text-align:center; vertical-align: bottom'>" . $total[0] . "<br>" . $total[1] . "<br>" . $total[2] . "</td>";
+            $row .= "<td style='font-size:14px; color:black; font-weight:bold; text-align:center; vertical-align: bottom'><nobr>" . ArrangeMinutesInHours($total[0][0], $total[0][1]) . "<br>" . ArrangeMinutesInHours($total[1][0], $total[1][1]) . "<br>" . ArrangeMinutesInHours($total[2][0], $total[2][1]) . "</nobr></td>";
         
         $row .= "</tr>";
 
         return $row;
      }
     
+    function displayShiftTotalHoursReport($labels, $reports)
+    {
+        $res = "<style type='text/css'>
+                newft { font-size:14px; color:black; font-weight:bold; }
+                </style>
+                <table id = 'report' style = width:300px;>
+                <thead>
+                <td><newft>Shift Date & Name</newft></td>
+                <td><newft>Hours</newft></td>
+                <td><newft>Volunteers</newft></td>
+                </thead>
+                <tbody>";
+
+        $total = [0, 0, 0];
+       
+        foreach ($reports as $shiftid => $data) //To get those total for shift hours and volunteers - GIOVI
+            {   
+                $hrmin = explode(':', $data);
+                $total[0] += $hrmin[0];
+                $total[1] += $hrmin[1];
+                $total[2] += $data[1];
+            }
+        
+        if (count($labels) == count($reports))
+        {
+	    foreach (array_combine($labels, $reports) as $label => $report)
+            {
+                $res .= appendShiftOrProjectData($label, $report);
+            }
+        }
+        else 
+        {
+                error_log("FAIL: The two arrays are not equal");
+                echo ("<br> - FAIL: There was an error in combining the arrays.");
+                die();
+        }
+        
+        $res = $res . "<td><newft>Total:</newft></td><td style='text-align:center'><newft>" . ArrangeMinutesInHours($total[0], $total[1]) . "</newft></td><td style='text-align:center'><newft>$total[2]</newft></td></tbody></table>";
+
+        return $res;
+    }
+    
+    function displayShiftVacancyReport($labels, $reports)
+    {
+        $res = "<style type='text/css'>
+                newft { font-size:14px; color:black; font-weight:bold; }
+                </style>
+                <table id = 'report' style = width:250px;> 
+                <thead>
+                <td><newft>Shift Date & Name</newft></td>
+                <td><newft>Vacancies</newft></td>
+                </thead>
+                <tbody>";
+        
+        $total = 0;
+        
+	if (count($labels) == count($reports))
+        {
+	    foreach (array_combine($labels, $reports) as $label => $report) 
+            { 
+                $res .= appendShiftOrProjectData($label, $report);
+                $total += array_sum($report);
+            }
+        }
+        else 
+        {
+                error_log("FAIL: The two arrays are not equal");
+                echo ("<br> - FAIL: There was an error in combining the arrays.");
+                die();
+        }
+        
+
+        
+        $res = $res . "<td><newft>Total:</newft></td><td style='text-align:center'><newft>$total</newft></td></tbody></table>";
+
+        return $res;
+    }
+        
     function displayProjectTotalHoursReport($labels, $reports)
     {
         $res = "<style type='text/css'>
@@ -408,18 +476,21 @@
                 </thead>
                 <tbody>";
 
-        $total = [0, 0];
+        $total = [0, 0, 0];
+       
         foreach ($reports as $projid => $data) //To get those total for project hours and volunteers - GIOVI
-            { 
-                $total[0] += $data[0];
-                $total[1] += $data[1];
+            {   
+                $hrmin = explode(':', $data);
+                $total[0] += $hrmin[0];
+                $total[1] += $hrmin[1];
+                $total[2] += $data[1];
             }
         
         if (count($labels) == count($reports))
         {
-	    foreach (array_combine($labels, $reports) as $label => $report) 
+	    foreach (array_combine($labels, $reports) as $label => $report)
             {
-                $res .= appendProjectData($label, $report);
+                $res .= appendShiftOrProjectData($label, $report);
             }
         }
         else 
@@ -429,7 +500,7 @@
                 die();
         }
         
-        $res = $res . "<td><newft>Total:</newft></td><td style='text-align:center'><newft>$total[0]</newft></td><td style='text-align:center'><newft>$total[1]</newft></td></tbody></table>";
+        $res = $res . "<td><newft>Total:</newft></td><td style='text-align:center'><newft>" . ArrangeMinutesInHours($total[0], $total[1]) . "</newft></td><td style='text-align:center'><newft>$total[2]</newft></td></tbody></table>";
 
         return $res;
     }
@@ -452,7 +523,7 @@
         {
 	    foreach (array_combine($labels, $reports) as $label => $report) 
             { 
-                $res .= appendProjectData($label, $report);
+                $res .= appendShiftOrProjectData($label, $report);
                 $total += array_sum($report);
             }
         }
@@ -470,7 +541,7 @@
         return $res;
     }
     
-    function appendProjectData($label, $report) {
+    function appendShiftOrProjectData($label, $report) {
 
         $row = "<tr>";
         $row .= "<td style='font-size:14px; color:black; font-weight:bold'>" . $label . "</td>";
@@ -492,15 +563,30 @@
         return $row;
     }
     
-    function ConvertToHrMin($time)
-    {
-        if (strlen($time) == 3) { $hours = substr($time, 0); }
-        else { $hours = substr($time, 1); }            
+    function ConvertTimeToHrMin($time)
+    {        
+        if (strlen($time) == 3) { $hours = substr($time, 0, 1); }
+        else { $hours = substr($time, 0, 2); }            
             
-        $minutes = substr($time, -2); //Am currently unsure how I'm going to get minutes to work - GIOVI
-            
-        return $hours . " hr(s)"; // . $minutes . " min(s)";
+        $minutes = substr($time, -2);
+         
+        $hrmin = [$hours, $minutes];
+        
+        return $hrmin;
     }
 
-    
+    function ArrangeMinutesInHours($hours, $minutes) //This keeps minutes under 60 and returns the proper format for minutes and hours - GIOVI
+    {
+        while ($minutes > 59)
+        {
+            $hours += 1;
+            $minutes -= 60;
+        }
+        
+        $hrs = str_pad($hours, 2, 0, STR_PAD_LEFT);
+        $mins = str_pad($minutes, 2, 0, STR_PAD_LEFT);
+        
+        return $hrs . ":" . $mins;
+    }
+    //CONSIDER USING : TO MAKE TABLES CLEARER - GIOVI
  ?>

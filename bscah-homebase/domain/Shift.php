@@ -45,7 +45,7 @@
             $this->start_time = $start_time;
             $this->end_time = $end_time;
             $this->venue = $venue;
-            generate_venue($venue);
+           // generate_venue($venue);
             $this->vacancies = $vacancies;
             $this->persons = $persons;
             $this->removed_persons = $removed_persons;
@@ -159,6 +159,13 @@
             return $this->venue;
         }
 
+        function get_num_of_persons() 
+        {
+            $peoparr = explode('*', $this->persons);
+            $numberofpeople = count($peoparr);
+            return $numberofpeople;
+        }
+        
         function get_persons() {
             return $this->persons;
         }
@@ -179,6 +186,20 @@
             return $this->notes;
         }
 
+        function get_remaining_vacancies($id) //This returns the remaining vacancies a project has depending on how many people are already part of it - GIOVI
+        {
+            error_log("The id is " . $id);
+            $shift = select_dbShifts($id);
+            $peoparr = $shift->get_persons();
+            $numofpeople = count($peoparr);
+ 
+            $vacancies = $shift->get_vacancies() - $numofpeople;
+            
+            error_log("The remaining number of vacancies is $vacancies ----------------------------------------");
+            
+            return $vacancies;
+        }
+        
         function get_vacancies() {
             return $this->vacancies;
         }
@@ -218,45 +239,28 @@
     }
 
     function report_shifts_staffed_vacant($from, $to) {
-        $min_date = "01/01/2000";
-        $max_date = "12/31/2020";
-        if ($from == '') {
-            $from = $min_date;
-        }
-        if ($to == '') {
-            $to = $max_date;
-        }
-        error_log("from date = " . $from);
-        error_log("to date = " . $to);
-        $from_date = date_create_from_mm_dd_yyyy($from);
-        $to_date = date_create_from_mm_dd_yyyy($to);
-        $reports = [
-            'morning' => ['Mon' => [0], 'Tue' => [0], 'Wed' => [0], 'Thu' => [0],
-                'Fri' => [0], 'Sat' => [0], 'Sun' => [0]],
-            'earlypm' => ['Mon' => [0], 'Tue' => [0], 'Wed' => [0], 'Thu' => [0],
-                'Fri' => [0], 'Sat' => [0], 'Sun' => [0]],
-            'latepm' => ['Mon' => [0], 'Tue' => [0], 'Wed' => [0], 'Thu' => [0],
-                'Fri' => [0], 'Sat' => [0], 'Sun' => [0]],
-            'evening' => ['Mon' => [0], 'Tue' => [0], 'Wed' => [0], 'Thu' => [0],
-                'Fri' => [0], 'Sat' => [0], 'Sun' => [0]],
-            'overnight' => ['Mon' => [0], 'Tue' => [0], 'Wed' => [0], 'Thu' => [0],
-                'Fri' => [0], 'Sat' => [0], 'Sun' => [0]],
-            'total' => ['Mon' => [0], 'Tue' => [0], 'Wed' => [0], 'Thu' => [0],
-                'Fri' => [0], 'Sat' => [0], 'Sun' => [0]],
-        ];
+        $from_date = setFromDate($from);
+        $to_date = setToDate($to);
+        
+        $reports = [];
         $all_shifts = get_all_shifts();
-        foreach ($all_shifts as $s) {
+        $count = 0;
+        
+        foreach ($all_shifts as $s) 
+        {
             $shift_date = date_create_from_mm_dd_yyyy($s->get_mm_dd_yy());
-            if ($shift_date >= $from_date && $shift_date <= $to_date &&
-                (strlen($s->get_persons()) > 0 || $s->get_vacancies() > 0)
-            ) {
-                //$reports[$s->get_time_of_day()][$s->get_day()][0] += 1;
-                $reports[$s->get_time_of_day()][$s->get_day()][0] += $s->get_vacancies();
-                //$reports['total'][$s->get_day()][0] += 1;
-                $reports['total'][$s->get_day()][0] += $s->get_vacancies();
+            
+            if ($shift_date >= $from_date && $shift_date <= $to_date && $s->get_vacancies() != 0)
+            {
+                if (!isset($reports[$s->get_id()][0])) { $reports[$s->get_id()][0] = NULL; }
+                
+                error_log("Getting the number of remaining vacancies--------------------------------------------");
+                
+               $reports[$s->get_id()][0] += $s->get_remaining_vacancies($s->get_id());
+               $count++;
             }
         }
-
+        error_log("------- " . $count . " vacancy(ies) recorded-----------");    
         return $reports;
     }
     function generate_venue($venue)

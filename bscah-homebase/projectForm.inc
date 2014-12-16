@@ -86,6 +86,7 @@
         <p>Date of Project<span style="font-size:x-small;color:FF0000">*</span>: <input type="date" name="date"
                                                                                         MAXLENGTH= 8 tabindex="2"
                                                                                         value="<?PHP echo($project->get_date()) ?>">
+                                                                                                     
 
         
         

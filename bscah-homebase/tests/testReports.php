@@ -186,13 +186,13 @@ function getReport()//The main tester, this will display the three tables that o
     error_log("The name is " . $name);
     
     //You can add a from/to date in the two blanks('') to have a specified range; Format mm/dd/yyyy  - GIOVI
-    report_by_volunteer_names($nameinarr, $allshifthistories, '', '');//This method takes an array of name(s) and the histories and should display the days for each individual and the number of hours they work for each day with a total - GIOVI
+    report_by_individual_volunteer($nameinarr, $allshifthistories, '', '');//This method takes an array of name(s) and the histories and should display the days for each individual and the number of hours they work for each day with a total - GIOVI
     
-    report_shifts_totalhours_by_day($allshifthistories, '', ''); //This method takes all the histories from everyone and displays the total hours everyone works for each day and timeshift as well as the total - GIOVI
+    report_shifts_totalhours($allshifthistories, '', ''); //This method takes all the histories from everyone and displays the total hours everyone works for each day and timeshift as well as the total - GIOVI
     
-    report_shifts_staffed_vacant_by_day('', ''); //This method will take in a time range or will use the default (01/01/2000 to 12/31/2020) and will display all the shifts and vacancies for each day and timeshift as well as the total - GIOVI
+    report_shift_vacancies('', ''); //This method will take in a time range or will use the default (01/01/2000 to 12/31/2020) and will display all the shifts and vacancies for each day and timeshift as well as the total - GIOVI
     
-    report_projects_totalhours_by_day($allprojecthistories, '', '');
+    report_projects_totalhours($allprojecthistories, '', '');
     
      report_project_vacancies('', '');
 }

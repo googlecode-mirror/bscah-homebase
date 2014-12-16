@@ -206,7 +206,7 @@
         // a given date range. $from and $to are strings of the form 'm/d/y', if one of the strings
         // is the empty string, then the range is unbounded in that direction.
         // the dictionary is of the form {'Mon' => , 'Tue' => }.
-        function report_hours($shifthis, $projecthis, $from, $to) {
+        function report_individual_hours($shifthis, $projecthis, $from, $to) {
             $from_date = setFromDate($from);
             $to_date = setToDate($to);
     
@@ -222,7 +222,13 @@
         foreach ($weeks as $w) 
         {    
             $currentweek = getSunWeek($years, $w);
-            $weeklyreport = ['Sun' => [0, 0, 0], 'Mon' => [0, 0, 0], 'Tue' => [0, 0, 0], 'Wed' => [0, 0, 0], 'Thu' => [0, 0, 0], 'Fri' => [0, 0, 0], 'Sat' => [0, 0, 0]];
+            $weeklyreport = ['Sun' => [[0, 0], [0, 0], [0, 0]], 'Mon' => [[0, 0], [0, 0], [0, 0]], 'Tue' => [[0, 0], [0, 0], [0, 0]], 'Wed' => [[0, 0], [0, 0], [0, 0]], 'Thu' => [[0, 0], [0, 0], [0, 0]], 'Fri' => [[0, 0], [0, 0], [0, 0]], 'Sat' => [[0, 0], [0, 0], [0, 0]]];//This consists of [Days] => [shift, project, total] => [hrs, mins] - GIOVI
+            $hours_s = 0;
+            $minutes_s = 0;
+            $hrmin_s = [0, 0];
+            $hours_p = 0;
+            $minutes_p = 0;
+            $hrmin_p = [0, 0];
             
             if (array_key_exists($this->get_id(), $shifthis)) 
            { 
@@ -238,7 +244,11 @@
                     
                          if ($shift_date >= $from_date && $shift_date <= $to_date) 
                          { 
-                           $weeklyreport[$s->get_day()][0] += $s->duration(); //First element is for shift hours - GIOVI
+                          $hrmin_s = ConvertTimeToHrMin($s->duration());
+                          $hours_s = $hrmin_s[0];
+                          $minutes_s = $hrmin_s[1];
+                            $weeklyreport[$s->get_day()][0][0] += $hours_s; //Shift hours
+                            $weeklyreport[$s->get_day()][0][1] += $minutes_s; //Shift minutes                    
                          } 
                     }
                 }
@@ -258,16 +268,21 @@
                     
                         if ($proj_date >= $from_date && $proj_date <= $to_date)
                         { 
-                            $weeklyreport[$p->get_dayOfWeek()][1] += $p->duration(); //Second element is for project hours - GIOVI
+                          $hrmin_p = ConvertTimeToHrMin($p->duration());
+                          $hours_p = $hrmin_p[0];
+                          $minutes_p = $hrmin_p[1];
+                            $weeklyreport[$p->get_dayOfWeek()][1][0] += $hours_p; //Project hours
+                            $weeklyreport[$p->get_dayOfWeek()][1][1] += $minutes_p; //Project minutes
                         } 
                     }
                       
                 }
             }
             
-            foreach ($weeklyreport as $day => $hrs)
+            foreach ($weeklyreport as $day => $hrs) //Total of both shift and project hours and minutes
             {
-                $weeklyreport[$day][2] = $weeklyreport[$day][0] + $weeklyreport[$day][1]; // Third element is for the total of both shift and project hours - GIOVI
+                $weeklyreport[$day][2][0] = $weeklyreport[$day][0][0] + $weeklyreport[$day][1][0]; 
+                $weeklyreport[$day][2][1] = $weeklyreport[$day][0][1] + $weeklyreport[$day][1][1]; 
             }
             
             $groupedreports[] = $weeklyreport;
@@ -276,7 +291,7 @@
     }
             error_log("------- " . $count . " grouped report(s) recorded-----------");
             error_log("/////EXITING the report_hours function--------------------");
-            return $groupedreports;
+            return $groupedreports;//Don't forget to check this to skip empty weeks - GIOVI
         }
     }
 
@@ -290,46 +305,46 @@
         else { error_log("The date check returned FALSE---------"); return FALSE;}
      }
     
-    function report_shifthours_by_day($histories, $from, $to) {
-        error_log("report hours by day");
-        $min_date = "01/01/2000";
-        $max_date = "12/31/2020";
-        if ($from == '') {
-            $from = $min_date;
-        }
-        if ($to == '') {
-            $to = $max_date;
-        }
-        error_log("from date = " . $from);
-        error_log("to date = " . $to);
-        $from_date = date_create_from_mm_dd_yyyy($from);
-        $to_date = date_create_from_mm_dd_yyyy($to);
-        $reports = [
-            'morning' => ['Mon' => 0, 'Tue' => 0, 'Wed' => 0, 'Thu' => 0,
-                'Fri' => 0, 'Sat' => 0, 'Sun' => 0],
-            'earlypm' => ['Mon' => 0, 'Tue' => 0, 'Wed' => 0, 'Thu' => 0,
-                'Fri' => 0, 'Sat' => 0, 'Sun' => 0],
-            'latepm' => ['Mon' => 0, 'Tue' => 0, 'Wed' => 0, 'Thu' => 0,
-                'Fri' => 0, 'Sat' => 0, 'Sun' => 0],
-            'evening' => ['Mon' => 0, 'Tue' => 0, 'Wed' => 0, 'Thu' => 0,
-                'Fri' => 0, 'Sat' => 0, 'Sun' => 0],
-            'overnight' => ['Mon' => 0, 'Tue' => 0, 'Wed' => 0, 'Thu' => 0,
-                'Fri' => 0, 'Sat' => 0, 'Sun' => 0],
-            'total' => ['Mon' => 0, 'Tue' => 0, 'Wed' => 0, 'Thu' => 0,
-                'Fri' => 0, 'Sat' => 0, 'Sun' => 0]
-        ];
-
-        foreach ($histories as $person_id => $person_shifts) {
-            $ps = explode(',', $person_shifts);
-            foreach ($ps as $shift_id) {
-                $s = select_dbShifts($shift_id);
-                $shift_date = date_create_from_mm_dd_yyyy($s->get_mm_dd_yy());
-                if ($shift_date >= $from_date && $shift_date <= $to_date) {
-                    $reports[$s->get_time_of_day()][$s->get_day()] += $s->duration();
-                    $reports['total'][$s->get_day()] += $s->duration();
+    function report_shifthours($from, $to) {
+        error_log("reporting shift hours by day");
+        $from_date = setFromDate($from);
+        $to_date = setToDate($to);
+        
+        $reports = [];
+        $all_shifts = get_all_shifts();
+        $count = 0;
+        
+        foreach ($all_shifts as $s) 
+        {
+            $hours = 0;
+            $minutes = 0;
+            $hrmin = [0, 0];
+            $shift_date = date_create_from_mm_dd_yyyy($s->get_mm_dd_yy());
+                
+            if ($shift_date >= $from_date && $shift_date <= $to_date && $s->get_persons() != null) 
+            {
+                if (!isset($reports[$s->get_id()][0]) || !isset($reports[$s->get_id()][1]) || !isset($reports[$s->get_id()][2]))
+                {
+                    $reports[$s->get_id()][0] = NULL;
+                    $reports[$s->get_id()][1] = NULL;   
                 }
+                    error_log("Getting total hours and number of volunteers---------------------------");
+                    error_log("The number of hours is " . $s->duration());
+                    error_log("The number of volunteers is " . $s->get_num_of_persons());
+                    
+                    $hrmin = ConvertTimeToHrMin($s->duration());
+                    $hours = $hrmin[0] * $s->get_num_of_persons();
+                    $minutes = $hrmin[1] * $s->get_num_of_persons();
+                    $shiftTime = ArrangeMinutesInHours($hours, $minutes);                    
+                    
+                    $reports[$s->get_id()][0] = $shiftTime;
+                    $reports[$s->get_id()][1] = $s->get_num_of_persons();
+                    $count++;
+    
+                    error_log("End of loop--------------------------------------");
             }
         }
+        
 
         return $reports;
     }
@@ -343,11 +358,13 @@
         $count = 0;
         
         foreach ($all_projects as $p) 
-        {
-                
+        {   
+            $hours = 0;
+            $minutes = 0;
+            $hrmin = [0, 0];
             $project_date = date_create_from_mm_dd_yyyy($p->get_mm_dd_yy());
                 
-            if ($project_date >= $from_date && $project_date <= $to_date) 
+            if ($project_date >= $from_date && $project_date <= $to_date && $p->get_persons() != null) 
             {
                 
                 if (!isset($reports[$p->get_id()][0]) || !isset($reports[$p->get_id()][1]) || !isset($reports[$p->get_id()][2]))
@@ -360,8 +377,13 @@
                     error_log("The number of hours is " . $p->duration());
                     error_log("The number of volunteers is " . $p->get_num_of_persons());
                     
-                    $reports[$p->get_id()][0] += ($p->duration() * $p->get_num_of_persons());//Tell me to removed the multiplier if needed, all it does is multiply the number of hours by the number of volunteers in that particular project, I assume this is how it'll go to see the total hours being worked on be each volunteer - GIOVI
-                    $reports[$p->get_id()][1] += $p->get_num_of_persons();
+                    $hrmin = ConvertTimeToHrMin($p->duration());
+                    $hours = $hrmin[0] * $p->get_num_of_persons();
+                    $minutes = $hrmin[1] * $p->get_num_of_persons();
+                    $projectTime = ArrangeMinutesInHours($hours, $minutes);                    
+                    
+                    $reports[$p->get_id()][0] = $projectTime;
+                    $reports[$p->get_id()][1] = $p->get_num_of_persons();
                     $count++;
     
                     error_log("End of loop--------------------------------------");

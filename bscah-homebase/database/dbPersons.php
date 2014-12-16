@@ -148,8 +148,18 @@
         $first_name = $name[0];
         $last_name = $name[1];
         $query = "SELECT * FROM PERSON WHERE NAMEFIRST = '" . $first_name . "' AND NAMELAST = '" . $last_name . "'";
+    
+        if (!mysql_fetch_assoc(mysql_query($query)))
+        {
+            if ($last_name == "") { echo("<br>Please enter a first and last name<br>"); }
+            error_log("There is no such person by the name " . $first_name . " " . $last_name);
+            die("<br>There is no such person by the name " . $first_name . " " . $last_name . "<br>");
+        }
+        
         error_log("in retrieve_persons_by_name, query is " . $query);
+    
         $result = mysql_query($query);
+        
         if (!$result) {
             error_log('ERROR on select in retrieve_persons_by_name ' . mysql_error());
             die('Invalid query: ' . mysql_error());

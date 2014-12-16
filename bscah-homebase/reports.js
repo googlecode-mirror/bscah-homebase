@@ -55,13 +55,13 @@ $(function() //This function hides the Select Individuals section when Total Hou
         { 
             $('#indititle').show();
             $('#1').show();
-            $('#add-more').show();
+
         } 
         else
         {
             $('#indititle').hide();
             $('#1').hide();
-            $('#add-more').hide();
+
         }
                                                });
 });

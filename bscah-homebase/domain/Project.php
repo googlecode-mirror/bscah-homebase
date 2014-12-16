@@ -20,7 +20,7 @@ class Project {
         private $vacancies;     // number of vacancies in this project
         private $persons;       // array of person ids filling slots, followed by their name, ie "malcom1234567890+Malcom+Jones"
         private $age;
-        private $id;            // "mm-dd-yy-projName is the unique key
+        private $id;            // "mm-dd-yy-start_time-end_time-projName is the unique key
         private $project_description;         // notes written by the manager
     /*
      * construct an empty project with a certain number of vacancies
@@ -127,7 +127,9 @@ class Project {
     }
 
     function get_name() {
-        return $this->name;
+        
+        $spacednames = str_replace('_', ' ', $this->name);
+        return $spacednames;
     }
 
     function get_start_time() {
@@ -232,7 +234,7 @@ class Project {
 
 }
 
-function report_projects_staffed_vacant($from, $to) { //This does not work again - GIOVI
+function report_projects_staffed_vacant($from, $to) { 
     $from_date = setFromDate($from);
     $to_date = setToDate($to);
 
@@ -242,10 +244,9 @@ function report_projects_staffed_vacant($from, $to) { //This does not work again
         
         foreach ($all_projects as $p) 
        {
-            
             $projects_date = date_create_from_mm_dd_yyyy($p->get_mm_dd_yy());
             
-            if ($projects_date >= $from_date && $projects_date <= $to_date) //&& (strlen($p->get_persons()) > 0 || $p->get_vacancies() > 0) Was removed; Its here in case its needed - GIOVI
+            if ($projects_date >= $from_date && $projects_date <= $to_date && $p->get_vacancies() != 0) //&& (strlen($p->get_persons()) > 0 || $p->get_vacancies() > 0) Was removed; Its here in case its needed - GIOVI
             {
                 if (!isset($reports[$p->get_id()][0])) { $reports[$p->get_id()][0] = NULL; }
                 
