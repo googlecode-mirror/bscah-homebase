@@ -220,15 +220,42 @@
             $this->persons = $p;
         }
 
-        function duration() {
-            if ($this->end_time == 1 && $this->start_time == 0) { return 12; } 
+    function duration() {
+        $time = [0, 0];
+        $st = ConvertTimeToHrMin($this->start_time);
+        $et = ConvertTimeToHrMin($this->end_time);
+           
+        if ($st[0] > $et[0]) //If start time is greater than end time, the result will be negative so add to 24 - GIOVI
+        {
+            $diff = $et[0] - $st[0];
+            $time[0] = 24 + $diff;
+        }
         
-            else {
-                    $dur = str_pad($this->end_time - $this->start_time, 4, 0, STR_PAD_LEFT);
+        if ($st[0] <= $et[0]) //If start time is less, then subtract as normal - GIOVI
+        {
+            $time[0] = $et[0] - $st[0];
+        }
+        
+        if ($st[1] > $et[1]) //These are for minutes - GIOVI
+        {
+            $diff = $et[1] - $st[1];
+            $time[1] = 60 + $diff;
+            --$time[0];
+        }
+        
+        if ($st[1] <= $et[1]) //These are for minutes - GIOVI
+        {
+            $time[1] = $et[1] - $st[1];
+        }
+        
+            $padtime[0] = str_pad($time[0], 2, 0, STR_PAD_LEFT); //These are to ensure the time will be 4 digits (00:00) - GIOVI
+            $padtime[1] = str_pad($time[1], 2, 0, STR_PAD_LEFT);
             
-                    return $dur;
-                 }
-            }  
+            $dur = implode('', $padtime);
+
+                return $dur;
+            
+    }  
 
         /**
          * @return int the total number of slots (sum of available vacancies and the number of people currently registered)
