@@ -30,7 +30,7 @@ if ($id == 'new') {
 
     //problem?
     $dateAddedNew = date('m/d/y');
-    $person = new Person('new', 'volunteer', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, $dateAddedNew, md5("new"), null, null);
+    $person = new Person(null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, $dateAddedNew, md5("new"), null, null);
 
     //$person = new Person('new', 'applicant', null, null, null, null, null, null, null, null, null, "applicant", null, null, null, md5("new"), null, null);
 } else {
