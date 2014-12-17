@@ -54,8 +54,21 @@
 
     <p>(<span style="font-size:x-small;color:FF0000">*</span> denotes required fields)
 
-    <p>Name<span style="font-size:x-small;color:FF0000">*</span>: <input type="text" name="name" tabindex="1"
-                                                                         value="<?PHP echo($project->get_name()) ?>">
+    <p>Name
+          <?PHP 
+      include('projectTypes.php');
+      $projectTypes = new projectTypes();
+      //$types = ['Volunter', 'Team Building', 'Pantry Volunteer', 'Garden Volunteer', 'Building Project', 'PB & J Sandwiches', 'Birthday Boxes', 'Hygiene Kits', 'Body Kits', 'Emergency Relief Kits', 'Virtual Can Drive'];
+            echo '<select name="name">' . '<option value=' . ($project->get_name()) . '></option>';
+            foreach ($projectTypes->project_names as $type) 
+            {
+                echo '<option value="' . $type . '">' . $type . '</option>';
+            }
+        
+            echo '</select>';
+            
+        
+        ?>                                                                     
 
     <p>Address<span style="font-size:x-small;color:FF0000">*</span>: <input type="text" name="address" tabindex="2"
                                                                             value="<?PHP echo($project->get_address()) ?>">
@@ -69,8 +82,7 @@
         <legend>Project information:</legend>
         <p>Project Type
       <?PHP 
-      include('projectTypes.php');
-      $projectTypes = new projectTypes();
+      
       //$types = ['Volunter', 'Team Building', 'Pantry Volunteer', 'Garden Volunteer', 'Building Project', 'PB & J Sandwiches', 'Birthday Boxes', 'Hygiene Kits', 'Body Kits', 'Emergency Relief Kits', 'Virtual Can Drive'];
             echo '<select name="project_type">' . '<option value=' . ($project->get_type()) . '></option>';
             foreach ($projectTypes->project_types as $type) 

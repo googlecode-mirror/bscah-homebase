@@ -13,6 +13,8 @@ class projectTypes{
     {
         $this->volunteer_types  = ['Pantry Projects','Garden Projects','Building Projects', 'Team Building Projects'];
         $this->project_types  = ['Team Building', 'Building'];
+        $this->project_names = ['Pantry Painting', 'Birthday Boxes', 'Hoop House Build', 'Virtual Can Drive', 'Hygiene Kits', 
+            'Baby Kits', 'Building Composting Bins', 'Emergency Relief Kits', 'PB&J Sandwiches', 'Body Kits'];
      
     }
     
