@@ -71,7 +71,7 @@ session_cache_expire(30);
                     }
                     ?>
 
-                    <br>If you just want an overview of Homebase, select <a href="<?php echo($path); ?>dataSearch.php">about</a>.
+                    <br>If you just want an overview of Homebase, select <a href="<?php echo($path); ?>about.php">about</a>.
                     <?PHP
                     if ($person) {
                         echo('<p>If you want to learn the details of using this system, select <a href="' . $path .
