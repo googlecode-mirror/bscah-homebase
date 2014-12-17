@@ -34,7 +34,16 @@
     <strong>How to Search for People in the Database</strong>
 <p>
     <B>Step 1:</B> On the navigation bar at the top of the page, find <B>volunteers:</B>
-    and select <B>search</B>.
+    and select <B>search</B>. And you should see a page that looks like this: 
+<p> <a
+        href="tutorial/screenshots/volunteersearch.png" class="image"
+        title="volunteersearch.png" horizontalalign="center"
+        target="tutorial/screenshots/volunteersearch.png">
+        &nbsp&nbsp&nbsp&nbsp<img
+            src="tutorial/screenshots/volunteersearch.png" width="10%"
+            rel="popover" data-img="tutorial/screenshots/volunteersearch.png"
+            border="1px" align="middle"> </a>
+    
 </p>
 <br>
 <p>
@@ -79,7 +88,17 @@
             rel="popover" data-img="tutorial/screenshots/VolunteerAvailability.png"
             border="1px" align="middle"> </a>
 </p>
+5. The <B>Project Type:</B> Pantry Volunteer, Garden Volunteer, or Building Project Volunteer <p> 
+<a
+        href="tutorial/screenshots/volunteerProjectType.png" class="image"
+        title="volunteerProjectType.png" horizontalalign="center"
+        target="tutorial/screenshots/volunteerProjectType.png">
+        &nbsp&nbsp&nbsp&nbsp<img
+            src="tutorial/screenshots/volunteerProjectType.png" width="10%"
+            rel="popover" data-img="tutorial/screenshots/volunteerProjectType.png"
+            border="1px" align="middle"> </a>
 <br>
+</p> 
 <p>
     <B>Step 3:</B> After typing your criteria in the appropriate box,
     select the <B>Search</B> button.

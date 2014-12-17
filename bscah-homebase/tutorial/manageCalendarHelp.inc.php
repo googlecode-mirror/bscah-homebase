@@ -33,7 +33,7 @@
     <strong>Working with the Master Schedule and Calendar</strong>
 <p>
     The master schedule entails many things, one being the Calendar. So you will get more information on the Calendar through this help page as well. 
-<p> to understand the Master Schedule there are 3 main steps you will need to go through:
+<p> To understand the Master Schedule there are 3 main steps you will need to go through:
 <p> <b>Step 1:</b> You need to generate a master schedule entry through the open cells on the garden or pantry tabs.
 <p> This is what a blank garden calendar looks like under the master schedule: <p> 
     <a

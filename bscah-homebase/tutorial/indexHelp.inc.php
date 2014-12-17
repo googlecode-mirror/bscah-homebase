@@ -38,7 +38,7 @@
 <p>If you would like more information on what projects are and what you would do, please click <strong><a href="projectInfo.php">Project Info</a></strong>
 <p>If you would like to check out the schedule's of the volunteer projects, please click <strong><a href="viewSchedule.php?frequency=garden">Garden</a></strong> for the garden schedule or <strong><a href="viewSchedule.php?frequency=pantry">Pantry</a></strong> for the pantry schedule, 
    or you can even click <strong><a href="calendar.php">Project Calender</a></strong> (only for managers) to know which projects are published and which are unpublished. 
-<p> </p> <strong>If your a manager </strong> and you would like more information on the project calendar please visit the Working With The Calendar Help Page - <strong><a href="generateWeekHelp.inc.php">Generating and Publishing New Calendar Weeks</a></strong>
+<p> </p> <strong>If your a manager </strong> and you would like more information on the project calendar please visit the Working With The Calendar Help Page - <strong><a href="?helpPage=generateWeek.php">Generating and Publishing New Calendar Weeks</a></strong>
 <p> </p>  
         <strong> On the Homepage:</strong> <p> 
     You will also see a display of your upcoming
@@ -58,29 +58,8 @@
     <B>If you are a manager</B>, you will also see the following current
     information displayed:
 <p>
-    A log of the most recent schedule changes, which looks like this: <p> 
-    <a
-        href="tutorial/screenshots/indexHelp_recent_changes.png" class="image"
-        title="indexHelp_recent_changes.png"
-        target="tutorial/screenshots/indexHelp_recent_changes.png">
-        &nbsp&nbsp&nbsp&nbsp<img
-            src="tutorial/screenshots/indexHelp_recent_changes.png" width="10%"
-            rel="popover"
-            data-img="tutorial/screenshots/indexHelp_recent_changes.png"
-            border="1px" align="center"> </a> <br>
-            
-           <p>
-    A list of upcoming birthdays and volunteer anniversaries, which looks
-    like this: <p> 
-                <a
-        href="tutorial/screenshots/indexHelp_upcoming_birthdays.png"
-        class="image" title="indexHelp_upcoming_birthdays.png"
-        target="tutorial/screenshots/indexHelp_upcoming_birthdays.png">
-        &nbsp&nbsp&nbsp&nbsp<img
-            src="tutorial/screenshots/indexHelp_upcoming_birthdays.png"
-            width="10%" rel="popover"
-            data-img="tutorial/screenshots/indexHelp_upcoming_birthdays.png"
-            border="1px" align="center"> </a>
+    - A list of Notes </p>
+
 <p>
                 -    A list of upcoming calendar vacancies, which looks like this: <p> 
                 <a
@@ -93,3 +72,5 @@
             data-img="tutorial/screenshots/indexHelp_upcoming_vacancies.png"
             border="1px" align="center"> </a> <br> 
 <p>
+    
+<p>- A list of open volunteer applications</p>

@@ -38,16 +38,17 @@
 <p>
     <B>Step 2:</B> You should now see a long form with information like
     "First Name" and "Last Name". That form begins like this:<BR> <BR> <a
-        href="tutorial/screenshots/AddVolunteer.png" class="image"
-        title="AddVolunteer.png"
-        target="tutorial/screenshots/AddVolunteer.png">
+        href="tutorial/screenshots/volunteerAdd.png" class="image"
+        title="volunteerAdd.png"
+        target="tutorial/screenshots/volunteerAdd.png">
         &nbsp&nbsp&nbsp&nbsp<img
-            src="tutorial/screenshots/AddVolunteer.png" width="10%"
-            rel="popover" data-img="tutorial/screenshots/AddVolunteer.png"
+            src="tutorial/screenshots/volunteerAdd.png" width="10%"
+            rel="popover" data-img="tutorial/screenshots/volunteerAdd.png"
             border="1px" align="middle"> </a> <BR> <p> Now you can fill in these
     fields with the correct information. <br>(NOTE:&nbsp All fields marked
     by <font color="#FF0000">*</font> are required before a person can be
     added to the database.)
+            <p> You must also select all the days that volunteer is free during the week 
 </p>
 <br>
 <p>
