@@ -97,7 +97,7 @@
             echo "<td>";
          
             echo '<select name="project_types">' . '<option value=""></option>';
-            foreach ($projectTypes->types as $type) 
+            foreach ($projectTypes->volunteer_types as $type) 
             {
                 echo '<option value="' . $type . '">' . $type . '</option>';
             }
@@ -137,7 +137,7 @@
                 $actual_result = [];
                 if($_POST['project_types'] != "")
                 {
-                    if($_POST['project_types'] == "Garden Volunteer")
+                    if($_POST['project_types'] == "Garden Projects")
                     {
                         $persons_project_type_result = select_persons_by_venue('garden');
                         foreach($result as $person)
@@ -151,7 +151,7 @@
                      }
                 
                 
-                    else if($_POST['project_types'] == "Pantry Volunteer")
+                    else if($_POST['project_types'] == "Pantry Projects")
                     {
                         $persons_project_type_result = select_persons_by_venue('pantry');
                     
@@ -165,9 +165,23 @@
                             }
                     }
                     
-                      else if($_POST['project_types'] == "Building Project Volunteer")
+                      else if($_POST['project_types'] == "Building Projects")
                     {
-                        $persons_project_type_result = select_persons_from_projects();
+                        $persons_project_type_result = select_persons_from_projects('Building');
+                    
+                        foreach($result as $person)
+                            foreach($persons_project_type_result as $project_type_result)
+                            {
+                                if($person->get_id() == $project_type_result)
+                                 {
+                                    $actual_result[] = $person;
+                                 }   
+                            }
+                    }
+                    
+                       else if($_POST['project_types'] == "Team Building Projects")
+                    {
+                        $persons_project_type_result = select_persons_from_projects('Team Building');
                     
                         foreach($result as $person)
                             foreach($persons_project_type_result as $project_type_result)
@@ -200,7 +214,7 @@
                 }
                 if($_POST['project_types'] != "")
                 {
-                    echo ' who worked as a '. $_POST['project_types'];
+                    echo ' who worked on '. $_POST['project_types'] . ' before';
                 }
                 if ($name != "") {
                     echo ' with name like "' . $name . '"';

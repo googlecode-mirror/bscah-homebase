@@ -424,9 +424,9 @@ function select_dbProjects_by_date($date) {
         return $people_in_projects;
     }
     
-    function select_persons_from_projects() {
+    function select_persons_from_projects($type) {
         connect();
-        $query = "SELECT PERSONS FROM PROJECT WHERE PERSONS IS NOT NULL";
+        $query = "SELECT PERSONS FROM PROJECT WHERE TYPE =\"". $type ."\"" . " AND PERSONS IS NOT NULL";
         error_log('in select_persons_from_project query is '.$query);
         $result = mysql_query($query);
         mysql_close();

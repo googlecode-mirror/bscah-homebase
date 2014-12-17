@@ -64,7 +64,7 @@
       ?>
     <div id="content">
         <?PHP                
-            if($_POST['type'] == "Team Building")
+            if($_POST['type'] == "Standard")
             {
                 error_log("Enter project form.inc");
                 include('projectValidate.inc');

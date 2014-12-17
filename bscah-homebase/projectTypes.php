@@ -11,7 +11,8 @@ class projectTypes{
     
     function __construct()
     {
-        $this->types  = ['Pantry Volunteer','Garden Volunteer','Building Project Volunteer'];
+        $this->volunteer_types  = ['Pantry Projects','Garden Projects','Building Projects', 'Team Building Projects'];
+        $this->project_types  = ['Team Building', 'Building'];
      
     }
     

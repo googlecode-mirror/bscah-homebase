@@ -26,7 +26,7 @@ class Project {
      * construct an empty project with a certain number of vacancies
      */
         function __construct($date, $addr, $type, $name, $start_time, $end_time, $vacancies, $persons, $age, $notes) {
-            $this->mm_dd_yy = str_replace("-", "/", $date); // Remember that '-' are for european dates (dd-mm-yyyy) and '/' are for american (mm/dd/yyy), the timestamp gets confused when we mix them up - GIOVI
+            $this->mm_dd_yy = str_replace("/", "-", $date); // Remember that '-' are for european dates (dd-mm-yyyy) and '/' are for american (mm/dd/yyy), the timestamp gets confused when we mix them up - GIOVI
             $this->name = str_replace(" ", "_", $name);
             $this->address = $addr;
             $this->project_type = $type;

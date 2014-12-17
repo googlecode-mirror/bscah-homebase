@@ -44,8 +44,9 @@
 ?>
 <form method="POST">
         <p>Project Type
-      <?PHP    
-      $project_types = ['Fundraising', 'Team Building'];
+      <?PHP 
+      
+        $project_types = ['Standard', 'Fundraising'];
             echo '<select name="type">' . '<option value= ""></option>';
             foreach ($project_types as $type) 
             {

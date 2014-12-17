@@ -26,17 +26,16 @@
         }
         else {
             echo('<p><strong>Special Project Edit Form</strong><br />');
-            echo('Here you can edit your project information in the database.' .
+            echo('Here you can edit your fundrasing project information in the database.' .
                 '<br>When you are finished, hit <b>Submit</b> at the bottom of this page.');
         }
     }
     else {
         if ($_SESSION['access_level'] == 2) {
             if ($id == 'new') {
-                echo('<p style = "font-size:16px"><strong>Notice: In order to add a new project to database you have to add the week to the weekly calendar first.'
-                        . '</strong><br />');
-                echo('<p><strong>New Project Form</strong><br />');
-                echo('Here you can add a new project into the database. </p>');
+            
+                echo('<p><strong>Special Project Form</strong><br />');
+                echo('Here you can add a new fundraising project into the database. </p>');
 
             }
             else {
@@ -48,6 +47,7 @@
         }
     }
 ?>
+
 <form method="POST">
     <input type="hidden" name="old_id" value=<?PHP echo($id); ?>>
     <input type="hidden" name="_form_submit" value="1">
@@ -57,11 +57,11 @@
     <p>Sponsor Name<span style="font-size:x-small;color:FF0000">*</span>: <input type="text" name="name" tabindex="1"
                                                                          value="<?PHP echo($project->get_name()) ?>">
 
-    <p>Sponsor's Volunteers<span style="font-size:x-small;color:FF0000">*</span>: <input type="text" name="address" tabindex="2"
-                                                                            value="<?PHP echo($project->get_address()) ?>">
+    <p>Sponsor's Volunteers<span style="font-size:x-small;color:FF0000"></span>:<input type="text" name="persons" tabindex="2"
+                                                                            value="<?PHP echo($project->get_persons()) ?>">
 
     <p>Donations ($)<span style="font-size:x-small;color:FF0000">*</span>: <input
-            type="number" name="vacancies" tabindex="3" value="<?PHP echo($project->get_vacancies()) ?>">
+            type="number" name="donations" tabindex="3" value="<?PHP echo($project->get_persons()) ?>">
 
 <?PHP
 
