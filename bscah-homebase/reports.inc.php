@@ -35,7 +35,7 @@
 
             <p class="search-description" id="today"><b>House Volunteer Hours, Shifts, Projects, and Vacancies</b><br> Report
                 date: <?php echo Date("F d, Y"); ?> <br><br>To view hours worked by a volunteer, select Individual Hours<br>To view hours worked by all volunteers, select Total Hours
-                <br> To view vacancies in shifts, select Shifts/Vacancies <br> The time format is hour(s):minute(s) </p>
+                <br> To view vacancies in shifts, select Shift Vacancies <br> To view hours worked in all projects, select Total Project Hours<br>To view vacancies in projects, select Project Vacancies <br> The time format is hour(s):minute(s) </p>
             <table>
                 <tr>
                     <td class="search-description" valign="top"> Select Report Type:

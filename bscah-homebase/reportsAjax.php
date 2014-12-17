@@ -78,6 +78,7 @@
     function report_by_individual_volunteer($name, $shifthistories, $projecthistories, $from, $to) {
         echo("<br><b>Individual Volunteer Hours</b>");
         
+        
         $labels = IndividualHoursLabel($from, $to);
         
         foreach ($name as $n) { $individual = retrieve_persons_by_name($n); }
@@ -86,7 +87,7 @@
         {
             if ($i != null) 
             {
-                echo("<br>This report shows the total hours worked by " . $i->get_first_name() . " " . $i->get_last_name(). " within the specified date range");
+                echo("<br>This report shows the total hours worked by " . $i->get_first_name() . " " . $i->get_last_name(). " from " .$from. " $to " .$to);
                 error_log("/////ENTERING the report_hours function for " . $i->get_first_name() . " " . $i->get_last_name(). "--------------------");
                 $reports = $i->report_individual_hours($shifthistories, $projecthistories, $from, $to); //An array contaning [0] shift, [1] project, and [2] total should be returned - GIOVI
             }
@@ -98,7 +99,7 @@
 
     function report_shifts_totalhours($from, $to) {
        echo("<br><b>Total Volunteer Shift Hours</b>");
-        echo("<br>This report shows the total hours worked by all volunteers within the specified date range");
+        echo("<br>This report shows the total hours worked by all volunteers from " .$from. " to " .$to);
         error_log("Shift volunteer hours");
         $labels = shiftLabel($from, $to, 'hours');
         $reports = report_shifthours($from, $to);
@@ -107,7 +108,7 @@
     
     function report_shift_vacancies($from, $to) {
         echo("<br><b>Shift Vacancies</b>");
-        echo("<br>This report shows the number of vacancies in each shift within specified date range");
+        echo("<br>This report shows the number of vacancies in each shift from " .$from. " to " .$to);
         error_log("Shift Vacancies");
         $labels = shiftLabel($from, $to, 'vacancies');
         $reports = report_shifts_staffed_vacant($from, $to);
@@ -116,6 +117,8 @@
 
     function report_projects_totalhours($from, $to) {//New function for displaying the total hours for projects - GIOVI
         echo("<br><b>Total Volunteer Project hours</b>");
+        echo("<br>This report shows the hours worked for each project from " .$from. " to " .$to);
+
         error_log("Project Total volunteer hours");
         $labels = projectLabel($from, $to, 'hours');
         $reports = report_projecthours($from, $to);
@@ -124,6 +127,8 @@
 
     function  report_project_vacancies($from, $to) {//New function for displaying the vacancies for projects - GIOVI
         echo("<br><b>Project Vacancies</b>");
+        echo("<br>This report shows the number of vacancies in each ptoject from " .$from. " to " .$to);
+
         error_log("Project Vacancies");
         $labels = projectLabel($from, $to, 'vacancies');
         $reports = report_projects_staffed_vacant($from, $to);
