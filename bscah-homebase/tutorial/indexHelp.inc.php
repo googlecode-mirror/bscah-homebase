@@ -33,9 +33,8 @@
     <strong>Information about Your Personal Home Page</strong>
 <p>Whenever you log into BSCAH's Homebase, some useful personal information will
     appear.
-<p> </p> 
-<B>If you are a volunteer</B> and you would like to check out our current project so you can sign up for one and start volunteering, please click <strong><a href="currentProjectDetailed.php">Current Projects</a></strong>
-<p>If you would like more information on what projects are and what you would do, please click <strong><a href="projectInfo.php">Project Info</a></strong>
+</p>
+<p>If you would like more information on what projects are, what projects are currently going on, and what you would do, please click <strong><a href="projectInfo.php">Project Info</a></strong>
 <p>If you would like to check out the schedule's of the volunteer projects, please click <strong><a href="viewSchedule.php?frequency=garden">Garden</a></strong> for the garden schedule or <strong><a href="viewSchedule.php?frequency=pantry">Pantry</a></strong> for the pantry schedule, 
    or you can even click <strong><a href="calendar.php">Project Calender</a></strong> (only for managers) to know which projects are published and which are unpublished. 
 <p> </p> <strong>If your a manager </strong> and you would like more information on the project calendar please visit the Working With The Calendar Help Page - <strong><a href="?helpPage=generateWeek.php">Generating and Publishing New Calendar Weeks</a></strong>

@@ -13,5 +13,5 @@
 <p>
     If your shift is <I>more than</I> 24 hours from now, please remove your
     own name from the calendar following <a
-        href="?helpPage=searchPeople.php">these instructions</a>.
+        href="?helpPage=searchPeople.php">these instructions</a> and remove yourself. 
 </p>
