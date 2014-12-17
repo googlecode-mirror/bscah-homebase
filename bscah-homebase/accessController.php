@@ -130,7 +130,7 @@
 			        <a href="personEdit.php?id=' . 'new' . '">add </a> | ');
                     
                     echo('<strong>projects :</strong> <a href="' . $path . 'projectSearch.php?id=' . 'none' . '">search</a>,
-                                <a href="' . $path . 'calendar_new.php">project calender</a>,
+                                <a href="' . $path . 'calendar_new.php">project calendar</a>,
 			        <a href="projectEdit.php?id=' . 'new' . '">add, </a>
                                 <a href=" ' . $path . 'projectInfo.php">project information, </a>
                                 <a href=" ' . $path . 'specialProject.php">special project </a>');
