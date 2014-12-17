@@ -296,11 +296,14 @@ class Person {
                 $weeklyreport[$day][2][0] = $weeklyreport[$day][0][0] + $weeklyreport[$day][1][0]; 
                 $weeklyreport[$day][2][1] = $weeklyreport[$day][0][1] + $weeklyreport[$day][1][1]; 
             }
-        }
+            
+                $groupedreports[] = $weeklyreport;
+                $count++;
+            }
     }
             error_log("------- " . $count . " grouped report(s) recorded-----------");
             error_log("/////EXITING the report_hours function--------------------");
-            return $groupedreports;//Don't forget to check this to skip empty weeks - GIOVI
+            return $groupedreports;
         }
     }
 

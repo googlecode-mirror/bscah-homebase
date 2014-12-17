@@ -143,9 +143,7 @@
     // return array of Persons.
     function retrieve_persons_by_name($name) {
         $persons = [];
-        if (!isset($name) || $name == "" || $name == null) {
-            return $persons;
-        }
+        if (!isset($name) || $name == "" || $name == null) { die("<br>Please enter a first and last name<br>"); }
         connect();
         $name = explode(" ", $name);
         $first_name = $name[0];
@@ -153,10 +151,13 @@
         $query = "SELECT * FROM PERSON WHERE NAMEFIRST = '" . $first_name . "' AND NAMELAST = '" . $last_name . "'";
     
         if (!mysql_fetch_assoc(mysql_query($query)))
-        {
-            if ($last_name == "") { echo("<br>Please enter a first and last name<br>"); }
-            error_log("There is no such person by the name " . $first_name . " " . $last_name);
-            die("<br>There is no such person by the name " . $first_name . " " . $last_name . "<br>");
+        {       
+            if ($first_name == "" || $last_name == "") { die("<br>Please enter a first and last name<br>"); }
+            
+            else {
+                    error_log("There is no such person by the name " . $first_name . " " . $last_name);
+                    die("<br>There is no such person by the name " . $first_name . " " . $last_name . "<br>");        
+                 }
         }
         
         error_log("in retrieve_persons_by_name, query is " . $query);

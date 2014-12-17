@@ -236,7 +236,10 @@ INSERT INTO `PROJECT` (`PROJECTID`, `ADDRESS`, `DATE`,`TYPE`, `VACANCIES`, `STAR
 ('02-25-14-1200-1500-Hygiene_Kits', '521 White Pine Lane Fredericksburg', '02-25-14','Team Building', '2', '1200', '1500', 'Tue', 'Hygiene_Kits', 'Gregory7188057221+Gregory+Wilson+', '18', 'Distributed to clients on the first day they register for the pantry is a hygiene kit, this contains a few toothbrushes, floss, tooth paste, and soap along with anything else you would like to supply (shampoo, conditioner, deodorant, baby toothbrushes, razor, etc.) '),
 ('02-26-14-1800-2300-Baby_Kits', '4964 Sardis Sta Grand Prairie', '02-26-14','Team Building', '4', '1800', '2300', 'Wed', 'Baby_Kits', 'Jefferson3475899639+Jefferson+Steelflex+*Erick6464924106+Erick+Tavera', '18', 'These kits are designed for the babies of Bed-Stuy, to give them what they need to be kept clean and healthy: diapers, baby lotion, baby shampoo, baby wipes, ????????'),
 ('02-27-14-100-400-Emergency_Relief_Kits', '2009 Wetzel Lane Grand Rapids', '02-27-14', 'Team Building','3', '100', '400', 'Thu', 'Emergency_Relief_Kits', 'Gregory7188057221+Gregory+Wilson+', '18','All New Yorkers experience the fear of a natural disaster when Hurricane Sandy hit, help members of our community feel prepared by assembling an emergency relief kit. These kits contain: flashlights, batteries, swiss army knife, non-perishable food, water bottles, hand sanitizer, matches, etc. '),
-('02-24-14-900-1200-Virtual_Can_Drive', '4119 Nuzum Court Williamsville', '02-24-14','Team Building', '3', '900', '1200', 'Mon', 'Virtual_Can_Drive', 'Erick6464924106+Erick+Tavera+*Humza6462207988+Humza+Ahmad+','18',  'Create a virtual food drive for BSCAH at yougivegoods.com, itâ€™s a hassle free way to ensure the most efficient use of your donations. ');
+('02-24-14-900-1200-Virtual_Can_Drive', '4119 Nuzum Court Williamsville', '02-24-14','Team Building', '3', '900', '1200', 'Mon', 'Virtual_Can_Drive', 'Erick6464924106+Erick+Tavera+*Humza6462207988+Humza+Ahmad+','18',  'Create a virtual food drive for BSCAH at yougivegoods.com, itâ€™s a hassle free way to ensure the most efficient use of your donations. '),
+('12-15-14-730-1000-Something', 'That place', '12-15-14', null, '3', '730', '1000', 'Mon', 'Something', 'Jefferson3475899639+Jefferson+Steelflex+*Gregory7188057221+Gregory+Wilson+', NULL, ''),
+('12-16-14-1545-1900-Something_else', 'The other place', '12-16-14', null, '2', '1545', '1900', 'Tue', 'Something else', 'Jefferson3475899639+Jefferson+Steelflex+*Gregory7188057221+Gregory+Wilson+', NULL, ''),
+('12-20-14-1200-1430-One_last_thing', 'Somewhere', '12-20-14', null, '3', '1200', '1430', 'Sat', 'One last thing', 'Jefferson3475899639+Jefferson+Steelflex+*Gregory7188057221+Gregory+Wilson+', NULL, '');
 -- --------------------------------------------------------
 
 --
@@ -272,7 +275,10 @@ INSERT INTO `SHIFT` (`SHIFTID`, `DATE`, `START_TIME`, `END_TIME`, `VENUE`, `VACA
 ('10-31-14-1300-1400-pantry', '10-31-14', 1300, 1400, 'pantry', 5, 'Erick9149876342+Erick+Jones+*Erick6464924106+Erick+Tavera+', NULL, NULL),
 ('11-05-14-1200-1500-garden', '11-05-14', 1200, 1500, 'garden', 2, 'Erick9149876342+Erick+Jones+*Erick6464924106+Erick+Tavera+', NULL, NULL),
 ('11-15-14-1000-1200-pantry', '11-15-14', 1000, 1200, 'pantry', 3, 'Erick9149876342+Erick+Jones+*Erick6464924106+Erick+Tavera+', NULL, NULL),
-('11-20-14-1200-1800-garden', '11-20-14', 1200, 1800, 'garden', 10, 'Humza6462207988+Humza+Ahmad+', NULL, NULL);
+('11-20-14-1200-1800-garden', '11-20-14', 1200, 1800, 'garden', 10, 'Humza6462207988+Humza+Ahmad+', NULL, NULL),
+('12-14-14-930-1845-garden', '12-14-14', 930, 1845, 'garden', 3, 'Jefferson3475899639+Jefferson+Steelflex+', NULL, NULL),
+('12-15-14-1200-1500-pantry', '12-15-14', 1200, 1500, 'pantry', 2, 'Jefferson3475899639+Jefferson+Steelflex+', NULL, NULL),
+('12-16-14-1815-1845-garden', '12-16-14', 1815, 1845, 'garden', 1, 'Jefferson3475899639+Jefferson+Steelflex+', NULL, NULL);
 
 ----------------------------------------------------------
 
@@ -301,3 +307,4 @@ CREATE TABLE IF NOT EXISTS  `DBLOG`(
     `ID` INT(3) NOT NULL PRIMARY KEY AUTO_INCREMENT,
     `TIME` text,
    `MESSAGE` text) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+

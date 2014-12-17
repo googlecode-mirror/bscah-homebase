@@ -221,14 +221,14 @@
         }
 
         function duration() {
-            if ($this->end_time == 1 && $this->start_time == 0) {
-                // overnight shift
-                return 12;
-            }
+            if ($this->end_time == 1 && $this->start_time == 0) { return 12; } 
+        
             else {
-                return $this->end_time - $this->start_time;
-            }
-        }
+                    $dur = str_pad($this->end_time - $this->start_time, 4, 0, STR_PAD_LEFT);
+            
+                    return $dur;
+                 }
+            }  
 
         /**
          * @return int the total number of slots (sum of available vacancies and the number of people currently registered)

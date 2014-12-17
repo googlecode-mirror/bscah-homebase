@@ -52,7 +52,6 @@
                         <p id="volunteer-name-inputs"
                            class="ui-widget"><input type="text" name="volunteer-names[]" class="volunteer-name" id="1">
                         </p>
-                        <button id="add-more">Add More</button>
                         <br><br>
                     </td>
                     <td class="search-description" valign="top"> Select Date Range:
@@ -64,10 +63,7 @@
                 </tr>
             </table>
             And hit <input type="submit" value="submit" id="report-submit" class="btn">
-            <div id="loading">
-            <img id="loading-image" src="images/processingreports.gif" alt="Loading..." />
-            </div>
-
+            
         </form>
         <p id="outputs">
 

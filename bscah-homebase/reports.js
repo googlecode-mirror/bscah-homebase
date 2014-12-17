@@ -38,12 +38,6 @@ $(function () {
         });
     });
 
-    $("#add-more").on('click', function (e) {
-        e.preventDefault();
-        var new_input = '<div class="ui-widget"> <input type="text" name="volunteer-names[]" class="volunteer-name"></div>';
-        $("#volunteer-name-inputs").append(new_input);
-    });//Added semicolon - GIOVI
-
 $(function() //This function hides the Select Individuals section when Total Hours or Shift/Vacancies are selected - GIOVI
 {              
     $('#indititle').hide();//indititle was added on line 47 in reports.inc.php as an id for the title of the individuals - GIOVI
@@ -65,9 +59,5 @@ $(function() //This function hides the Select Individuals section when Total Hou
         }
                                                });
 });
-
-$(window).load(function() {
-    $('#loading').hide();
-  });
 
 });

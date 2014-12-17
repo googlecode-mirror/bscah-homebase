@@ -34,6 +34,7 @@
         $projecthistories = get_all_peoples_histories_in_proj();//This returns a key sorted list of everyone's names that are or were in projects - GIOVI
         
         $name = $_POST['volunteer-names'];
+        
         $from = "";
         $to = "";
         if (isset($_POST['date']) && $_POST['date'] != "") {
@@ -402,7 +403,7 @@
        
         foreach ($reports as $shiftid => $data) //To get those total for shift hours and volunteers - GIOVI
             {   
-                $hrmin = explode(':', $data);
+                $hrmin = explode(':', $data[0]);
                 $total[0] += $hrmin[0];
                 $total[1] += $hrmin[1];
                 $total[2] += $data[1];
@@ -479,8 +480,7 @@
         $total = [0, 0, 0];
        
         foreach ($reports as $projid => $data) //To get those total for project hours and volunteers - GIOVI
-            {   
-                $hrmin = explode(':', $data);
+            {   $hrmin = explode(':', $data[0]);
                 $total[0] += $hrmin[0];
                 $total[1] += $hrmin[1];
                 $total[2] += $data[1];
@@ -588,5 +588,4 @@
         
         return $hrs . ":" . $mins;
     }
-    //CONSIDER USING : TO MAKE TABLES CLEARER - GIOVI
  ?>

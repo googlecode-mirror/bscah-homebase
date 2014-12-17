@@ -381,7 +381,7 @@
 
             return false;
         }
-//Removed repeated code in line 349 - GIOVI
+        
         $shifts = [];
         while ($result_row = mysql_fetch_assoc($result)) {
             $shift = make_a_shift($result_row);
