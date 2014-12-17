@@ -262,13 +262,12 @@ function report_projects_staffed_vacant($from, $to) {
         return $reports;
 }
 
-function check_Age($perAge, $projAge){
+function check_Age($perAge){
     $from = new DateTime($perAge);
     $to   = new DateTime('today');
     $interval = $from->diff($to);
     $diffInYears = $interval->format('%y'); 
-    $ageDiff = $diffInYears - $projAge;
-    return $ageDiff;
-}
+    return $diffInYears;
+    }
 
 ?>

@@ -32,7 +32,7 @@ session_cache_expire(30);
                 session_cache_expire(30);
                 include_once('database/dbProjects.php');
                 include_once('domain/Project.php');
-                $id = str_replace("_", " ", $_GET["id"]);
+                $id = $_GET["id"];
                 //See what is in the $_GET["id"] array
                 error_log("id is " . $_GET["id"]);
                 if ($id == "none") {
@@ -98,7 +98,7 @@ session_cache_expire(30);
                         //$allProjects = search_dbProjects_By_Name($_POST['s_name']);
 
                         if (sizeof($allProjects) > 0) {
-                            echo('Select one to add or remove yourself from the project.');
+                            echo('<b>'. '<font size="6">' . 'Select one to add or remove yourself from the project.' . '</font>' . '</b>');
                             echo ('<p><table> <tr><td>Name</td><td>Date</td><td>Address</td><td>Start Time</td><td>End Time</td><td>Age Requirement</td><td>Volunteers</td></tr>');
                             foreach ($allProjects as $temp) {
                                 echo ("<tr><td><a href=projectSearch.php?id=" . $temp->get_id() . ">" .
@@ -115,47 +115,63 @@ session_cache_expire(30);
                     }
                 } else {
                     $selectedProj = select_dbProjects($id);
-                    $personToBeAdded = $_SESSION['_id'];
-                    include_once 'domain/Person.php';
-                    $self = retrieve_person($personToBeAdded);
-                    $ageReq = $selectedProj->get_age();
-                    $personAge = $self->get_birthday();
-                    $tempAge = check_Age($personAge, $ageReq);
-                    $ageZero = 0;
                     if ($selectedProj == null) {
-                        echo ( "The ID is invalid.");
+                        error_log ( "The ID is invalid." . $id);
                         die();
-                    } else if($tempAge >= $ageZero){
+
+                    } else {
+                        $personToBeAdded = $_SESSION['_id'];
+                        include_once 'domain/Person.php';
+                        $self = retrieve_person($personToBeAdded);
+
+                    /*} else if($tempAge >= $ageZero){
                         error_log('user id is ' . $_SESSION['_id']);
                         
                         $completePerson = retrieve_person($personToBeAdded);
                         add_A_Person($selectedProj->get_id(), $completePerson->get_id(), $completePerson->get_first_name(), $completePerson->get_last_name());
-                        
-                        echo('<p>');
-                        echo ('<fieldset>
+                        */
+                        if ($self == null) {
+                            error_log('Error with User information');
+                            die();
+                        } else {
+                            $ageReq = $selectedProj->get_age();
+                        $personAge = $self->get_birthday();
+                        error_log($personAge);
+                            $tempAge = check_Age($personAge); //, $ageReq);
+                            $ageZero = 0;
+                            if ($tempAge >= $ageReq) {
+                                error_log('user id is ' . $_SESSION['_id']);
+
+                                $completePerson = retrieve_person($personToBeAdded);
+                                add_A_Person($selectedProj->get_id(), $completePerson->get_id(), $completePerson->get_first_name(), $completePerson->get_last_name());
+
+                                echo('<p>');
+                                echo ('<fieldset>
 				<legend>Project Details: </legend>
 				');
-                        echo("<p><table><tr><td>Date</td><td>" . $selectedProj->get_date() . "</td></tr>"
-                        . "<tr><td>Project Name</td><td>" . $selectedProj->get_name() . " </td></tr>"
-                        . "<tr><td>Address</td><td>" . $selectedProj->get_address() . " </td></tr>"
-                        . "<tr><td>Start Time</td><td>" . $selectedProj->get_start_time() . " </td></tr>"
-                        . "<tr><td>End Time</td><td>" . $selectedProj->get_end_time() . " </td></tr>"
-                        . "<tr><td>Vacancies</td><td>" . $selectedProj->get_vacancies() . " </td></tr>"
-                        . "<tr><td>Day</td><td>" . $selectedProj->get_dayOfWeek() . " </td></tr>"
-                        //. "<tr><td>Persons</td><td>" . $selectedProj->get_persons() . " </td></tr>"
-                        . "<tr><td>Notes</td><td>" . $selectedProj->get_project_description() . " </td></tr>"
-                        . "</table>"
-                        );
-                        echo('</fieldset><p>');
-                    }else{
-                        echo('You do not meet the age requirement, but feel free to email the manager at manager@email.com to see if you can still join.');
+                                echo("<p><table><tr><td>Date</td><td>" . $selectedProj->get_date() . "</td></tr>"
+                                . "<tr><td>Project Name</td><td>" . $selectedProj->get_name() . " </td></tr>"
+                                . "<tr><td>Address</td><td>" . $selectedProj->get_address() . " </td></tr>"
+                                . "<tr><td>Start Time</td><td>" . $selectedProj->get_start_time() . " </td></tr>"
+                                . "<tr><td>End Time</td><td>" . $selectedProj->get_end_time() . " </td></tr>"
+                                . "<tr><td>Vacancies</td><td>" . $selectedProj->get_vacancies() . " </td></tr>"
+                                . "<tr><td>Day</td><td>" . $selectedProj->get_dayOfWeek() . " </td></tr>"
+                                //. "<tr><td>Persons</td><td>" . $selectedProj->get_persons() . " </td></tr>"
+                                . "<tr><td>Notes</td><td>" . $selectedProj->get_project_description() . " </td></tr>"
+                                . "</table>"
+                                );
+                                echo('</fieldset><p>');
+                            } else {
+                                echo('You do not meet the age requirement, but feel free to email the manager at manager@email.com to see if you can still join.');
+                            }
+                        }
                     }
                 }
                 ?>
                 <!-- below is the footer that we're using currently-->
             </div>
         </div>
-        <?PHP include('footer.inc'); ?>
+<?PHP include('footer.inc'); ?>
     </body>
 </html>
 

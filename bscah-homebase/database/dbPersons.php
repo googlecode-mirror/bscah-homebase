@@ -59,6 +59,9 @@
             $person->get_status() . "','" .
             $schedule . "','" .
             $person->get_notes() . "','" .
+            $person->get_skills() . "','" .
+            $person->get_reason_interested() . "','" .
+            $person->get_date_added() . "','" .
             $person->get_password() . "','" .
             $avail . "','" .
             $person->get_contact_preference() . "');";
@@ -276,6 +279,9 @@
             $result_row['STATUS'],
             $result_row['SCHEDULE'],
             $result_row['NOTES'],
+            $result_row['SKILLS'],
+            $result_row['REASONINTERESTED'],
+            $result_row['DATEADDED'],
             $result_row['PASSWORD'],
             $result_row['AVAILABILITY'],
             $result_row['CONTACTPREFERENCE']
@@ -345,6 +351,7 @@
 
     // get all volunteer applicants
     // returns the result array from the query
+    //No more applicants
     function getall_applicants() {
         connect();
         $query = "SELECT NAMEFIRST,NAMELAST,ID FROM PERSON WHERE STATUS LIKE '%applicant%' order by NAMELAST";
@@ -450,6 +457,8 @@
         return $result;
 
     }
+    
+     
 
 
 ?>

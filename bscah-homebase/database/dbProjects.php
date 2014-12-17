@@ -585,7 +585,7 @@ function select_dbProjects_by_date($date) {
             error_log("SQL Error in remove_Person_To_Person_Column function, :" . mysql_error());
             die();
         }
-        echo("You were succesfully removed!");
+        echo('<b>'. '<font size="6">' . "You were succesfully removed!" . '</font>' . '</b>');
     }
 
     function add_Person_From_Person_Column($allPeopleConcatenated, $idProject) {
@@ -598,7 +598,7 @@ function select_dbProjects_by_date($date) {
             error_log("SQL Error in add_Person_From_Person_Column function " . mysql_error());
             die();
         }
-        echo("You were successfully added!.");
+        echo('<b>'. '<font size="6">' . "You were successfully added!" . '</font>' . '</b>');
     }
 
 ?>
