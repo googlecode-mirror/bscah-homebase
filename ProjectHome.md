@@ -1,0 +1,1 @@
+This is a project being built by students at St John's University for a food pantry in Brooklyn. It is based on the rmh-homebasecivi project created by students at Bowdoin College. We are enhancing this system to add the ability for a volunteer coordinator to add projects to a calendar, and for volunteers to schedule themselves into projects and shifts via the web.
